@@ -46,12 +46,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\..\build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\build\obj\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\..\3rd-party\DirectX-Headers-main\include\directx;$(IncludePath)</IncludePath>
+    <IncludePath>
+    </IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\..\build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\..\build\obj\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\..\3rd-party\DirectX-Headers-main\include\directx;$(IncludePath)</IncludePath>
+    <IncludePath>
+    </IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -59,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -80,7 +82,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -96,16 +98,24 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DXDescriptorHandle.cpp" />
-    <ClCompile Include="DXDescriptorHeap.cpp" />
-    <ClCompile Include="dx_renderer.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\imgui.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\imgui_demo.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\imgui_draw.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\imgui_tables.cpp" />
+    <ClCompile Include="..\3rd-party\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dx.h" />
-    <ClInclude Include="DXDescriptorHandle.h" />
-    <ClInclude Include="DXDescriptorHeap.h" />
-    <ClInclude Include="dx_renderer.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\backends\imgui_impl_dx12.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\backends\imgui_impl_sdl2.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imconfig.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imgui.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imgui_internal.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imstb_rectpack.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imstb_textedit.h" />
+    <ClInclude Include="..\3rd-party\imgui-docking\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
