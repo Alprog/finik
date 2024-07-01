@@ -105,7 +105,12 @@
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_draw.cpp" />
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_tables.cpp" />
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_widgets.cpp" />
+    <ClCompile Include="app.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="desktop_system.cpp" />
+    <ClCompile Include="input_system.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="render_system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd-party\imgui-docking\backends\imgui_impl_dx12.h" />
@@ -116,6 +121,12 @@
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_rectpack.h" />
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_truetype.h" />
+    <ClInclude Include="app.h" />
+    <ClInclude Include="desktop_system.h" />
+    <ClInclude Include="input_system.h" />
+    <ClInclude Include="render_system.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
