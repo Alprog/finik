@@ -59,6 +59,26 @@ void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
 FrameContext* WaitForNextFrameResources();
 
+void handle_input()
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE)
+        {
+            auto& desktop_system = App::get_instance().desktop_system;
+
+            auto window = desktop_system.get_window_by_id(event.window.windowID);
+            if (window)
+            {
+                desktop_system.close_window(window);
+            }
+        }
+
+        ImGui_ImplSDL2_ProcessEvent(&event);
+    }
+}
+
 // Main code
 int demo_main()
 {
@@ -78,7 +98,7 @@ int demo_main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -113,26 +133,13 @@ int demo_main()
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop
-    bool done = false;
-    while (!done)
+    while (true)
     {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
+        handle_input();
+
+        if (App::get_instance().desktop_system.windows.empty())
         {
-            if (event.type == SDL_QUIT)
-                done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE)
-            {
-                auto& desktop_system = App::get_instance().desktop_system;
-
-                auto window = desktop_system.get_window_by_id(event.window.windowID);
-                if (window)
-                {
-                    desktop_system.close_window(window);
-                }
-            }
-
-            ImGui_ImplSDL2_ProcessEvent(&event);
+            break;
         }
 
         // Handle window screen locked
