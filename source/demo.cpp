@@ -22,6 +22,9 @@
 
 #include "imgui_internal.h"
 
+#include "app.h"
+#include "window.h"
+
 struct FrameContext
 {
     ID3D12CommandAllocator* CommandAllocator;
@@ -59,18 +62,10 @@ FrameContext* WaitForNextFrameResources();
 // Main code
 int demo_main()
 {
-
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-
-    SDL_Window* window = SDL_CreateWindow("title", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 800, window_flags);
-
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window, &wmInfo);
-    HWND hwnd = (HWND)wmInfo.info.win.window;
+    Window* window = App::get_instance().desktop_system.windows[0];
 
     // Initialize Direct3D
-    if (!CreateDeviceD3D(hwnd))
+    if (!CreateDeviceD3D(window->hwnd))
     {
         CleanupDeviceD3D();
         return 1;
@@ -83,13 +78,14 @@ int demo_main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
-    ImGui_ImplSDL2_InitForD3D(window);
+    ImGui_ImplSDL2_InitForD3D(window->get_impl());
     ImGui_ImplDX12_Init(g_pd3dDevice, NUM_FRAMES_IN_FLIGHT,
         DXGI_FORMAT_R8G8B8A8_UNORM, g_pd3dSrvDescHeap,
         g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
@@ -125,7 +121,7 @@ int demo_main()
         {
             if (event.type == SDL_QUIT)
                 done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window->get_impl()))
                 done = true;
 
             ImGui_ImplSDL2_ProcessEvent(&event);
@@ -183,6 +179,12 @@ int demo_main()
 
         // Rendering
         ImGui::Render();
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+        }
 
         FrameContext* frameCtx = WaitForNextFrameResources();
         UINT backBufferIdx = g_pSwapChain->GetCurrentBackBufferIndex();

@@ -15,11 +15,10 @@ private:
     App();
 
 public:
-    Window* add_window();
     void run_game_loop();
 
-private:
-    DesktopSystem DesktopSystem;
-    InputSystem InputSystem;
-    RenderSystem RenderSystem;
+public:
+    DesktopSystem desktop_system;
+    InputSystem input_system;
+    RenderSystem render_system;
 };

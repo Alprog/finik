@@ -9,15 +9,10 @@ App& App::get_instance()
 }
 
 App::App()
-    : DesktopSystem{}
-    , InputSystem{}
-    , RenderSystem{}
+    : desktop_system{}
+    , input_system{}
+    , render_system{}
 {
-}
-
-Window* App::add_window()
-{
-    return new Window();
 }
 
 void App::run_game_loop()
