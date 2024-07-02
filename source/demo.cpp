@@ -121,8 +121,16 @@ int demo_main()
         {
             if (event.type == SDL_QUIT)
                 done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window->get_impl()))
-                done = true;
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE)
+            {
+                auto& desktop_system = App::get_instance().desktop_system;
+
+                auto window = desktop_system.get_window_by_id(event.window.windowID);
+                if (window)
+                {
+                    desktop_system.close_window(window);
+                }
+            }
 
             ImGui_ImplSDL2_ProcessEvent(&event);
         }
