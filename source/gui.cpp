@@ -32,7 +32,14 @@ Gui::Gui(Window& window)
 
     RenderSystem& render_system = App::get_instance().render_system;
     render_system.ImguiInitHelper();
+}
 
+Gui::~Gui()
+{
+    ImGui::SetCurrentContext(impl);
+    ImGui_ImplDX12_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
 }
 
 void Gui::set_context()

@@ -8,6 +8,8 @@ class Gui
 {
 public:
     Gui(Window& window);
+    Gui::~Gui();
+
     void set_context();
 
 private:

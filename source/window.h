@@ -6,6 +6,7 @@
 class SDL_Window;
 using WindowImpl = SDL_Window;
 
+class SwapChain;
 class Gui;
 
 class Window
@@ -18,6 +19,7 @@ public:
 
     uint32_t id;
     HWND hwnd;
+    SwapChain* swap_chain;
     Gui* gui;
 
 private:

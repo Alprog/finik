@@ -4,6 +4,7 @@
 #include <SDL_syswm.h>
 
 #include "gui.h"
+#include "swap_chain.h"
 
 Window::Window(int width, int height)
 {
@@ -17,10 +18,13 @@ Window::Window(int width, int height)
     SDL_GetWindowWMInfo(impl, &wmInfo);
     hwnd = (HWND)wmInfo.info.win.window;
 
+    swap_chain = new SwapChain(*this);
     gui = new Gui(*this);
 }
 
 Window::~Window()
 {
+    delete gui;
+    delete swap_chain;
     SDL_DestroyWindow(impl);
 }
