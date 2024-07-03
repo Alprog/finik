@@ -3,6 +3,8 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 
+#include "gui.h"
+
 Window::Window(int width, int height)
 {
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -14,6 +16,8 @@ Window::Window(int width, int height)
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(impl, &wmInfo);
     hwnd = (HWND)wmInfo.info.win.window;
+
+    gui = new Gui(*this);
 }
 
 Window::~Window()

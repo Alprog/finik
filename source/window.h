@@ -6,6 +6,8 @@
 class SDL_Window;
 using WindowImpl = SDL_Window;
 
+class Gui;
+
 class Window
 {
 public:
@@ -16,6 +18,7 @@ public:
 
     uint32_t id;
     HWND hwnd;
+    Gui* gui;
 
 private:
     WindowImpl* impl;

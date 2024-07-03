@@ -2,28 +2,13 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-#include <d3d12.h>
-#include <dxgi1_4.h>
-
 #include "imgui.h"
 #include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_sdl2.h"
 
-#include <tchar.h>
-
-#ifdef _DEBUG
-#define DX12_ENABLE_DEBUG_LAYER
-#endif
-
-#ifdef DX12_ENABLE_DEBUG_LAYER
-#include <dxgidebug.h>
-#pragma comment(lib, "dxguid.lib")
-#endif
-
-#include "imgui_internal.h"
-
 #include "app.h"
 #include "window.h"
+#include "gui.h"
 
 #include "render_system.h"
 
@@ -52,11 +37,10 @@ int demo_main()
 {
     Window* window = App::get_instance().desktop_system.windows[0];
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    window->gui->set_context();
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplSDL2_InitForD3D(window->get_impl());
-    render_system.ImguiInitHelper();
+
+    RenderSystem& render_system = App::get_instance().render_system;
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.

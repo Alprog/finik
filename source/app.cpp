@@ -12,7 +12,6 @@ App::App()
     : desktop_system{}
     , input_system{}
     , render_system{}
-    , gui_system{}
 {
 }
 
