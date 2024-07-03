@@ -3,6 +3,7 @@
 #include "desktop_system.h"
 #include "input_system.h"
 #include "render_system.h"
+#include "gui_system.h"
 
 class Window;
 
@@ -21,4 +22,5 @@ public:
     DesktopSystem desktop_system;
     InputSystem input_system;
     RenderSystem render_system;
+    GuiSystem gui_system;
 };
