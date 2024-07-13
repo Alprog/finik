@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -82,7 +82,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,12 +106,22 @@
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_tables.cpp" />
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="blob.cpp" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math\matrix.cpp" />
+    <ClCompile Include="math\quaternion.cpp" />
+    <ClCompile Include="math\vector2.cpp" />
+    <ClCompile Include="math\vector3.cpp" />
+    <ClCompile Include="math\vector4.cpp" />
+    <ClCompile Include="path.cpp" />
+    <ClCompile Include="pipeline_state.cpp" />
     <ClCompile Include="render_system.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="swap_chain.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +134,23 @@
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_truetype.h" />
     <ClInclude Include="app.h" />
+    <ClInclude Include="blob.h" />
     <ClInclude Include="desktop_system.h" />
+    <ClInclude Include="dx.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="input_system.h" />
+    <ClInclude Include="math\matrix.h" />
+    <ClInclude Include="math\quaternion.h" />
+    <ClInclude Include="math\vector2.h" />
+    <ClInclude Include="math\vector3.h" />
+    <ClInclude Include="math\vector4.h" />
+    <ClInclude Include="path.h" />
+    <ClInclude Include="pipeline_state.h" />
     <ClInclude Include="render_system.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="swap_chain.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

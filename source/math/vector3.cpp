@@ -12,18 +12,6 @@ Vector3::Vector3(float x, float y, float z)
 {
 }
 
-Vector3::Vector3(List<float> list)
-    : x{list[0]}
-    , y{list[1]}
-    , z{list[2]}
-{
-}
-
-List<float> Vector3::toList()
-{
-    return {x, y, z};
-}
-
 float Vector3::length()
 {
     return sqrt(x * x + y * y + z * z);
