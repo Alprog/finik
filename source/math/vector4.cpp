@@ -15,12 +15,18 @@ Vector4::Vector4(float x, float y, float z, float w)
 
 float Vector4::length()
 {
-    return sqrt(x * x + y * y + z * z + w * w);
+    return sqrt(x * x + y * y + z * z);
 }
 
 float Vector4::squaredLength()
 {
-    return x * x + y * y + z * z + w * w;
+    return x * x + y * y + z * z;
+}
+
+Vector4 Vector4::getNormalized()
+{
+    auto length = this->length();
+    return { x / length, y / length, z / length, w };
 }
 
 Vector4 operator-(const Vector4& vector)
@@ -65,4 +71,17 @@ Vector4 operator*(const Vector4& vector, const float& value)
         vector.z * value,
         vector.w * value
     };
+}
+
+Vector4 Vector4::cross(const Vector4& a, const Vector4& b)
+{
+    auto z = a.x * b.y - a.y * b.x; // XY
+    auto x = a.y * b.z - a.z * b.y; // YZ
+    auto y = a.z * b.x - a.x * b.z; // ZX
+    return Vector4(x, y, z, 0);
+}
+
+Vector4 Vector4::dot(const Vector4& lhs, const Vector4& rhs)
+{
+    return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }

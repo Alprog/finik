@@ -8,14 +8,19 @@ struct Vector3
 
     Vector3(float x = 0, float y = 0, float z = 0);
 
-    float length();
-    float squaredLength();
+    float length() const;
+    float squaredLength() const;
+    void normalize();
+    Vector3 getNormalized();
 
     friend Vector3 operator-(const Vector3& vector);
     friend Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
     friend Vector3 operator-(const Vector3& lhs, const Vector3& rhs);
-
     friend Vector3 operator*(const Vector3& vector, const float& value);
+    friend Vector3 operator/(const Vector3& vector, const float& value);
+
+    static Vector3 cross(const Vector3& a, const Vector3& b);
+    static Vector3 dot(const Vector3& a, const Vector3 & b);
 
     float x, y, z;
 };

@@ -12,7 +12,10 @@ class RenderSystem;
 class ConstantBuffer
 {
 public:
+    ConstantBuffer() = default;
     ConstantBuffer(RenderSystem& renderSystem);
+    ~ConstantBuffer();
+
     void update();
 
     ComPtr<ID3D12Resource> constantBufferResource;

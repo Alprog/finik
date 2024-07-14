@@ -12,14 +12,24 @@ Vector3::Vector3(float x, float y, float z)
 {
 }
 
-float Vector3::length()
+float Vector3::length() const
 {
     return sqrt(x * x + y * y + z * z);
 }
 
-float Vector3::squaredLength()
+float Vector3::squaredLength() const
 {
     return x * x + y * y + z * z;
+}
+
+void Vector3::normalize()
+{
+    *this = getNormalized();
+}
+
+Vector3 Vector3::getNormalized()
+{
+    return *this / length();
 }
 
 Vector3 operator-(const Vector3& vector)
@@ -62,5 +72,25 @@ Vector3 operator*(const Vector3& vector, const float& value)
     };
 }
 
+Vector3 operator/(const Vector3& vector, const float& value)
+{
+    return
+    {
+        vector.x / value,
+        vector.y / value,
+        vector.z / value
+    };
+}
 
+Vector3 Vector3::cross(const Vector3& a, const Vector3& b)
+{
+    auto z = a.x * b.y - a.y * b.x; // XY
+    auto x = a.y * b.z - a.z * b.y; // YZ
+    auto y = a.z * b.x - a.x * b.z; // ZX
+    return Vector3(x, y, z);
+}
 
+Vector3 Vector3::dot(const Vector3& lhs, const Vector3& rhs)
+{
+    return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+}
