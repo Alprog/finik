@@ -23,9 +23,9 @@ public:
     ID3D12Device* get_device();
     ID3D12CommandQueue* get_command_queue();
     ID3D12GraphicsCommandList* get_command_list();
-    DescriptorHeap* getRtvDescHeap();
-    DescriptorHeap* getDstDescHeap();
-    DescriptorHeap* getSrvDescHeap();
+    DescriptorHeap* getRtvHeap();
+    DescriptorHeap* getDstHeap();
+    DescriptorHeap* getSrvCbvHeap();
     RenderContext* getRenderContext();
 
     void ImguiInitHelper();
@@ -45,9 +45,9 @@ private:
 
     std::unique_ptr<RenderContext> renderContext;
 
-    std::unique_ptr<DescriptorHeap> rtvDescHeap; // Render Target View
-    std::unique_ptr<DescriptorHeap> dsvDescHeap; // Depth Stencil View
-    std::unique_ptr<DescriptorHeap> srvDescHeap;
+    std::unique_ptr<DescriptorHeap> rtvHeap; // Render Target View
+    std::unique_ptr<DescriptorHeap> dsvHeap; // Depth Stencil View
+    std::unique_ptr<DescriptorHeap> srvCbvHeap;
 
     std::shared_ptr<PipelineState> pipelineState;
 

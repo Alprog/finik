@@ -6,6 +6,7 @@
 #include "render_command.h"
 #include "pipeline_state.h"
 #include "mesh.h"
+#include "constant_buffer.h"
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -17,13 +18,16 @@ void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
     auto texture = renderCommand.state->texture;
-    //auto cbImpl = getImpl(renderCommand.state->constantBuffer);
-    //cbImpl->update();
-
-    //commandList.SetGraphicsRootDescriptorTable(0, getImpl(texture)->descriptorHandle.getGPU());
-    //commandList.SetGraphicsRootDescriptorTable(1, cbImpl->descriptorHandle.getGPU());
+    auto constantBuffer = renderCommand.state->constantBuffer;
+    constantBuffer->update();
 
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
+
+    //commandList.SetGraphicsRootDescriptorTable(0, getImpl(texture)->descriptorHandle.getGPU());
+    
+    commandList.SetGraphicsRootDescriptorTable(1, constantBuffer->descriptorHandle.getGPU());
+
+    
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
     commandList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

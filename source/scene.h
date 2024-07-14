@@ -10,7 +10,9 @@ class Scene
 public:
     Scene();
 
+    void update(float deltaTime);
     void render(RenderContext& context);
+    
 
     RenderCommand renderCommand;
 };

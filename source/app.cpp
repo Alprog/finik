@@ -25,6 +25,7 @@ App::App()
 
 #include "app.h"
 #include "window.h"
+#include "scene.h"
 #include "gui.h"
 
 #include "render_system.h"
@@ -63,9 +64,15 @@ void App::run_game_loop()
 
     RenderSystem& render_system = App::get_instance().render_system;
 
+    auto oldCounter = SDL_GetPerformanceCounter();
+
     // Main loop
     while (true)
     {
+        auto counter = SDL_GetPerformanceCounter();
+        auto deltaTime = static_cast<float>(counter - oldCounter) / SDL_GetPerformanceFrequency();
+        oldCounter = counter;
+
         handle_input();
 
         if (App::get_instance().desktop_system.windows.empty())
@@ -82,6 +89,7 @@ void App::run_game_loop()
         //g_SwapChainOccluded = false;
 
         auto window = desktop_system.windows[0];
+        window->scene->update(deltaTime);
 
         window->gui->prepare();
 

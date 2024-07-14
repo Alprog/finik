@@ -104,7 +104,7 @@ struct ImGui_ImplDX12_ViewportData
     // Window
     ID3D12CommandQueue*             CommandQueue;
     ID3D12GraphicsCommandList*      CommandList;
-    ID3D12DescriptorHeap*           RtvDescHeap;
+    ID3D12DescriptorHeap*           rtvHeap;
     IDXGISwapChain3*                SwapChain;
     ID3D12Fence*                    Fence;
     UINT64                          FenceSignaledValue;
@@ -120,7 +120,7 @@ struct ImGui_ImplDX12_ViewportData
     {
         CommandQueue = nullptr;
         CommandList = nullptr;
-        RtvDescHeap = nullptr;
+        rtvHeap = nullptr;
         SwapChain = nullptr;
         Fence = nullptr;
         FenceSignaledValue = 0;
@@ -145,7 +145,7 @@ struct ImGui_ImplDX12_ViewportData
     ~ImGui_ImplDX12_ViewportData()
     {
         IM_ASSERT(CommandQueue == nullptr && CommandList == nullptr);
-        IM_ASSERT(RtvDescHeap == nullptr);
+        IM_ASSERT(rtvHeap == nullptr);
         IM_ASSERT(SwapChain == nullptr);
         IM_ASSERT(Fence == nullptr);
         IM_ASSERT(FenceEvent == nullptr);
@@ -927,11 +927,11 @@ static void ImGui_ImplDX12_CreateWindow(ImGuiViewport* viewport)
         desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         desc.NodeMask = 1;
 
-        HRESULT hr = bd->pd3dDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&vd->RtvDescHeap));
+        HRESULT hr = bd->pd3dDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&vd->rtvHeap));
         IM_ASSERT(hr == S_OK);
 
         SIZE_T rtv_descriptor_size = bd->pd3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-        D3D12_CPU_DESCRIPTOR_HANDLE rtv_handle = vd->RtvDescHeap->GetCPUDescriptorHandleForHeapStart();
+        D3D12_CPU_DESCRIPTOR_HANDLE rtv_handle = vd->rtvHeap->GetCPUDescriptorHandleForHeapStart();
         for (UINT i = 0; i < bd->numFramesInFlight; i++)
         {
             vd->FrameCtx[i].RenderTargetCpuDescriptors = rtv_handle;
@@ -977,7 +977,7 @@ static void ImGui_ImplDX12_DestroyWindow(ImGuiViewport* viewport)
         SafeRelease(vd->CommandQueue);
         SafeRelease(vd->CommandList);
         SafeRelease(vd->SwapChain);
-        SafeRelease(vd->RtvDescHeap);
+        SafeRelease(vd->rtvHeap);
         SafeRelease(vd->Fence);
         ::CloseHandle(vd->FenceEvent);
         vd->FenceEvent = nullptr;

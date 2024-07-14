@@ -87,7 +87,7 @@ void SwapChain::CreateRenderTargets()
     {
         auto renderTarget = std::make_shared<RenderTarget>();
         
-        renderTarget->handle = render_system.getRtvDescHeap()->getNextHandle().getCPU();
+        renderTarget->handle = render_system.getRtvHeap()->getNextHandle().getCPU();
 
         ID3D12Resource* pBackBuffer = nullptr;
         swapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
@@ -198,7 +198,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     command_list->ClearRenderTargetView(handle, clear_color_with_alpha, 0, nullptr);
     command_list->OMSetRenderTargets(1, &handle, FALSE, nullptr);
     
-    ID3D12DescriptorHeap* a = render_system.getSrvDescHeap()->get();
+    ID3D12DescriptorHeap* a = render_system.getSrvCbvHeap()->get();
     command_list->SetDescriptorHeaps(1, &a);
 
     viewport.Width = static_cast<float>(1024);

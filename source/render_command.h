@@ -6,6 +6,6 @@ class RenderState;
 
 struct RenderCommand
 {
-    Mesh* mesh;
-    RenderState* state;
+    Mesh* mesh = nullptr;
+    RenderState* state = nullptr;
 };

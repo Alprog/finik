@@ -17,7 +17,7 @@ PSInput VSMain(float3 position : POSITION, float4 uv : TEXCOORD)
 {
 	PSInput result;
 
-	result.position = float4(position, 1); //mul(float4(position, 1), MVP);
+	result.position = mul(float4(position, 1), MVP);
 	result.uv = uv;
 
 	return result;

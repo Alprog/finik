@@ -159,12 +159,12 @@ void RenderSystem::createCommandQueue()
 void RenderSystem::createDescriptorHeap()
 {
     int count = NUM_BACK_BUFFERS * 2;
-    rtvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, count);
-    rtvHandle = rtvDescHeap->getCpuHandle(0);
+    rtvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, count);
+    rtvHandle = rtvHeap->getCpuHandle(0);
 
-    dsvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1);
+    dsvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1);
 
-    srvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
+    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 10);
 }
 
 void RenderSystem::createCommandList()
@@ -189,9 +189,8 @@ void RenderSystem::ImguiInitHelper()
 {
     const int NUM_FRAMES_IN_FLIGHT = 3;
 
-    DescriptorHandle handle(srvDescHeap.get(), 0);
-
-    ImGui_ImplDX12_Init(device.Get(), NUM_FRAMES_IN_FLIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, srvDescHeap->get(), handle.getCPU(), handle.getGPU());
+    DescriptorHandle handle = srvCbvHeap->getNextHandle();
+    ImGui_ImplDX12_Init(device.Get(), NUM_FRAMES_IN_FLIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, srvCbvHeap->get(), handle.getCPU(), handle.getGPU());
 }
 
 ID3D12Device* RenderSystem::get_device()
@@ -209,19 +208,19 @@ ID3D12GraphicsCommandList* RenderSystem::get_command_list()
     return commandList.Get();
 }
 
-DescriptorHeap* RenderSystem::getRtvDescHeap()
+DescriptorHeap* RenderSystem::getRtvHeap()
 {
-    return rtvDescHeap.get();
+    return rtvHeap.get();
 }
 
-DescriptorHeap* RenderSystem::getDstDescHeap()
+DescriptorHeap* RenderSystem::getDstHeap()
 {
-    return dsvDescHeap.get();
+    return dsvHeap.get();
 }
 
-DescriptorHeap* RenderSystem::getSrvDescHeap()
+DescriptorHeap* RenderSystem::getSrvCbvHeap()
 {
-    return srvDescHeap.get();
+    return srvCbvHeap.get();
 }
 
 RenderContext* RenderSystem::getRenderContext()
