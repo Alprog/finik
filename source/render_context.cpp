@@ -4,6 +4,7 @@
 #include "index_buffer.h"
 #include "render_state.h"
 #include "render_command.h"
+#include "pipeline_state.h"
 #include "mesh.h"
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
@@ -22,6 +23,8 @@ void RenderContext::draw(RenderCommand renderCommand)
     //commandList.SetGraphicsRootDescriptorTable(0, getImpl(texture)->descriptorHandle.getGPU());
     //commandList.SetGraphicsRootDescriptorTable(1, cbImpl->descriptorHandle.getGPU());
 
+    commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
+    commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
     commandList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     commandList.IASetVertexBuffers(0, 1, &renderCommand.mesh->vertexBuffer->vertexBufferView);

@@ -6,6 +6,10 @@
 #include "gui.h"
 #include "swap_chain.h"
 
+#include "app.h"
+#include "render_system.h"
+#include "scene.h"
+
 Window::Window(int width, int height)
 {
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -33,6 +37,7 @@ void Window::renderScene()
 {
     if (scene != nullptr)
     {
-        //
+        auto context = App::get_instance().render_system.getRenderContext();
+        scene->render(*context);
     }
 }

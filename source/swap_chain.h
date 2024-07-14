@@ -28,6 +28,7 @@ public:
     ~SwapChain();
 
     void CreateRenderTargets();
+    void CreateDepthStencil();
     void CleanupRenderTarget();
     void WaitForLastSubmittedFrame();
     FrameContext* WaitForNextFrameResources();

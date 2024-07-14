@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pipeline_state.h"
-#include "mesh.h"
+#include "render_command.h"
 
 class RenderContext;
 
@@ -12,5 +12,5 @@ public:
 
     void render(RenderContext& context);
 
-    Mesh* mesh;
+    RenderCommand renderCommand;
 };

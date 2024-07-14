@@ -11,7 +11,7 @@ void VertexBuffer::Load()
 {
     auto device = App::get_instance().render_system.get_device();
 
-    const UINT vertexBufferSize = sizeof(Vertex) * vertices.size();
+    const UINT vertexBufferSize = sizeof(StandardVertex) * vertices.size();
 
     auto result = device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), D3D12_HEAP_FLAG_NONE,
         &CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize), D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&vertexBufferResource));
@@ -27,7 +27,7 @@ void VertexBuffer::Load()
     vertexBufferResource->Unmap(0, nullptr);
 
     vertexBufferView.BufferLocation = vertexBufferResource->GetGPUVirtualAddress();
-    vertexBufferView.StrideInBytes = sizeof(Vertex);
+    vertexBufferView.StrideInBytes = sizeof(StandardVertex);
     vertexBufferView.SizeInBytes = vertexBufferSize;
 }
 

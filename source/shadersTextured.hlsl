@@ -17,7 +17,7 @@ PSInput VSMain(float3 position : POSITION, float4 uv : TEXCOORD)
 {
 	PSInput result;
 
-	result.position = mul(float4(position, 1), MVP);
+	result.position = float4(position, 1); //mul(float4(position, 1), MVP);
 	result.uv = uv;
 
 	return result;
@@ -25,5 +25,5 @@ PSInput VSMain(float3 position : POSITION, float4 uv : TEXCOORD)
 
 float4 PSMain(PSInput input) : SV_TARGET
 {
-	return g_texture.Sample(g_sampler, input.uv);
+	return float4(1, 0, 0, 1);// g_texture.Sample(g_sampler, input.uv);
 }

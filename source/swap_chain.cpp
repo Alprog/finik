@@ -6,6 +6,9 @@
 
 #include <dxgi.h>
 
+D3D12_VIEWPORT viewport;
+D3D12_RECT scissorRect;
+
 SwapChain::SwapChain(Window& window)
     : window{ window }
 {
@@ -51,6 +54,7 @@ SwapChain::SwapChain(Window& window)
     }
 
     CreateRenderTargets();
+    CreateDepthStencil();
 
     for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (render_system.get_device()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&frameContext[i].CommandAllocator)) != S_OK)
@@ -92,6 +96,37 @@ void SwapChain::CreateRenderTargets()
     
         renderTargets.push_back(renderTarget);
     }
+}
+
+void SwapChain::CreateDepthStencil()
+{
+    /*CD3DX12_RESOURCE_DESC resourceDesc(
+        D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
+        static_cast<UINT>(width),
+        static_cast<UINT>(height),
+        1, 1, DXGI_FORMAT_D32_FLOAT, 1, 0,
+        D3D12_TEXTURE_LAYOUT_UNKNOWN,
+        D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
+
+    D3D12_CLEAR_VALUE clearValue;
+    clearValue.Format = DXGI_FORMAT_D32_FLOAT;
+    clearValue.DepthStencil.Depth = 1.0f;
+    clearValue.DepthStencil.Stencil = 0;
+
+    RenderSystem& render_system = App::get_instance().render_system;
+
+    result = render_system.get_device()->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+        D3D12_HEAP_FLAG_NONE,
+        &resourceDesc,
+        D3D12_RESOURCE_STATE_DEPTH_WRITE,
+        &clearValue,
+        IID_PPV_ARGS(&depthStencil));
+    if (FAILED(result)) throw;
+
+    depthStencil->SetName(L"DepthStencil");
+
+    device->CreateDepthStencilView(depthStencil.Get(), nullptr, dsvHeap->GetCPUDescriptorHandleForHeapStart());*/
 }
 
 void SwapChain::CleanupRenderTarget()
@@ -165,6 +200,15 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     
     ID3D12DescriptorHeap* a = render_system.getSrvDescHeap()->get();
     command_list->SetDescriptorHeaps(1, &a);
+
+    viewport.Width = static_cast<float>(1024);
+    viewport.Height = static_cast<float>(800);
+    viewport.MaxDepth = 1.0f;
+    command_list->RSSetViewports(1, &viewport);
+
+    scissorRect.right = static_cast<LONG>(1024);
+    scissorRect.bottom = static_cast<LONG>(800);
+    command_list->RSSetScissorRects(1, &scissorRect);
 }
 
 void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
