@@ -1,6 +1,6 @@
 #include "scene.h"
 
-void Scene::render()
+void Scene::render(RenderContext& context)
 {
-
+    
 }

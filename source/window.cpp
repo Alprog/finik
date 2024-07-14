@@ -28,3 +28,11 @@ Window::~Window()
     delete swap_chain;
     SDL_DestroyWindow(impl);
 }
+
+void Window::renderScene()
+{
+    if (scene != nullptr)
+    {
+        //
+    }
+}

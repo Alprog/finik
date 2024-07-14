@@ -5,7 +5,7 @@ Camera::Camera(Scene* scene)
 {
 }
 
-void Camera::render(RenderTarget* render_target)
+void Camera::render(RenderContext& context, RenderTarget& renderTarget)
 {
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 class Scene;
+class RenderContext;
 class RenderTarget;
 
 class Camera
@@ -8,7 +9,7 @@ class Camera
 public:
     Camera(Scene* scene);
 
-    void render(RenderTarget* render_target);
+    void render(RenderContext& context, RenderTarget& renderTarget);
 
 private:
     Scene* scene;

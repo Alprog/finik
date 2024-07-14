@@ -83,6 +83,8 @@ void App::run_game_loop()
 
         auto window = desktop_system.windows[0];
 
+        window->renderScene();
+
         window->gui->prepare();
 
         auto command_list = render_system.get_command_list();
