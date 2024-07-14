@@ -4,6 +4,8 @@
 
 #include "app.h"
 
+#include <dxgi.h>
+
 SwapChain::SwapChain(Window& window)
     : window{ window }
 {
@@ -28,21 +30,27 @@ SwapChain::SwapChain(Window& window)
     RenderSystem& render_system = App::get_instance().render_system;
 
     {
-        IDXGIFactory4* dxgiFactory = nullptr;
-        IDXGISwapChain1* swapChain1 = nullptr;
-        if (CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory)) != S_OK)
-            throw;
-        if (dxgiFactory->CreateSwapChainForHwnd(render_system.get_command_queue(), window.hwnd, &sd, nullptr, nullptr, &swapChain1) != S_OK)
-            throw;
-        if (swapChain1->QueryInterface(IID_PPV_ARGS(&pSwapChain)) != S_OK)
-            throw;
-        swapChain1->Release();
-        dxgiFactory->Release();
-        pSwapChain->SetMaximumFrameLatency(NUM_BACK_BUFFER);
-        hSwapChainWaitableObject = pSwapChain->GetFrameLatencyWaitableObject();
+        ComPtr<IDXGIFactory3> dxgiFactory;
+        ComPtr<IDXGISwapChain1> dxgiSwapChain1;
+      
+        UINT createFactoryFlags = 0;
+#if defined(_DEBUG)
+        createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+#endif
+        auto result = CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory));
+        if (FAILED(result)) throw;
+
+        result = dxgiFactory->CreateSwapChainForHwnd(render_system.get_command_queue(), window.hwnd, &sd, nullptr, nullptr, &dxgiSwapChain1);
+        if (FAILED(result)) throw;
+
+        result = dxgiSwapChain1->QueryInterface(IID_PPV_ARGS(&swapChain));
+        if (FAILED(result)) throw;
+
+        swapChain->SetMaximumFrameLatency(NUM_BACK_BUFFER);
+        hSwapChainWaitableObject = swapChain->GetFrameLatencyWaitableObject();
     }
 
-    CreateRenderTarget();
+    CreateRenderTargets();
 
     for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (render_system.get_device()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&frameContext[i].CommandAllocator)) != S_OK)
@@ -61,33 +69,34 @@ SwapChain::~SwapChain()
     for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (frameContext[i].CommandAllocator) { frameContext[i].CommandAllocator->Release(); frameContext[i].CommandAllocator = nullptr; }
 
-    if (pSwapChain) { pSwapChain->SetFullscreenState(false, nullptr); pSwapChain->Release(); pSwapChain = nullptr; }
+    if (swapChain) { swapChain->SetFullscreenState(false, nullptr); }
     if (hSwapChainWaitableObject != nullptr) { CloseHandle(hSwapChainWaitableObject); }
     if (fence) { fence->Release(); fence = nullptr; }
     if (fenceEvent) { CloseHandle(fenceEvent); fenceEvent = nullptr; }
 }
 
-void SwapChain::CreateRenderTarget()
+void SwapChain::CreateRenderTargets()
 {
     RenderSystem& render_system = App::get_instance().render_system;
 
     for (UINT i = 0; i < NUM_BACK_BUFFER; i++)
     {
-        mainRenderTargetDescriptor[i] = render_system.get_next_rtv_handle();
+        auto renderTarget = std::make_shared<RenderTarget>();
+        
+        renderTarget->handle = render_system.getRtvDescHeap()->getNextHandle().getCPU();
 
         ID3D12Resource* pBackBuffer = nullptr;
-        pSwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
-        render_system.get_device()->CreateRenderTargetView(pBackBuffer, nullptr, mainRenderTargetDescriptor[i]);
-        mainRenderTargetResource[i] = pBackBuffer;
+        swapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
+        render_system.get_device()->CreateRenderTargetView(pBackBuffer, nullptr, renderTarget->handle);
+        renderTarget->resource = pBackBuffer;
+    
+        renderTargets.push_back(renderTarget);
     }
 }
 
 void SwapChain::CleanupRenderTarget()
 {
     WaitForLastSubmittedFrame();
-
-    for (UINT i = 0; i < NUM_BACK_BUFFER; i++)
-        if (mainRenderTargetResource[i]) { mainRenderTargetResource[i]->Release(); mainRenderTargetResource[i] = nullptr; }
 }
 
 void SwapChain::WaitForLastSubmittedFrame()
@@ -134,13 +143,13 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     RenderSystem& render_system = App::get_instance().render_system;
 
     current_frame_ctx = WaitForNextFrameResources();
-    UINT backBufferIdx = pSwapChain->GetCurrentBackBufferIndex();
+    UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
     current_frame_ctx->CommandAllocator->Reset();
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrier.Transition.pResource = mainRenderTargetResource[backBufferIdx];
+    barrier.Transition.pResource = renderTargets[backBufferIdx]->resource.Get();
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
@@ -149,21 +158,23 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
 
     // Render Dear ImGui graphics
     const float clear_color_with_alpha[4] = { 0.5f, 0.0f, 0.5f, 1.0f };
-    command_list->ClearRenderTargetView(mainRenderTargetDescriptor[backBufferIdx], clear_color_with_alpha, 0, nullptr);
-    command_list->OMSetRenderTargets(1, &mainRenderTargetDescriptor[backBufferIdx], FALSE, nullptr);
+
+    auto handle = renderTargets[backBufferIdx]->handle;
+    command_list->ClearRenderTargetView(handle, clear_color_with_alpha, 0, nullptr);
+    command_list->OMSetRenderTargets(1, &handle, FALSE, nullptr);
     
-    ID3D12DescriptorHeap*& a = render_system.get_srv_heap();
+    ID3D12DescriptorHeap* a = render_system.getSrvDescHeap()->get();
     command_list->SetDescriptorHeaps(1, &a);
 }
 
 void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
 {
-    UINT backBufferIdx = pSwapChain->GetCurrentBackBufferIndex();
+    UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrier.Transition.pResource = mainRenderTargetResource[backBufferIdx];
+    barrier.Transition.pResource = renderTargets[backBufferIdx]->resource.Get();
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
@@ -179,7 +190,7 @@ void SwapChain::present()
     RenderSystem& render_system = App::get_instance().render_system;
 
     // Present
-    HRESULT hr = pSwapChain->Present(1, 0);   // Present with vsync
+    HRESULT hr = swapChain->Present(1, 0);   // Present with vsync
     //HRESULT hr = g_pSwapChain->Present(0, 0); // Present without vsync
     swapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
 

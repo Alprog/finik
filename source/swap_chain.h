@@ -1,7 +1,8 @@
 #pragma once
 
-#include <d3d12.h>
-#include <dxgi1_4.h>
+#include "dx.h"
+
+#include "render_target.h"
 
 static int const NUM_BACK_BUFFER = 3;
 static int const NUM_FRAMES_IN_FLIGHT = 3;
@@ -26,7 +27,7 @@ public:
     SwapChain(Window& window);
     ~SwapChain();
 
-    void CreateRenderTarget();
+    void CreateRenderTargets();
     void CleanupRenderTarget();
     void WaitForLastSubmittedFrame();
     FrameContext* WaitForNextFrameResources();
@@ -38,10 +39,10 @@ public:
 public:
     Window& window;
 
-    IDXGISwapChain3* pSwapChain;
+    ComPtr<IDXGISwapChain3> swapChain;
+
     HANDLE hSwapChainWaitableObject;
-    ID3D12Resource* mainRenderTargetResource[NUM_BACK_BUFFER] = {};
-    D3D12_CPU_DESCRIPTOR_HANDLE  mainRenderTargetDescriptor[NUM_BACK_BUFFER] = {};
+    std::vector<std::shared_ptr<RenderTarget>> renderTargets;
     ID3D12Fence* fence = nullptr;
     HANDLE fenceEvent = nullptr;
     UINT64 fenceLastSignaledValue = 0;

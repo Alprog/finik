@@ -26,141 +26,193 @@
 #include "app.h"
 #include "window.h"
 
-// Data
+class ResultChecker
+{
+public:
+    ResultChecker() = default;
+
+    ResultChecker(HRESULT hr)
+    {
+        if (FAILED(hr))
+        {
+            throw std::exception();
+        }
+    }
+
+    void operator|=(HRESULT hr)
+    {
+        if (FAILED(hr))
+        {
+            throw std::exception();
+        }
+    }
+};
+
 static int const NUM_BACK_BUFFERS = 3;
-static ID3D12Device* g_pd3dDevice = nullptr;
-static ID3D12DescriptorHeap* g_pd3dRtvDescHeap = nullptr;
-static ID3D12DescriptorHeap* g_pd3dSrvDescHeap = nullptr;
-static ID3D12CommandQueue* g_pd3dCommandQueue = nullptr;
-static ID3D12GraphicsCommandList* g_pd3dCommandList = nullptr;
-
-static D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-
-bool RenderSystem::CreateDeviceD3D()
-{
-    // [DEBUG] Enable debug interface
-#ifdef DX12_ENABLE_DEBUG_LAYER
-    ID3D12Debug* pdx12Debug = nullptr;
-    if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&pdx12Debug))))
-        pdx12Debug->EnableDebugLayer();
-#endif
-
-    // Create device
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
-    if (D3D12CreateDevice(nullptr, featureLevel, IID_PPV_ARGS(&g_pd3dDevice)) != S_OK)
-        return false;
-
-    // [DEBUG] Setup debug interface to break on any warnings/errors
-#ifdef DX12_ENABLE_DEBUG_LAYER
-    if (pdx12Debug != nullptr)
-    {
-        ID3D12InfoQueue* pInfoQueue = nullptr;
-        g_pd3dDevice->QueryInterface(IID_PPV_ARGS(&pInfoQueue));
-        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
-        pInfoQueue->Release();
-        pdx12Debug->Release();
-    }
-#endif
-
-    {
-        D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-        desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-        desc.NumDescriptors = NUM_BACK_BUFFERS * 2;
-        desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-        desc.NodeMask = 1;
-        if (g_pd3dDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&g_pd3dRtvDescHeap)) != S_OK)
-            return false;
-
-        rtvHandle = g_pd3dRtvDescHeap->GetCPUDescriptorHandleForHeapStart();
-    }
-
-    {
-        D3D12_DESCRIPTOR_HEAP_DESC desc = {};
-        desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-        desc.NumDescriptors = 1;
-        desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-        if (g_pd3dDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&g_pd3dSrvDescHeap)) != S_OK)
-            return false;
-    }
-
-    {
-        D3D12_COMMAND_QUEUE_DESC desc = {};
-        desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-        desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-        desc.NodeMask = 1;
-        if (g_pd3dDevice->CreateCommandQueue(&desc, IID_PPV_ARGS(&g_pd3dCommandQueue)) != S_OK)
-            return false;
-    }
-
-    ID3D12CommandAllocator* allocator;
-    if (get_device()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)) != S_OK)
-        throw;
-
-    if (get_device()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator, nullptr, IID_PPV_ARGS(&g_pd3dCommandList)) != S_OK ||
-        g_pd3dCommandList->Close() != S_OK)
-        throw;
-
-    return true;
-}
-
-D3D12_CPU_DESCRIPTOR_HANDLE RenderSystem::get_next_rtv_handle()
-{
-    auto result = rtvHandle;
-    SIZE_T rtvDescriptorSize = g_pd3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-    rtvHandle.ptr += rtvDescriptorSize;
-    return result;
-}
-
-void RenderSystem::CleanupDeviceD3D()
-{
-    if (g_pd3dCommandQueue) { g_pd3dCommandQueue->Release(); g_pd3dCommandQueue = nullptr; }
-    if (g_pd3dCommandList) { g_pd3dCommandList->Release(); g_pd3dCommandList = nullptr; }
-    if (g_pd3dRtvDescHeap) { g_pd3dRtvDescHeap->Release(); g_pd3dRtvDescHeap = nullptr; }
-    if (g_pd3dSrvDescHeap) { g_pd3dSrvDescHeap->Release(); g_pd3dSrvDescHeap = nullptr; }
-    if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = nullptr; }
-
-#ifdef DX12_ENABLE_DEBUG_LAYER
-    IDXGIDebug1* pDebug = nullptr;
-    if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&pDebug))))
-    {
-        pDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_SUMMARY);
-        pDebug->Release();
-    }
-#endif
-}
 
 RenderSystem::RenderSystem()
 {
-    CreateDeviceD3D();
+    init();
+}
+
+void RenderSystem::init()
+{
+    enableDebugLayer();
+    createDevice();
+    setupDebug();
+    createCommandQueue();
+    createDescriptorHeap();
+    createCommandList();
+}
+
+void RenderSystem::enableDebugLayer()
+{
+    ComPtr<ID3D12Debug> debugInterface;
+    auto result = D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface));
+    if (SUCCEEDED(result))
+    {
+        debugInterface->EnableDebugLayer();
+    }
+}
+
+void RenderSystem::createDevice()
+{
+    ComPtr<IDXGIFactory4> factory;
+    auto result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
+    if (FAILED(result)) throw;
+
+    ComPtr<IDXGIAdapter1> adapter;
+    for (UINT adapterIndex = 0; DXGI_ERROR_NOT_FOUND != factory.Get()->EnumAdapters1(adapterIndex, &adapter); adapterIndex++)
+    {
+        DXGI_ADAPTER_DESC1 desc;
+        adapter->GetDesc1(&desc);
+
+        if ((desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) == 0)
+        {
+            auto result = D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr);
+            if (SUCCEEDED(result))
+            {
+                break;
+            }
+        }
+    }
+
+    ComPtr<IDXGIAdapter1> hardwareAdapter;
+    hardwareAdapter = adapter.Detach();
+
+    result = D3D12CreateDevice(hardwareAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
+    if (FAILED(result)) throw;
+}
+
+void RenderSystem::setupDebug()
+{
+#ifdef DX12_ENABLE_DEBUG_LAYER
+    ComPtr<ID3D12InfoQueue> pInfoQueue;
+    if (SUCCEEDED(device.As(&pInfoQueue)))
+    {
+        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+        pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+
+        // Suppress whole categories of messages
+        //D3D12_MESSAGE_CATEGORY Categories[] = {};
+
+        // Suppress messages based on their severity level
+        D3D12_MESSAGE_SEVERITY Severities[] =
+        {
+            D3D12_MESSAGE_SEVERITY_INFO
+        };
+
+        // Suppress individual messages by their ID
+        D3D12_MESSAGE_ID DenyIds[] = {
+            D3D12_MESSAGE_ID_CLEARRENDERTARGETVIEW_MISMATCHINGCLEARVALUE,   // I'm really not sure how to avoid this message.
+            D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,                         // This warning occurs when using capture frame while graphics debugging.
+            D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE,                       // This warning occurs when using capture frame while graphics debugging.
+        };
+
+        D3D12_INFO_QUEUE_FILTER NewFilter = {};
+        //NewFilter.DenyList.NumCategories = _countof(Categories);
+        //NewFilter.DenyList.pCategoryList = Categories;
+        NewFilter.DenyList.NumSeverities = _countof(Severities);
+        NewFilter.DenyList.pSeverityList = Severities;
+        NewFilter.DenyList.NumIDs = _countof(DenyIds);
+        NewFilter.DenyList.pIDList = DenyIds;
+
+        auto result = pInfoQueue->PushStorageFilter(&NewFilter);
+        if (FAILED(result)) throw;
+    }
+#endif
+}
+
+void RenderSystem::createCommandQueue()
+{
+    D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+    queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+
+    auto result = device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&commandQueue));
+    if (FAILED(result)) throw;
+}
+
+void RenderSystem::createDescriptorHeap()
+{
+    int count = NUM_BACK_BUFFERS * 2;
+    rtvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, count);
+    rtvHandle = rtvDescHeap->getCpuHandle(0);
+
+    dsvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1);
+
+    srvDescHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
+}
+
+void RenderSystem::createCommandList()
+{
+    ComPtr<ID3D12CommandAllocator> allocator;
+    auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator));
+    if (FAILED(result)) throw;
+
+    result = get_device()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr, IID_PPV_ARGS(&commandList));
+    if (FAILED(result)) throw;
+    
+    result = commandList->Close();
+    if (FAILED(result)) throw;
 }
 
 void RenderSystem::ImguiInitHelper()
 {
     const int NUM_FRAMES_IN_FLIGHT = 3;
-    ImGui_ImplDX12_Init(g_pd3dDevice, NUM_FRAMES_IN_FLIGHT,
-        DXGI_FORMAT_R8G8B8A8_UNORM, g_pd3dSrvDescHeap,
-        g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
-        g_pd3dSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
+
+    DescriptorHandle handle(srvDescHeap.get(), 0);
+
+    ImGui_ImplDX12_Init(device.Get(), NUM_FRAMES_IN_FLIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, srvDescHeap->get(), handle.getCPU(), handle.getGPU());
 }
 
 ID3D12Device* RenderSystem::get_device()
 {
-    return g_pd3dDevice;
+    return device.Get();
 }
 
 ID3D12CommandQueue* RenderSystem::get_command_queue()
 {
-    return g_pd3dCommandQueue;
+    return commandQueue.Get();
 }
 
 ID3D12GraphicsCommandList* RenderSystem::get_command_list()
 {
-    return g_pd3dCommandList;
+    return commandList.Get();
 }
 
-ID3D12DescriptorHeap*& RenderSystem::get_srv_heap()
+DescriptorHeap* RenderSystem::getRtvDescHeap()
 {
-    return g_pd3dSrvDescHeap;
+    return rtvDescHeap.get();
+}
+
+DescriptorHeap* RenderSystem::getDstDescHeap()
+{
+    return dsvDescHeap.get();
+}
+
+DescriptorHeap* RenderSystem::getSrvDescHeap()
+{
+    return srvDescHeap.get();
 }

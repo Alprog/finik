@@ -108,6 +108,8 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="descriptor_handle.cpp" />
+    <ClCompile Include="descriptor_heap.cpp" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="input_system.cpp" />
@@ -139,6 +141,8 @@
     <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="descriptor_handle.h" />
+    <ClInclude Include="descriptor_heap.h" />
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="gui.h" />
