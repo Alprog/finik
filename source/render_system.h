@@ -1,12 +1,15 @@
 #pragma once
 
 class Window;
+class PipelineState;
 struct FrameContext;
+class RenderContext;
 
 #include "dx.h"
 #include <dxgi1_4.h>
 
 #include "descriptor_heap.h"
+#include "render_context.h"
 
 class RenderSystem
 {
@@ -23,6 +26,8 @@ public:
     DescriptorHeap* getRtvDescHeap();
     DescriptorHeap* getDstDescHeap();
     DescriptorHeap* getSrvDescHeap();
+    RenderContext* getRenderContext();
+
     void ImguiInitHelper();
 
 private:
@@ -32,15 +37,19 @@ private:
     void createCommandQueue();
     void createDescriptorHeap();
     void createCommandList();
+    void createRenderContext();
     
     ComPtr<ID3D12Device> device = nullptr;
     ComPtr<ID3D12CommandQueue> commandQueue = nullptr;
     ComPtr<ID3D12GraphicsCommandList> commandList = nullptr;
 
+    std::unique_ptr<RenderContext> renderContext;
+
     std::unique_ptr<DescriptorHeap> rtvDescHeap; // Render Target View
     std::unique_ptr<DescriptorHeap> dsvDescHeap; // Depth Stencil View
     std::unique_ptr<DescriptorHeap> srvDescHeap;
 
+    std::shared_ptr<PipelineState> pipelineState;
 
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 };

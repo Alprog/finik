@@ -22,6 +22,7 @@
 #endif
 
 #include "imgui_internal.h"
+#include "pipeline_state.h"
 
 #include "app.h"
 #include "window.h"
@@ -63,6 +64,7 @@ void RenderSystem::init()
     createCommandQueue();
     createDescriptorHeap();
     createCommandList();
+    createRenderContext();
 }
 
 void RenderSystem::enableDebugLayer()
@@ -178,6 +180,11 @@ void RenderSystem::createCommandList()
     if (FAILED(result)) throw;
 }
 
+void RenderSystem::createRenderContext()
+{
+    renderContext = std::make_unique<RenderContext>(*this, *commandList.Get());
+}
+
 void RenderSystem::ImguiInitHelper()
 {
     const int NUM_FRAMES_IN_FLIGHT = 3;
@@ -215,4 +222,9 @@ DescriptorHeap* RenderSystem::getDstDescHeap()
 DescriptorHeap* RenderSystem::getSrvDescHeap()
 {
     return srvDescHeap.get();
+}
+
+RenderContext* RenderSystem::getRenderContext()
+{
+    return renderContext.get();
 }

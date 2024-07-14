@@ -6,9 +6,10 @@
 
 #include "shader.h"
 
-PipelineState::PipelineState()
+PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings& pipelineSettings)
+    : pipelineSettings{ pipelineSettings }
 {
-    auto device = App::get_instance().render_system.get_device();
+    auto device = renderSystem.get_device();
 
     {
         CD3DX12_DESCRIPTOR_RANGE ranges[2];
@@ -54,14 +55,10 @@ PipelineState::PipelineState()
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
     psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
-    psoDesc.pRootSignature = rootSignature.Get();
+    psoDesc.pRootSignature = rootSignature.Get();   
 
-    auto path = "C:/finik/shaders.hlsl";
-    Shader vertexShader(path, ShaderType::Vertex, "VSMain");
-    Shader pixelShader(path, ShaderType::Pixel, "PSMain");
-
-    psoDesc.VS = CD3DX12_SHADER_BYTECODE(vertexShader.blob.Get());
-    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pixelShader.blob.Get());
+    psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->blob.Get());
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->blob.Get());
     psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
 
