@@ -26,6 +26,9 @@ public:
     Scene* scene;
     Gui* gui;
 
+    int width;
+    int height;
+
 private:
     WindowImpl* impl;
 };

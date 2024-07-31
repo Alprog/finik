@@ -15,16 +15,17 @@ void Camera::calcViewMatrix()
     Matrix offsetMatrix = Matrix::Translation(offset);
 
     Vector3 forward = getForward();
+    Vector3 right = Vector3::cross(Vector3::Up, forward);
+    Vector3 up = Vector3::cross(forward, right);
 
-    Vector3 right = Vector3::cross(Vector3(0, 1, 0), forward);
-    right.normalize();
+    Matrix orientationMtrx;
+    orientationMtrx.rows[0] = Vector4(right, 0);
+    orientationMtrx.rows[1] = Vector4(up, 0);
+    orientationMtrx.rows[2] = Vector4(forward, 0);
+    orientationMtrx.rows[3] = Vector4::Zero;
+    orientationMtrx.transpose();
 
-    //Vector4 up = Vector4::cross(forward, right);
-    //Matrix orientationMtrx;
-    //orientationMtrx.rows = { right, up, forward, Vector.ZeroPoint() };
-    //orientationMtrx.transpose();
-
-    //viewMatrix = offsetMtrx * orientationMtrx;
+    viewMatrix = offsetMatrix * orientationMtrx;
 }
 
 void Camera::render(RenderContext& context, RenderTarget& renderTarget)

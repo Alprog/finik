@@ -1,29 +1,48 @@
+#pragma pack_matrix( row_major )
 
 cbuffer ConstantBuffer : register(b0)
 {
-	row_major float4x4 MVP;
+	float4x4 MVP;
+};
+
+struct VSInput
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float4 uv : TEXCOORD;
 };
 
 struct PSInput
 {
 	float4 position : SV_POSITION;
-	float2 uv : TEXCOORD;
+	float3 normal : TEXCOORD0;
+	float2 uv : TEXCOORD1;
 };
 
 Texture2D g_texture : register(t0);
 SamplerState g_sampler : register(s0);
 
-PSInput VSMain(float3 position : POSITION, float4 uv : TEXCOORD)
+PSInput VSMain(VSInput input)
 {
 	PSInput result;
 
-	result.position = mul(float4(position, 1), MVP);
-	result.uv = uv;
+	result.position = mul(float4(input.position, 1), MVP);
+	result.normal = input.normal;
+	result.uv = input.uv;
+
+	result.position /= result.position.w;
+	if (result.position.z < 0)
+		result.position.z = 0;
 
 	return result;
 }
 
 float4 PSMain(PSInput input) : SV_TARGET
 {
-	return float4(1, 0, 0, 1);// g_texture.Sample(g_sampler, input.uv);
+	if (input.position.z == 0)
+		return 1;
+
+	float4 color = float4(input.normal, 1);
+	color.rgb = (color.rgb + 1) / 2;
+	return color;// g_texture.Sample(g_sampler, input.uv);
 }

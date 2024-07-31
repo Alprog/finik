@@ -213,7 +213,7 @@ DescriptorHeap* RenderSystem::getRtvHeap()
     return rtvHeap.get();
 }
 
-DescriptorHeap* RenderSystem::getDstHeap()
+DescriptorHeap* RenderSystem::getDsvHeap()
 {
     return dsvHeap.get();
 }

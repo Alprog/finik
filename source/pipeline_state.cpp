@@ -50,7 +50,8 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
     {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
@@ -60,12 +61,13 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->blob.Get());
     psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.pixelShader->blob.Get());
     psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+    psoDesc.RasterizerState.FrontCounterClockwise = false;
 
     psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 
     CD3DX12_DEPTH_STENCIL_DESC depthStencilDesc(D3D12_DEFAULT);
-    depthStencilDesc.DepthEnable = false;
+    depthStencilDesc.DepthEnable = true;
     depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
     depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
     depthStencilDesc.StencilEnable = FALSE;

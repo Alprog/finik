@@ -100,10 +100,10 @@ void SwapChain::CreateRenderTargets()
 
 void SwapChain::CreateDepthStencil()
 {
-    /*CD3DX12_RESOURCE_DESC resourceDesc(
+    CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
-        static_cast<UINT>(width),
-        static_cast<UINT>(height),
+        static_cast<UINT>(window.width),
+        static_cast<UINT>(window.height),
         1, 1, DXGI_FORMAT_D32_FLOAT, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
@@ -115,7 +115,7 @@ void SwapChain::CreateDepthStencil()
 
     RenderSystem& render_system = App::get_instance().render_system;
 
-    result = render_system.get_device()->CreateCommittedResource(
+    auto result = render_system.get_device()->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
         D3D12_HEAP_FLAG_NONE,
         &resourceDesc,
@@ -126,7 +126,9 @@ void SwapChain::CreateDepthStencil()
 
     depthStencil->SetName(L"DepthStencil");
 
-    device->CreateDepthStencilView(depthStencil.Get(), nullptr, dsvHeap->GetCPUDescriptorHandleForHeapStart());*/
+    auto device = render_system.get_device();
+    depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
+    device->CreateDepthStencilView(depthStencil.Get(), nullptr, depthStencilHandle.getCPU());
 }
 
 void SwapChain::CleanupRenderTarget()
@@ -192,11 +194,12 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     command_list->ResourceBarrier(1, &barrier);
 
     // Render Dear ImGui graphics
-    const float clear_color_with_alpha[4] = { 0.5f, 0.0f, 0.5f, 1.0f };
+    const float clear_color_with_alpha[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 
     auto handle = renderTargets[backBufferIdx]->handle;
     command_list->ClearRenderTargetView(handle, clear_color_with_alpha, 0, nullptr);
-    command_list->OMSetRenderTargets(1, &handle, FALSE, nullptr);
+    command_list->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+    command_list->OMSetRenderTargets(1, &handle, FALSE, &depthStencilHandle.getCPU());
     
     ID3D12DescriptorHeap* a = render_system.getSrvCbvHeap()->get();
     command_list->SetDescriptorHeaps(1, &a);

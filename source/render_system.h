@@ -24,7 +24,7 @@ public:
     ID3D12CommandQueue* get_command_queue();
     ID3D12GraphicsCommandList* get_command_list();
     DescriptorHeap* getRtvHeap();
-    DescriptorHeap* getDstHeap();
+    DescriptorHeap* getDsvHeap();
     DescriptorHeap* getSrvCbvHeap();
     RenderContext* getRenderContext();
 

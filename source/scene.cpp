@@ -20,7 +20,11 @@ void Scene::update(float deltaTime)
 
     if (renderCommand.state)
     {
-        renderCommand.state->constantBuffer->data.MVP = Matrix::RotationX(angle);
+        auto M = Matrix::RotationX(-3.14f / 4) * Matrix::RotationY(angle) * Matrix::Translation(Vector3(0, 0, 0.5f));
+        auto V = Matrix::Identity;
+        auto P = Matrix::Identity;
+
+        renderCommand.state->constantBuffer->data.MVP = M * V * P;
         renderCommand.state->constantBuffer->version++;
     }
 }

@@ -20,6 +20,8 @@ struct Matrix
         };
 
         float m[4][4]; // [row][column]
+        
+        Vector4 rows[4];
     };
 
     static Matrix Translation(Vector3 translation);
@@ -36,7 +38,10 @@ struct Matrix
 
     friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
 
-    friend Vector4 operator*(const Vector3& lhs, const Matrix& rhs);
+    friend Vector4 operator*(const Vector4& lhs, const Matrix& rhs);
 
     Matrix& operator*=(const Matrix& rhs);
+    
+    void transpose();
+    Matrix getTransposed();
 };

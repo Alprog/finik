@@ -1,6 +1,7 @@
 
 #include "Matrix.h"
 #include "math.h"
+#include <algorithm>
 
 const Matrix Matrix::Identity =
 {
@@ -36,14 +37,14 @@ Matrix operator*(const Matrix& lhs, const Matrix& rhs)
     };
 }
 
-Vector4 operator*(const Vector3& lhs, const Matrix& rhs)
+Vector4 operator*(const Vector4& v, const Matrix& m)
 {
     return // mij = mi1*m1j + mi2*m2j + mi3*m3j + mi4*m4j
     {
-        lhs.x * rhs.m11 + lhs.y * rhs.m21 + lhs.z * rhs.m31 + 1 * rhs.m41,
-        lhs.x * rhs.m12 + lhs.y * rhs.m22 + lhs.z * rhs.m32 + 1 * rhs.m42,
-        lhs.x * rhs.m13 + lhs.y * rhs.m23 + lhs.z * rhs.m33 + 1 * rhs.m43,
-        lhs.x * rhs.m14 + lhs.y * rhs.m24 + lhs.z * rhs.m34 + 1 * rhs.m44,
+        v.x * m.m11 + v.y * m.m21 + v.z * m.m31 + v.w * m.m41,
+        v.x * m.m12 + v.y * m.m22 + v.z * m.m32 + v.w * m.m42,
+        v.x * m.m13 + v.y * m.m23 + v.z * m.m33 + v.w * m.m43,
+        v.x * m.m14 + v.y * m.m24 + v.z * m.m34 + v.w * m.m44,
     };
 }
 
@@ -173,5 +174,20 @@ Matrix Matrix::OrthographicLH(float left, float right, float bottom, float top, 
         0,   2/h,     0,      0,
         0,    0,     1/d,     0,
         a,    b,   -znear/d,  1,
+    };
+}
+
+void Matrix::transpose()
+{
+    *this = getTransposed();
+}
+
+Matrix Matrix::getTransposed()
+{
+    return {
+        m[0][0], m[1][0], m[2][0], m[3][0],
+        m[0][1], m[1][1], m[2][1], m[3][1],
+        m[0][2], m[1][2], m[2][2], m[3][2],
+        m[0][3], m[1][3], m[2][3], m[3][3]
     };
 }

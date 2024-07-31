@@ -24,8 +24,8 @@ private:
     float FieldOfView;
     float AspectRatio;
 
-    //Matrix viewMatrix;
-    //Matrix projectionMatrix;
+    Matrix viewMatrix;
+    Matrix projectionMatrix;
 
     Scene* scene;
 };

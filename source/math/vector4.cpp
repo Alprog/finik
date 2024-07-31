@@ -5,6 +5,14 @@
 const Vector4 Vector4::Zero {0, 0, 0, 0};
 const Vector4 Vector4::One {1, 1, 1, 1};
 
+Vector4::Vector4(Vector3 vector, float w)
+    : x{ vector.x }
+    , y{ vector.y }
+    , z{ vector.z }
+    , w{ w }
+{
+}
+
 Vector4::Vector4(float x, float y, float z, float w)
     : x{x}
     , y{y}
@@ -81,7 +89,7 @@ Vector4 Vector4::cross(const Vector4& a, const Vector4& b)
     return Vector4(x, y, z, 0);
 }
 
-Vector4 Vector4::dot(const Vector4& lhs, const Vector4& rhs)
+float Vector4::dot(const Vector4& lhs, const Vector4& rhs)
 {
     return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 }

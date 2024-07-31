@@ -44,6 +44,9 @@ public:
 
     HANDLE hSwapChainWaitableObject;
     std::vector<std::shared_ptr<RenderTarget>> renderTargets;
+    ComPtr<ID3D12Resource> depthStencil;
+    DescriptorHandle depthStencilHandle;
+
     ID3D12Fence* fence = nullptr;
     HANDLE fenceEvent = nullptr;
     UINT64 fenceLastSignaledValue = 0;
