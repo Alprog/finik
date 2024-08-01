@@ -13,11 +13,11 @@ class RenderContext;
 
 class RenderSystem
 {
-public:
     friend class App;
 
     RenderSystem();
 
+public:
     void init();
 
     ID3D12Device* get_device();

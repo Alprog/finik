@@ -4,10 +4,10 @@
 #include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_sdl2.h"
 
-#include "window.h"
+#include "desktop_window.h"
 #include "app.h"
 
-Gui::Gui(Window& window)
+Gui::Gui(DesktopWindow& window)
     : window{window}
 {
     // Setup Dear ImGui context

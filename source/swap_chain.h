@@ -7,7 +7,7 @@
 static int const NUM_BACK_BUFFER = 3;
 static int const NUM_FRAMES_IN_FLIGHT = 3;
 
-class Window;
+class DesktopWindow;
 class ID3D12Fence;
 class IDXGISwapChain3;
 class FrameContext;
@@ -24,7 +24,7 @@ typedef void* HANDLE;
 class SwapChain
 {
 public:
-    SwapChain(Window& window);
+    SwapChain(DesktopWindow& window);
     ~SwapChain();
 
     void CreateRenderTargets();
@@ -38,7 +38,7 @@ public:
     void present();
 
 public:
-    Window& window;
+    DesktopWindow& window;
 
     ComPtr<IDXGISwapChain3> swapChain;
 

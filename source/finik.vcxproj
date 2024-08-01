@@ -113,6 +113,7 @@
     <ClCompile Include="descriptor_heap.cpp" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="gui_window.cpp" />
     <ClCompile Include="index_buffer.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="main.cpp" />
@@ -131,12 +132,13 @@
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="render_target.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="scene_manager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="swap_chain.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="vertex.cpp" />
     <ClCompile Include="vertex_buffer.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClCompile Include="desktop_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd-party\imgui-docking\backends\imgui_impl_dx12.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="gui_window.h" />
     <ClInclude Include="index_buffer.h" />
     <ClInclude Include="input_system.h" />
     <ClInclude Include="math\matrix.h" />
@@ -172,13 +175,14 @@
     <ClInclude Include="render_system.h" />
     <ClInclude Include="render_target.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="scene_manager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="swap_chain.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vertex.h" />
     <ClInclude Include="vertex_buffer.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="desktop_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

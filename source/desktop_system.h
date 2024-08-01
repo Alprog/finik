@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class Window;
+class DesktopWindow;
 
 class DesktopSystem
 {
@@ -12,9 +12,9 @@ public:
     DesktopSystem();
     ~DesktopSystem();
 
-    Window* create_window(int width, int height);
-    Window* get_window_by_id(uint32_t id) const;
-    void close_window(Window* window);
+    DesktopWindow* create_window(int width, int height);
+    DesktopWindow* get_window_by_id(uint32_t id) const;
+    void close_window(DesktopWindow* window);
 
-    std::vector<Window*> windows;
+    std::vector<DesktopWindow*> windows;
 };

@@ -25,7 +25,7 @@
 #include "pipeline_state.h"
 
 #include "app.h"
-#include "window.h"
+#include "desktop_window.h"
 
 class ResultChecker
 {

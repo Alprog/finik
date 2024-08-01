@@ -1,7 +1,7 @@
 #include "desktop_system.h"
 
 #include <SDL.h>
-#include "window.h"
+#include "desktop_window.h"
 
 DesktopSystem::DesktopSystem()
 {
@@ -17,14 +17,14 @@ DesktopSystem::~DesktopSystem()
     windows.clear();
 }
 
-Window* DesktopSystem::create_window(int width, int height)
+DesktopWindow* DesktopSystem::create_window(int width, int height)
 {
-    auto window = new Window(width, height);
+    auto window = new DesktopWindow(width, height);
     windows.push_back(window);
     return window;
 }
 
-Window* DesktopSystem::get_window_by_id(uint32_t id) const
+DesktopWindow* DesktopSystem::get_window_by_id(uint32_t id) const
 {
     for (auto& window : windows)
     {
@@ -34,7 +34,7 @@ Window* DesktopSystem::get_window_by_id(uint32_t id) const
     return nullptr;
 }
 
-void DesktopSystem::close_window(Window* window)
+void DesktopSystem::close_window(DesktopWindow* window)
 {
     auto it = std::find(std::begin(windows), std::end(windows), window);
     if (it != std::end(windows))

@@ -2,6 +2,7 @@
 
 #include "desktop_system.h"
 #include "input_system.h"
+#include "scene_manager.h"
 #include "render_system.h"
 
 class Window;
@@ -20,5 +21,6 @@ public:
 public:
     DesktopSystem desktop_system;
     InputSystem input_system;
+    SceneManager scene_manager;
     RenderSystem render_system;
 };

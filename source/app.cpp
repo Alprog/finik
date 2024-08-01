@@ -1,6 +1,6 @@
 #include "app.h"
 
-#include "window.h"
+#include "desktop_window.h"
 
 App& App::get_instance()
 {
@@ -11,6 +11,7 @@ App& App::get_instance()
 App::App()
     : desktop_system{}
     , input_system{}
+    , scene_manager{}
     , render_system{}
 {
 }
@@ -24,7 +25,7 @@ App::App()
 #include "backends/imgui_impl_sdl2.h"
 
 #include "app.h"
-#include "window.h"
+#include "desktop_window.h"
 #include "scene.h"
 #include "gui.h"
 
@@ -83,10 +84,10 @@ void App::run_game_loop()
         //}
         //g_SwapChainOccluded = false;
 
+        scene_manager.update(deltaTime);
+
         for (auto window : desktop_system.windows)
         {
-            window->scene->update(deltaTime);
-
             window->gui->set_context();
             window->gui->prepare();
 

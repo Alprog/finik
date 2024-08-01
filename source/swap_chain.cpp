@@ -1,6 +1,6 @@
 #include "swap_chain.h"
 
-#include "window.h"
+#include "desktop_window.h"
 
 #include "app.h"
 
@@ -9,7 +9,7 @@
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;
 
-SwapChain::SwapChain(Window& window)
+SwapChain::SwapChain(DesktopWindow& window)
     : window{ window }
 {
     // Setup swap chain

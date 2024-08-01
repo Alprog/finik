@@ -1,6 +1,6 @@
 #pragma once
 
-class Window;
+class DesktopWindow;
 struct ImGuiContext;
 using GuiImpl = ImGuiContext;
 
@@ -9,7 +9,7 @@ struct ID3D12GraphicsCommandList;
 class Gui
 {
 public:
-    Gui(Window& window);
+    Gui(DesktopWindow& window);
     Gui::~Gui();
 
     void prepare();
@@ -18,5 +18,5 @@ public:
 
 private:
     GuiImpl* impl;
-    Window& window;    
+    DesktopWindow& window;
 };

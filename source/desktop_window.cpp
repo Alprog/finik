@@ -1,4 +1,4 @@
-#include "window.h"
+#include "desktop_window.h"
 
 #include <SDL.h>
 #include <SDL_syswm.h>
@@ -10,7 +10,7 @@
 #include "render_system.h"
 #include "scene.h"
 
-Window::Window(int width, int height)
+DesktopWindow::DesktopWindow(int width, int height)
     : width{width}
     , height{height}
 {
@@ -28,14 +28,14 @@ Window::Window(int width, int height)
     gui = new Gui(*this);
 }
 
-Window::~Window()
+DesktopWindow::~DesktopWindow()
 {
     delete gui;
     delete swap_chain;
     SDL_DestroyWindow(impl);
 }
 
-void Window::renderScene()
+void DesktopWindow::renderScene()
 {
     if (scene != nullptr)
     {

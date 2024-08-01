@@ -10,11 +10,11 @@ class SwapChain;
 class Scene;
 class Gui;
 
-class Window
+class DesktopWindow
 {
 public:
-    Window(int width, int height);
-    ~Window();
+    DesktopWindow(int width, int height);
+    ~DesktopWindow();
 
     void renderScene();
 
