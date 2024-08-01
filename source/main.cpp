@@ -12,7 +12,8 @@ int main(int argc, char* argv[])
     Window* window = app.desktop_system.create_window(1024, 800);
     window->scene = new Scene();
 
-    //app.desktop_system.create_window(800, 600);
+    auto secondWindow = app.desktop_system.create_window(800, 600);
+    secondWindow->scene = window->scene;
 
     app.run_game_loop();
 
