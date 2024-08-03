@@ -17,12 +17,13 @@ SceneView::SceneView(const char* name, Scene& scene)
 
 void SceneView::draw_content()
 {
-    ImGui::Button("yo");
-
     D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().textureHandle.getGPU();
 
     ImTextureID textureId = (void*)handle.ptr;
     
+    auto min = ImGui::GetWindowContentRegionMin();
+    auto max = ImGui::GetWindowContentRegionMax();
+    auto size = ImVec2(max.x - min.x, max.y - min.y);
 
-    ImGui::Image(textureId, ImVec2(300, 300));
+    ImGui::Image(textureId, size);
 }
