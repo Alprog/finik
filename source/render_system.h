@@ -10,6 +10,7 @@ class RenderContext;
 
 #include "descriptor_heap.h"
 #include "render_context.h"
+#include "render_lane.h"
 
 class RenderSystem
 {
@@ -52,4 +53,7 @@ private:
     std::shared_ptr<PipelineState> pipelineState;
 
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+
+public:
+    std::vector<std::shared_ptr<RenderLane>> lanes;
 };

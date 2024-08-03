@@ -31,6 +31,7 @@ App::App()
 
 #include "render_system.h"
 #include "swap_chain.h"
+#include "render_lane.h"
 
 void handle_input()
 {
@@ -49,9 +50,11 @@ void handle_input()
             else
             {
                 window->gui->set_context();
-                ImGui_ImplSDL2_ProcessEvent(&event);
+               
             }
         }
+
+        ImGui_ImplSDL2_ProcessEvent(&event);
     }
 }
 
@@ -98,6 +101,17 @@ void App::run_game_loop()
             window->swap_chain->finish_frame(command_list);
 
             window->swap_chain->present();
+        }
+
+        for (auto& lane : render_system.lanes)
+        {
+            lane->render();
+        }
+
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
         }
 
     }

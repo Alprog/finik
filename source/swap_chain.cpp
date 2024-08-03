@@ -17,8 +17,8 @@ SwapChain::SwapChain(DesktopWindow& window)
     {
         ZeroMemory(&sd, sizeof(sd));
         sd.BufferCount = NUM_BACK_BUFFER;
-        sd.Width = 0;
-        sd.Height = 0;
+        sd.Width = window.width;
+        sd.Height = window.height;
         sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         sd.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -53,6 +53,7 @@ SwapChain::SwapChain(DesktopWindow& window)
         hSwapChainWaitableObject = swapChain->GetFrameLatencyWaitableObject();
     }
 
+    CreateRenderTarget();
     CreateRenderTargets();
     CreateDepthStencil();
 
@@ -96,6 +97,33 @@ void SwapChain::CreateRenderTargets()
     
         renderTargets.push_back(renderTarget);
     }
+}
+
+void SwapChain::CreateRenderTarget()
+{
+    renderTarget = std::make_shared<RenderTarget>();
+
+    CD3DX12_RESOURCE_DESC resourceDesc(
+        D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
+        static_cast<UINT>(window.width),
+        static_cast<UINT>(window.height),
+        1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, 0,
+        D3D12_TEXTURE_LAYOUT_UNKNOWN,
+        D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+
+    RenderSystem& render_system = App::get_instance().render_system;
+
+    D3D12_CLEAR_VALUE clearValue;
+    clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+   
+    auto result = render_system.get_device()->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+        D3D12_HEAP_FLAG_NONE,
+        &resourceDesc,
+        D3D12_RESOURCE_STATE_RENDER_TARGET,
+        &clearValue,
+        IID_PPV_ARGS(&renderTarget->resource));
+    if (FAILED(result)) throw;
 }
 
 void SwapChain::CreateDepthStencil()

@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#include <cmath>
+
 Camera::Camera()
 {
 }
@@ -26,6 +28,19 @@ void Camera::calcViewMatrix()
     orientationMtrx.transpose();
 
     viewMatrix = offsetMatrix * orientationMtrx;
+}
+
+void Camera::calcProjectionMatrix()
+{
+    auto scaleY = 1.0f / std::tanf(FieldOfView / 2);
+    auto scaleX = scaleY / AspectRatio;
+
+    projectionMatrix = Matrix{
+      scaleX,   0,    0,  0,
+        0,    scaleY, 0,  0,
+        0,      0,    0,  1,
+        0,      0,    1,  0
+    };
 }
 
 void Camera::render(RenderContext& context, RenderTarget& renderTarget)

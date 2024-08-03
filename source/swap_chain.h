@@ -27,6 +27,7 @@ public:
     SwapChain(DesktopWindow& window);
     ~SwapChain();
 
+    void CreateRenderTarget();
     void CreateRenderTargets();
     void CreateDepthStencil();
     void CleanupRenderTarget();
@@ -44,6 +45,8 @@ public:
 
     HANDLE hSwapChainWaitableObject;
     std::vector<std::shared_ptr<RenderTarget>> renderTargets;
+    std::shared_ptr<RenderTarget> renderTarget;
+
     ComPtr<ID3D12Resource> depthStencil;
     DescriptorHandle depthStencilHandle;
 

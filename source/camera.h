@@ -15,6 +15,7 @@ public:
     Vector3 getForward();
 
     void calcViewMatrix();
+    void calcProjectionMatrix();
 
     void render(RenderContext& context, RenderTarget& renderTarget);
 

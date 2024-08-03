@@ -1,5 +1,9 @@
 #pragma once
 
+#include "view.h"
+#include <vector>
+#include <memory>
+
 class DesktopWindow;
 struct ImGuiContext;
 using GuiImpl = ImGuiContext;
@@ -19,4 +23,7 @@ public:
 private:
     GuiImpl* impl;
     DesktopWindow& window;
+
+public:
+    std::vector<std::unique_ptr<View>> views;
 };
