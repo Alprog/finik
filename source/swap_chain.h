@@ -50,9 +50,6 @@ public:
     ComPtr<ID3D12Resource> depthStencil;
     DescriptorHandle depthStencilHandle;
 
-    ID3D12Fence* fence = nullptr;
-    HANDLE fenceEvent = nullptr;
-    UINT64 fenceLastSignaledValue = 0;
     bool swapChainOccluded = false;
     FrameContext frameContext[NUM_FRAMES_IN_FLIGHT] = {};
     UINT frameIndex = 0;

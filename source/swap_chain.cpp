@@ -60,13 +60,6 @@ SwapChain::SwapChain(DesktopWindow& window)
     for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (render_system.get_device()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&frameContext[i].CommandAllocator)) != S_OK)
             throw;
-
-    if (render_system.get_device()->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)) != S_OK)
-        throw;
-
-    fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-    if (fenceEvent == nullptr)
-        throw;
 }
 
 SwapChain::~SwapChain()
@@ -76,8 +69,6 @@ SwapChain::~SwapChain()
 
     if (swapChain) { swapChain->SetFullscreenState(false, nullptr); }
     if (hSwapChainWaitableObject != nullptr) { CloseHandle(hSwapChainWaitableObject); }
-    if (fence) { fence->Release(); fence = nullptr; }
-    if (fenceEvent) { CloseHandle(fenceEvent); fenceEvent = nullptr; }
 }
 
 void SwapChain::CreateRenderTargets()
@@ -166,18 +157,18 @@ void SwapChain::CleanupRenderTarget()
 
 void SwapChain::WaitForLastSubmittedFrame()
 {
-    FrameContext* frameCtx = &frameContext[frameIndex % NUM_FRAMES_IN_FLIGHT];
-
-    UINT64 fenceValue = frameCtx->FenceValue;
-    if (fenceValue == 0)
-        return; // No fence was signaled
-
-    frameCtx->FenceValue = 0;
-    if (fence->GetCompletedValue() >= fenceValue)
-        return;
-
-    fence->SetEventOnCompletion(fenceValue, fenceEvent);
-    WaitForSingleObject(fenceEvent, INFINITE);
+//    FrameContext* frameCtx = &frameContext[frameIndex % NUM_FRAMES_IN_FLIGHT];
+//
+//    UINT64 fenceValue = frameCtx->FenceValue;
+//    if (fenceValue == 0)
+//        return; // No fence was signaled
+//
+//    frameCtx->FenceValue = 0;
+//    if (fence->GetCompletedValue() >= fenceValue)
+//        return;
+//
+//    fence->SetEventOnCompletion(fenceValue, fenceEvent);
+//    WaitForSingleObject(fenceEvent, INFINITE);
 }
 
 FrameContext* SwapChain::WaitForNextFrameResources()
@@ -185,20 +176,22 @@ FrameContext* SwapChain::WaitForNextFrameResources()
     UINT nextFrameIndex = frameIndex + 1;
     frameIndex = nextFrameIndex;
 
-    HANDLE waitableObjects[] = { hSwapChainWaitableObject, nullptr };
-    DWORD numWaitableObjects = 1;
+    //HANDLE waitableObjects[] = { hSwapChainWaitableObject, nullptr };
+    //DWORD numWaitableObjects = 1;
+
+    RenderSystem& render_system = App::get_instance().render_system;
 
     FrameContext* frameCtx = &frameContext[nextFrameIndex % NUM_FRAMES_IN_FLIGHT];
     UINT64 fenceValue = frameCtx->FenceValue;
     if (fenceValue != 0) // means no fence was signaled
     {
         frameCtx->FenceValue = 0;
-        fence->SetEventOnCompletion(fenceValue, fenceEvent);
-        waitableObjects[1] = fenceEvent;
-        numWaitableObjects = 2;
+        render_system.get_command_queue().fence->WaitForValue(fenceValue);
+        //waitableObjects[1] = fenceEvent;
+        //numWaitableObjects = 2;
     }
 
-    WaitForMultipleObjects(numWaitableObjects, waitableObjects, TRUE, INFINITE);
+    //WaitForMultipleObjects(numWaitableObjects, waitableObjects, TRUE, INFINITE);
 
     return frameCtx;
 }
@@ -270,8 +263,6 @@ void SwapChain::present()
     //HRESULT hr = g_pSwapChain->Present(0, 0); // Present without vsync
     swapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
 
-    UINT64 fenceValue = fenceLastSignaledValue + 1;
-    render_system.get_command_queue()->Signal(fence, fenceValue);
-    fenceLastSignaledValue = fenceValue;
+    UINT64 fenceValue = render_system.get_command_queue().fence->SignalNext();
     current_frame_ctx->FenceValue = fenceValue;
 }
