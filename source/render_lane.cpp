@@ -3,6 +3,7 @@
 #include "app.h"
 #include "render_system.h"
 #include "scene.h"
+#include "fence.h"
 
 void RenderSurface::init(IntSize resolution)
 {
@@ -138,11 +139,7 @@ RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
     result = commandList->Close();
     if (FAILED(result)) throw;
 
-    result = render_system.get_device()->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
-    if (FAILED(result)) throw;
-
-    fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-    if (!fenceEvent) throw;
+    fence = new Fence(render_system);
 
     surface.init(resolution);
 }
@@ -154,11 +151,7 @@ RenderSurface& RenderLane::getSurface()
 
 void RenderLane::render()
 {
-    if (fenceValue != 0)
-    {
-        fence->SetEventOnCompletion(fenceValue, fenceEvent);
-        WaitForSingleObject(fenceEvent, INFINITE);
-    }
+    fence->WaitForValue(fenceValue);
 
     commandAllocator->Reset();
     commandList->Reset(commandAllocator, nullptr);
@@ -173,5 +166,5 @@ void RenderLane::render()
 
     render_system.get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
 
-    render_system.get_command_queue()->Signal(fence, ++fenceValue);
+    fenceValue = fence->SignalNext(*render_system.get_command_queue());
 }

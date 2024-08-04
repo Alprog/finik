@@ -6,6 +6,7 @@
 
 class Scene;
 class Camera;
+class Fence;
 
 class RenderSurface
 {
@@ -45,7 +46,6 @@ private:
     ID3D12CommandAllocator* commandAllocator;
     ID3D12GraphicsCommandList* commandList;
 
-    ID3D12Fence* fence = nullptr;
-    HANDLE fenceEvent = nullptr;
+    Fence* fence;
     UINT64 fenceValue = 0;
 };
