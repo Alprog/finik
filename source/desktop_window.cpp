@@ -14,8 +14,10 @@ DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }
     , height{ height }
 {
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    impl = SDL_CreateWindow("title", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, window_flags);
+    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED);
+    impl = SDL_CreateWindow("title", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, window_flags);
+    SDL_GetWindowSize(impl, &this->width, &this->height);
+
     id = SDL_GetWindowID(impl);
 
     SDL_SysWMinfo wmInfo;

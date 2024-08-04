@@ -9,7 +9,8 @@ View::View(const char* name)
 
 void View::draw()
 {
-    ImGui::Begin(name);
+    bool open = true;
+    ImGui::Begin(name, &open, ImGuiWindowFlags_NoCollapse);// | ImGuiWindowFlags_NoBringToFrontOnFocus);
     draw_content();
     ImGui::End();
 }
