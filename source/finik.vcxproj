@@ -108,6 +108,7 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="command_queue.cpp" />
     <ClCompile Include="consoleView.cpp" />
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="descriptor_handle.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="command_queue.h" />
     <ClInclude Include="consoleView.h" />
     <ClInclude Include="constant_buffer.h" />
     <ClInclude Include="descriptor_handle.h" />

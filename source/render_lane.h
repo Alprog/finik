@@ -46,6 +46,5 @@ private:
     ID3D12CommandAllocator* commandAllocator;
     ID3D12GraphicsCommandList* commandList;
 
-    Fence* fence;
     UINT64 fenceValue = 0;
 };

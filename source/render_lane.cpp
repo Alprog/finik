@@ -139,8 +139,6 @@ RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
     result = commandList->Close();
     if (FAILED(result)) throw;
 
-    fence = new Fence(render_system);
-
     surface.init(resolution);
 }
 
@@ -151,20 +149,23 @@ RenderSurface& RenderLane::getSurface()
 
 void RenderLane::render()
 {
-    fence->WaitForValue(fenceValue);
+    RenderSystem& render_system = App::get_instance().render_system;
+    auto& commandQueue = render_system.get_command_queue();
+
+    commandQueue.fence->WaitForValue(fenceValue);
 
     commandAllocator->Reset();
     commandList->Reset(commandAllocator, nullptr);
     
     surface.startRendering(commandList);
-    RenderSystem& render_system = App::get_instance().render_system;
+   
     RenderContext context(render_system, *commandList);
     scene.render(context);
     surface.endRendering(commandList);
 
     commandList->Close();
 
-    render_system.get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
+    commandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
 
-    fenceValue = fence->SignalNext(*render_system.get_command_queue());
+    fenceValue = commandQueue.fence->SignalNext();
 }

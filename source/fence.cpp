@@ -2,7 +2,8 @@
 
 #include "render_system.h"
 
-Fence::Fence(RenderSystem& renderSystem)
+Fence::Fence(RenderSystem& renderSystem, ID3D12CommandQueue& queue)
+    : Queue { queue }
 {
     auto result = renderSystem.get_device()->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&FenceImpl));
     if (FAILED(result)) throw;
@@ -11,9 +12,9 @@ Fence::Fence(RenderSystem& renderSystem)
     if (!FenceEvent) throw;
 }
 
-int Fence::SignalNext(ID3D12CommandQueue& queue)
+int Fence::SignalNext()
 {
-    queue.Signal(FenceImpl.Get(), ++LastSignaledValue);
+    Queue.Signal(FenceImpl.Get(), ++LastSignaledValue);
     return LastSignaledValue;
 }
 

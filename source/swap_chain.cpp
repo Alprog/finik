@@ -43,7 +43,7 @@ SwapChain::SwapChain(DesktopWindow& window)
         auto result = CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory));
         if (FAILED(result)) throw;
 
-        result = dxgiFactory->CreateSwapChainForHwnd(render_system.get_command_queue(), window.hwnd, &sd, nullptr, nullptr, &dxgiSwapChain1);
+        result = dxgiFactory->CreateSwapChainForHwnd(render_system.get_command_queue().queueImpl.Get(), window.hwnd, &sd, nullptr, nullptr, &dxgiSwapChain1);
         if (FAILED(result)) throw;
 
         result = dxgiSwapChain1->QueryInterface(IID_PPV_ARGS(&swapChain));
@@ -257,6 +257,7 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
     command_list->Close();
 
     RenderSystem& render_system = App::get_instance().render_system;
+
     render_system.get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&command_list);
 }
 

@@ -11,6 +11,7 @@ class RenderContext;
 #include "descriptor_heap.h"
 #include "render_context.h"
 #include "render_lane.h"
+#include "command_queue.h"
 
 class RenderSystem
 {
@@ -22,7 +23,7 @@ public:
     void init();
 
     ID3D12Device* get_device();
-    ID3D12CommandQueue* get_command_queue();
+    CommandQueue& get_command_queue();
     ID3D12GraphicsCommandList* get_command_list();
     DescriptorHeap* getRtvHeap();
     DescriptorHeap* getDsvHeap();
@@ -41,7 +42,7 @@ private:
     void createRenderContext();
     
     ComPtr<ID3D12Device> device = nullptr;
-    ComPtr<ID3D12CommandQueue> commandQueue = nullptr;
+    CommandQueue* commandQueue = nullptr;
     ComPtr<ID3D12GraphicsCommandList> commandList = nullptr;
 
     std::unique_ptr<RenderContext> renderContext;

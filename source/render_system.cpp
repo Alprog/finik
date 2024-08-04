@@ -148,12 +148,7 @@ void RenderSystem::setupDebug()
 
 void RenderSystem::createCommandQueue()
 {
-    D3D12_COMMAND_QUEUE_DESC queueDesc = {};
-    queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-
-    auto result = device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&commandQueue));
-    if (FAILED(result)) throw;
+    commandQueue = new CommandQueue(*this);
 }
 
 void RenderSystem::createDescriptorHeap()
@@ -198,9 +193,9 @@ ID3D12Device* RenderSystem::get_device()
     return device.Get();
 }
 
-ID3D12CommandQueue* RenderSystem::get_command_queue()
+CommandQueue& RenderSystem::get_command_queue()
 {
-    return commandQueue.Get();
+    return *commandQueue;
 }
 
 ID3D12GraphicsCommandList* RenderSystem::get_command_list()
