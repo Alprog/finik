@@ -160,7 +160,7 @@ void RenderLane::render()
     surface.startRendering(commandList);
    
     RenderContext context(render_system, *commandList);
-    scene.render(context);
+    scene.render(context, &camera);
     surface.endRendering(commandList);
 
     commandList->Close();

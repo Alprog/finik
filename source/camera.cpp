@@ -4,6 +4,8 @@
 
 Camera::Camera()
 {
+    viewMatrix = Matrix::Identity;
+    projectionMatrix = Matrix::Identity;
 }
 
 Vector3 Camera::getForward()
@@ -17,8 +19,8 @@ void Camera::calcViewMatrix()
     Matrix offsetMatrix = Matrix::Translation(offset);
 
     Vector3 forward = getForward();
-    Vector3 right = Vector3::cross(Vector3::Up, forward);
-    Vector3 up = Vector3::cross(forward, right);
+    Vector3 right = Vector3::cross(Vector3::Up, forward).getNormalized();
+    Vector3 up = Vector3::cross(forward, right).getNormalized();
 
     Matrix orientationMtrx;
     orientationMtrx.rows[0] = Vector4(right, 0);

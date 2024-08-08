@@ -8,6 +8,8 @@
 SceneView::SceneView(const char* name, Scene& scene)
     : View {name}
     , scene {scene}
+    , camera {}
+    , cameraContoller {camera}
 {
     renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{ 1024, 800 });
 

@@ -21,6 +21,8 @@ bool endsWith(const std::string& string, const std::string& pattern);
 std::string toStr(std::wstring wstr);
 std::wstring toWStr(std::string str);
 
+float lerp(float a, float b, float k);
+
 template <typename CT, typename T>
 bool contains(CT container, T item)
 {

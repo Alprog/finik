@@ -19,7 +19,8 @@ int main(int argc, char* argv[])
     window->scene = &scene;
 
     window->gui->views.push_back(std::make_unique<ConsoleView>("consoleView"));
-    window->gui->views.push_back(std::make_unique<SceneView>("sceneView", scene));
+    window->gui->views.push_back(std::make_unique<SceneView>("sceneView1", scene));
+    window->gui->views.push_back(std::make_unique<SceneView>("sceneView2", scene));
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;

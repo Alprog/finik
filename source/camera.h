@@ -19,11 +19,11 @@ public:
 
     void render(RenderContext& context, RenderTarget& renderTarget);
 
-private:
+public:
     Vector3 position;
     Vector3 lookAt;
     float FieldOfView;
-    float AspectRatio;
+    float AspectRatio = 1;
 
     Matrix viewMatrix;
     Matrix projectionMatrix;

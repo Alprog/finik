@@ -108,6 +108,7 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="command_queue.cpp" />
     <ClCompile Include="consoleView.cpp" />
     <ClCompile Include="constant_buffer.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="fence.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="sceneView.cpp" />
     <ClCompile Include="view.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="camera_controller.h" />
     <ClInclude Include="command_queue.h" />
     <ClInclude Include="consoleView.h" />
     <ClInclude Include="constant_buffer.h" />
@@ -167,6 +170,7 @@
     <ClInclude Include="fence.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="int_size.h" />
+    <ClInclude Include="math\ray.h" />
     <ClInclude Include="render_lane.h" />
     <ClInclude Include="sceneView.h" />
     <ClInclude Include="view.h" />

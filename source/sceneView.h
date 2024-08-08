@@ -4,6 +4,7 @@
 #include "camera.h"
 #include <vector>
 #include "render_lane.h"
+#include "camera_controller.h"
 
 class Scene;
 
@@ -17,6 +18,7 @@ protected:
 
     Scene& scene;
     Camera camera;
+    CameraController cameraContoller;
 
     std::shared_ptr<RenderLane> renderLane;
 };

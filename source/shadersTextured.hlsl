@@ -31,8 +31,8 @@ PSInput VSMain(VSInput input)
 	result.uv = input.uv;
 
 	result.position /= result.position.w;
-	if (result.position.z < 0)
-		result.position.z = 0;
+
+	result.position.z = 0.1; // temp
 
 	return result;
 }

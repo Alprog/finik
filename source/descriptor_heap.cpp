@@ -1,5 +1,6 @@
 #include "descriptor_heap.h"
 #include <stdio.h>
+#include <cassert>
 
 DescriptorHeap::DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, UINT maxCount)
 {
@@ -25,5 +26,6 @@ DescriptorHeap::DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE 
 
 DescriptorHandle DescriptorHeap::getNextHandle()
 {
+    assert(descriptorCount < maxCount);
     return DescriptorHandle(this, descriptorCount++);
 }
