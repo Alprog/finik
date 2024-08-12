@@ -30,10 +30,6 @@ PSInput VSMain(VSInput input)
 	result.normal = input.normal;
 	result.uv = input.uv;
 
-	result.position /= result.position.w;
-
-	result.position.z = 0.1; // temp
-
 	return result;
 }
 

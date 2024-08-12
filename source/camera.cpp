@@ -26,7 +26,7 @@ void Camera::calcViewMatrix()
     orientationMtrx.rows[0] = Vector4(right, 0);
     orientationMtrx.rows[1] = Vector4(up, 0);
     orientationMtrx.rows[2] = Vector4(forward, 0);
-    orientationMtrx.rows[3] = Vector4::Zero;
+    orientationMtrx.rows[3] = Vector4(0, 0, 0, 1);
     orientationMtrx.transpose();
 
     viewMatrix = offsetMatrix * orientationMtrx;
@@ -37,11 +37,14 @@ void Camera::calcProjectionMatrix()
     auto scaleY = 1.0f / std::tanf(FieldOfView / 2);
     auto scaleX = scaleY / AspectRatio;
 
+    float m22 = FarPlane / (FarPlane - NearPlane);
+    float m32 = -FarPlane * NearPlane / (FarPlane - NearPlane);
+
     projectionMatrix = Matrix{
-      scaleX,   0,    0,  0,
-        0,    scaleY, 0,  0,
-        0,      0,    0,  1,
-        0,      0,    1,  0
+      scaleX,   0,     0,  0,
+        0,    scaleY,  0,  0,
+        0,      0,    m22,  1,
+        0,      0,    m32,  0
     };
 }
 

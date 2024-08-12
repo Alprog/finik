@@ -23,6 +23,8 @@ public:
     Vector3 position;
     Vector3 lookAt;
     float FieldOfView;
+    float FarPlane = 100.0f;
+    float NearPlane = 0.1f;
     float AspectRatio = 1;
 
     Matrix viewMatrix;
