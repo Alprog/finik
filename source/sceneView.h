@@ -13,6 +13,8 @@ class SceneView : public View
 public:
     SceneView(const char* name, Scene& scene);
 
+    void update(float deltaTime) override;
+
 protected:
     void draw_content() override;
 

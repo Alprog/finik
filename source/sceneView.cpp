@@ -17,6 +17,12 @@ SceneView::SceneView(const char* name, Scene& scene)
     lanes.push_back(renderLane);
 }
 
+void SceneView::update(float deltaTime)
+{
+    cameraContoller.Rotation += deltaTime;
+    cameraContoller.RefreshCameraPosition();
+}
+
 void SceneView::draw_content()
 {
     D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().textureHandle.getGPU();

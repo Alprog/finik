@@ -12,8 +12,7 @@ public:
     Scene();
 
     void update(float deltaTime);
-    void render(RenderContext& context, Camera* camera = nullptr);
+    void render(RenderContext& context, Camera* camera);
     
-
     RenderCommand renderCommand;
 };

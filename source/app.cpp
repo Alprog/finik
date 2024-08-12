@@ -88,6 +88,14 @@ void App::run_game_loop()
         //g_SwapChainOccluded = false;
 
         scene_manager.update(deltaTime);
+        for (auto window : desktop_system.windows)
+        {
+            for (auto& view : window->gui->views)
+            {
+                view->update(deltaTime);
+            }           
+        }
+        
 
         for (auto window : desktop_system.windows)
         {

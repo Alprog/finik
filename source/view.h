@@ -5,6 +5,7 @@ class View
 public:
     View(const char* name);
 
+    virtual void update(float deltaTime) {}
     void draw();
 
 protected:

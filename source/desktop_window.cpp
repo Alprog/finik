@@ -10,6 +10,9 @@
 #include "render_system.h"
 #include "scene.h"
 
+#include "camera.h"
+#include <numbers>
+
 DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }
     , height{ height }
@@ -38,9 +41,16 @@ DesktopWindow::~DesktopWindow()
 
 void DesktopWindow::renderScene()
 {
+    static Camera camera;
+    camera.position = Vector3(0, 1, -3);
+    camera.lookAt = Vector3::Zero;
+    camera.FieldOfView = std::numbers::pi / 2.0f;
+    camera.calcViewMatrix();
+    camera.calcProjectionMatrix();
+
     if (scene != nullptr)
     {
         auto context = App::get_instance().render_system.getRenderContext();
-        scene->render(*context);
+        scene->render(*context, &camera);
     }
 }
