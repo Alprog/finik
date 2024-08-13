@@ -17,10 +17,11 @@ SceneView::SceneView(const char* name, Scene& scene)
     lanes.push_back(renderLane);
 }
 
+static float DeltaTime = 0;
+
 void SceneView::update(float deltaTime)
 {
-    cameraContoller.Rotation += deltaTime;
-    cameraContoller.RefreshCameraPosition();
+    DeltaTime = deltaTime;
 }
 
 void SceneView::draw_content()
@@ -34,4 +35,9 @@ void SceneView::draw_content()
     auto size = ImVec2(max.x - min.x, max.y - min.y);
 
     ImGui::Image(textureId, size);
+    if (ImGui::IsItemHovered())
+    {
+        cameraContoller.HandleInput(DeltaTime);
+        cameraContoller.RefreshCameraPosition();
+    }
 }

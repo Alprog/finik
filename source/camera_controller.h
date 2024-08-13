@@ -14,6 +14,8 @@ public:
 	float GetFieldOfView() const;
 	float GetAngle() const;
 
+	void HandleInput(float deltaTime);
+
 	void RefreshCameraPosition();
 	float CalculateDistance();
 
@@ -24,7 +26,7 @@ public:
 
 	static constexpr float MinCellCount = 10.0f;
 	static constexpr float MaxCellCount = 160.0f;
-	float ZoomK = 0.0f;
+	float ZoomK = 0.5f;
 	
 	int ZoomStepCount = 20;
 

@@ -19,6 +19,9 @@ struct Vector3
     void normalize();
     Vector3 getNormalized();
 
+    Vector3& operator+=(const Vector3& vector);
+    Vector3& operator-=(const Vector3& vector);
+
     friend Vector3 operator-(const Vector3& vector);
     friend Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
     friend Vector3 operator-(const Vector3& lhs, const Vector3& rhs);

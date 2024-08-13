@@ -38,6 +38,22 @@ Vector3 Vector3::getNormalized()
     return *this / length();
 }
 
+Vector3& Vector3::operator+=(const Vector3& vector)
+{
+    this->x += vector.x;
+    this->y += vector.y;
+    this->z += vector.z;
+    return *this;
+}
+
+Vector3& Vector3::operator-=(const Vector3& vector)
+{
+    this->x -= vector.x;
+    this->y -= vector.y;
+    this->z -= vector.z;
+    return *this;
+}
+
 Vector3 operator-(const Vector3& vector)
 {
     return
