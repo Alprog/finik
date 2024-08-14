@@ -59,9 +59,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking;$(SolutionDir)\..\3rd-party\zlib;$(SolutionDir)\..\3rd-party\libpng</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -80,9 +80,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking;$(SolutionDir)\..\3rd-party\zlib;$(SolutionDir)\..\3rd-party\libpng</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -105,6 +105,32 @@
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_draw.cpp" />
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_tables.cpp" />
     <ClCompile Include="..\3rd-party\imgui-docking\imgui_widgets.cpp" />
+    <ClCompile Include="..\3rd-party\libpng\png.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngerror.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngget.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngmem.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngpread.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngread.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngrio.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngrtran.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngrutil.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngset.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngtrans.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngwio.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngwrite.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngwtran.c" />
+    <ClCompile Include="..\3rd-party\libpng\pngwutil.c" />
+    <ClCompile Include="..\3rd-party\zlib\adler32.c" />
+    <ClCompile Include="..\3rd-party\zlib\compress.c" />
+    <ClCompile Include="..\3rd-party\zlib\crc32.c" />
+    <ClCompile Include="..\3rd-party\zlib\deflate.c" />
+    <ClCompile Include="..\3rd-party\zlib\infback.c" />
+    <ClCompile Include="..\3rd-party\zlib\inffast.c" />
+    <ClCompile Include="..\3rd-party\zlib\inflate.c" />
+    <ClCompile Include="..\3rd-party\zlib\inftrees.c" />
+    <ClCompile Include="..\3rd-party\zlib\trees.c" />
+    <ClCompile Include="..\3rd-party\zlib\uncompr.c" />
+    <ClCompile Include="..\3rd-party\zlib\zutil.c" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -117,6 +143,7 @@
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="fence.cpp" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="images.cpp" />
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="sceneView.cpp" />
@@ -156,6 +183,23 @@
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_rectpack.h" />
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="..\3rd-party\imgui-docking\imstb_truetype.h" />
+    <ClInclude Include="..\3rd-party\libpng\png.h" />
+    <ClInclude Include="..\3rd-party\libpng\pngconf.h" />
+    <ClInclude Include="..\3rd-party\libpng\pngdebug.h" />
+    <ClInclude Include="..\3rd-party\libpng\pnginfo.h" />
+    <ClInclude Include="..\3rd-party\libpng\pnglibconf.h" />
+    <ClInclude Include="..\3rd-party\libpng\pngpriv.h" />
+    <ClInclude Include="..\3rd-party\libpng\pngstruct.h" />
+    <ClInclude Include="..\3rd-party\zlib\crc32.h" />
+    <ClInclude Include="..\3rd-party\zlib\deflate.h" />
+    <ClInclude Include="..\3rd-party\zlib\inffast.h" />
+    <ClInclude Include="..\3rd-party\zlib\inffixed.h" />
+    <ClInclude Include="..\3rd-party\zlib\inflate.h" />
+    <ClInclude Include="..\3rd-party\zlib\inftrees.h" />
+    <ClInclude Include="..\3rd-party\zlib\trees.h" />
+    <ClInclude Include="..\3rd-party\zlib\zconf.h" />
+    <ClInclude Include="..\3rd-party\zlib\zlib.h" />
+    <ClInclude Include="..\3rd-party\zlib\zutil.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
@@ -169,6 +213,7 @@
     <ClInclude Include="dx.h" />
     <ClInclude Include="fence.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="images.h" />
     <ClInclude Include="int_size.h" />
     <ClInclude Include="math\ray.h" />
     <ClInclude Include="render_lane.h" />
