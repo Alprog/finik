@@ -5,6 +5,7 @@
 
 class RenderContext;
 class Camera;
+class Texture;
 
 class Scene
 {
@@ -15,4 +16,5 @@ public:
     void render(RenderContext& context, Camera* camera);
     
     RenderCommand renderCommand;
+    Texture* texture;
 };

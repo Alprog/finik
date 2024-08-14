@@ -18,3 +18,8 @@ ID3D12CommandQueue* CommandQueue::operator->()
 {
     return queueImpl.Get(); 
 }
+
+void CommandQueue::Flush()
+{
+    fence->WaitForValue(fence->SignalNext());
+}

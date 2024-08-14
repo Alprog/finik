@@ -147,6 +147,7 @@
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="sceneView.cpp" />
+    <ClCompile Include="texture.cpp" />
     <ClCompile Include="view.cpp" />
     <ClCompile Include="index_buffer.cpp" />
     <ClCompile Include="input_system.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="math\ray.h" />
     <ClInclude Include="render_lane.h" />
     <ClInclude Include="sceneView.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="index_buffer.h" />
     <ClInclude Include="input_system.h" />

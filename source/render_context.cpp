@@ -7,6 +7,7 @@
 #include "pipeline_state.h"
 #include "mesh.h"
 #include "constant_buffer.h"
+#include "texture.h"
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -23,8 +24,7 @@ void RenderContext::draw(RenderCommand renderCommand)
 
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
 
-    //commandList.SetGraphicsRootDescriptorTable(0, getImpl(texture)->descriptorHandle.getGPU());
-    
+    commandList.SetGraphicsRootDescriptorTable(0, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(1, constantBuffer->descriptorHandle.getGPU());
 
     

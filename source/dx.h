@@ -6,3 +6,5 @@
 #include <wrl/client.h>
 
 using namespace Microsoft::WRL;
+
+#define MUST < 0 ? throw : 0

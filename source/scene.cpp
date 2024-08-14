@@ -9,9 +9,11 @@
 #include "constant_buffer.h"
 #include "math/matrix.h"
 #include "camera.h"
+#include "texture.h"
 
 Scene::Scene()
 {
+    texture = new Texture("C:/finik/source/skullbox.png");
 }
 
 void Scene::update(float deltaTime)
@@ -56,6 +58,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand.state = new RenderState();
         renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
+        renderCommand.texture = texture;
     }
 
     renderCommand.state->constantBuffer = getConstantBuffer(camera);
