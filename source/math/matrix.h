@@ -40,6 +40,9 @@ struct Matrix
 
     friend Vector4 operator*(const Vector4& lhs, const Matrix& rhs);
 
+    Vector3 MultiplyPoint(const Vector3& point);
+    Vector3 MultiplyDirection(const Vector3& direction);
+
     Matrix& operator*=(const Matrix& rhs);
     
     void transpose();

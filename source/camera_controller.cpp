@@ -47,16 +47,16 @@ void CameraController::HandleInput(float deltaTime)
 		Direction += Vector3::Right;
 	}
 
-	//Direction = Direction.Rotated(Vector3.Up, Rotation);
+	Direction = Matrix::RotationY(-Rotation).MultiplyDirection(Direction);
 
 	ZoomK += ImGui::GetIO().MouseWheel / ZoomStepCount;
 	if (ImGui::IsKeyDown(ImGuiKey_Q))
 	{
-		ZoomK += deltaTime / 2;
+		ZoomK -= deltaTime / 2;
 	}
 	if (ImGui::IsKeyDown(ImGuiKey_E))
 	{
-		ZoomK -= deltaTime / 2;
+		ZoomK += deltaTime / 2;
 	}
 	ZoomK = std::clamp(ZoomK, 0.0f, 1.0f);
 

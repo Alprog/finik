@@ -15,6 +15,8 @@ struct Vector4
     float squaredLength();
     Vector4 getNormalized();
 
+    Vector3 xyz();
+
     friend Vector4 operator-(const Vector4& vector);
     friend Vector4 operator+(const Vector4& lhs, const Vector4& rhs);
     friend Vector4 operator-(const Vector4& lhs, const Vector4& rhs);

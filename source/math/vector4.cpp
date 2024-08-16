@@ -37,6 +37,11 @@ Vector4 Vector4::getNormalized()
     return { x / length, y / length, z / length, w };
 }
 
+Vector3 Vector4::xyz()
+{
+    return Vector3(x, y, z);
+}
+
 Vector4 operator-(const Vector4& vector)
 {
     return

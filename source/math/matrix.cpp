@@ -48,6 +48,26 @@ Vector4 operator*(const Vector4& v, const Matrix& m)
     };
 }
 
+Vector3 Matrix::MultiplyPoint(const Vector3& point)
+{
+    return
+    {
+        point.x * m11 + point.y * m21 + point.z * m31 + 1 * m41,
+        point.x * m12 + point.y * m22 + point.z * m32 + 1 * m42,
+        point.x * m13 + point.y * m23 + point.z * m33 + 1 * m43
+    };
+}
+
+Vector3 Matrix::MultiplyDirection(const Vector3& direction)
+{
+    return
+    {
+        direction.x * m11 + direction.y * m21 + direction.z * m31 + 0 * m41,
+        direction.x * m12 + direction.y * m22 + direction.z * m32 + 0 * m42,
+        direction.x * m13 + direction.y * m23 + direction.z * m33 + 0 * m43
+    };
+}
+
 Matrix& Matrix::operator*=(const Matrix& rhs)
 {
     (*this) = (*this) * rhs;
