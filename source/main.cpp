@@ -6,8 +6,8 @@
 #include "desktop_window.h"
 
 #include "gui.h"
-#include "sceneView.h"
-#include "consoleView.h"
+#include "scene_view.h"
+#include "console_view.h"
 
 int main(int argc, char* argv[])
 {
