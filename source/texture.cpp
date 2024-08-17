@@ -11,6 +11,9 @@ static const UINT TexturePixelSize = 4;
 Texture::Texture(std::string filePath)
 {
     auto image = Images::loadPng(filePath);
+    this->width = image->width;
+    this->height = image->height;
+
     //image->generateChessboard();
 
     auto& renderSystem = App::get_instance().render_system;
@@ -45,7 +48,7 @@ Texture::Texture(std::string filePath)
 
     const UINT64 uploadBufferSize = GetRequiredIntermediateSize(texture.Get(), 0, 1);
 
-    ComPtr<ID3D12Resource> textureUploadHeap;
+    ComPtr<ID3D12Resource> uploadTexture;
 
     device->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -53,7 +56,7 @@ Texture::Texture(std::string filePath)
         &CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
         D3D12_RESOURCE_STATE_GENERIC_READ,
         nullptr,
-        IID_PPV_ARGS(&textureUploadHeap)) MUST;
+        IID_PPV_ARGS(&uploadTexture)) MUST;
 
     D3D12_SUBRESOURCE_DATA textureData = {};
     textureData.pData = image->data;
@@ -61,11 +64,12 @@ Texture::Texture(std::string filePath)
     textureData.SlicePitch = textureData.RowPitch * image->height;
 
     commandList->Reset(commandAllocator, nullptr);
-    UpdateSubresources(commandList, texture.Get(), textureUploadHeap.Get(), 0, 0, 1, &textureData);
+    UpdateSubresources(commandList, texture.Get(), uploadTexture.Get(), 0, 0, 1, &textureData);
     commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
     commandList->Close();
     ID3D12CommandList* ppCommandLists[] = { commandList };
     commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+    commandQueue.Flush();
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -76,7 +80,7 @@ Texture::Texture(std::string filePath)
     descriptorHandle = renderSystem.getSrvCbvHeap()->getNextHandle();
     device->CreateShaderResourceView(texture.Get(), &srvDesc, descriptorHandle.getCPU());
 
-    commandQueue.Flush();
+    
 
     delete image;
 }

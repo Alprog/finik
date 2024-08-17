@@ -12,5 +12,8 @@ public:
 
 public:
     ComPtr<ID3D12Resource> texture;
+    int width;
+    int height;
+
     DescriptorHandle descriptorHandle;
 };
