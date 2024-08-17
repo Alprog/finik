@@ -11,6 +11,7 @@ static const UINT TexturePixelSize = 4;
 Texture::Texture(std::string filePath)
 {
     auto image = Images::loadPng(filePath);
+    //image->generateChessboard();
 
     auto& renderSystem = App::get_instance().render_system;
 
@@ -54,8 +55,6 @@ Texture::Texture(std::string filePath)
         nullptr,
         IID_PPV_ARGS(&textureUploadHeap)) MUST;
 
-    std::vector<UINT8> data = generateChessboard();
-
     D3D12_SUBRESOURCE_DATA textureData = {};
     textureData.pData = image->data;
     textureData.RowPitch = image->width * TexturePixelSize;
@@ -80,40 +79,4 @@ Texture::Texture(std::string filePath)
     commandQueue.Flush();
 
     delete image;
-}
-
-std::vector<UINT8> Texture::generateChessboard()
-{
-    const UINT rowPitch = 256 * TexturePixelSize;
-    const UINT cellPitch = rowPitch >> 3;		// The width of a cell in the checkboard texture.
-    const UINT cellHeight = 256 >> 3;	// The height of a cell in the checkerboard texture.
-    const UINT textureSize = rowPitch * 256;
-
-    std::vector<UINT8> data(textureSize);
-    UINT8* pData = &data[0];
-
-    for (UINT n = 0; n < textureSize; n += TexturePixelSize)
-    {
-        UINT x = n % rowPitch;
-        UINT y = n / rowPitch;
-        UINT i = x / cellPitch;
-        UINT j = y / cellHeight;
-
-        if (i % 2 == j % 2)
-        {
-            pData[n] = 0x00;		// R
-            pData[n + 1] = 0x00;	// G
-            pData[n + 2] = 0x00;	// B
-            pData[n + 3] = 0xff;	// A
-        }
-        else
-        {
-            pData[n] = 0xff;		// R
-            pData[n + 1] = 0xff;	// G
-            pData[n + 2] = 0xff;	// B
-            pData[n + 3] = 0xff;	// A
-        }
-    }
-
-    return data;
 }

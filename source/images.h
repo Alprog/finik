@@ -3,14 +3,19 @@
 #include <stdio.h>
 #include <iostream>
 #include "path.h"
+#include "texel.h"
 
 struct Image
 {
     int width;
     int height;
-    unsigned char* data;
+    Texel* data;
 
-    size_t getSize() { return width * height * 4; };
+    Texel& getTexel(int x, int y);
+
+    void generateChessboard();
+
+    size_t getByteSize() { return width * height * 4; };
 };
 
 namespace Images

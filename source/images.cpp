@@ -8,6 +8,30 @@
 
 #define PNGSIGSIZE 8
 
+Texel& Image::getTexel(int x, int y)
+{
+    return data[y * width + x];
+}
+
+void Image::generateChessboard()
+{
+    int cellWidth = width / 8;
+    int cellHeight = height / 8;
+
+    int texelCount = width * height;
+
+    int index = 0;
+    for (int y = 0; y < height; y++)
+    {
+        bool oddColumn = (y / cellHeight) % 2;
+        for (int x = 0; x < width; x++)
+        {
+            bool oddRow = (x / cellWidth) % 2;            
+            data[index++] = (oddColumn == oddRow) ? Texel::Black : Texel::White;
+        }
+    }
+}
+
 bool validate(std::istream& source)
 {
     png_byte pngsig[PNGSIGSIZE];
@@ -67,13 +91,11 @@ Image* Images::loadPng(Path path)
             auto image = new Image();
             image->width = imgWidth;
             image->height = imgHeight;
-            image->data = new unsigned char[stride * imgHeight];
+            image->data = new Texel[imgWidth * imgHeight];
 
             auto rowPtrs = new png_bytep[imgHeight];
             for (size_t i = 0; i < imgHeight; i++)
             {
-                //png_uint_32 q = (imgHeight - i - 1) * stride;
-                //rowPtrs[i] = (png_bytep)image->data + q;
                 rowPtrs[i] = (png_bytep)image->data + i * stride;
             }
 
