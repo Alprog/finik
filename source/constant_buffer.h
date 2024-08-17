@@ -8,6 +8,7 @@
 
 class DXRenderer;
 class RenderSystem;
+class UploadBuffer;
 
 class ConstantBuffer
 {
@@ -18,7 +19,7 @@ public:
 
     void update();
 
-    ComPtr<ID3D12Resource> constantBufferResource;
+    UploadBuffer* uploadBuffer;
     DescriptorHandle descriptorHandle;
 
     struct
@@ -30,5 +31,5 @@ public:
     int version;
 
     int gpuVersion;
-    UINT8* gpuDataBegin;
+    UINT8* uploadDataBegin;
 };

@@ -5,6 +5,7 @@
 #include "dx.h"
 #include "app.h"
 #include "render_system.h"
+#include "upload_buffer.h"
 
 static const UINT TexturePixelSize = 4;
 
@@ -48,23 +49,27 @@ Texture::Texture(std::string filePath)
 
     const UINT64 uploadBufferSize = GetRequiredIntermediateSize(texture.Get(), 0, 1);
 
-    ComPtr<ID3D12Resource> uploadTexture;
+    UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
+    memcpy(uploadBuffer.GetData(), image->data, uploadBufferSize);
 
-    device->CreateCommittedResource(
-        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-        D3D12_HEAP_FLAG_NONE,
-        &CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
-        D3D12_RESOURCE_STATE_GENERIC_READ,
-        nullptr,
-        IID_PPV_ARGS(&uploadTexture)) MUST;
+    //D3D12_SUBRESOURCE_DATA textureData = {};
+    //textureData.pData = image->data;
+    //textureData.RowPitch = image->width * TexturePixelSize;
+    //textureData.SlicePitch = textureData.RowPitch * image->height;
 
-    D3D12_SUBRESOURCE_DATA textureData = {};
-    textureData.pData = image->data;
-    textureData.RowPitch = image->width * TexturePixelSize;
-    textureData.SlicePitch = textureData.RowPitch * image->height;
 
-    commandList->Reset(commandAllocator, nullptr);
-    UpdateSubresources(commandList, texture.Get(), uploadTexture.Get(), 0, 0, 1, &textureData);
+    commandList->Reset(commandAllocator, nullptr); 
+    //UpdateSubresources(commandList, texture.Get(), uploadBuffer.GetResource(), 0, 0, 1, &textureData);
+    
+    D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcFootprint;
+    UINT numRows;
+    UINT64 rowSizeInBytes, totalBytes;
+    device->GetCopyableFootprints(&texture.Get()->GetDesc(), 0, 1, 0, &srcFootprint, &numRows, &rowSizeInBytes, &totalBytes);
+
+    const CD3DX12_TEXTURE_COPY_LOCATION Src(uploadBuffer.GetResource(), srcFootprint);
+    const CD3DX12_TEXTURE_COPY_LOCATION Dst(texture.Get(), 0);
+    commandList->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
+    
     commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
     commandList->Close();
     ID3D12CommandList* ppCommandLists[] = { commandList };
