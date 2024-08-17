@@ -13,7 +13,16 @@ Shader::Shader(Path path, ShaderType type, const std::string& entryPoint)
     auto target = type == ShaderType::Vertex ? "vs_5_0" : "ps_5_0";
     UINT compileFlags = 0;
 
-    auto result = D3DCompile(source.data(), source.size(), entryPoint.c_str(), nullptr, nullptr, entryPoint.c_str(), target, compileFlags, 0, &blob, nullptr);
+    ID3DBlob* errorBlob = nullptr;
+    auto result = D3DCompile(source.data(), source.size(), entryPoint.c_str(), nullptr, nullptr, entryPoint.c_str(), target, compileFlags, 0, &blob, &errorBlob);
 
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+    {
+        if (errorBlob)
+        {
+            char* str = static_cast<char*>(errorBlob->GetBufferPointer());
+            errorBlob->Release();
+        }
+        throw;
+    }
 }
