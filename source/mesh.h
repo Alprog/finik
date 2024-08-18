@@ -7,8 +7,9 @@
 class VertexBuffer;
 class IndexBuffer;
 
-struct Mesh
+class Mesh
 {
+public:
     std::vector<StandardVertex> vertices;
     std::vector<uint32_t> indices;
 

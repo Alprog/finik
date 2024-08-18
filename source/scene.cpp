@@ -10,12 +10,12 @@
 #include "math/matrix.h"
 #include "camera.h"
 #include "texture.h"
-#include "tile_map.h"
+#include "grid.h"
 
 Scene::Scene()
 {
     texture = new Texture("C:/finik/source/skullbox.png");
-    tileMap = new TileMap();
+    grid = new Grid();
 }
 
 void Scene::update(float deltaTime)
@@ -63,7 +63,18 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand.texture = texture;
     }
 
+    if (!renderCommand2.state)
+    {
+        renderCommand2.mesh = grid->mesh;
+
+        renderCommand2.state = new RenderState();
+        renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
+        renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
+        renderCommand2.texture = texture;
+    }
+
     renderCommand.state->constantBuffer = getConstantBuffer(camera);
+    renderCommand2.state->constantBuffer = getConstantBuffer(camera);
 
     auto M = Matrix::Identity;
     auto V = camera->viewMatrix;
@@ -72,5 +83,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     renderCommand.state->constantBuffer->data.MVP = M * V * P;
     renderCommand.state->constantBuffer->version++;
 
+    renderContext.draw(renderCommand2);
     renderContext.draw(renderCommand);
 }

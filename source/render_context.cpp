@@ -34,5 +34,5 @@ void RenderContext::draw(RenderCommand renderCommand)
     commandList.IASetVertexBuffers(0, 1, &renderCommand.mesh->vertexBuffer->vertexBufferView);
     commandList.IASetIndexBuffer(&renderCommand.mesh->indexBuffer->indexBufferView);
 
-    commandList.DrawIndexedInstanced(36, 1, 0, 0, 0);
+    commandList.DrawIndexedInstanced(renderCommand.mesh->indexBuffer->indices.size(), 1, 0, 0, 0);
 }

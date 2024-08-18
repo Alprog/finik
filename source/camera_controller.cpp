@@ -94,19 +94,19 @@ void CameraController::HandleInput(float deltaTime)
 
 	if (ImGui::IsKeyDown(ImGuiKey_Y))
 	{
-		Rotation += std::numbers::pi * deltaTime / 4;
+		Rotation -= std::numbers::pi * deltaTime / 4;
 	}
 	if (ImGui::IsKeyDown(ImGuiKey_U))
 	{
-		Rotation -= std::numbers::pi * deltaTime / 4;
+		Rotation += std::numbers::pi * deltaTime / 4;
 	}
 }
 
 void CameraController::RefreshCameraPosition()
 {
 	auto angle = GetAngle();
-	auto x = std::cos(angle) * std::sin(Rotation);
-	auto y = std::cos(angle) * -std::cos(Rotation);
+	auto x = std::cos(angle) * -std::sin(Rotation);
+	auto y = std::cos(angle) * std::cos(Rotation);
 	auto z = std::sin(angle);	
 	auto OffsetDirection = Vector3(x, y, z);
 
