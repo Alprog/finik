@@ -10,10 +10,12 @@
 #include "math/matrix.h"
 #include "camera.h"
 #include "texture.h"
+#include "tile_map.h"
 
 Scene::Scene()
 {
     texture = new Texture("C:/finik/source/skullbox.png");
+    tileMap = new TileMap();
 }
 
 void Scene::update(float deltaTime)

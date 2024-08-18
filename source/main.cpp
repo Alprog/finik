@@ -8,6 +8,7 @@
 #include "gui.h"
 #include "scene_view.h"
 #include "console_view.h"
+#include "texture_view.h"
 
 int main(int argc, char* argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
     window->gui->views.push_back(std::make_unique<ConsoleView>("consoleView"));
     window->gui->views.push_back(std::make_unique<SceneView>("sceneView1", scene));
     window->gui->views.push_back(std::make_unique<SceneView>("sceneView2", scene));
+    window->gui->views.push_back(std::make_unique<TextureView>("textureView", scene));
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;

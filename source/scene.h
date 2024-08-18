@@ -6,6 +6,7 @@
 class RenderContext;
 class Camera;
 class Texture;
+class TileMap;
 
 class Scene
 {
@@ -17,4 +18,5 @@ public:
     
     RenderCommand renderCommand;
     Texture* texture;
+    TileMap* tileMap;
 };

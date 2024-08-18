@@ -2,12 +2,15 @@
 
 #include <vector>
 
+class Image;
+class Texture;
+
 class TileMap
 {
+public:
+    TileMap();
 
-
-    std::vector<int> Data;
+    Image* Image;
+    Texture* Texture;
     bool Changed;
-
-    void SetTileIndex(int x, int y, int index);
 };

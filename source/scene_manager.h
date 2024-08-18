@@ -14,6 +14,6 @@ public:
     void update(float deltaTime);
     Scene& create_scene();
 
-private:
+public:
     std::vector<Scene*> scenes;
 };

@@ -149,6 +149,7 @@
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="upload_buffer.cpp" />
     <ClCompile Include="view.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="scene_view.h" />
     <ClInclude Include="texel.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="texture_view.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="upload_buffer.h" />
     <ClInclude Include="view.h" />

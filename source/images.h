@@ -5,8 +5,9 @@
 #include "path.h"
 #include "texel.h"
 
-struct Image
+class Image
 {
+public:
     int width;
     int height;
     Texel* data;
