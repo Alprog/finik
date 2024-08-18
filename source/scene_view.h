@@ -13,6 +13,8 @@ class SceneView : public View
 public:
     SceneView(const char* name, Scene& scene);
 
+    const CameraController& getCameraController() const;
+
     void update(float deltaTime) override;
 
 protected:

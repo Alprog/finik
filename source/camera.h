@@ -23,7 +23,7 @@ public:
     Vector3 position;
     Vector3 lookAt;
     float FieldOfView;
-    float FarPlane = 400.0f;
+    float FarPlane = 800.0f;
     float NearPlane = 0.1f;
     float AspectRatio = 1;
 

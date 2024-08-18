@@ -19,5 +19,6 @@ public:
     RenderCommand renderCommand;
     RenderCommand renderCommand2;
     Texture* texture;
+    Texture* cellTexture;
     Grid* grid;
 };

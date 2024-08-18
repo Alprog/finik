@@ -17,6 +17,11 @@ SceneView::SceneView(const char* name, Scene& scene)
     lanes.push_back(renderLane);
 }
 
+const CameraController& SceneView::getCameraController() const
+{
+    return cameraContoller;
+}
+
 static float DeltaTime = 0;
 
 void SceneView::update(float deltaTime)

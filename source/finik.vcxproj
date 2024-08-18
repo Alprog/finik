@@ -149,6 +149,7 @@
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="scene_view.cpp" />
+    <ClCompile Include="stats_view.cpp" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_view.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="render_lane.h" />
     <ClInclude Include="scene_view.h" />
+    <ClInclude Include="stats_view.h" />
     <ClInclude Include="texel.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_view.h" />

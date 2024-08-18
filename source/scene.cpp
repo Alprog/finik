@@ -15,6 +15,7 @@
 Scene::Scene()
 {
     texture = new Texture("C:/finik/source/skullbox.png");
+    cellTexture = new Texture("C:/finik/source/cell.png");
     grid = new Grid();
 }
 
@@ -51,12 +52,11 @@ ConstantBuffer* getConstantBuffer(Camera* camera)
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
-    auto path = "C:/finik/source/shadersTextured.hlsl";
-
     if (!renderCommand.state)
     {
         renderCommand.mesh = createCubeMesh();
 
+        auto path = "C:/finik/source/shadersTextured.hlsl";
         renderCommand.state = new RenderState();
         renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
@@ -67,10 +67,11 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     {
         renderCommand2.mesh = grid->mesh;
 
-        renderCommand2.state = new RenderState();
+        auto path = "C:/finik/source/grid.hlsl";
+        renderCommand2.state = new RenderState();       
         renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
-        renderCommand2.texture = texture;
+        renderCommand2.texture = cellTexture;
     }
 
     renderCommand.state->constantBuffer = getConstantBuffer(camera);
