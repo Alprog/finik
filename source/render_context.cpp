@@ -26,7 +26,7 @@ void RenderContext::draw(RenderCommand renderCommand)
 
     commandList.SetGraphicsRootDescriptorTable(0, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(1, constantBuffer->descriptorHandle.getGPU());
-
+    commandList.SetGraphicsRootDescriptorTable(2, renderCommand.texture2->descriptorHandle.getGPU());
     
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
     commandList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
