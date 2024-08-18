@@ -9,5 +9,5 @@ struct StandardVertex
     Vector3 normal;
     Vector2 texCoord;
     int x;
-    int z;
+    int y;
 };

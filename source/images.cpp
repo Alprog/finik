@@ -1,4 +1,3 @@
-
 #include "images.h"
 
 #include <iostream>
@@ -27,7 +26,7 @@ void Image::generateChessboard()
         for (int x = 0; x < width; x++)
         {
             bool oddRow = (x / cellWidth) % 2;            
-            data[index++] = (oddColumn == oddRow) ? Texel::Black : Texel::White;
+            data[index++] = (oddColumn == oddRow) ? Texel::White : Texel::Black;
         }
     }
 }
