@@ -5,12 +5,12 @@ struct Vector3
 {
     static const Vector3 Zero;
     static const Vector3 One;
+    static const Vector3 Forward;
+    static const Vector3 Backward;
     static const Vector3 Right;
     static const Vector3 Left;
     static const Vector3 Up;
     static const Vector3 Down;
-    static const Vector3 Forward;
-    static const Vector3 Backward;
 
     Vector3(float x = 0, float y = 0, float z = 0);
 

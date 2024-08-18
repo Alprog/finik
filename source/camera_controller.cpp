@@ -47,7 +47,7 @@ void CameraController::HandleInput(float deltaTime)
 		Direction += Vector3::Right;
 	}
 
-	Direction = Matrix::RotationY(-Rotation).MultiplyDirection(Direction);
+	Direction = Matrix::RotationZ(Rotation).MultiplyDirection(Direction);
 
 	ZoomK += ImGui::GetIO().MouseWheel / ZoomStepCount;
 	if (ImGui::IsKeyDown(ImGuiKey_Q))
@@ -105,9 +105,9 @@ void CameraController::HandleInput(float deltaTime)
 void CameraController::RefreshCameraPosition()
 {
 	auto angle = GetAngle();
-	auto x = std::cos(angle) * std::sin(Rotation);
-	auto y = std::sin(angle);
-	auto z = std::cos(angle) * -std::cos(Rotation);
+	auto x = std::cos(angle) * std::cos(Rotation);
+	auto y = std::cos(angle) * std::sin(Rotation);
+	auto z = std::sin(angle);
 	auto OffsetDirection = Vector3(x, y, z);
 
 	//camera.Projection = IsOrthogonal ? Camera3D.ProjectionType.Orthogonal : Camera3D.ProjectionType.Perspective;
