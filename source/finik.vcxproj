@@ -145,6 +145,7 @@
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
     <ClCompile Include="math\ray.cpp" />
+    <ClCompile Include="math\vectorXZ.cpp" />
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="scene_view.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="images.h" />
     <ClInclude Include="int_size.h" />
     <ClInclude Include="math\ray.h" />
+    <ClInclude Include="math\vectorXZ.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="render_lane.h" />
     <ClInclude Include="scene_view.h" />
