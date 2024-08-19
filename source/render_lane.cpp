@@ -159,7 +159,7 @@ void RenderLane::resize(IntSize resolution)
     if (surface.resolution != resolution)
     {
         RenderSystem& render_system = App::get_instance().render_system;
-        render_system.get_command_queue().fence->WaitForValue(fenceValue);
+        render_system.get_command_queue().Flush();
 
         surface.resize(resolution);
         camera.AspectRatio = static_cast<float>(resolution.width) / resolution.height;
