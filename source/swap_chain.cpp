@@ -6,6 +6,8 @@
 
 #include <dxgi.h>
 #include <iostream>
+#include "log.h"
+#include "timer.h"
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;
@@ -240,6 +242,8 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
 void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
 {
     UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
+
+    log("{} BACKBUFER: {} \n", get_elapsed_time_string(), backBufferIdx);
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;

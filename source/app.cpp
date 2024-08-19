@@ -91,7 +91,7 @@ void App::run_game_loop()
         //}
         //g_SwapChainOccluded = false;
 
-        log("{} A\n", get_elapsed_time_string());
+        log("{} update\n", get_elapsed_time_string());
 
         scene_manager.update(deltaTime);
         for (auto window : desktop_system.windows)
@@ -103,7 +103,7 @@ void App::run_game_loop()
             }           
         }
 
-        log("{} B\n", get_elapsed_time_string());
+        log("{} gui_prepare\n", get_elapsed_time_string());
        
         for (auto window : desktop_system.windows)
         {
@@ -111,14 +111,14 @@ void App::run_game_loop()
             window->gui->prepare();
         }
 
-        log("{} C\n", get_elapsed_time_string());
+        log("{} lanes\n", get_elapsed_time_string());
 
         for (auto& lane : render_system.lanes)
         {
             lane->render();
         }
 
-        log("{} D\n", get_elapsed_time_string());
+        log("{} window\n", get_elapsed_time_string());
 
         for (auto window : desktop_system.windows)
         {
@@ -130,7 +130,7 @@ void App::run_game_loop()
             window->swap_chain->present();
         }
 
-        log("{} E\n", get_elapsed_time_string());
+        log("{} platforms\n", get_elapsed_time_string());
 
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -138,7 +138,7 @@ void App::run_game_loop()
             ImGui::RenderPlatformWindowsDefault();
         }
 
-        log("{} F\n", get_elapsed_time_string());
+        log("{} end\n", get_elapsed_time_string());
 
         Frame++;
     }

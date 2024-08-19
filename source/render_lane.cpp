@@ -164,8 +164,6 @@ void RenderLane::resize(IntSize resolution)
         surface.resize(resolution);
         camera.AspectRatio = static_cast<float>(resolution.width) / resolution.height;
         camera.calcProjectionMatrix();
-
-        render();
     }
 }
 
@@ -179,11 +177,11 @@ void RenderLane::render()
     RenderSystem& render_system = App::get_instance().render_system;
     auto& commandQueue = render_system.get_command_queue();
 
-    log("{} 0\n", get_elapsed_time_string());
+    log("{} lane wait\n", get_elapsed_time_string());
 
     commandQueue.fence->WaitForValue(fenceValue);
 
-    log("{} 1\n", get_elapsed_time_string());
+    log("{} lane render\n", get_elapsed_time_string());
 
     commandAllocator->Reset();
     commandList->Reset(commandAllocator, nullptr);
@@ -196,12 +194,12 @@ void RenderLane::render()
 
     commandList->Close();
 
-    log("{} 2\n", get_elapsed_time_string());
+    log("{} lane execute\n", get_elapsed_time_string());
 
     commandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
 
-    log("{} 3\n", get_elapsed_time_string());
+    log("{} lane done\n", get_elapsed_time_string());
 
 }
