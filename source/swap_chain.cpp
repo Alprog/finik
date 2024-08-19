@@ -5,6 +5,7 @@
 #include "app.h"
 
 #include <dxgi.h>
+#include <iostream>
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;
@@ -201,6 +202,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     RenderSystem& render_system = App::get_instance().render_system;
 
     current_frame_ctx = WaitForNextFrameResources();
+
     UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
     current_frame_ctx->CommandAllocator->Reset();
 
@@ -222,8 +224,8 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     command_list->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     command_list->OMSetRenderTargets(1, &handle, FALSE, &depthStencilHandle.getCPU());
     
-    ID3D12DescriptorHeap* a = render_system.getSrvCbvHeap()->get();
-    command_list->SetDescriptorHeaps(1, &a);
+    ID3D12DescriptorHeap* heap = render_system.getSrvCbvHeap()->get();
+    command_list->SetDescriptorHeaps(1, &heap);
 
     viewport.Width = static_cast<float>(1024);
     viewport.Height = static_cast<float>(800);
@@ -257,10 +259,10 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
 void SwapChain::present()
 {
     RenderSystem& render_system = App::get_instance().render_system;
-
+    
     // Present
     HRESULT hr = swapChain->Present(1, 0);   // Present with vsync
-    //HRESULT hr = g_pSwapChain->Present(0, 0); // Present without vsync
+
     swapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
 
     UINT64 fenceValue = render_system.get_command_queue().fence->SignalNext();

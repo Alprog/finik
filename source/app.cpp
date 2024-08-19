@@ -32,6 +32,8 @@ App::App()
 #include "render_system.h"
 #include "swap_chain.h"
 #include "render_lane.h"
+#include "log.h"
+#include "timer.h"
 
 void handle_input()
 {
@@ -65,9 +67,11 @@ void App::run_game_loop()
     auto oldCounter = SDL_GetPerformanceCounter();
 
     // Main loop
-    int i = 0;
+    int Frame = 0;
     while (true)
     {
+        log("{} Frame {} -------------\n", get_elapsed_time_string(), Frame);
+
         auto counter = SDL_GetPerformanceCounter();
         auto deltaTime = static_cast<float>(counter - oldCounter) / SDL_GetPerformanceFrequency();
         oldCounter = counter;
@@ -87,34 +91,46 @@ void App::run_game_loop()
         //}
         //g_SwapChainOccluded = false;
 
+        log("{} A\n", get_elapsed_time_string());
+
         scene_manager.update(deltaTime);
         for (auto window : desktop_system.windows)
         {
+            window->gui->set_context();
             for (auto& view : window->gui->views)
             {
                 view->update(deltaTime);
             }           
         }
-        
 
+        log("{} B\n", get_elapsed_time_string());
+       
         for (auto window : desktop_system.windows)
         {
             window->gui->set_context();
             window->gui->prepare();
-
-            auto command_list = render_system.get_command_list();
-            window->swap_chain->start_frame(command_list);
-            window->renderScene();
-            window->gui->render(command_list);
-            window->swap_chain->finish_frame(command_list);
-
-            window->swap_chain->present();
         }
+
+        log("{} C\n", get_elapsed_time_string());
 
         for (auto& lane : render_system.lanes)
         {
             lane->render();
         }
+
+        log("{} D\n", get_elapsed_time_string());
+
+        for (auto window : desktop_system.windows)
+        {
+            auto command_list = render_system.get_command_list();
+            window->swap_chain->start_frame(command_list);
+            window->renderScene();
+            window->gui->render(command_list);
+            window->swap_chain->finish_frame(command_list);
+            window->swap_chain->present();
+        }
+
+        log("{} E\n", get_elapsed_time_string());
 
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -122,6 +138,9 @@ void App::run_game_loop()
             ImGui::RenderPlatformWindowsDefault();
         }
 
+        log("{} F\n", get_elapsed_time_string());
+
+        Frame++;
     }
 
     //render_system.WaitForLastSubmittedFrame();

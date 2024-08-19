@@ -25,7 +25,7 @@ public:
     float FieldOfView;
     float FarPlane = 800.0f;
     float NearPlane = 0.1f;
-    float AspectRatio = 1;
+    float AspectRatio = 16.0f / 9.0f;
 
     Matrix viewMatrix;
     Matrix projectionMatrix;

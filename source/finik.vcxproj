@@ -145,6 +145,7 @@
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="render_lane.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="upload_buffer.cpp" />
     <ClCompile Include="view.cpp" />
     <ClCompile Include="index_buffer.cpp" />
@@ -224,6 +226,7 @@
     <ClInclude Include="gui.h" />
     <ClInclude Include="images.h" />
     <ClInclude Include="int_size.h" />
+    <ClInclude Include="log.h" />
     <ClInclude Include="math\ray.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="render_lane.h" />
@@ -233,6 +236,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_view.h" />
     <ClInclude Include="tile_map.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="upload_buffer.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="index_buffer.h" />

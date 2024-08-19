@@ -23,10 +23,12 @@ const CameraController& SceneView::getCameraController() const
 }
 
 static float DeltaTime = 0;
+static IntSize Size{ 0, 0 };
 
 void SceneView::update(float deltaTime)
 {
     DeltaTime = deltaTime;
+
 }
 
 void SceneView::draw_content()
@@ -37,12 +39,16 @@ void SceneView::draw_content()
     
     auto min = ImGui::GetWindowContentRegionMin();
     auto max = ImGui::GetWindowContentRegionMax();
-    auto size = ImVec2(max.x - min.x, max.y - min.y);
-
-    ImGui::Image(textureId, size);
+    auto imSize = ImVec2(max.x - min.x, max.y - min.y);
+    
+    Size = IntSize(static_cast<int>(imSize.x), static_cast<int>(imSize.y));
+    
+    ImGui::Image(textureId, imSize);
     if (ImGui::IsItemHovered())
     {
         cameraContoller.HandleInput(DeltaTime);
         cameraContoller.RefreshCameraPosition();
     }
+
+    renderLane->resize(Size);
 }

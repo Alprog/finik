@@ -12,8 +12,11 @@ class RenderSurface
 {
 public:
     void init(IntSize resolution);
-    void createRenderTarget();
-    void createDepthStencil();
+    void createHandles();
+
+    void resize(IntSize resolution);
+    void recreateRenderTarget();
+    void recreateDepthStencil();
 
     void startRendering(ID3D12GraphicsCommandList* commandList);
     void endRendering(ID3D12GraphicsCommandList* commandList);
@@ -35,10 +38,11 @@ class RenderLane
 {
 public:
     RenderLane(Scene& scene, Camera& camera, IntSize resolution);
-    
+    void resize(IntSize resolution);
+
     RenderSurface& getSurface();
-    void render();
-    
+    void render(); 
+
 private:
     Scene& scene;
     Camera& camera;

@@ -4,16 +4,35 @@
 #include "render_system.h"
 #include "scene.h"
 #include "fence.h"
+#include "camera.h"
+#include "command_queue.h"
+#include "timer.h"
+#include "log.h";
 
 void RenderSurface::init(IntSize resolution)
 {
-    this->resolution = resolution;
-    createRenderTarget();
-    createDepthStencil();
+    createHandles();
+    resize(resolution);
 }
 
-void RenderSurface::createRenderTarget()
+void RenderSurface::createHandles()
 {
+    RenderSystem& render_system = App::get_instance().render_system;
+    renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
+    textureHandle = render_system.getSrvCbvHeap()->getNextHandle();
+    depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
+}
+
+void RenderSurface::resize(IntSize resolution)
+{
+    this->resolution = resolution;
+    recreateRenderTarget();
+    recreateDepthStencil();
+}
+
+void RenderSurface::recreateRenderTarget()
+{
+    RenderSystem& render_system = App::get_instance().render_system;
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
         static_cast<UINT>(resolution.width),
@@ -21,9 +40,7 @@ void RenderSurface::createRenderTarget()
         1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
-
-    RenderSystem& render_system = App::get_instance().render_system;
-
+       
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
@@ -36,14 +53,11 @@ void RenderSurface::createRenderTarget()
         IID_PPV_ARGS(&renderTarget));
     if (FAILED(result)) throw;
 
-    renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
     render_system.get_device()->CreateRenderTargetView(renderTarget.Get(), nullptr, renderTargetHandle.getCPU());
-
-    textureHandle = render_system.getSrvCbvHeap()->getNextHandle();
     render_system.get_device()->CreateShaderResourceView(renderTarget.Get(), nullptr, textureHandle.getCPU());
 }
 
-void RenderSurface::createDepthStencil()
+void RenderSurface::recreateDepthStencil()
 {
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
@@ -71,9 +85,7 @@ void RenderSurface::createDepthStencil()
 
     depthStencil->SetName(L"DepthStencil");
 
-    auto device = render_system.get_device();
-    depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
-    device->CreateDepthStencilView(depthStencil.Get(), nullptr, depthStencilHandle.getCPU());
+    render_system.get_device()->CreateDepthStencilView(depthStencil.Get(), nullptr, depthStencilHandle.getCPU());
 }
 
 void RenderSurface::startRendering(ID3D12GraphicsCommandList* commandList)
@@ -142,6 +154,21 @@ RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
     surface.init(resolution);
 }
 
+void RenderLane::resize(IntSize resolution)
+{
+    if (surface.resolution != resolution)
+    {
+        RenderSystem& render_system = App::get_instance().render_system;
+        render_system.get_command_queue().fence->WaitForValue(fenceValue);
+
+        surface.resize(resolution);
+        camera.AspectRatio = static_cast<float>(resolution.width) / resolution.height;
+        camera.calcProjectionMatrix();
+
+        render();
+    }
+}
+
 RenderSurface& RenderLane::getSurface()
 {
     return surface;
@@ -152,7 +179,11 @@ void RenderLane::render()
     RenderSystem& render_system = App::get_instance().render_system;
     auto& commandQueue = render_system.get_command_queue();
 
+    log("{} 0\n", get_elapsed_time_string());
+
     commandQueue.fence->WaitForValue(fenceValue);
+
+    log("{} 1\n", get_elapsed_time_string());
 
     commandAllocator->Reset();
     commandList->Reset(commandAllocator, nullptr);
@@ -165,7 +196,12 @@ void RenderLane::render()
 
     commandList->Close();
 
+    log("{} 2\n", get_elapsed_time_string());
+
     commandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
+
+    log("{} 3\n", get_elapsed_time_string());
+
 }
