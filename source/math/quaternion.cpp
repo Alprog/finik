@@ -1,6 +1,6 @@
-
 #include "Quaternion.h"
 #include "math.h"
+#include <cmath>
 
 const Quaternion Quaternion::Identity {0, 0, 0, 1};
 
@@ -28,4 +28,15 @@ Quaternion Quaternion::yawPitchRoll(float yaw, float pitch, float roll) // Euler
        -s1 * s2 * c3 + c1 * c2 * s3,
         s1 * s2 * s3 + c1 * c2 * c3,
     };
+}
+
+Quaternion Quaternion::FromAxis(Vector3 axis, float angle)
+{
+    auto s = std::sin(angle / 2);
+    return Quaternion(
+        axis.x * s,
+        axis.y * s,
+        axis.z * s, 
+        std::cos(angle / 2)
+    );
 }

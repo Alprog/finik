@@ -2,6 +2,7 @@
 
 #include "pipeline_state.h"
 #include "render_command.h"
+#include "math/ray.h"
 
 class RenderContext;
 class Camera;
@@ -21,4 +22,5 @@ public:
     Texture* texture;
     Texture* cellTexture;
     Grid* grid;
+    Ray hoverRay;
 };

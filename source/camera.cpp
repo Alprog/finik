@@ -8,7 +8,7 @@ Camera::Camera()
     projectionMatrix = Matrix::Identity;
 }
 
-Vector3 Camera::getForward()
+Vector3 Camera::getForward() const
 {
     return (lookAt - position).getNormalized();
 }
@@ -52,5 +52,21 @@ void Camera::calcProjectionMatrix()
 void Camera::render(RenderContext& context, RenderTarget& renderTarget)
 {
 
+}
+
+Ray Camera::castRay(Vector2 ndcPoint) const
+{
+    auto position = this->position;
+
+    auto rh = ndcPoint.x * FieldOfView / 2 * AspectRatio;
+    auto rv = ndcPoint.y * FieldOfView / 2;
+
+    auto rotation = Vector2(rh, rv);
+    auto rotationAxis = Vector3(rotation.y, -rotation.x, 0); // rotates 90° CW
+
+    auto direction = Vector4(getForward(), 0);
+    direction = direction * Matrix::Rotation(Quaternion::FromAxis(rotationAxis, rotation.length()));
+
+    return Ray(position, direction.xyz());
 }
 

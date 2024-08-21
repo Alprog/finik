@@ -37,7 +37,6 @@ struct Matrix
     static Matrix OrthographicLH(float left, float right, float bottom, float top, float znear, float zfar);
 
     friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
-
     friend Vector4 operator*(const Vector4& lhs, const Matrix& rhs);
 
     Vector3 MultiplyPoint(const Vector3& point);

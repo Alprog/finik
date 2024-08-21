@@ -60,7 +60,11 @@ void CameraController::HandleInput(float deltaTime)
 	}
 	ZoomK = std::clamp(ZoomK, 0.0f, 1.0f);
 
-	constexpr float PanningScreenPerSecond = 1.0f;
+	float PanningScreenPerSecond = 1.0f;
+	if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
+	{
+		PanningScreenPerSecond *= 3;
+	}
 	FocusPosition += Direction * GetVisibleAreaLength() * PanningScreenPerSecond * deltaTime;
 
 	if (ImGui::IsKeyDown(ImGuiKey_Z))

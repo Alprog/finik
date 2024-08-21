@@ -31,6 +31,8 @@ void SceneView::update(float deltaTime)
 
 }
 
+#include "log.h"
+
 void SceneView::draw_content()
 {
     D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().textureHandle.getGPU();
@@ -43,9 +45,32 @@ void SceneView::draw_content()
     
     Size = IntSize(static_cast<int>(imSize.x), static_cast<int>(imSize.y));
     
+    auto imageStartPos = ImGui::GetCursorScreenPos();
     ImGui::Image(textureId, imSize);
     if (ImGui::IsItemHovered())
     {
+        auto mousePos = ImGui::GetMousePos();
+        
+        auto dx = (static_cast<float>(mousePos.x) - imageStartPos.x) / imSize.x;
+        auto dy = (static_cast<float>(mousePos.y) - imageStartPos.y) / imSize.y;
+
+        auto ndcPos = Vector2(dx, dy) * 2.0f - Vector2::One;
+        
+        log("ndc {} {}\n", ndcPos.x, ndcPos.y);
+        
+        auto ray = cameraContoller.camera.castRay(ndcPos);
+
+        log("ray {} {} {} | {} {} {}\n",
+            ray.Origin.x, ray.Origin.y, ray.Origin.z,
+            ray.Direction.x, ray.Direction.y, ray.Direction.z);
+
+        if (ray.Direction.z != 0)
+        {
+            auto distance = ray.Origin.z / -ray.Direction.z;
+            auto position = ray.Origin + ray.Direction * distance;
+            log("pos {} {}\n", position.x, position.y);
+        }
+
         cameraContoller.HandleInput(DeltaTime);
         cameraContoller.RefreshCameraPosition();
     }

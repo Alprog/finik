@@ -26,7 +26,7 @@ void Image::generateChessboard()
         for (int x = 0; x < width; x++)
         {
             bool oddRow = (x / cellWidth) % 2;            
-            data[index++] = (oddColumn == oddRow) ? Texel::White : Texel::Black;
+            data[index++] = (oddColumn == oddRow) ? Texel::Green : Texel::Blue;
         }
     }
 }

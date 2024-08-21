@@ -16,6 +16,7 @@ void StatsView::draw_content()
     
     constexpr float radToDegree = 180 / std::numbers::pi;
     
+    ImGui::Text("focus: %f %f", controller.FocusPosition.x, controller.FocusPosition.y);
     ImGui::Text("rotation: %f", controller.Rotation * radToDegree);
     ImGui::Text("angle: %f", controller.GetAngle() * radToDegree);
     ImGui::Text("fov: %f", controller.GetFieldOfView() * radToDegree);
