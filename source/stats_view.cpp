@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "scene_view.h"
+#include "scene.h"
 
 StatsView::StatsView(const char* name, SceneView& sceneView)
     : View{ name }
@@ -21,4 +22,8 @@ void StatsView::draw_content()
     ImGui::Text("angle: %f", controller.GetAngle() * radToDegree);
     ImGui::Text("fov: %f", controller.GetFieldOfView() * radToDegree);
     ImGui::Text("vert.area: %f", controller.GetVisibleAreaLength());
+
+    ImGui::Text("aspect: %f", controller.camera.AspectRatio);
+
+    ImGui::Text("casted: %f %f", sceneView.scene.castedPos.x, sceneView.scene.castedPos.y);
 }

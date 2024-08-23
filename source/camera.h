@@ -31,6 +31,7 @@ public:
     float NearPlane = 0.1f;
     float AspectRatio = 16.0f / 9.0f;
 
+    Matrix transformMatrix;
     Matrix viewMatrix;
     Matrix projectionMatrix;
 

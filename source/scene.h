@@ -23,4 +23,5 @@ public:
     Texture* cellTexture;
     Grid* grid;
     Ray hoverRay;
+    Vector3 castedPos;
 };

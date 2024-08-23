@@ -20,7 +20,10 @@ public:
 protected:
     void draw_content() override;
 
+public:
     Scene& scene;
+
+protected:
     Camera camera;
     CameraController cameraContoller;
 

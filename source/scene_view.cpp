@@ -4,6 +4,7 @@
 #include "app.h"
 #include "render_system.h"
 #include "render_lane.h"
+#include "scene.h"
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View {name}
@@ -54,7 +55,7 @@ void SceneView::draw_content()
         auto dx = (static_cast<float>(mousePos.x) - imageStartPos.x) / imSize.x;
         auto dy = (static_cast<float>(mousePos.y) - imageStartPos.y) / imSize.y;
 
-        auto ndcPos = Vector2(dx, dy) * 2.0f - Vector2::One;
+        auto ndcPos = Vector2(dx, 1 - dy) * 2.0f - Vector2::One;
         
         log("ndc {} {}\n", ndcPos.x, ndcPos.y);
         
@@ -69,6 +70,8 @@ void SceneView::draw_content()
             auto distance = ray.Origin.z / -ray.Direction.z;
             auto position = ray.Origin + ray.Direction * distance;
             log("pos {} {}\n", position.x, position.y);
+        
+            scene.castedPos = position;
         }
 
         cameraContoller.HandleInput(DeltaTime);

@@ -211,3 +211,58 @@ Matrix Matrix::getTransposed()
         m[0][3], m[1][3], m[2][3], m[3][3]
     };
 }
+
+Matrix Matrix::getInverse() const
+{
+    auto matrix = getAdjugateMatrix();
+    float det = 0;
+    for (auto i = 0; i < 4; i++)
+    {
+        det += m[0][i] * matrix.m[i][0];
+    }
+    matrix.scaleComponents(1.0f / det);
+    return matrix;
+}
+
+Matrix Matrix::getAdjugateMatrix() const
+{
+    Matrix adjMatrix;
+
+    for (auto row = 0; row < 4; row++)
+    {
+        for (auto col = 0; col < 4; col++)
+        {
+            auto determinant = getMinorMatrix(row, col).determinant();
+            auto sign = (row + col) % 2 ? -1 : 1;
+            adjMatrix.m[col][row] = determinant * sign;
+        }
+    }
+
+    return adjMatrix;
+}
+
+Matrix3x3 Matrix::getMinorMatrix(int exceptRow, int exceptCol) const
+{
+    Matrix3x3 minorMtrx;
+ 
+    const float* src = &m[0][0];
+    float* dst = &minorMtrx.m[0][0];
+
+    for (int i = 0; i < 16; i++)
+    {
+        if (i / 4 != exceptRow && i % 4 != exceptCol)
+        {
+            *dst++ = src[i];
+        }
+    }
+    
+    return minorMtrx;
+}
+
+void Matrix::scaleComponents(float scalar)
+{
+    for (Vector4& row : rows)
+    {
+        row = row * scalar;
+    }
+}

@@ -12,7 +12,8 @@ struct Vector3
     static const Vector3 Forward;
     static const Vector3 Backward;
 
-    Vector3(float x = 0, float y = 0, float z = 0);
+    Vector3() = default;
+    Vector3(float x, float y, float z);
 
     float length() const;
     float squaredLength() const;
@@ -29,7 +30,7 @@ struct Vector3
     friend Vector3 operator/(const Vector3& vector, const float& value);
 
     static Vector3 cross(const Vector3& a, const Vector3& b);
-    static Vector3 dot(const Vector3& a, const Vector3 & b);
+    static float dot(const Vector3& a, const Vector3 & b);
 
     float x, y, z;
 };

@@ -26,12 +26,12 @@ void Scene::update(float deltaTime)
 
     if (renderCommand.state)
     {
-        auto M = Matrix::RotationX(-3.14f / 4) * Matrix::RotationY(angle) * Matrix::Translation(Vector3(0, 0, 0.5f));
-        auto V = Matrix::Identity;
-        auto P = Matrix::Identity;
+        //auto M = Matrix::RotationX(-3.14f / 4) * Matrix::RotationY(angle) * Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.5f));
+        //auto V = Matrix::Identity;
+        //auto P = Matrix::Identity;
 
-        renderCommand.state->constantBuffer->data.MVP = M * V * P;
-        renderCommand.state->constantBuffer->version++;
+        //renderCommand.state->constantBuffer->data.MVP = M * V * P;
+        //renderCommand.state->constantBuffer->version++;
     }
 }
 
@@ -52,6 +52,8 @@ ConstantBuffer* getConstantBuffer(Camera* camera)
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
+    auto& renderSystem = App::get_instance().render_system;
+
     if (!renderCommand.state)
     {
         renderCommand.mesh = createCubeMesh();
@@ -62,6 +64,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
         renderCommand.texture = texture;
         renderCommand.texture2 = grid->tileMap->Texture;
+        renderCommand.state->constantBuffer = new ConstantBuffer(renderSystem);
     }
 
     if (!renderCommand2.state)
@@ -74,17 +77,20 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
         renderCommand2.texture = cellTexture;
         renderCommand2.texture2 = grid->tileMap->Texture;
+        renderCommand2.state->constantBuffer = new ConstantBuffer(renderSystem);
     }
 
-    renderCommand.state->constantBuffer = getConstantBuffer(camera);
-    renderCommand2.state->constantBuffer = getConstantBuffer(camera);
-
-    auto M = Matrix::Identity;
+    auto M = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
-
     renderCommand.state->constantBuffer->data.MVP = M * V * P;
     renderCommand.state->constantBuffer->version++;
+
+    M = Matrix::Identity;
+    V = camera->viewMatrix;
+    P = camera->projectionMatrix;
+    renderCommand2.state->constantBuffer->data.MVP = M * V * P;
+    renderCommand2.state->constantBuffer->version++;
 
     renderContext.draw(renderCommand2);
     renderContext.draw(renderCommand);

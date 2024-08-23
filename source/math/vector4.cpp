@@ -5,6 +5,14 @@
 const Vector4 Vector4::Zero {0, 0, 0, 0};
 const Vector4 Vector4::One {1, 1, 1, 1};
 
+Vector4::Vector4(Vector2 vector, float z, float w)
+    : x{ vector.x }
+    , y{ vector.y }
+    , z{ z }
+    , w{ w }
+{
+}
+
 Vector4::Vector4(Vector3 vector, float w)
     : x{ vector.x }
     , y{ vector.y }
@@ -35,6 +43,14 @@ Vector4 Vector4::getNormalized()
 {
     auto length = this->length();
     return { x / length, y / length, z / length, w };
+}
+
+void Vector4::homoNormalize()
+{
+    if (w != 0)
+    {
+        *this /= w;
+    }
 }
 
 Vector3 Vector4::xyz()
@@ -75,15 +91,38 @@ Vector4 operator-(const Vector4& lhs, const Vector4& rhs)
     };
 }
 
-Vector4 operator*(const Vector4& vector, const float& value)
+Vector4 operator*(const Vector4& vector, const float scalar)
 {
     return
     {
-        vector.x * value,
-        vector.y * value,
-        vector.z * value,
-        vector.w * value
+        vector.x * scalar,
+        vector.y * scalar,
+        vector.z * scalar,
+        vector.w * scalar
     };
+}
+
+Vector4 operator/(const Vector4& vector, const float scalar)
+{
+    return
+    {
+        vector.x / scalar,
+        vector.y / scalar,
+        vector.z / scalar,
+        vector.w / scalar
+    };
+}
+
+Vector4& Vector4::operator*=(const float vector)
+{
+    *this = *this * vector;
+    return *this;
+}
+
+Vector4& Vector4::operator/=(const float vector)
+{
+    *this = *this / vector;
+    return *this;
 }
 
 Vector4 Vector4::cross(const Vector4& a, const Vector4& b)

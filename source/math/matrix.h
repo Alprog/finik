@@ -1,9 +1,9 @@
-
 #pragma once
 
-#include "Vector3.h"
-#include "Vector4.h"
-#include "Quaternion.h"
+#include "vector3.h"
+#include "vector4.h"
+#include "quaternion.h"
+#include "matrix3x3.h"
 
 struct Matrix
 {
@@ -46,4 +46,9 @@ struct Matrix
     
     void transpose();
     Matrix getTransposed();
+
+    Matrix getInverse() const;
+    Matrix getAdjugateMatrix() const;
+    Matrix3x3 getMinorMatrix(int exceptRow, int exceptCol) const;
+    void scaleComponents(float scalar);
 };
