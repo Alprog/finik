@@ -4,7 +4,6 @@
 
 Camera::Camera()
 {
-    transformMatrix = Matrix::Identity;
     viewMatrix = Matrix::Identity;
     projectionMatrix = Matrix::Identity;
 }
@@ -25,12 +24,13 @@ void Camera::calcViewMatrix()
     Vector3 up = Vector3::cross(right, backward).getNormalized();          // X ^ Y = Z
 
     // DX12 NDC
-    transformMatrix.rows[0] = Vector4(right, 0);
-    transformMatrix.rows[1] = Vector4(up, 0);
-    transformMatrix.rows[2] = Vector4(forward, 0);
-    transformMatrix.rows[3] = Vector4(0, 0, 0, 1);
-    
-    Matrix orientationMtrx = transformMatrix.getTransposed();
+    Matrix orientationMtrx;
+    orientationMtrx.rows[0] = Vector4(right, 0);
+    orientationMtrx.rows[1] = Vector4(up, 0);
+    orientationMtrx.rows[2] = Vector4(forward, 0);
+    orientationMtrx.rows[3] = Vector4(0, 0, 0, 1);
+    orientationMtrx.transpose();
+
     viewMatrix = offsetMatrix * orientationMtrx;
 }
 
@@ -66,24 +66,5 @@ Ray Camera::castRay(Vector2 ndcPoint) const
     target.homoNormalize();
 
     return Ray(origin.xyz(), (target - origin).xyz().getNormalized());
-
-    //auto position = this->position;
-
-    //auto rh = ndcPoint.x * FieldOfView / 2 * AspectRatio;
-    //auto rv = ndcPoint.y * FieldOfView / 2;
-
-    ////auto rotation = Vector2(rh, rv);
-    ////auto rotationAxis = Vector3(rotation.y, -rotation.x, 0); // rotates 90° CW
-
-    //auto mtrx = transformMatrix;
-
-    ////mtrx = Matrix::Rotation(Quaternion::FromAxis(rotationAxis, rotation.length())) * mtrx;
-
-    //mtrx = Matrix::RotationY(rh) * mtrx;
-    //mtrx = Matrix::RotationX(rv) * mtrx;
-    //
-    ////direction = direction * Matrix::RotationZ(rh);
-
-    //return Ray(position, mtrx.rows[2].xyz());
 }
 
