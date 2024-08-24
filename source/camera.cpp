@@ -36,18 +36,30 @@ void Camera::calcViewMatrix()
 
 void Camera::calcProjectionMatrix()
 {
-    auto scaleY = 1.0f / std::tanf(FieldOfView / 2);
-    auto scaleX = scaleY / AspectRatio;
+    if (FieldOfView)
+    {
+        // perspective
+        auto scaleY = 1.0f / std::tanf(FieldOfView / 2);
+        auto scaleX = scaleY / AspectRatio;
 
-    float m22 = FarPlane / (FarPlane - NearPlane);
-    float m32 = -FarPlane * NearPlane / (FarPlane - NearPlane);
+        float m22 = FarPlane / (FarPlane - NearPlane);
+        float m32 = -FarPlane * NearPlane / (FarPlane - NearPlane);
 
-    projectionMatrix = Matrix{
-      scaleX,   0,     0,  0,
-        0,    scaleY,  0,  0,
-        0,      0,    m22,  1,
-        0,      0,    m32,  0
-    };
+        projectionMatrix = Matrix{
+          scaleX,   0,     0,   0,
+            0,    scaleY,  0,   0,
+            0,      0,    m22,  1,
+            0,      0,    m32,  0
+        };
+    }
+    else
+    {
+        // orthogonal
+        auto height = OrthoSize;
+        auto width = height * AspectRatio;
+        auto depth = 1500.0f;
+        projectionMatrix = Matrix::Scaling({ 2.0f / width, 2.0f / height, 1.0f / depth });
+    }
 }
 
 void Camera::render(RenderContext& context, RenderTarget& renderTarget)

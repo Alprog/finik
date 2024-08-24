@@ -34,8 +34,8 @@ public:
 	static constexpr float MaxFov = std::numbers::pi / 3.0f;
 	float FovK = 0.5f;
 
-	static constexpr float MinAngle = std::numbers::pi * 0.20f;
-	static constexpr float MaxAngle = std::numbers::pi * 0.49f;
+	static constexpr float MinAngle = std::numbers::pi * 0.200f;
+	static constexpr float MaxAngle = std::numbers::pi * 0.499f;
 	float AngleK = 0.5f;
 	
 	Camera& camera;

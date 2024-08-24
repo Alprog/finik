@@ -109,5 +109,5 @@ std::wstring toWStr(std::string str)
 
 float lerp(float a, float b, float k)
 {
-    return a * k + b * (1.0f - k);
+    return a * (1.0f - k) + b * k;
 }

@@ -13,12 +13,12 @@ CameraController::CameraController(Camera& camera)
 
 float CameraController::GetVisibleAreaLength() const
 {
-	return lerp(MinCellCount, MaxCellCount, std::sqrt(ZoomK));
+	return lerp(MaxCellCount, MinCellCount, std::sqrt(ZoomK));
 }
 
 float CameraController::GetFieldOfView() const
 {
-	return lerp(MinFov, MaxFov, FovK);
+	return IsOrthogonal ? 0 : lerp(MinFov, MaxFov, FovK);
 }
 
 float CameraController::GetAngle() const
@@ -69,11 +69,11 @@ void CameraController::HandleInput(float deltaTime)
 
 	if (ImGui::IsKeyDown(ImGuiKey_Z))
 	{
-		AngleK += deltaTime / 2;
+		AngleK -= deltaTime / 2;
 	}
 	if (ImGui::IsKeyDown(ImGuiKey_X))
 	{
-		AngleK -= deltaTime / 2;
+		AngleK += deltaTime / 2;
 	}
 	AngleK = std::clamp(AngleK, 0.0f, 1.0f);
 
@@ -88,11 +88,13 @@ void CameraController::HandleInput(float deltaTime)
 
 	if (ImGui::IsKeyDown(ImGuiKey_O))
 	{
-		FovK += deltaTime / 2;
+		FovK -= deltaTime / 2;
+		IsOrthogonal = FovK <= 0;
 	}
 	if (ImGui::IsKeyDown(ImGuiKey_P))
 	{
-		FovK -= deltaTime / 2;
+		IsOrthogonal = false;
+		FovK += deltaTime / 2;
 	}
 	FovK = std::clamp(FovK, 0.0f, 1.0f);
 
@@ -114,13 +116,13 @@ void CameraController::RefreshCameraPosition()
 	auto z = std::sin(angle);	
 	auto OffsetDirection = Vector3(x, y, z);
 
-	//camera.Projection = IsOrthogonal ? Camera3D.ProjectionType.Orthogonal : Camera3D.ProjectionType.Perspective;
-	//camera.Size = VisibleAreaLength * Mathf.Sin(Angle);
 	
-	auto Distance = IsOrthogonal ? 80.0f : CalculateDistance();
+	auto Distance = CalculateDistance();
 	camera.position = FocusPosition + OffsetDirection * Distance;
 	camera.lookAt = FocusPosition;
+	
 	camera.FieldOfView = GetFieldOfView();
+	camera.OrthoSize = GetVisibleAreaLength() * std::sin(angle);
 
 	camera.calcViewMatrix();
 	camera.calcProjectionMatrix();
@@ -128,9 +130,14 @@ void CameraController::RefreshCameraPosition()
 
 float CameraController::CalculateDistance()
 {
+	auto fieldOfView = GetFieldOfView();
+	if (fieldOfView == 0)
+	{
+		return 80.0f;
+	}
+
 	auto viewAngle = GetAngle();
 
-	auto fieldOfView = GetFieldOfView();
 	auto nearAngle = viewAngle + fieldOfView / 2;
 	auto farAngle = viewAngle - fieldOfView / 2;
 
