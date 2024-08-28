@@ -131,6 +131,7 @@
     <ClCompile Include="..\3rd-party\zlib\trees.c" />
     <ClCompile Include="..\3rd-party\zlib\uncompr.c" />
     <ClCompile Include="..\3rd-party\zlib\zutil.c" />
+    <ClCompile Include="actor.cpp" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\3rd-party\zlib\zconf.h" />
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
+    <ClInclude Include="actor.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />

@@ -14,13 +14,13 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
 
     {
         CD3DX12_DESCRIPTOR_RANGE ranges[3];
-        ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0); // b0
+        ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1); // b1
         ranges[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0
         ranges[2].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1); // t1
         
 
         CD3DX12_ROOT_PARAMETER rootParameters[4];
-        rootParameters[RootSignatureParams::MeshInlinedConstants].InitAsConstants(4, 1); // b1
+        rootParameters[RootSignatureParams::MeshInlinedConstants].InitAsConstants(16, 0); // b0
         rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsDescriptorTable(1, &ranges[0], D3D12_SHADER_VISIBILITY_VERTEX);
         rootParameters[RootSignatureParams::TextureView1].InitAsDescriptorTable(1, &ranges[1], D3D12_SHADER_VISIBILITY_PIXEL);
         rootParameters[RootSignatureParams::TextureView2].InitAsDescriptorTable(1, &ranges[2], D3D12_SHADER_VISIBILITY_PIXEL);

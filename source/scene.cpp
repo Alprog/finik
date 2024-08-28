@@ -11,12 +11,17 @@
 #include "camera.h"
 #include "texture.h"
 #include "grid.h"
+#include "actor.h"
+#include "root_signature_params.h"
 
 Scene::Scene()
 {
     texture = new Texture("C:/finik/source/skullbox.png");
     cellTexture = new Texture("C:/finik/source/cell.png");
     grid = new Grid();
+
+    actors.push_back(new Actor());
+    actors.push_back(new Actor());
 }
 
 void Scene::update(float deltaTime)
@@ -80,18 +85,39 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand2.state->constantBuffer = new ConstantBuffer(renderSystem);
     }
 
-    auto M = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
-    renderCommand.state->constantBuffer->data.MVP = M * V * P;
+    renderCommand.state->constantBuffer->data.ViewProjection = V * P;
     renderCommand.state->constantBuffer->version++;
 
-    M = Matrix::Identity;
     V = camera->viewMatrix;
     P = camera->projectionMatrix;
-    renderCommand2.state->constantBuffer->data.MVP = M * V * P;
+    renderCommand2.state->constantBuffer->data.ViewProjection = V * P;
     renderCommand2.state->constantBuffer->version++;
 
     renderContext.draw(renderCommand2);
-    renderContext.draw(renderCommand);
+    //renderContext.draw(renderCommand);
+
+    actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
+    actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
+
+    //----------------------------------------------------
+
+    auto mesh = renderCommand.mesh;
+    auto constantBuffer = renderCommand.state->constantBuffer;
+    constantBuffer->update();
+    auto& commandList = renderContext.commandList;
+    commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
+
+    commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
+
+
+    for (auto& actor : actors)
+    {
+        renderContext.setModelMatrix(actor->transformMatrix);
+        renderContext.drawMesh(actor->mesh);
+    }
 }

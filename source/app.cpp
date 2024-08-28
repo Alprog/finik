@@ -76,6 +76,8 @@ void App::run_game_loop()
         auto deltaTime = static_cast<float>(counter - oldCounter) / SDL_GetPerformanceFrequency();
         oldCounter = counter;
 
+        log("FPS: {}\n", 1.0f / deltaTime);
+
         handle_input();
 
         if (App::get_instance().desktop_system.windows.empty())

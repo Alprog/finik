@@ -5,12 +5,13 @@
 #include "render_system.h"
 #include "render_lane.h"
 #include "scene.h"
+#include "log.h"
 
 SceneView::SceneView(const char* name, Scene& scene)
-    : View {name}
-    , scene {scene}
-    , camera {}
-    , cameraContoller {camera}
+    : View{ name }
+    , scene{ scene }
+    , camera{}
+    , cameraContoller{ camera }
 {
     renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{ 1024, 800 });
 
@@ -29,10 +30,7 @@ static IntSize Size{ 0, 0 };
 void SceneView::update(float deltaTime)
 {
     DeltaTime = deltaTime;
-
 }
-
-#include "log.h"
 
 void SceneView::draw_content()
 {
@@ -59,6 +57,9 @@ void SceneView::draw_content()
         
         log("ndc {} {}\n", ndcPos.x, ndcPos.y);
         
+        cameraContoller.HandleInput(DeltaTime);
+        cameraContoller.RefreshCameraPosition();
+
         auto ray = cameraContoller.camera.castRay(ndcPos);
 
         log("ray {} {} {} | {} {} {}\n",
@@ -70,12 +71,9 @@ void SceneView::draw_content()
             auto distance = ray.Origin.z / -ray.Direction.z;
             auto position = ray.Origin + ray.Direction * distance;
             log("pos {} {}\n", position.x, position.y);
-        
+
             scene.castedPos = position;
         }
-
-        cameraContoller.HandleInput(DeltaTime);
-        cameraContoller.RefreshCameraPosition();
     }
 
     renderLane->resize(Size);

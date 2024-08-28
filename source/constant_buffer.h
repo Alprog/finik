@@ -24,7 +24,7 @@ public:
 
     struct
     {
-        Matrix MVP;
+        Matrix ViewProjection;
     }
     data;
 

@@ -1,13 +1,13 @@
 #pragma pack_matrix( row_major )
 
-cbuffer MeshConstantBuffer : register(b1)
+cbuffer MeshConstantBuffer : register(b0)
 {
 	float4x4 Model;
 };
 
-cbuffer FrameConstantBuffer : register(b0)
+cbuffer FrameConstantBuffer : register(b1)
 {
-	float4x4 MVP;
+	float4x4 ViewProject;
 };
 
 struct VSInput
@@ -30,6 +30,8 @@ SamplerState g_sampler : register(s0);
 PSInput VSMain(VSInput input)
 {
 	PSInput result;
+	
+	float4x4 MVP = mul(Model, ViewProject);
 
 	result.position = mul(float4(input.position, 1), MVP);
 	result.normal = input.normal;

@@ -264,8 +264,8 @@ void SwapChain::present()
 {
     RenderSystem& render_system = App::get_instance().render_system;
     
-    // Present
-    HRESULT hr = swapChain->Present(1, 0);   // Present with vsync
+    bool vsyncEnabled = true;
+    HRESULT hr = swapChain->Present(vsyncEnabled ? 1 : 0, 0);
 
     swapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
 
