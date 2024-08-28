@@ -232,6 +232,7 @@
     <ClInclude Include="math\ray.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="render_lane.h" />
+    <ClInclude Include="root_signature_params.h" />
     <ClInclude Include="scene_view.h" />
     <ClInclude Include="stats_view.h" />
     <ClInclude Include="texel.h" />

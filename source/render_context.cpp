@@ -8,6 +8,7 @@
 #include "mesh.h"
 #include "constant_buffer.h"
 #include "texture.h"
+#include "root_signature_params.h"
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -18,15 +19,16 @@ RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandLi
 void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
-    auto texture = renderCommand.state->texture;
     auto constantBuffer = renderCommand.state->constantBuffer;
     constantBuffer->update();
 
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
 
-    commandList.SetGraphicsRootDescriptorTable(0, renderCommand.texture->descriptorHandle.getGPU());
-    commandList.SetGraphicsRootDescriptorTable(1, constantBuffer->descriptorHandle.getGPU());
-    commandList.SetGraphicsRootDescriptorTable(2, renderCommand.texture2->descriptorHandle.getGPU());
+    Matrix M = Matrix::Identity;
+    commandList.SetGraphicsRoot32BitConstants(RootSignatureParams::MeshInlinedConstants, 4, &M, 0);
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
     
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
     commandList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

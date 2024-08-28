@@ -1,6 +1,11 @@
 #pragma pack_matrix( row_major )
 
-cbuffer ConstantBuffer : register(b0)
+cbuffer MeshConstantBuffer : register(b1)
+{
+	float4x4 Model;
+};
+
+cbuffer FrameConstantBuffer : register(b0)
 {
 	float4x4 MVP;
 };
