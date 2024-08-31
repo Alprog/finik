@@ -11,6 +11,7 @@
 #include "texture_view.h"
 #include "stats_view.h"
 #include "timer.h"
+#include "profiler_view.h"
 
 int main(int argc, char* argv[])
 {
@@ -30,6 +31,8 @@ int main(int argc, char* argv[])
 
     SceneView* sceneView = (SceneView*)window->gui->views[1].get();
     window->gui->views.push_back(std::make_unique<StatsView>("statsView", *sceneView));
+
+    window->gui->views.push_back(std::make_unique<ProfilerView>("profilerView"));
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;
