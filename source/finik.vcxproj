@@ -143,6 +143,7 @@
     <ClCompile Include="descriptor_heap.cpp" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="fence.cpp" />
+    <ClCompile Include="gpu_profiler.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="fence.h" />
+    <ClInclude Include="gpu_profiler.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="images.h" />
