@@ -8,6 +8,7 @@
 #include "command_queue.h"
 #include "timer.h"
 #include "log.h";
+#include "profiler/timebox_tracker.h"
 
 void RenderSurface::init(IntSize resolution)
 {
@@ -177,11 +178,10 @@ void RenderLane::render()
     RenderSystem& render_system = App::get_instance().render_system;
     auto& commandQueue = render_system.get_command_queue();
 
-    log("{} lane wait\n", get_elapsed_time_string());
-
-    commandQueue.fence->WaitForValue(fenceValue);
-
-    log("{} lane render\n", get_elapsed_time_string());
+    {
+        PROFILE("wait");
+        commandQueue.fence->WaitForValue(fenceValue);
+    }
 
     commandAllocator->Reset();
     commandList->Reset(commandAllocator, nullptr);
