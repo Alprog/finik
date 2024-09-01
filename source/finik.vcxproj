@@ -143,6 +143,7 @@
     <ClCompile Include="descriptor_heap.cpp" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="fence.cpp" />
+    <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="gpu_profiler.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
@@ -151,7 +152,10 @@
     <ClCompile Include="math\matrix3x3.cpp" />
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="mesh_builder.cpp" />
-    <ClCompile Include="profiler.cpp" />
+    <ClCompile Include="profiler\lane.cpp" />
+    <ClCompile Include="profiler\profiler.cpp" />
+    <ClCompile Include="profiler\timebox.cpp" />
+    <ClCompile Include="profiler\timebox_tracker.cpp" />
     <ClCompile Include="profiler_view.cpp" />
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="scene_view.cpp" />
@@ -228,6 +232,7 @@
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="fence.h" />
+    <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gpu_profiler.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
@@ -237,7 +242,10 @@
     <ClInclude Include="math\matrix3x3.h" />
     <ClInclude Include="math\ray.h" />
     <ClInclude Include="mesh_builder.h" />
-    <ClInclude Include="profiler.h" />
+    <ClInclude Include="profiler\lane.h" />
+    <ClInclude Include="profiler\profiler.h" />
+    <ClInclude Include="profiler\timebox.h" />
+    <ClInclude Include="profiler\timebox_tracker.h" />
     <ClInclude Include="profiler_view.h" />
     <ClInclude Include="render_lane.h" />
     <ClInclude Include="root_signature_params.h" />

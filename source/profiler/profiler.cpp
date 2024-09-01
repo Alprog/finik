@@ -1,7 +1,13 @@
 #include "profiler.h"
 
-#include "timer.h"
-#include "log.h"
+#include "../timer.h"
+#include "../log.h"
+
+using namespace finik::profiler;
+
+Profiler::Profiler()
+{
+}
 
 void Profiler::start()
 {
@@ -32,4 +38,14 @@ float Profiler::getDeltaTime() const
 float Profiler::getFPS() const
 {
     return 1.0f / deltaTime;
+}
+
+Lane& Profiler::GetCpuLane()
+{
+    return cpuLane;
+}
+
+Lane& Profiler::GetGpuLane()
+{
+    return gpuLane;
 }

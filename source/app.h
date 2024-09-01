@@ -4,7 +4,7 @@
 #include "input_system.h"
 #include "scene_manager.h"
 #include "render_system.h"
-#include "profiler.h"
+#include "profiler/profiler.h"
 
 class Window;
 
@@ -24,5 +24,5 @@ public:
     InputSystem input_system;
     SceneManager scene_manager;
     RenderSystem render_system;
-    Profiler profiler;
+    finik::profiler::Profiler profiler;
 };

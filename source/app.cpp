@@ -35,7 +35,8 @@ App::App()
 #include "render_lane.h"
 #include "log.h"
 #include "timer.h"
-#include "profiler.h"
+#include "profiler/profiler.h"
+#include "profiler/timebox_tracker.h"
 
 void handle_input()
 {
@@ -70,72 +71,73 @@ void App::run_game_loop()
 
     while (true)
     {
+        PROFILE("frame");
+
         float deltaTime = profiler.getDeltaTime();
 
-        handle_input();
+        {
+            PROFILE("input");
+            handle_input();
+        }
 
         if (App::get_instance().desktop_system.windows.empty())
         {
             break;
         }
 
-        // Handle window screen locked
-        //if (g_SwapChainOccluded && g_pSwapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
-        //{
-        //    ::Sleep(10);
-        //    continue;
-        //}
-        //g_SwapChainOccluded = false;
-
-        log("{} update\n", get_elapsed_time_string());
-
-        scene_manager.update(deltaTime);
-        for (auto window : desktop_system.windows)
         {
-            window->gui->set_context();
-            for (auto& view : window->gui->views)
+            PROFILE("update");
+            scene_manager.update(deltaTime);
+            for (auto window : desktop_system.windows)
             {
-                view->update(deltaTime);
-            }           
+                window->gui->set_context();
+                for (auto& view : window->gui->views)
+                {
+                    view->update(deltaTime);
+                }
+            }
         }
 
-        log("{} gui_prepare\n", get_elapsed_time_string());
+        {
+            PROFILE("gui prepare");
+            for (auto window : desktop_system.windows)
+            {
+                window->gui->set_context();
+                window->gui->prepare();
+            }
+        }
        
-        for (auto window : desktop_system.windows)
+
         {
-            window->gui->set_context();
-            window->gui->prepare();
+            PROFILE("lanes");
+            for (auto& lane : render_system.lanes)
+            {
+                lane->render();
+            }
         }
 
-        log("{} lanes\n", get_elapsed_time_string());
-
-        for (auto& lane : render_system.lanes)
         {
-            lane->render();
+            PROFILE("render windows");
+            for (auto window : desktop_system.windows)
+            {
+                auto command_list = render_system.get_command_list();
+                window->swap_chain->start_frame(command_list);
+                window->renderScene();
+                window->gui->render(command_list);
+                window->swap_chain->finish_frame(command_list);
+                window->swap_chain->execute(command_list);
+                window->swap_chain->present();
+            }
         }
 
-        log("{} window\n", get_elapsed_time_string());
-
-        for (auto window : desktop_system.windows)
         {
-            auto command_list = render_system.get_command_list();
-            window->swap_chain->start_frame(command_list);
-            window->renderScene();
-            window->gui->render(command_list);
-            window->swap_chain->finish_frame(command_list);
-            window->swap_chain->execute(command_list);
-            window->swap_chain->present();
+            PROFILE("render platform windows");
+            if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                ImGui::UpdatePlatformWindows();
+                ImGui::RenderPlatformWindowsDefault();
+            }
         }
-
-        log("{} platforms\n", get_elapsed_time_string());
-
-        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-        }
-
-        log("{} end\n", get_elapsed_time_string());
 
         profiler.endFrame();
     }
