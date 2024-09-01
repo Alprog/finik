@@ -27,6 +27,8 @@
 #include "app.h"
 #include "desktop_window.h"
 
+#include "gpu_profiler.h"
+
 class ResultChecker
 {
 public:
@@ -65,6 +67,7 @@ void RenderSystem::init()
     createDescriptorHeap();
     createCommandList();
     createRenderContext();
+    createProfiler();
 }
 
 void RenderSystem::enableDebugLayer()
@@ -180,6 +183,11 @@ void RenderSystem::createRenderContext()
     renderContext = std::make_unique<RenderContext>(*this, *commandList.Get());
 }
 
+void RenderSystem::createProfiler()
+{
+    profiler = new GpuProfiler(*this);
+}
+
 void RenderSystem::ImguiInitHelper()
 {
     const int NUM_FRAMES_IN_FLIGHT = 3;
@@ -221,4 +229,9 @@ DescriptorHeap* RenderSystem::getSrvCbvHeap()
 RenderContext* RenderSystem::getRenderContext()
 {
     return renderContext.get();
+}
+
+GpuProfiler* RenderSystem::getProfiler()
+{
+    return profiler;
 }

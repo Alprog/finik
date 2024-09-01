@@ -13,6 +13,7 @@ App::App()
     , input_system{}
     , scene_manager{}
     , render_system{}
+    , profiler{}
 {
 }
 
@@ -34,6 +35,7 @@ App::App()
 #include "render_lane.h"
 #include "log.h"
 #include "timer.h"
+#include "profiler.h"
 
 void handle_input()
 {
@@ -64,19 +66,11 @@ void App::run_game_loop()
 {
     RenderSystem& render_system = App::get_instance().render_system;
 
-    auto oldCounter = SDL_GetPerformanceCounter();
+    profiler.start();
 
-    // Main loop
-    int Frame = 0;
     while (true)
     {
-        log("{} Frame {} -------------\n", get_elapsed_time_string(), Frame);
-
-        auto counter = SDL_GetPerformanceCounter();
-        auto deltaTime = static_cast<float>(counter - oldCounter) / SDL_GetPerformanceFrequency();
-        oldCounter = counter;
-
-        log("FPS: {}\n", 1.0f / deltaTime);
+        float deltaTime = profiler.getDeltaTime();
 
         handle_input();
 
@@ -129,6 +123,7 @@ void App::run_game_loop()
             window->renderScene();
             window->gui->render(command_list);
             window->swap_chain->finish_frame(command_list);
+            window->swap_chain->execute(command_list);
             window->swap_chain->present();
         }
 
@@ -142,7 +137,7 @@ void App::run_game_loop()
 
         log("{} end\n", get_elapsed_time_string());
 
-        Frame++;
+        profiler.endFrame();
     }
 
     //render_system.WaitForLastSubmittedFrame();

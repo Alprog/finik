@@ -8,6 +8,7 @@
 #include <iostream>
 #include "log.h"
 #include "timer.h"
+#include "gpu_profiler.h"
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;
@@ -208,6 +209,9 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
     current_frame_ctx->CommandAllocator->Reset();
 
+    command_list->Reset(current_frame_ctx->CommandAllocator, nullptr);
+    render_system.getProfiler()->addStamp(*command_list, "start");
+
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -215,7 +219,6 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    command_list->Reset(current_frame_ctx->CommandAllocator, nullptr);
     command_list->ResourceBarrier(1, &barrier);
 
     // Render Dear ImGui graphics
@@ -253,10 +256,15 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
     barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
     command_list->ResourceBarrier(1, &barrier);
+
+    App::get_instance().render_system.getProfiler()->addStamp(*command_list, "end");
+    
     command_list->Close();
+}
 
+void SwapChain::execute(ID3D12GraphicsCommandList* command_list)
+{
     RenderSystem& render_system = App::get_instance().render_system;
-
     render_system.get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&command_list);
 }
 

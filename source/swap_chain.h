@@ -36,6 +36,7 @@ public:
 
     void start_frame(ID3D12GraphicsCommandList* command_list);
     void finish_frame(ID3D12GraphicsCommandList* command_list);
+    void execute(ID3D12GraphicsCommandList* command_list);
     void present();
 
 public:

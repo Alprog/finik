@@ -4,6 +4,7 @@ class Window;
 class PipelineState;
 struct FrameContext;
 class RenderContext;
+class GpuProfiler;
 
 #include "dx.h"
 #include <dxgi1_4.h>
@@ -29,6 +30,7 @@ public:
     DescriptorHeap* getDsvHeap();
     DescriptorHeap* getSrvCbvHeap();
     RenderContext* getRenderContext();
+    GpuProfiler* getProfiler();
 
     void ImguiInitHelper();
 
@@ -40,10 +42,13 @@ private:
     void createDescriptorHeap();
     void createCommandList();
     void createRenderContext();
+    void createProfiler();
     
     ComPtr<ID3D12Device> device = nullptr;
     CommandQueue* commandQueue = nullptr;
     ComPtr<ID3D12GraphicsCommandList> commandList = nullptr;
+
+    GpuProfiler* profiler = nullptr;
 
     std::unique_ptr<RenderContext> renderContext;
 
