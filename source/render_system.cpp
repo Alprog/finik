@@ -198,8 +198,8 @@ void RenderSystem::scheduleQueryResolving()
 {
     static int i = 0;
     commandList->Reset(commandAllocators[i].Get(), nullptr);
+    gpuProfiler->addStamp(*commandList.Get(), "resolving");
     gpuProfiler->scheduleFrameResolve(*commandList.Get());
-    gpuProfiler->addStamp(*commandList.Get(), "resolved");
     commandList->Close();
 
     ID3D12GraphicsCommandList* command_list = commandList.Get();

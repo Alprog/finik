@@ -85,7 +85,9 @@ void GpuProfiler::grabReadyStamps(int fenceValue)
         StampRange range = queue.front();
         queue.pop();
 
-        D3D12_RANGE readRange = { range.startIndex * readBackRecordSize, range.endIndex * readBackRecordSize };
+        int start = range.startIndex % MAX_TIMESTAMP;
+        int end = range.endIndex % MAX_TIMESTAMP;
+        D3D12_RANGE readRange = { start * readBackRecordSize, end * readBackRecordSize };
 
         std::vector<UINT64> stamps;
         stamps.resize(range.count());
@@ -94,8 +96,5 @@ void GpuProfiler::grabReadyStamps(int fenceValue)
         readBackBuffer->Map(0, &readRange, &data);
         memcpy(&stamps[0], data, range.count() * readBackRecordSize);
         readBackBuffer->Unmap(0, nullptr);
-
-
-
     }
 }
