@@ -26,7 +26,7 @@
 
 #include "app.h"
 #include "desktop_window.h"
-
+#include "command_queue.h"
 #include "gpu_profiler.h"
 
 class ResultChecker
@@ -65,6 +65,7 @@ void RenderSystem::init()
     setupDebug();
     createCommandQueue();
     createDescriptorHeap();
+    createCommandAllocators();
     createCommandList();
     createRenderContext();
     createProfiler();
@@ -165,13 +166,18 @@ void RenderSystem::createDescriptorHeap()
     srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 10);
 }
 
+void RenderSystem::createCommandAllocators()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i]));
+        if (FAILED(result)) throw;
+    }
+}
+
 void RenderSystem::createCommandList()
 {
-    ComPtr<ID3D12CommandAllocator> allocator;
-    auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator));
-    if (FAILED(result)) throw;
-
-    result = get_device()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr, IID_PPV_ARGS(&commandList));
+    auto result = get_device()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocators[0].Get(), nullptr, IID_PPV_ARGS(&commandList));
     if (FAILED(result)) throw;
     
     result = commandList->Close();
@@ -185,7 +191,24 @@ void RenderSystem::createRenderContext()
 
 void RenderSystem::createProfiler()
 {
-    profiler = new GpuProfiler(*this);
+    gpuProfiler = new GpuProfiler(*this);
+}
+
+void RenderSystem::scheduleQueryResolving()
+{
+    static int i = 0;
+    commandList->Reset(commandAllocators[i].Get(), nullptr);
+    gpuProfiler->scheduleFrameResolve(*commandList.Get());
+    gpuProfiler->addStamp(*commandList.Get(), "resolved");
+    commandList->Close();
+
+    ID3D12GraphicsCommandList* command_list = commandList.Get();
+    get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&command_list);
+
+    auto fenceValue = get_command_queue().fence->SignalNext();
+    gpuProfiler->endFrameRange(fenceValue);
+
+    i = (i + 1) % 3;
 }
 
 void RenderSystem::ImguiInitHelper()
@@ -233,5 +256,5 @@ RenderContext* RenderSystem::getRenderContext()
 
 GpuProfiler* RenderSystem::getProfiler()
 {
-    return profiler;
+    return gpuProfiler;
 }

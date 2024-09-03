@@ -37,6 +37,7 @@ App::App()
 #include "timer.h"
 #include "profiler/profiler.h"
 #include "profiler/timebox_tracker.h"
+#include "gpu_profiler.h"
 
 void handle_input()
 {
@@ -74,6 +75,9 @@ void App::run_game_loop()
         PROFILE("frame");
 
         float deltaTime = profiler.getDeltaTime();
+
+        auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
+        render_system.getProfiler()->grabReadyStamps(completedValue);
 
         {
             PROFILE("input");
@@ -129,6 +133,8 @@ void App::run_game_loop()
                 window->swap_chain->present();
             }
         }
+
+        render_system.scheduleQueryResolving();
 
         {
             PROFILE("render platform windows");

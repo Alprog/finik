@@ -11,6 +11,7 @@ public:
 
     int SignalNext();
     int GetLastSignaledValue();
+    int GetCompletedValue();
     void WaitForValue(int value);
 
 private:

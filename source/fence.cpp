@@ -28,6 +28,11 @@ int Fence::GetLastSignaledValue()
     return LastSignaledValue;
 }
 
+int Fence::GetCompletedValue()
+{
+    return FenceImpl->GetCompletedValue();
+}
+
 void Fence::WaitForValue(int value)
 {
     if (value != 0)

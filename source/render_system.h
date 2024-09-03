@@ -34,21 +34,25 @@ public:
 
     void ImguiInitHelper();
 
+    void scheduleQueryResolving();
+
 private:
     void enableDebugLayer();
     void createDevice();
     void setupDebug();
     void createCommandQueue();
     void createDescriptorHeap();
-    void createCommandList();
+    void createCommandAllocators();
+    void createCommandList();   
     void createRenderContext();
     void createProfiler();
     
     ComPtr<ID3D12Device> device = nullptr;
     CommandQueue* commandQueue = nullptr;
+    ComPtr<ID3D12CommandAllocator> commandAllocators[3];
     ComPtr<ID3D12GraphicsCommandList> commandList = nullptr;
 
-    GpuProfiler* profiler = nullptr;
+    GpuProfiler* gpuProfiler = nullptr;
 
     std::unique_ptr<RenderContext> renderContext;
 
