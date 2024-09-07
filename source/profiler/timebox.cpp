@@ -5,7 +5,7 @@ using namespace finik::profiler;
 
 Timebox::Timebox(const char* label, uint8_t level)
     : label{ label}
-    , startTimestamp { get_elapsed_time() }
+    , startTimestamp { getMicroseconds() }
     , endTimestamp { 0 }
     , level { level }
 {
@@ -13,5 +13,5 @@ Timebox::Timebox(const char* label, uint8_t level)
 
 void Timebox::end()
 {
-    endTimestamp = get_elapsed_time();
+    endTimestamp = getMicroseconds();
 }

@@ -28,6 +28,7 @@
 #include "desktop_window.h"
 #include "command_queue.h"
 #include "gpu_profiler.h"
+#include <chrono>
 
 class ResultChecker
 {

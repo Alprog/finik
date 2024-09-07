@@ -23,7 +23,7 @@ public:
     void scheduleFrameResolve(ID3D12GraphicsCommandList& commandList);
     void endFrameRange(int readyFenceValue);
 
-    void grabReadyStamps(int fenceValue);
+    void grabReadyStamps(int completedValue);
 
 private:
     ComPtr<ID3D12QueryHeap> queryHeap;
@@ -31,4 +31,9 @@ private:
 
     StampRange currentRange;
     std::queue<StampRange> queue;
+    UINT64 ticksInMicrosecond;
+
+    UINT64 syncedGpuTimestamp;
+    UINT64 syncedCpuTimestamp;
+    UINT64 syncedCpuMicroseconds;
 };

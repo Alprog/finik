@@ -17,9 +17,6 @@ Fence::Fence(RenderSystem& renderSystem, ID3D12CommandQueue& queue)
 int Fence::SignalNext()
 {
     Queue.Signal(FenceImpl.Get(), ++LastSignaledValue);
-
-    log("{} SIGNALED: {}/{} \n", get_elapsed_time_string(), FenceImpl->GetCompletedValue(), LastSignaledValue);
-
     return LastSignaledValue;
 }
 
@@ -37,8 +34,6 @@ void Fence::WaitForValue(int value)
 {
     if (value != 0)
     {
-        log("{} WAIT: {} > {} ({}) \n", get_elapsed_time_string(), FenceImpl->GetCompletedValue(), value, LastSignaledValue);
-
         FenceImpl->SetEventOnCompletion(value, FenceEvent);
         WaitForSingleObject(FenceEvent, INFINITE);
     }

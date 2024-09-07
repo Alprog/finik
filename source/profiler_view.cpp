@@ -12,14 +12,16 @@ void ProfilerView::draw_content()
     ImGui::Text("deltaTime: %f", profiler.getDeltaTime());
     ImGui::Text("FPS: %f", profiler.getFPS());
     
-    auto& timeboxes = profiler.GetCpuLane().timeboxes;
+    auto& cpuTimeboxes = profiler.GetCpuLane().timeboxes;
     
     int start = 0;
     int end = 0;
 
-    for (int i = timeboxes.size() - 1; i >= 0; i--)
+    int frameCount = 40;
+
+    for (int i = cpuTimeboxes.size() - 1; i >= 0; i--)
     {
-        if (!strcmp(timeboxes[i].label, "frame"))
+        if (!strcmp(cpuTimeboxes[i].label, "frame"))
         {
             if (end == 0)
             {
@@ -27,11 +29,36 @@ void ProfilerView::draw_content()
             }
             else
             {
-                start = i;
-                break;
+                if (!frameCount--)
+                {
+                    start = i;
+                    break;
+                }
             }
         }
     }
 
-    finik::drawFlamegraph(&timeboxes[start], end - start, Vector2(500, 30));
+    if (end == 0)
+        return;
+
+    const uint64_t startTime = cpuTimeboxes[start].startTimestamp;
+    const uint64_t endTime = cpuTimeboxes[end - 1].endTimestamp;
+
+    finik::drawFlamegraph(&cpuTimeboxes[start], end - start, startTime, endTime, Vector2(900, 30));
+
+
+    auto& gpuTimeboxes = profiler.GetGpuLane().timeboxes;
+
+    if (gpuTimeboxes.empty())
+        return;
+
+    end = gpuTimeboxes.size() - 1;
+    
+    for (start = end - 1; start > 0; start--)
+    {
+        if (gpuTimeboxes[start].startTimestamp < startTime)
+            break;
+    }
+
+    finik::drawFlamegraph(&gpuTimeboxes[start], end - start, startTime, endTime, Vector2(900, 30));
 }

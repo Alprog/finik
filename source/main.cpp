@@ -15,7 +15,7 @@
 
 int main(int argc, char* argv[])
 {
-    set_start_time();
+    initTimer();
 
     App& app = App::get_instance();
 

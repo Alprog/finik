@@ -17,6 +17,6 @@ Timebox& Lane::startTimebox(const char* label)
 
 void Lane::endTimebox(Timebox& timebox)
 {
-    timebox.endTimestamp = get_elapsed_time();
+    timebox.end();
     level--;
 }

@@ -2,6 +2,11 @@
 
 #include "render_system.h"
 #include <cassert>
+#include "log.h"
+#include "profiler/profiler.h"
+#include "profiler/lane.h"
+#include "app.h"
+#include "timer.h"
 
 int constexpr MAX_TIMESTAMP = 100;
 int constexpr readBackRecordSize = sizeof(UINT64);
@@ -35,6 +40,13 @@ GpuProfiler::GpuProfiler(RenderSystem& renderSystem)
         D3D12_RESOURCE_STATE_COPY_DEST,
         nullptr,
         IID_PPV_ARGS(&readBackBuffer));
+
+    UINT64 gpuFrequency;
+    renderSystem.get_command_queue()->GetTimestampFrequency(&gpuFrequency);
+    ticksInMicrosecond = gpuFrequency / 1'000'000;
+
+    renderSystem.get_command_queue()->GetClockCalibration(&syncedGpuTimestamp, &syncedCpuTimestamp);
+    syncedCpuMicroseconds = toMicroseconds(syncedCpuTimestamp);
 }
 
 void GpuProfiler::addStamp(ID3D12GraphicsCommandList& commandList, void* name)
@@ -66,8 +78,8 @@ void GpuProfiler::scheduleFrameResolve(ID3D12GraphicsCommandList& commandList)
     }
     else
     {
-        resolveHelper(0, end);
         resolveHelper(start, MAX_TIMESTAMP);
+        resolveHelper(0, end);
     }    
 }
 
@@ -78,23 +90,56 @@ void GpuProfiler::endFrameRange(const int readyFenceValue)
     currentRange = { currentRange.endIndex, currentRange.endIndex, 0 };
 }
 
-void GpuProfiler::grabReadyStamps(int fenceValue)
+void GpuProfiler::grabReadyStamps(int completedValue)
 {
-    while (!queue.empty() && queue.front().readyFenceValue <= fenceValue)
+    auto& lane = App::get_instance().profiler.GetGpuLane();
+
+    while (!queue.empty() && completedValue >= queue.front().readyFenceValue)
     {
         StampRange range = queue.front();
         queue.pop();
 
         int start = range.startIndex % MAX_TIMESTAMP;
         int end = range.endIndex % MAX_TIMESTAMP;
-        D3D12_RANGE readRange = { start * readBackRecordSize, end * readBackRecordSize };
 
-        std::vector<UINT64> stamps;
-        stamps.resize(range.count());
+        auto helper = [this, &lane](int start, int end) {
+            D3D12_RANGE readRange = { start * readBackRecordSize, end * readBackRecordSize };
 
-        void* data;
-        readBackBuffer->Map(0, &readRange, &data);
-        memcpy(&stamps[0], data, range.count() * readBackRecordSize);
-        readBackBuffer->Unmap(0, nullptr);
+            int count = end - start;
+            if (count > 0)
+            {
+                std::vector<UINT64> stamps;
+                stamps.resize(count);
+
+                void* data;
+                readBackBuffer->Map(0, &readRange, &data);
+
+                UINT64* stampsData = static_cast<UINT64*>(data);
+                memcpy(&stamps[0], &stampsData[start], count * readBackRecordSize);
+                readBackBuffer->Unmap(0, nullptr);
+
+                for (auto& stamp : stamps)
+                {
+                    uint64_t microseconds = (stamp - syncedGpuTimestamp) / ticksInMicrosecond + syncedCpuMicroseconds;
+
+                    finik::profiler::Timebox timebox("label", 4);
+
+                    timebox.startTimestamp = microseconds;
+                    timebox.endTimestamp = microseconds + 100;
+
+                    lane.timeboxes.push_back(timebox);
+                }
+            }
+        };
+
+        if (start < end)
+        {
+            helper(start, end);
+        }
+        else
+        {
+            helper(start, MAX_TIMESTAMP);
+            helper(0, end);            
+        }
     }
 }

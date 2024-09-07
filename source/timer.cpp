@@ -1,34 +1,38 @@
 #include "timer.h"
 
 #include <chrono>
+#include <Windows.h>
 
-static uint64_t start_time = 0;
+uint64_t startTimestamp;
+uint64_t cpuFrequency;
+uint64_t gpuFrequency;
+uint64_t cpuTicksInMicrosecond;
 
-uint64_t get_microseconds() 
+void initTimer()
 {
-    auto duration = std::chrono::system_clock::now().time_since_epoch();
-    return std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    startTimestamp = getTimestamp();
+    QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&cpuFrequency));
+    cpuTicksInMicrosecond = cpuFrequency / 1'000'000;
 }
 
-void set_start_time()
+uint64_t getTimestamp()
 {
-    start_time = get_microseconds();
+    uint64_t result;
+    QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&result));
+    return result;
 }
 
 uint64_t get_elapsed_time()
 {
-    return get_microseconds() - start_time;
+    return (getTimestamp() - startTimestamp) / cpuTicksInMicrosecond;
 }
 
-std::string get_elapsed_time_string()
+uint64_t getMicroseconds()
 {
-    std::string result = std::to_string(get_elapsed_time());
+    return getTimestamp() / cpuTicksInMicrosecond;
+}
 
-    if (result.size() > 6)
-    {
-        result.insert(result.size() - 6, 1, ' ');
-        result.insert(result.size() - 3, 1, '\'');
-    }
-
-    return result;
+uint64_t toMicroseconds(uint64_t timestamp)
+{
+    return timestamp / cpuTicksInMicrosecond;
 }

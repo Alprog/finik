@@ -194,12 +194,8 @@ void RenderLane::render()
 
     commandList->Close();
 
-    log("{} lane execute\n", get_elapsed_time_string());
-
     commandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
-
-    log("{} lane done\n", get_elapsed_time_string());
 
 }

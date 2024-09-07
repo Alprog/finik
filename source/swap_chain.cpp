@@ -246,8 +246,6 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
 {
     UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
 
-    log("{} BACKBUFER: {} \n", get_elapsed_time_string(), backBufferIdx);
-
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;

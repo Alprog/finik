@@ -5,13 +5,11 @@
 
 namespace finik
 {
-    void drawFlamegraph(profiler::Timebox* timeboxes, int count, Vector2 size)
+    void drawFlamegraph(profiler::Timebox* timeboxes, int count, uint64_t startTime, uint64_t endTime, Vector2 size)
     {
         ImGuiWindow* window = ImGui::GetCurrentWindow();
 
-        const int startTime = timeboxes[0].startTimestamp;
-        const int endTime = timeboxes[count - 1].endTimestamp;
-        const int timeInterval = endTime - startTime;
+        const uint64_t timeInterval = endTime - startTime;
 
         const float widthPerTime = size.x / timeInterval;
         const float levelHeight = 20;
