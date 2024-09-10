@@ -9,6 +9,7 @@ class CommandList
 {
 public:
     explicit CommandList(RenderSystem& renderSystem, CommandListPool& pool);
+    void reset();
 
     void returnToPool();
 

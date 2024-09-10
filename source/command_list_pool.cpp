@@ -17,6 +17,7 @@ CommandList& CommandListPool::retrieveOne()
 
     auto& list = *freeLists.back();
     freeLists.pop_back();
+    list.reset();
     return list;
 }
 

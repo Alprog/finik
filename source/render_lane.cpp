@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "log.h";
 #include "profiler/timebox_tracker.h"
+#include "command_list.h"
 
 void RenderSurface::init(IntSize resolution)
 {
@@ -140,18 +141,6 @@ RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
     : scene{ scene }
     , camera{ camera }
 {
-    RenderSystem& render_system = App::get_instance().render_system;
-    auto device = render_system.get_device();
-
-    auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator));
-    if (FAILED(result)) throw;
-
-    result = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator, nullptr, IID_PPV_ARGS(&commandList));
-    if (FAILED(result)) throw;
-
-    result = commandList->Close();
-    if (FAILED(result)) throw;
-
     surface.init(resolution);
 }
 
@@ -183,18 +172,17 @@ void RenderLane::render()
         commandQueue.fence->WaitForValue(fenceValue);
     }
 
-    commandAllocator->Reset();
-    commandList->Reset(commandAllocator, nullptr);
+    auto& commandList = render_system.getFreeCommandList();
     
-    surface.startRendering(commandList);
+    surface.startRendering(commandList.listImpl.Get());
    
-    RenderContext context(render_system, *commandList);
+    RenderContext context(render_system, *commandList.listImpl.Get());
     scene.render(context, &camera);
-    surface.endRendering(commandList);
+    surface.endRendering(commandList.listImpl.Get());
 
-    commandList->Close();
+    commandList.listImpl.Get()->Close();
 
-    commandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
+    commandQueue.execute(commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
 

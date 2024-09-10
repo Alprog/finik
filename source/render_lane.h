@@ -47,8 +47,6 @@ private:
     Scene& scene;
     Camera& camera;
     RenderSurface surface;
-    ID3D12CommandAllocator* commandAllocator;
-    ID3D12GraphicsCommandList* commandList;
 
     UINT64 fenceValue = 0;
 };

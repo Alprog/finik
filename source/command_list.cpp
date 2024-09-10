@@ -15,8 +15,13 @@ CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool)
     result = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator.Get(), nullptr, IID_PPV_ARGS(&listImpl));
     if (FAILED(result)) throw;
 
-    result = listImpl->Close();
-    if (FAILED(result)) throw;
+    // open and ready to record
+}
+
+void CommandList::reset()
+{
+    commandAllocator->Reset();
+    listImpl->Reset(commandAllocator.Get(), nullptr);
 }
 
 void CommandList::returnToPool()
