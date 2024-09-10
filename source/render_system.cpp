@@ -66,6 +66,7 @@ void RenderSystem::init()
     setupDebug();
     createCommandQueue();
     createDescriptorHeap();
+    createCommandListPool();
     createCommandAllocators();
     createCommandList();
     createRenderContext();
@@ -167,6 +168,11 @@ void RenderSystem::createDescriptorHeap()
     srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 10);
 }
 
+void RenderSystem::createCommandListPool()
+{
+    commandListPool = std::make_unique<CommandListPool>( *this );
+}
+
 void RenderSystem::createCommandAllocators()
 {
     for (int i = 0; i < 3; i++)
@@ -259,3 +265,9 @@ GpuProfiler* RenderSystem::getProfiler()
 {
     return gpuProfiler;
 }
+
+CommandList& RenderSystem::getFreeCommandList()
+{
+    return commandListPool->retrieveOne();
+}
+

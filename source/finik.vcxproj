@@ -136,6 +136,8 @@
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
+    <ClCompile Include="command_list.cpp" />
+    <ClCompile Include="command_list_pool.cpp" />
     <ClCompile Include="command_queue.cpp" />
     <ClCompile Include="console_view.cpp" />
     <ClCompile Include="constant_buffer.cpp" />
@@ -224,6 +226,8 @@
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_controller.h" />
+    <ClInclude Include="command_list.h" />
+    <ClInclude Include="command_list_pool.h" />
     <ClInclude Include="command_queue.h" />
     <ClInclude Include="console_view.h" />
     <ClInclude Include="constant_buffer.h" />

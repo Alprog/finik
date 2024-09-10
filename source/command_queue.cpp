@@ -19,6 +19,12 @@ ID3D12CommandQueue* CommandQueue::operator->()
     return queueImpl.Get(); 
 }
 
+void CommandQueue::execute(CommandList& commandList)
+{
+    executionQueue.push(&commandList);
+    queueImpl->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
+}
+
 void CommandQueue::Flush()
 {
     fence->WaitForValue(fence->SignalNext());

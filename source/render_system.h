@@ -13,6 +13,7 @@ class GpuProfiler;
 #include "render_context.h"
 #include "render_lane.h"
 #include "command_queue.h"
+#include "command_list_pool.h"
 
 class RenderSystem
 {
@@ -32,6 +33,8 @@ public:
     RenderContext* getRenderContext();
     GpuProfiler* getProfiler();
 
+    CommandList& getFreeCommandList();
+
     void ImguiInitHelper();
 
     void scheduleQueryResolving();
@@ -42,6 +45,7 @@ private:
     void setupDebug();
     void createCommandQueue();
     void createDescriptorHeap();
+    void createCommandListPool();
     void createCommandAllocators();
     void createCommandList();   
     void createRenderContext();
@@ -63,6 +67,8 @@ private:
     std::shared_ptr<PipelineState> pipelineState;
 
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+
+    std::unique_ptr<CommandListPool> commandListPool;
 
 public:
     std::vector<std::shared_ptr<RenderLane>> lanes;
