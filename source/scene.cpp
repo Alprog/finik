@@ -42,7 +42,11 @@ void Scene::update(float deltaTime)
 
 ConstantBuffer* getConstantBuffer(Camera* camera)
 {
-    static std::unordered_map<Camera*, ConstantBuffer*> constantBuffers;
+    static std::unordered_map<Camera*, ConstantBuffer*> maps[5];
+
+    auto frameIndex = App::get_instance().profiler.getFrameIndex();
+    auto& constantBuffers = maps[frameIndex % 5];
+
     auto it = constantBuffers.find(camera);
     if (it != constantBuffers.end())
     {
@@ -59,6 +63,8 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 {
     auto& renderSystem = App::get_instance().render_system;
 
+    auto constantBuffer = getConstantBuffer(camera);
+
     if (!renderCommand.state)
     {
         renderCommand.mesh = createCubeMesh();
@@ -69,7 +75,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
         renderCommand.texture = texture;
         renderCommand.texture2 = grid->tileMap->Texture;
-        renderCommand.state->constantBuffer = new ConstantBuffer(renderSystem);
     }
 
     if (!renderCommand2.state)
@@ -82,21 +87,17 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
         renderCommand2.texture = cellTexture;
         renderCommand2.texture2 = grid->tileMap->Texture;
-        renderCommand2.state->constantBuffer = new ConstantBuffer(renderSystem);
     }
 
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
-    renderCommand.state->constantBuffer->data.ViewProjection = V * P;
-    renderCommand.state->constantBuffer->version++;
+    constantBuffer->data.ViewProjection = V * P;
+    constantBuffer->version++;
+    constantBuffer->update();
 
-    V = camera->viewMatrix;
-    P = camera->projectionMatrix;
-    renderCommand2.state->constantBuffer->data.ViewProjection = V * P;
-    renderCommand2.state->constantBuffer->version++;
-
+    renderCommand2.state->constantBuffer = constantBuffer;
+    renderCommand2.state->constantBuffer = constantBuffer;
     renderContext.draw(renderCommand2);
-    //renderContext.draw(renderCommand);
 
     actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
@@ -104,8 +105,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     //----------------------------------------------------
 
     auto mesh = renderCommand.mesh;
-    auto constantBuffer = renderCommand.state->constantBuffer;
-    constantBuffer->update();
     auto& commandList = renderContext.commandList;
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
