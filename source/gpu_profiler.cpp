@@ -49,10 +49,11 @@ GpuProfiler::GpuProfiler(RenderSystem& renderSystem)
     syncedCpuMicroseconds = toMicroseconds(syncedCpuTimestamp);
 }
 
-void GpuProfiler::addStamp(ID3D12GraphicsCommandList& commandList, void* name)
+int GpuProfiler::addStamp(ID3D12GraphicsCommandList& commandList, void* name)
 {
     int index = currentRange.endIndex++ % MAX_TIMESTAMP;
     commandList.EndQuery(queryHeap.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index);
+    return index;
 }
 
 void GpuProfiler::scheduleFrameResolve(ID3D12GraphicsCommandList& commandList)

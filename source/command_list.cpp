@@ -2,6 +2,7 @@
 
 #include "render_system.h"
 #include "command_list_pool.h"
+#include "gpu_profiler.h"
 
 CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
     : renderSystem{ renderSystem }
@@ -35,4 +36,20 @@ void CommandList::returnToPool()
 int CommandList::getFrameIndex() const
 {
     return frameIndex;
+}
+
+void CommandList::startRecording()
+{
+    startTimestampIndex = addTimestampQuery();
+}
+
+void CommandList::endRecording()
+{
+    endTimestampIndex = addTimestampQuery();
+    listImpl->Close();
+}
+
+int CommandList::addTimestampQuery()
+{
+    return renderSystem.getProfiler()->addStamp(*listImpl.Get(), "list");
 }

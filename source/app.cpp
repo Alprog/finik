@@ -135,8 +135,6 @@ void App::run_game_loop()
             }
         }
 
-        render_system.scheduleQueryResolving();
-
         {
             PROFILE("render platform windows");
             if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -145,6 +143,8 @@ void App::run_game_loop()
                 ImGui::RenderPlatformWindowsDefault();
             }
         }
+
+        render_system.scheduleQueryResolving();
 
         auto signaled = render_system.get_command_queue().frameFence->SignalNext();
         assert(signaled == profiler.getFrameIndex());

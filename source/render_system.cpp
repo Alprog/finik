@@ -205,7 +205,7 @@ void RenderSystem::scheduleQueryResolving()
 {
     static int i = 0;
     commandList->Reset(commandAllocators[i].Get(), nullptr);
-    gpuProfiler->addStamp(*commandList.Get(), "resolving");
+    //gpuProfiler->addStamp(*commandList.Get(), "resolving");
     gpuProfiler->scheduleFrameResolve(*commandList.Get());
     commandList->Close();
 

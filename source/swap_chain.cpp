@@ -210,7 +210,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     current_frame_ctx->CommandAllocator->Reset();
 
     command_list->Reset(current_frame_ctx->CommandAllocator, nullptr);
-    render_system.getProfiler()->addStamp(*command_list, "start");
+    //render_system.getProfiler()->addStamp(*command_list, "start");
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -255,7 +255,7 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
     command_list->ResourceBarrier(1, &barrier);
 
-    App::get_instance().render_system.getProfiler()->addStamp(*command_list, "end");
+    //App::get_instance().render_system.getProfiler()->addStamp(*command_list, "end");
     
     command_list->Close();
 }

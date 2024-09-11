@@ -19,7 +19,7 @@ class GpuProfiler
 public:
     GpuProfiler(RenderSystem& renderSystem);
 
-    void addStamp(ID3D12GraphicsCommandList& commandList, void* name);
+    int addStamp(ID3D12GraphicsCommandList& commandList, void* name);
     void scheduleFrameResolve(ID3D12GraphicsCommandList& commandList);
     void endFrameRange(int readyFenceValue);
 

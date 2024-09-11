@@ -17,7 +17,7 @@ void ProfilerView::draw_content()
     int start = 0;
     int end = 0;
 
-    int frameCount = 40;
+    int frameCount = 10;
 
     for (int i = cpuTimeboxes.size() - 1; i >= 0; i--)
     {

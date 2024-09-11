@@ -173,15 +173,15 @@ void RenderLane::render()
     }
 
     auto& commandList = render_system.getFreeCommandList();
-    
+    commandList.startRecording();
+
     surface.startRendering(commandList.listImpl.Get());
    
     RenderContext context(render_system, *commandList.listImpl.Get());
     scene.render(context, &camera);
     surface.endRendering(commandList.listImpl.Get());
 
-    commandList.listImpl.Get()->Close();
-
+    commandList.endRecording();
     commandQueue.execute(commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
