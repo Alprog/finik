@@ -3,9 +3,10 @@
 #include "render_system.h"
 #include "command_list_pool.h"
 
-CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool)
+CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
     : renderSystem{ renderSystem }
     , pool { pool }
+    , frameIndex { frameIndex }
 {
     auto device = renderSystem.get_device();
 
@@ -18,13 +19,20 @@ CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool)
     // open and ready to record
 }
 
-void CommandList::reset()
+void CommandList::reset(const int frameIndex)
 {
     commandAllocator->Reset();
     listImpl->Reset(commandAllocator.Get(), nullptr);
+    this->frameIndex = frameIndex;
 }
 
 void CommandList::returnToPool()
 {
+    frameIndex = 0;
     pool.putBack(*this);
+}
+
+int CommandList::getFrameIndex() const
+{
+    return frameIndex;
 }

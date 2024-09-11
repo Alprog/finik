@@ -77,6 +77,7 @@ void App::run_game_loop()
         float deltaTime = profiler.getDeltaTime();
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
+        render_system.get_command_queue().freeCompletedLists();
         render_system.getProfiler()->grabReadyStamps(completedValue);
 
         {
@@ -145,8 +146,16 @@ void App::run_game_loop()
             }
         }
 
+        auto signaled = render_system.get_command_queue().frameFence->SignalNext();
+        assert(signaled == profiler.getFrameIndex());
+
         profiler.endFrame();
     }
 
     //render_system.WaitForLastSubmittedFrame();
+}
+
+int App::getFrameIndex()
+{
+    return profiler.getFrameIndex();
 }

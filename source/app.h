@@ -19,6 +19,8 @@ private:
 public:
     void run_game_loop();
 
+    int getFrameIndex();
+
 public:
     DesktopSystem desktop_system;
     InputSystem input_system;

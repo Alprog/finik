@@ -11,7 +11,7 @@ Profiler::Profiler()
 
 void Profiler::start()
 {
-    frameIndex = 0;
+    frameIndex = 1;
     frameStartTime = get_elapsed_time();
     deltaTime = 0;
 }

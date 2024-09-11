@@ -2,7 +2,8 @@
 
 #include <vector>
 
-class CommandList;
+#include "command_list.h"
+
 class RenderSystem;
 
 class CommandListPool
@@ -17,6 +18,7 @@ public:
 
 private:
     RenderSystem& renderSystem;
-    
+
+    std::vector<std::unique_ptr<CommandList>> lists;
     std::vector<CommandList*> freeLists;
 };

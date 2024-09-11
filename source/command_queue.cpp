@@ -1,6 +1,7 @@
 #include "command_queue.h"
 
 #include "render_system.h"
+#include "command_list.h"
 
 CommandQueue::CommandQueue(RenderSystem& renderSystem)
 {
@@ -11,6 +12,7 @@ CommandQueue::CommandQueue(RenderSystem& renderSystem)
     auto result = renderSystem.get_device()->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queueImpl));
     if (FAILED(result)) throw;
 
+    frameFence = std::make_unique<Fence>(renderSystem, *queueImpl.Get());
     fence = std::make_unique<Fence>(renderSystem, *queueImpl.Get());
 }
 
@@ -23,6 +25,24 @@ void CommandQueue::execute(CommandList& commandList)
 {
     executionQueue.push(&commandList);
     queueImpl->ExecuteCommandLists(1, (ID3D12CommandList* const*)&commandList);
+}
+
+void CommandQueue::freeCompletedLists()
+{
+    auto completedFrameIndex = frameFence->GetCompletedValue();
+
+    while (!executionQueue.empty())
+    {
+        if (executionQueue.front()->getFrameIndex() <= completedFrameIndex)
+        {
+            executionQueue.front()->returnToPool();
+            executionQueue.pop();
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 void CommandQueue::Flush()
