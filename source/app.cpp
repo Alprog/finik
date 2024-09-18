@@ -21,10 +21,6 @@ App::App()
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-#include "imgui.h"
-#include "backends/imgui_impl_dx12.h"
-#include "backends/imgui_impl_sdl2.h"
-
 #include "app.h"
 #include "desktop_window.h"
 #include "scene.h"
@@ -38,6 +34,10 @@ App::App()
 #include "profiler/profiler.h"
 #include "profiler/timebox_tracker.h"
 #include "gpu_profiler.h"
+
+#include <cassert>
+
+import imgui;
 
 void handle_input()
 {

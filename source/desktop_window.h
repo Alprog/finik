@@ -3,7 +3,7 @@
 #include "windows.h"
 #include "stdint.h"
 
-class SDL_Window;
+struct SDL_Window;
 using WindowImpl = SDL_Window;
 
 class SwapChain;

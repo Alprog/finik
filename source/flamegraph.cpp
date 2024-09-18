@@ -1,7 +1,6 @@
 #include "flamegraph.h"
 
-#include "imgui.h"
-#include "imgui_internal.h"
+import imgui;
 
 namespace finik
 {

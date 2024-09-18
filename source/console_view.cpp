@@ -1,6 +1,6 @@
 #include "console_view.h"
 
-#include "imgui.h"
+import imgui;
 
 ConsoleView::ConsoleView(const char* name)
     : View{ name }

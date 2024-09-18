@@ -1,9 +1,10 @@
 #include "profiler_view.h"
 
 #include "app.h"
-#include "imgui.h"
 #include "flamegraph.h"
 #include "math/vector2.h"
+
+import imgui;
 
 void ProfilerView::draw_content()
 {

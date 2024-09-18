@@ -1,17 +1,14 @@
 #include "gui.h"
 
-#include "imgui.h"
-#include "backends/imgui_impl_dx12.h"
-#include "backends/imgui_impl_sdl2.h"
-
-#include "desktop_window.h"
 #include "app.h"
+#include "desktop_window.h"
+
+import imgui;
 
 Gui::Gui(DesktopWindow& window)
     : window{window}
 {
     // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
     impl = ImGui::CreateContext();
     ImGui::SetCurrentContext(impl);
 

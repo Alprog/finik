@@ -1,8 +1,9 @@
 #include "stats_view.h"
 
-#include "imgui.h"
 #include "scene_view.h"
 #include "scene.h"
+
+import imgui;
 
 StatsView::StatsView(const char* name, SceneView& sceneView)
     : View{ name }

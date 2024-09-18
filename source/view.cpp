@@ -1,6 +1,6 @@
 #include "view.h"
 
-#include "imgui.h"
+import imgui;
 
 View::View(const char* name)
     : name{name}

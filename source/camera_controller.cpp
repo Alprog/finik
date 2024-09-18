@@ -3,7 +3,8 @@
 #include "camera.h"
 #include <cmath>
 #include "utils.h"
-#include "imgui.h"
+
+import imgui;
 
 CameraController::CameraController(Camera& camera)
     : camera{ camera }

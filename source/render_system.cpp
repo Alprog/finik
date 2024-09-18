@@ -6,10 +6,6 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 
-#include "imgui.h"
-#include "backends/imgui_impl_dx12.h"
-#include "backends/imgui_impl_sdl2.h"
-
 #include <tchar.h>
 
 #ifdef _DEBUG
@@ -29,6 +25,8 @@
 #include "command_queue.h"
 #include "gpu_profiler.h"
 #include <chrono>
+
+import imgui;
 
 class ResultChecker
 {
