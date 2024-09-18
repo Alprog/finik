@@ -14,6 +14,7 @@ class GpuProfiler;
 #include "render_lane.h"
 #include "command_queue.h"
 #include "command_list_pool.h"
+#include "gpumem/oneshot_allocator.h"
 
 class RenderSystem
 {
@@ -47,6 +48,7 @@ private:
     void createDescriptorHeap();
     void createCommandListPool();
     void createCommandAllocators();
+    void createOneshotAllocator();
     void createCommandList();   
     void createRenderContext();
     void createProfiler();
@@ -69,6 +71,7 @@ private:
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 
     std::unique_ptr<CommandListPool> commandListPool;
+    std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
 
 public:
     std::vector<std::shared_ptr<RenderLane>> lanes;

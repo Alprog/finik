@@ -68,6 +68,7 @@ void RenderSystem::init()
     createDescriptorHeap();
     createCommandListPool();
     createCommandAllocators();
+    createOneshotAllocator();
     createCommandList();
     createRenderContext();
     createProfiler();
@@ -180,6 +181,11 @@ void RenderSystem::createCommandAllocators()
         auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i]));
         if (FAILED(result)) throw;
     }
+}
+
+void RenderSystem::createOneshotAllocator()
+{
+    oneshotAllocator = std::make_unique<finik::gpumem::OneshotAllocator>(*this);
 }
 
 void RenderSystem::createCommandList()

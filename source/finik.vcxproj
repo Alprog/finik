@@ -62,7 +62,9 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking;$(SolutionDir)\..\3rd-party\zlib;$(SolutionDir)\..\3rd-party\libpng</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,10 +148,13 @@
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="fence.cpp" />
     <ClCompile Include="flamegraph.cpp" />
+    <ClCompile Include="gpumem\oneshot_allocator.cpp" />
+    <ClCompile Include="gpumem\memory_page.cpp" />
     <ClCompile Include="gpu_profiler.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
+    <ClCompile Include="imgui.ixx" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="math\matrix3x3.cpp" />
     <ClCompile Include="math\ray.cpp" />
@@ -162,6 +167,7 @@
     <ClCompile Include="render_lane.cpp" />
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="stats_view.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_view.cpp" />
@@ -237,6 +243,9 @@
     <ClInclude Include="dx.h" />
     <ClInclude Include="fence.h" />
     <ClInclude Include="flamegraph.h" />
+    <ClInclude Include="gpumem\allocation.h" />
+    <ClInclude Include="gpumem\oneshot_allocator.h" />
+    <ClInclude Include="gpumem\memory_page.h" />
     <ClInclude Include="gpu_profiler.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
