@@ -1,8 +1,6 @@
-#pragma once
+export module Vector2;
 
-#include <string>
-
-struct Vector2
+export struct Vector2
 {
     static const Vector2 Zero;
     static const Vector2 One;

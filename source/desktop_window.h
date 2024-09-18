@@ -1,7 +1,6 @@
 #pragma once
 
 #include "windows.h"
-#include "stdint.h"
 
 struct SDL_Window;
 using WindowImpl = SDL_Window;
@@ -20,7 +19,7 @@ public:
 
     WindowImpl* get_impl() { return impl; }
 
-    uint32_t id;
+    unsigned int id;
     HWND hwnd;
     SwapChain* swap_chain;
     Scene* scene;

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "math/vector2.h"
 #include "profiler/timebox.h"
+
+import Vector2;
 
 namespace finik
 {

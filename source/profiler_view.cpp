@@ -2,9 +2,9 @@
 
 #include "app.h"
 #include "flamegraph.h"
-#include "math/vector2.h"
 
 import imgui;
+import Vector2;
 
 void ProfilerView::draw_content()
 {

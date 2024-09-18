@@ -1,7 +1,8 @@
 #pragma once
 
-#include "vector2.h"
 #include "vector3.h"
+
+import Vector2;
 
 struct Vector4
 {

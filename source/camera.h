@@ -1,9 +1,10 @@
 #pragma once
 
-#include "math/vector2.h"
 #include "math/vector3.h"
 #include "math/matrix.h"
 #include "math/ray.h"
+
+import Vector2;
 
 class Scene;
 class RenderContext;

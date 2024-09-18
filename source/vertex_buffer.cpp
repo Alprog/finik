@@ -3,9 +3,10 @@
 #include "app.h"
 #include "render_system.h"
 
-#include "math/vector2.h"
 #include "math/vector3.h"
 #include "render_system.h"
+
+import Vector2;
 
 void VertexBuffer::Load()
 {
