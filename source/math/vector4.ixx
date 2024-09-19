@@ -1,10 +1,9 @@
-#pragma once
-
-#include "vector3.h"
+export module Vector4;
 
 import Vector2;
+import Vector3;
 
-struct Vector4
+export struct Vector4
 {
     static const Vector4 Zero;
     static const Vector4 One;

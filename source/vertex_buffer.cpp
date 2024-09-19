@@ -2,11 +2,10 @@
 
 #include "app.h"
 #include "render_system.h"
-
-#include "math/vector3.h"
 #include "render_system.h"
 
 import Vector2;
+import Vector3;
 
 void VertexBuffer::Load()
 {

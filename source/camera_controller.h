@@ -1,7 +1,8 @@
 #pragma once
 
 #include <numbers>
-#include "math/vector3.h"
+
+import Vector3;
 
 class Camera;
 

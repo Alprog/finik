@@ -1,6 +1,6 @@
-
-#include "Vector3.h"
+module;
 #include "math.h"
+module Vector3;
 
 const Vector3 Vector3::Zero {0, 0, 0};
 const Vector3 Vector3::One {1, 1, 1};

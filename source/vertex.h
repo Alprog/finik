@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Math/Vector3.h"
-
 import Vector2;
+import Vector3;
 
 struct StandardVertex
 {

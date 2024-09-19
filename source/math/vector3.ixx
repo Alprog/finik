@@ -1,7 +1,6 @@
+export module Vector3;
 
-#pragma once
-
-struct Vector3
+export struct Vector3
 {
     static const Vector3 Zero;
     static const Vector3 One;

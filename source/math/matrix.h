@@ -1,9 +1,10 @@
 #pragma once
 
-#include "vector3.h"
-#include "vector4.h"
 #include "quaternion.h"
 #include "matrix3x3.h"
+
+import Vector3;
+import Vector4;
 
 struct Matrix
 {

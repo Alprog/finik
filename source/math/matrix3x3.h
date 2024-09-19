@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vector3.h"
+import Vector3;
 
 struct Matrix3x3
 {
