@@ -1,6 +1,7 @@
-#include "Quaternion.h"
+module;
 #include "math.h"
 #include <cmath>
+module math:Quaternion;
 
 const Quaternion Quaternion::Identity {0, 0, 0, 1};
 

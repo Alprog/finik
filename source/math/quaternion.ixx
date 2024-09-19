@@ -1,8 +1,8 @@
-#pragma once
+export module math:Quaternion;
 
-import math;
+import :Vector3;
 
-class Quaternion
+export class Quaternion
 {
 public:
     static const Quaternion Identity;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "math/matrix.h"
-#include "math/ray.h"
 
 import math;
 

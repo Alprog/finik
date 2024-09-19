@@ -1,8 +1,8 @@
-#pragma once
+export module math:Ray;
 
-import math;
+import :Vector3;
 
-struct Ray
+export struct Ray
 {
     Ray() = default;
     Ray(Vector3 origin, Vector3 direction);

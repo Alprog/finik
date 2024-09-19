@@ -1,6 +1,5 @@
 #pragma once
 
-#include "quaternion.h"
 #include "matrix3x3.h"
 
 import math;

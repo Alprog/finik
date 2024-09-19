@@ -2,13 +2,14 @@
 
 #include "pipeline_state.h"
 #include "render_command.h"
-#include "math/ray.h"
 
 class RenderContext;
 class Camera;
 class Texture;
 class Grid;
 class Actor;
+
+import math;
 
 class Scene
 {
