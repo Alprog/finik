@@ -1,7 +1,6 @@
 #pragma once
 
-import Vector2;
-import Vector3;
+import math;
 
 struct StandardVertex
 {

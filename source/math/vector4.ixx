@@ -1,7 +1,7 @@
-export module Vector4;
+export module math:Vector4;
 
-import Vector2;
-import Vector3;
+import :Vector2;
+import :Vector3;
 
 export struct Vector4
 {

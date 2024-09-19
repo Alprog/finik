@@ -157,6 +157,7 @@
     <ClCompile Include="images.cpp" />
     <ClCompile Include="imgui.ixx" />
     <ClCompile Include="log.cpp" />
+    <ClCompile Include="math.ixx" />
     <ClCompile Include="math\matrix3x3.cpp" />
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="math\vector2.ixx" />

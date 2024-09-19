@@ -4,8 +4,7 @@
 #include "render_system.h"
 #include "render_system.h"
 
-import Vector2;
-import Vector3;
+import math;
 
 void VertexBuffer::Load()
 {

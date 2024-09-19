@@ -1,4 +1,4 @@
-export module Vector3;
+export module math:Vector3;
 
 export struct Vector3
 {

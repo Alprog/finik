@@ -4,7 +4,7 @@
 #include "flamegraph.h"
 
 import imgui;
-import Vector2;
+import math;
 
 void ProfilerView::draw_content()
 {

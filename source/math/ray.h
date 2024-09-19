@@ -1,6 +1,6 @@
 #pragma once
 
-import Vector3;
+import math;
 
 struct Ray
 {

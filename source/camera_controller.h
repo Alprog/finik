@@ -2,7 +2,7 @@
 
 #include <numbers>
 
-import Vector3;
+import math;
 
 class Camera;
 

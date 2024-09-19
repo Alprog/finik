@@ -3,8 +3,7 @@
 #include "math/matrix.h"
 #include "math/ray.h"
 
-import Vector2;
-import Vector3;
+import math;
 
 class Scene;
 class RenderContext;

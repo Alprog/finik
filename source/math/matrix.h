@@ -3,8 +3,7 @@
 #include "quaternion.h"
 #include "matrix3x3.h"
 
-import Vector3;
-import Vector4;
+import math;
 
 struct Matrix
 {

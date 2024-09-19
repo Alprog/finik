@@ -1,6 +1,6 @@
 module;
 #include "math.h"
-module Vector4;
+module math:Vector4;
 
 const Vector4 Vector4::Zero {0, 0, 0, 0};
 const Vector4 Vector4::One {1, 1, 1, 1};

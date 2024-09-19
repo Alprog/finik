@@ -2,7 +2,7 @@
 
 #include "profiler/timebox.h"
 
-import Vector2;
+import math;
 
 namespace finik
 {
