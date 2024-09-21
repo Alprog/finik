@@ -14,7 +14,7 @@ class GpuProfiler;
 #include "render_lane.h"
 #include "command_queue.h"
 #include "command_list_pool.h"
-#include "gpumem/oneshot_allocator.h"
+#include "../gpumem/oneshot_allocator.h"
 
 class RenderSystem
 {

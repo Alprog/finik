@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pipeline_state.h"
-#include "render_command.h"
+#include "gfx/pipeline_state.h"
+#include "gfx/render_command.h"
 
 class RenderContext;
 class Camera;

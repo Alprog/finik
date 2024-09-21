@@ -2,7 +2,7 @@
 
 #include "dx.h"
 #include "descriptor_handle.h"
-#include "int_size.h"
+#include "../int_size.h"
 
 class Scene;
 class Camera;

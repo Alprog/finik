@@ -2,9 +2,9 @@
 
 #include "desktop_system.h"
 #include "input_system.h"
-#include "scene_manager.h"
-#include "render_system.h"
+#include "gfx/render_system.h"
 #include "profiler/profiler.h"
+#include "scene_manager.h"
 
 class Window;
 

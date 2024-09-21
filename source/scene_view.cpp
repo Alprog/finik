@@ -1,8 +1,8 @@
 #include "scene_view.h"
 
 #include "app.h"
-#include "render_system.h"
-#include "render_lane.h"
+#include "gfx/render_system.h"
+#include "gfx/render_lane.h"
 #include "scene.h"
 #include "log.h"
 

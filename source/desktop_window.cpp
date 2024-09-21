@@ -4,10 +4,10 @@
 #include <SDL_syswm.h>
 
 #include "gui.h"
-#include "swap_chain.h"
+#include "gfx/swap_chain.h"
 
 #include "app.h"
-#include "render_system.h"
+#include "gfx/render_system.h"
 #include "scene.h"
 
 #include "camera.h"

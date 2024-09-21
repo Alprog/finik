@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "vertex.h"
+#include "gfx/vertex.h"
 
 class Mesh;
 

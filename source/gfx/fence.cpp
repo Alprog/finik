@@ -1,8 +1,8 @@
 #include "fence.h"
 
 #include "render_system.h"
-#include "log.h"
-#include "timer.h"
+#include "../log.h"
+#include "../timer.h"
 
 Fence::Fence(RenderSystem& renderSystem, ID3D12CommandQueue& queue)
     : Queue { queue }

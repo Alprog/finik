@@ -26,14 +26,14 @@ App::App()
 #include "scene.h"
 #include "gui.h"
 
-#include "render_system.h"
-#include "swap_chain.h"
-#include "render_lane.h"
+#include "gfx/render_system.h"
+#include "gfx/swap_chain.h"
+#include "gfx/render_lane.h"
 #include "log.h"
 #include "timer.h"
 #include "profiler/profiler.h"
 #include "profiler/timebox_tracker.h"
-#include "gpu_profiler.h"
+#include "gfx/gpu_profiler.h"
 
 #include <cassert>
 

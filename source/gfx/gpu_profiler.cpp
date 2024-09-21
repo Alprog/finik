@@ -2,11 +2,11 @@
 
 #include "render_system.h"
 #include <cassert>
-#include "log.h"
-#include "profiler/profiler.h"
-#include "profiler/lane.h"
-#include "app.h"
-#include "timer.h"
+#include "../log.h"
+#include "../profiler/profiler.h"
+#include "../profiler/lane.h"
+#include "../app.h"
+#include "../timer.h"
 
 int constexpr MAX_TIMESTAMP = 100;
 int constexpr readBackRecordSize = sizeof(UINT64);

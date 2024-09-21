@@ -1,8 +1,8 @@
 #include "mesh_builder.h"
 
 #include "mesh.h"
-#include "vertex_buffer.h"
-#include "index_buffer.h"
+#include "gfx/vertex_buffer.h"
+#include "gfx/index_buffer.h"
 
 void MeshBuilder::AddTile(int x, int y)
 {

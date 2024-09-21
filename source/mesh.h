@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <stdint.h>
-#include "vertex.h"
+#include "gfx/vertex.h"
 
 class VertexBuffer;
 class IndexBuffer;

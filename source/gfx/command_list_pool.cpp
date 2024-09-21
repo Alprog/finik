@@ -1,7 +1,7 @@
 #include "command_list_pool.h"
 
 #include "command_list.h"
-#include "app.h"
+#include "../app.h"
 
 CommandListPool::CommandListPool(RenderSystem& renderSystem)
     : renderSystem{ renderSystem }

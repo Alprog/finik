@@ -1,6 +1,6 @@
 #include "index_buffer.h"
 
-#include "app.h"
+#include "../app.h"
 #include "render_system.h"
 
 void IndexBuffer::Load()

@@ -20,8 +20,8 @@
 #include "imgui_internal.h"
 #include "pipeline_state.h"
 
-#include "app.h"
-#include "desktop_window.h"
+#include "../app.h"
+#include "../desktop_window.h"
 #include "command_queue.h"
 #include "gpu_profiler.h"
 #include <chrono>

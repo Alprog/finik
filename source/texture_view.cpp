@@ -1,8 +1,8 @@
 #include "texture_view.h"
 
-#include "dx.h"
+#include "gfx/dx.h"
 #include "scene.h"
-#include "texture.h"
+#include "gfx/texture.h"
 #include "grid.h"
 #include "tile_map.h"
 

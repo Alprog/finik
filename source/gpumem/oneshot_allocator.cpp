@@ -1,7 +1,7 @@
 #include "oneshot_allocator.h"
 
 #include <cassert>
-#include "../render_system.h"
+#include "../gfx/render_system.h"
 
 using namespace finik::gpumem;
 
