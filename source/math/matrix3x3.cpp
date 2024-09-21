@@ -1,4 +1,4 @@
-#include "matrix3x3.h"
+module math:Matrix3x3;
 
 float Matrix3x3::determinant() const
 {

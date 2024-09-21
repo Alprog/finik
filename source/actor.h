@@ -1,6 +1,6 @@
 #pragma once
 
-#include "math/matrix.h"
+import math;
 
 class Mesh;
 

@@ -158,7 +158,9 @@
     <ClCompile Include="imgui.ixx" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="math.ixx" />
+    <ClCompile Include="math\matrix.ixx" />
     <ClCompile Include="math\matrix3x3.cpp" />
+    <ClCompile Include="math\matrix3x3.ixx" />
     <ClCompile Include="math\quaternion.ixx" />
     <ClCompile Include="math\ray.cpp" />
     <ClCompile Include="math\ray.ixx" />
@@ -259,7 +261,6 @@
     <ClInclude Include="images.h" />
     <ClInclude Include="int_size.h" />
     <ClInclude Include="log.h" />
-    <ClInclude Include="math\matrix3x3.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="profiler\lane.h" />
     <ClInclude Include="profiler\profiler.h" />
@@ -279,7 +280,6 @@
     <ClInclude Include="view.h" />
     <ClInclude Include="index_buffer.h" />
     <ClInclude Include="input_system.h" />
-    <ClInclude Include="math\matrix.h" />
     <ClInclude Include="path.h" />
     <ClInclude Include="pipeline_settings.h" />
     <ClInclude Include="pipeline_state.h" />

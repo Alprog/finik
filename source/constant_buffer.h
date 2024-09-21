@@ -2,13 +2,14 @@
 #pragma once
 
 #include "dx.h"
-#include "math/matrix.h"
 #include "descriptor_handle.h"
 #include "constant_buffer.h"
 
 class DXRenderer;
 class RenderSystem;
 class UploadBuffer;
+
+import math;
 
 class ConstantBuffer
 {

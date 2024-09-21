@@ -1,8 +1,7 @@
-
-#include "Matrix.h"
-
+module;
 #include "math.h"
 #include <algorithm>
+module math:Matrix;
 
 const Matrix Matrix::Identity =
 {

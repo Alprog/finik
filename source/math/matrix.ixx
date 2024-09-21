@@ -1,10 +1,10 @@
-#pragma once
+export module math:Matrix;
 
-#include "matrix3x3.h"
+import :Vector4;
+import :Quaternion;
+import :Matrix3x3;
 
-import math;
-
-struct Matrix
+export struct Matrix
 {
     static const Matrix Identity;
 

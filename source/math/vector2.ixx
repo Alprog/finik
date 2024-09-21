@@ -3,6 +3,7 @@ export module math:Vector2;
 export struct Vector2
 {
     static const Vector2 Zero;
+
     static const Vector2 One;
 
     Vector2();

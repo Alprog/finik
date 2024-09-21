@@ -7,12 +7,13 @@
 #include "render_state.h"
 #include "mesh.h"
 #include "constant_buffer.h"
-#include "math/matrix.h"
 #include "camera.h"
 #include "texture.h"
 #include "grid.h"
 #include "actor.h"
 #include "root_signature_params.h"
+
+import math;
 
 Scene::Scene()
 {

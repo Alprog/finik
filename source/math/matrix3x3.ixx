@@ -1,8 +1,8 @@
-#pragma once
+export module math:Matrix3x3;
 
-import math;
+import :Vector3;
 
-struct Matrix3x3
+export struct Matrix3x3
 {
     float determinant() const;
 
