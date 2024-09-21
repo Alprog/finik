@@ -1,10 +1,10 @@
 module;
-#include <stdint.h>
 #include "../app.h"
 #include "../timer.h"
 module timebox_tracker;
 
 import profiler;
+import std.compat;
 
 using namespace finik::profiler;
 

@@ -1,6 +1,6 @@
-module;
-#include <stdint.h>
 export module timebox;
+
+import std.compat;
 
 export namespace finik::profiler
 {

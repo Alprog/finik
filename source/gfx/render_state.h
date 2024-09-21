@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 class Shader;
 class Texture;
 class ConstantBuffer;

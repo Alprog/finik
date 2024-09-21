@@ -1,7 +1,7 @@
 #pragma once
 
 #include "dx.h"
-#include <vector>
+import std.compat;
 #include "descriptor_handle.h"
 
 class Image;

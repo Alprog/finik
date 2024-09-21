@@ -1,6 +1,6 @@
-module;
-#include "math.h"
 module math:Vector4;
+
+import std;
 
 const Vector4 Vector4::Zero {0, 0, 0, 0};
 const Vector4 Vector4::One {1, 1, 1, 1};
@@ -31,7 +31,7 @@ Vector4::Vector4(float x, float y, float z, float w)
 
 float Vector4::length()
 {
-    return sqrt(x * x + y * y + z * z);
+    return std::sqrt(x * x + y * y + z * z);
 }
 
 float Vector4::squaredLength()

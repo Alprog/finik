@@ -1,7 +1,8 @@
 #include "timer.h"
 
-#include <chrono>
 #include <Windows.h>
+
+import std.compat;
 
 uint64_t startTimestamp;
 uint64_t cpuFrequency;

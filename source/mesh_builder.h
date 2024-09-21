@@ -1,7 +1,9 @@
 #pragma once
 
-#include <vector>
+#include "gfx/dx.h"
 #include "gfx/vertex.h"
+
+import std.compat;
 
 class Mesh;
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-#include <string>
+import std.compat;
 
 void initTimer();
 uint64_t getTimestamp();

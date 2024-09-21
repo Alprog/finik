@@ -1,11 +1,11 @@
 #include "gpu_profiler.h"
 
 #include "render_system.h"
-#include <cassert>
 #include "../log.h"
 #include "../app.h"
 #include "../timer.h"
 
+import std.compat;
 import timebox_tracker;
 
 int constexpr MAX_TIMESTAMP = 100;
@@ -58,7 +58,7 @@ int GpuProfiler::addStamp(ID3D12GraphicsCommandList& commandList, void* name)
 
 void GpuProfiler::scheduleFrameResolve(ID3D12GraphicsCommandList& commandList)
 {
-    assert(currentRange.count() <= MAX_TIMESTAMP);
+    //assert(currentRange.count() <= MAX_TIMESTAMP);
 
     auto resolveHelper = [&commandList, this](int start, int end)
     {

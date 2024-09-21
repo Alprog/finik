@@ -1,7 +1,6 @@
 export module profiler;
 
-#include <stdint.h>
-
+import std.compat;
 import lane;
 
 export namespace finik::profiler

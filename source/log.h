@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <format>
+import std.compat;
 
 void log_impl(std::string text);
 

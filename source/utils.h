@@ -1,9 +1,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <algorithm>
+import std.compat;
 
 std::vector<std::string> split(std::string string, std::string separator);
 std::string join(std::vector<std::string> vector, std::string separator);

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <numbers>
-
+import std.compat;
 import math;
 
 class Camera;

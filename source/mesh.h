@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <stdint.h>
-#include "gfx/vertex.h"
+#include "gfx/vertex_buffer.h"
+
+import std.compat;
 
 class VertexBuffer;
 class IndexBuffer;

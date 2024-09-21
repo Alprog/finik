@@ -1,8 +1,8 @@
 #pragma once
 
+#include "gfx/dx.h"
 #include "view.h"
-#include <vector>
-#include <memory>
+import std.compat;
 
 class DesktopWindow;
 struct ImGuiContext;

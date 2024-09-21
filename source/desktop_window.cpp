@@ -11,7 +11,7 @@
 #include "scene.h"
 
 #include "camera.h"
-#include <numbers>
+import std.compat;
 
 DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }

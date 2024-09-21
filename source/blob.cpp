@@ -1,7 +1,6 @@
 
 #include "blob.h"
-#include <fstream>
-#include <sstream>
+import std.compat;
 
 Blob::Blob(Path path)
 {

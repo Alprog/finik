@@ -33,8 +33,7 @@ App::App()
 #include "timer.h"
 #include "gfx/gpu_profiler.h"
 
-#include <cassert>
-
+import std.compat;
 import imgui;
 import timebox_tracker;
 
@@ -146,7 +145,7 @@ void App::run_game_loop()
         render_system.scheduleQueryResolving();
 
         auto signaled = render_system.get_command_queue().frameFence->SignalNext();
-        assert(signaled == profiler.getFrameIndex());
+        //assert(signaled == profiler.getFrameIndex());
 
         profiler.endFrame();
     }

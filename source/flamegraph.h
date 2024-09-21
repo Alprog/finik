@@ -1,7 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
+import std.compat;
 import math;
 import timebox;
 

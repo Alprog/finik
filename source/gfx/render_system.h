@@ -1,10 +1,6 @@
 #pragma once
 
-class Window;
-class PipelineState;
-struct FrameContext;
-class RenderContext;
-class GpuProfiler;
+#include <math.h>
 
 #include "dx.h"
 #include <dxgi1_4.h>
@@ -15,6 +11,12 @@ class GpuProfiler;
 #include "command_queue.h"
 #include "command_list_pool.h"
 #include "../gpumem/oneshot_allocator.h"
+
+class Window;
+class PipelineState;
+struct FrameContext;
+class RenderContext;
+class GpuProfiler;
 
 class RenderSystem
 {

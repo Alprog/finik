@@ -5,10 +5,11 @@
 #include "../app.h"
 
 #include <dxgi.h>
-#include <iostream>
 #include "../log.h"
 #include "../timer.h"
 #include "gpu_profiler.h"
+
+import std.compat;
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;

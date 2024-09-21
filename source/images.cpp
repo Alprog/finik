@@ -1,9 +1,7 @@
 #include "images.h"
+//#include "png.h"
 
-#include <iostream>
-#include <fstream>
-
-#include "png.h"
+import std.compat;
 
 #define PNGSIGSIZE 8
 
@@ -33,79 +31,86 @@ void Image::generateChessboard()
 
 bool validate(std::istream& source)
 {
-    png_byte pngsig[PNGSIGSIZE];
+    //png_byte pngsig[PNGSIGSIZE];
 
-    source.read((char*)pngsig, PNGSIGSIZE);
+    //source.read((char*)pngsig, PNGSIGSIZE);
 
-    if (source.good())
-    {
-        auto cmp = png_sig_cmp(pngsig, 0, PNGSIGSIZE);
-        if (cmp == 0)
-        {
-            return true;
-        }
-    }
+    //if (source.good())
+    //{
+    //    auto cmp = png_sig_cmp(pngsig, 0, PNGSIGSIZE);
+    //    if (cmp == 0)
+    //    {
+    //        return true;
+    //    }
+    //}
 
     return false;
 }
 
-void readData(png_structp pngPtr, png_bytep data, png_size_t length)
-{
-    auto stream = (std::istream*)png_get_io_ptr(pngPtr);
-    stream->read((char*)data, length);
-}
+//void readData(png_structp pngPtr, png_bytep data, png_size_t length)
+//{
+//    auto stream = (std::istream*)png_get_io_ptr(pngPtr);
+//    stream->read((char*)data, length);
+//}
 
 Image* Images::loadPng(Path path)
 {
-    std::ifstream fstream { path, std::ios::binary };
-    if (fstream.is_open())
-    {
-        if (validate(fstream))
-        {
-            auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            auto infoPtr = png_create_info_struct(pngPtr);
+    auto Image = new ::Image();
+    Image->width = 256;
+    Image->height = 256;
+    Image->data = new Texel[Image->width * Image->height];
+    Image->generateChessboard();
+    return Image;
 
-            if (setjmp(png_jmpbuf(pngPtr)))
-            {
-                return nullptr;
-            }
+    //std::ifstream fstream { path, std::ios::binary };
+    //if (fstream.is_open())
+    //{
+    //    if (validate(fstream))
+    //    {
+    //        auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    //        auto infoPtr = png_create_info_struct(pngPtr);
 
-            png_set_read_fn(pngPtr, (png_voidp)&fstream, readData);
+    //        if (setjmp(png_jmpbuf(pngPtr)))
+    //        {
+    //            return nullptr;
+    //        }
 
-            png_set_sig_bytes(pngPtr, PNGSIGSIZE);
-            png_read_info(pngPtr, infoPtr);
+    //        png_set_read_fn(pngPtr, (png_voidp)&fstream, readData);
 
-            auto imgWidth = png_get_image_width(pngPtr, infoPtr);
-            auto imgHeight = png_get_image_height(pngPtr, infoPtr);
-            auto bitdepth = png_get_bit_depth(pngPtr, infoPtr);
-            auto channels = png_get_channels(pngPtr, infoPtr);
-            auto color_type = png_get_color_type(pngPtr, infoPtr);
+    //        png_set_sig_bytes(pngPtr, PNGSIGSIZE);
+    //        png_read_info(pngPtr, infoPtr);
 
-            printf("width %i, heigth %i, bitdepth %i, channels %i, type %i",
-                   imgWidth, imgHeight, bitdepth, channels, color_type);
-            fflush(stdout);
+    //        auto imgWidth = png_get_image_width(pngPtr, infoPtr);
+    //        auto imgHeight = png_get_image_height(pngPtr, infoPtr);
+    //        auto bitdepth = png_get_bit_depth(pngPtr, infoPtr);
+    //        auto channels = png_get_channels(pngPtr, infoPtr);
+    //        auto color_type = png_get_color_type(pngPtr, infoPtr);
 
-            const unsigned int stride = imgWidth * bitdepth * channels / 8;
+    //        printf("width %i, heigth %i, bitdepth %i, channels %i, type %i",
+    //               imgWidth, imgHeight, bitdepth, channels, color_type);
+    //        fflush(stdout);
 
-            auto image = new Image();
-            image->width = imgWidth;
-            image->height = imgHeight;
-            image->data = new Texel[imgWidth * imgHeight];
+    //        const unsigned int stride = imgWidth * bitdepth * channels / 8;
 
-            auto rowPtrs = new png_bytep[imgHeight];
-            for (size_t i = 0; i < imgHeight; i++)
-            {
-                rowPtrs[i] = (png_bytep)image->data + i * stride;
-            }
+    //        auto image = new Image();
+    //        image->width = imgWidth;
+    //        image->height = imgHeight;
+    //        image->data = new Texel[imgWidth * imgHeight];
 
-            png_read_image(pngPtr, rowPtrs);
+    //        auto rowPtrs = new png_bytep[imgHeight];
+    //        for (size_t i = 0; i < imgHeight; i++)
+    //        {
+    //            rowPtrs[i] = (png_bytep)image->data + i * stride;
+    //        }
 
-            delete[] (png_bytep)rowPtrs;
-            png_destroy_read_struct(&pngPtr, &infoPtr, nullptr);
+    //        png_read_image(pngPtr, rowPtrs);
 
-            return image;
-        }
-    }
+    //        delete[] (png_bytep)rowPtrs;
+    //        png_destroy_read_struct(&pngPtr, &infoPtr, nullptr);
+
+    //        return image;
+    //    }
+    //}
 
     return nullptr;
 }

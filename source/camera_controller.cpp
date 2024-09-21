@@ -1,9 +1,9 @@
 #include "camera_controller.h"
 
 #include "camera.h"
-#include <cmath>
 #include "utils.h"
 
+import std.compat;
 import imgui;
 
 CameraController::CameraController(Camera& camera)

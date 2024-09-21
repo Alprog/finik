@@ -1,9 +1,10 @@
 #pragma once
 
-#include <functional>
-
 class Shader;
 class PipelineState;
+
+#include "dx.h"
+import std.compat;
 
 enum class CullMode : char
 {

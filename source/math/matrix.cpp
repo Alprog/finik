@@ -1,7 +1,6 @@
-module;
-#include "math.h"
-#include <algorithm>
 module math:Matrix;
+
+import std.compat;
 
 const Matrix Matrix::Identity =
 {

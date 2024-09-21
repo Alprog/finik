@@ -1,6 +1,6 @@
-module;
-#include "math.h"
 module math:Vector3;
+
+import std;
 
 const Vector3 Vector3::Zero {0, 0, 0};
 const Vector3 Vector3::One {1, 1, 1};
@@ -20,7 +20,7 @@ Vector3::Vector3(float x, float y, float z)
 
 float Vector3::length() const
 {
-    return sqrt(x * x + y * y + z * z);
+    return std::sqrt(x * x + y * y + z * z);
 }
 
 float Vector3::squaredLength() const

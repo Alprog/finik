@@ -1,7 +1,7 @@
 #include "log.h"
 
 #include "Windows.h"
-#include <format>
+import std.compat;
 
 void log_impl(std::string text)
 {

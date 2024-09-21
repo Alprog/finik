@@ -1,7 +1,7 @@
 
 #include "Utils.h"
-#include <algorithm>
-#include <sstream>
+
+import std.compat;
 
 std::vector<std::string> split(std::string string, std::string separator)
 {

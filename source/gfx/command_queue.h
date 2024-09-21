@@ -2,7 +2,7 @@
 
 #include "dx.h"
 #include "fence.h"
-#include <queue>
+import std.compat;
 
 class RenderSystem;
 class CommandList;

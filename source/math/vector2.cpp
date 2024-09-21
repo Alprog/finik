@@ -1,6 +1,6 @@
-module;
-#include "math.h"
 module math:Vector2;
+
+import std;
 
 const Vector2 Vector2::Zero {0, 0};
 const Vector2 Vector2::One {1, 1};
@@ -18,7 +18,7 @@ Vector2::Vector2(float x, float y)
 
 float Vector2::length()
 {
-    return sqrt(x * x + y * y);
+    return std::sqrt(x * x + y * y);
 }
 
 float Vector2::squaredLength()

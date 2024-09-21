@@ -4713,23 +4713,18 @@ inline bool operator==( const D3D12_RENDER_PASS_DEPTH_STENCIL_DESC &a, const D3D
 // contents.
 //
 //================================================================================================
-#include <list>
-#include <forward_list>
-#include <vector>
-#include <memory>
-#include <string>
-#include <vector>
+
 #ifndef D3DX12_USE_ATL
 #include <wrl/client.h>
 #define D3DX12_COM_PTR Microsoft::WRL::ComPtr
 #define D3DX12_COM_PTR_GET(x) x.Get()
 #define D3DX12_COM_PTR_ADDRESSOF(x) x.GetAddressOf()
 #else
-#include <atlbase.h>
 #define D3DX12_COM_PTR ATL::CComPtr
 #define D3DX12_COM_PTR_GET(x) x.p
 #define D3DX12_COM_PTR_ADDRESSOF(x) &x.p
 #endif
+import std;
 
 //------------------------------------------------------------------------------------------------
 class CD3DX12_STATE_OBJECT_DESC
@@ -7032,7 +7027,7 @@ public:
 // D3DX12 Check Feature Support
 //================================================================================================
 
-#include <vector>
+import std;
 
 class CD3DX12FeatureSupport
 {

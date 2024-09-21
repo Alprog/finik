@@ -1,5 +1,5 @@
 module;
-#include <vector>
+import std.compat;
 export module lane;
 
 import timebox;

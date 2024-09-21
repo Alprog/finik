@@ -1,6 +1,7 @@
 #pragma once
 
-#include <vector>
+#include "gfx/dx.h"
+import std.compat;
 
 class Image;
 class Texture;

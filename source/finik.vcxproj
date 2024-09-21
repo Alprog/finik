@@ -149,6 +149,7 @@
     <ClCompile Include="gfx\descriptor_handle.cpp" />
     <ClCompile Include="gfx\descriptor_heap.cpp" />
     <ClCompile Include="gfx\fence.cpp" />
+    <ClCompile Include="gfx\gfx_test.cpp" />
     <ClCompile Include="gfx\gpu_profiler.cpp" />
     <ClCompile Include="gfx\index_buffer.cpp" />
     <ClCompile Include="gfx\pipeline_settings.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="images.h" />
     <ClInclude Include="int_size.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="profiler_view.h" />
     <ClInclude Include="scene_view.h" />

@@ -6,8 +6,6 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 
-#include <tchar.h>
-
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -24,9 +22,9 @@
 #include "../desktop_window.h"
 #include "command_queue.h"
 #include "gpu_profiler.h"
-#include <chrono>
 
 import imgui;
+import std.compat;
 
 class ResultChecker
 {

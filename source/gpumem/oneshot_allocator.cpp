@@ -1,7 +1,8 @@
 #include "oneshot_allocator.h"
 
-#include <cassert>
 #include "../gfx/render_system.h"
+
+import std.compat;
 
 using namespace finik::gpumem;
 
@@ -14,7 +15,7 @@ void* OneshotAllocator::Allocate(const int size, const int frame)
 {
     auto allignedSize = size;
 
-    assert(allignedSize < 4096);
+    //assert(allignedSize < 4096);
 
     for (auto& page : pages)
     {
