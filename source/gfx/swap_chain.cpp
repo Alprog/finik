@@ -1,13 +1,13 @@
 #include "swap_chain.h"
 
-#include "desktop_window.h"
+#include "../desktop_window.h"
 
-#include "app.h"
+#include "../app.h"
 
 #include <dxgi.h>
 #include <iostream>
-#include "log.h"
-#include "timer.h"
+#include "../log.h"
+#include "../timer.h"
 #include "gpu_profiler.h"
 
 D3D12_VIEWPORT viewport;

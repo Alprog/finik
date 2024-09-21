@@ -1,10 +1,10 @@
 
 #include "pipeline_state.h"
 
-#include "app.h"
+#include "../app.h"
 #include "render_system.h"
 
-#include "shader.h"
+#include "../shader.h"
 #include "root_signature_params.h"
 
 PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings& pipelineSettings)

@@ -1,6 +1,6 @@
 #include "vertex_buffer.h"
 
-#include "app.h"
+#include "../app.h"
 #include "render_system.h"
 #include "render_system.h"
 
