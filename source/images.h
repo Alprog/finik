@@ -3,7 +3,7 @@
 #include "path.h"
 #include "texel.h"
 
-import std.compat;
+import std;
 
 class Image
 {
