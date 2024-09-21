@@ -1,4 +1,5 @@
-#include "timebox.h"
+module timebox;
+
 #include "../timer.h"
 
 using namespace finik::profiler;

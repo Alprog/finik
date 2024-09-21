@@ -1,9 +1,10 @@
-#pragma once
+export module profiler;
 
 #include <stdint.h>
-#include "lane.h"
 
-namespace finik::profiler
+import lane;
+
+export namespace finik::profiler
 {
     class Profiler
     {

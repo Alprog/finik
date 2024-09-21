@@ -1,10 +1,10 @@
 #include "render_state.h"
 
-#include "shader.h"
+#include "../shader.h"
 #include <vector>
 #include <unordered_map>
 #include "pipeline_state.h"
-#include "app.h"
+#include "../app.h"
 
 std::unordered_map<PipelineSettings, PipelineState*> states;
 

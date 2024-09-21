@@ -31,13 +31,12 @@ App::App()
 #include "gfx/render_lane.h"
 #include "log.h"
 #include "timer.h"
-#include "profiler/profiler.h"
-#include "profiler/timebox_tracker.h"
 #include "gfx/gpu_profiler.h"
 
 #include <cassert>
 
 import imgui;
+import timebox_tracker;
 
 void handle_input()
 {
@@ -72,7 +71,7 @@ void App::run_game_loop()
 
     while (true)
     {
-        PROFILE("frame");
+        Profile _("frame");
 
         float deltaTime = profiler.getDeltaTime();
 
@@ -81,7 +80,7 @@ void App::run_game_loop()
         render_system.getProfiler()->grabReadyStamps(completedValue);
 
         {
-            PROFILE("input");
+            Profile _("input");
             handle_input();
         }
 
@@ -91,7 +90,7 @@ void App::run_game_loop()
         }
 
         {
-            PROFILE("update");
+            Profile _("update");
             scene_manager.update(deltaTime);
             for (auto window : desktop_system.windows)
             {
@@ -104,7 +103,7 @@ void App::run_game_loop()
         }
 
         {
-            PROFILE("gui prepare");
+            Profile _("gui prepare");
             for (auto window : desktop_system.windows)
             {
                 window->gui->set_context();
@@ -114,7 +113,7 @@ void App::run_game_loop()
        
 
         {
-            PROFILE("lanes");
+            Profile _("lanes");
             for (auto& lane : render_system.lanes)
             {
                 lane->render();
@@ -122,7 +121,7 @@ void App::run_game_loop()
         }
 
         {
-            PROFILE("render windows");
+            Profile _("render windows");
             for (auto window : desktop_system.windows)
             {
                 auto command_list = render_system.get_command_list();
@@ -136,7 +135,7 @@ void App::run_game_loop()
         }
 
         {
-            PROFILE("render platform windows");
+            Profile _("render platform windows");
             if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
             {
                 ImGui::UpdatePlatformWindows();

@@ -5,7 +5,7 @@
 #include "render_state.h"
 #include "render_command.h"
 #include "pipeline_state.h"
-#include "mesh.h"
+#include "../mesh.h"
 #include "constant_buffer.h"
 #include "texture.h"
 #include "root_signature_params.h"

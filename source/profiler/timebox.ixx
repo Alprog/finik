@@ -1,8 +1,8 @@
-#pragma once
-
+module;
 #include <stdint.h>
+export module timebox;
 
-namespace finik::profiler
+export namespace finik::profiler
 {
     struct Timebox
     {

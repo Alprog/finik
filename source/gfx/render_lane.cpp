@@ -8,8 +8,9 @@
 #include "command_queue.h"
 #include "../timer.h"
 #include "../log.h";
-#include "../profiler/timebox_tracker.h"
 #include "command_list.h"
+
+import timebox_tracker;
 
 void RenderSurface::init(IntSize resolution)
 {
@@ -168,7 +169,7 @@ void RenderLane::render()
     auto& commandQueue = render_system.get_command_queue();
 
     {
-        PROFILE("wait");
+        Profile _("wait");
         commandQueue.fence->WaitForValue(fenceValue);
     }
 

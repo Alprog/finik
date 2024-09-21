@@ -1,7 +1,7 @@
-#include "profiler.h"
-
+module;
 #include "../timer.h"
 #include "../log.h"
+module profiler;
 
 using namespace finik::profiler;
 

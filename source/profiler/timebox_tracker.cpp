@@ -1,8 +1,10 @@
-#include "timebox_tracker.h"
-
-#include "profiler.h"
+module;
+#include <stdint.h>
 #include "../app.h"
 #include "../timer.h"
+module timebox_tracker;
+
+import profiler;
 
 using namespace finik::profiler;
 

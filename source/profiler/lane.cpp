@@ -1,6 +1,6 @@
-#include "lane.h"
-
+module;
 #include "../timer.h"
+module lane;
 
 using namespace finik::profiler;
 

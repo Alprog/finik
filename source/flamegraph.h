@@ -1,8 +1,9 @@
 #pragma once
 
-#include "profiler/timebox.h"
+#include <stdint.h>
 
 import math;
+import timebox;
 
 namespace finik
 {

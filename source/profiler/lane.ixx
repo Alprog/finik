@@ -1,9 +1,10 @@
-#pragma once
-
+module;
 #include <vector>
-#include "timebox.h"
+export module lane;
 
-namespace finik::profiler
+import timebox;
+
+export namespace finik::profiler
 {
     class Lane
     {

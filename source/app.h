@@ -3,8 +3,9 @@
 #include "desktop_system.h"
 #include "input_system.h"
 #include "gfx/render_system.h"
-#include "profiler/profiler.h"
 #include "scene_manager.h"
+
+import profiler;
 
 class Window;
 
