@@ -3,7 +3,7 @@
 #include <math.h>
 #include "command_list.h"
 
-import std.compat;
+import std;
 
 class RenderSystem;
 

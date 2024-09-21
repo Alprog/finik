@@ -1,7 +1,7 @@
 #pragma once
 
 #include "dx.h"
-import std.compat;
+import std;
 
 class RenderSystem;
 

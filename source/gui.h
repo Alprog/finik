@@ -2,7 +2,7 @@
 
 #include "gfx/dx.h"
 #include "view.h"
-import std.compat;
+import std;
 
 class DesktopWindow;
 struct ImGuiContext;

@@ -33,7 +33,7 @@ App::App()
 #include "timer.h"
 #include "gfx/gpu_profiler.h"
 
-import std.compat;
+import std;
 import imgui;
 import timebox_tracker;
 

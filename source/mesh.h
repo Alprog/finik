@@ -2,7 +2,8 @@
 
 #include "gfx/vertex_buffer.h"
 
-import std.compat;
+#include <cstdint>
+import std;
 
 class VertexBuffer;
 class IndexBuffer;

@@ -1,6 +1,8 @@
 #pragma once
 
-import std.compat;
+#include <cstdint>
+
+import std;
 import math;
 import timebox;
 

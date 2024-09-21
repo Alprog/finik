@@ -9,7 +9,7 @@
 #include "../timer.h"
 #include "gpu_profiler.h"
 
-import std.compat;
+import std;
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;

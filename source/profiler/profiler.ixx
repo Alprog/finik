@@ -1,6 +1,7 @@
 export module profiler;
 
-import std.compat;
+#include <cstdint>
+import std;
 import lane;
 
 export namespace finik::profiler

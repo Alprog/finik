@@ -1,6 +1,6 @@
 #include "camera.h"
 
-import std.compat;
+import std;
 
 Camera::Camera()
 {

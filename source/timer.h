@@ -1,6 +1,7 @@
 #pragma once
 
-import std.compat;
+#include <cstdint>
+import std;
 
 void initTimer();
 uint64_t getTimestamp();

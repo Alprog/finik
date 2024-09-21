@@ -1,7 +1,7 @@
 
 #pragma once
 
-import std.compat;
+import std;
 #include "path.h"
 
 class Blob

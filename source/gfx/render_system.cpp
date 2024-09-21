@@ -24,7 +24,7 @@
 #include "gpu_profiler.h"
 
 import imgui;
-import std.compat;
+import std;
 
 class ResultChecker
 {

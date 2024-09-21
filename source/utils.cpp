@@ -1,7 +1,7 @@
 
 #include "Utils.h"
 
-import std.compat;
+import std;
 
 std::vector<std::string> split(std::string string, std::string separator)
 {
@@ -66,13 +66,13 @@ std::string getReplaced(std::string string, std::string oldValue, std::string ne
 
 std::string lowerCase(std::string string)
 {
-    std::transform(std::begin(string), std::end(string), std::begin(string), tolower);
+    std::transform(std::begin(string), std::end(string), std::begin(string), [](char c) { return std::tolower(c); });
     return string;
 }
 
 std::string upperCase(std::string string)
 {
-    std::transform(std::begin(string), std::end(string), std::begin(string), toupper);
+    std::transform(std::begin(string), std::end(string), std::begin(string), [](char c) { return std::toupper(c); });
     return string;
 }
 

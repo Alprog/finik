@@ -1,6 +1,6 @@
 
 #include "blob.h"
-import std.compat;
+import std;
 
 Blob::Blob(Path path)
 {

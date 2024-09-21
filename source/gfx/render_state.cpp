@@ -4,7 +4,7 @@
 #include "pipeline_state.h"
 #include "../app.h"
 
-import std.compat;
+import std;
 
 std::unordered_map<PipelineSettings, PipelineState*> states;
 

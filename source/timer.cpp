@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-import std.compat;
+import std;
 
 uint64_t startTimestamp;
 uint64_t cpuFrequency;

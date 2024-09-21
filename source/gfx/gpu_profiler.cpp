@@ -5,7 +5,7 @@
 #include "../app.h"
 #include "../timer.h"
 
-import std.compat;
+import std;
 import timebox_tracker;
 
 int constexpr MAX_TIMESTAMP = 100;

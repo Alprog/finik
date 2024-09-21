@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gfx/dx.h"
-import std.compat;
+import std;
 
 class Image;
 class Texture;

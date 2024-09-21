@@ -5,7 +5,7 @@
 #include "gfx/render_lane.h"
 #include "camera_controller.h"
 
-import std.compat;
+import std;
 
 class Scene;
 

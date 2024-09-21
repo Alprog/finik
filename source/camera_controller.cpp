@@ -3,7 +3,7 @@
 #include "camera.h"
 #include "utils.h"
 
-import std.compat;
+import std;
 import imgui;
 
 CameraController::CameraController(Camera& camera)

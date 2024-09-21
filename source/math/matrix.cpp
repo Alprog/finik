@@ -1,6 +1,6 @@
 module math:Matrix;
 
-import std.compat;
+import std;
 
 const Matrix Matrix::Identity =
 {
@@ -109,8 +109,8 @@ Matrix Matrix::Rotation(Quaternion rotation)
 
 Matrix Matrix::RotationX(float r)
 {
-    float c = cos(r);
-    float s = sin(r);
+    float c = std::cos(r);
+    float s = std::sin(r);
 
     return
     {
@@ -123,8 +123,8 @@ Matrix Matrix::RotationX(float r)
 
 Matrix Matrix::RotationY(float r)
 {
-    float c = cos(r);
-    float s = sin(r);
+    float c = std::cos(r);
+    float s = std::sin(r);
 
     return
     {
@@ -137,8 +137,8 @@ Matrix Matrix::RotationY(float r)
 
 Matrix Matrix::RotationZ(float r)
 {
-    float c = cos(r);
-    float s = sin(r);
+    float c = std::cos(r);
+    float s = std::sin(r);
 
     return
     {

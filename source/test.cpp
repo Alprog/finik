@@ -3,7 +3,7 @@
 #include "gfx/dx.h"
 
 //import imgui;
-import std.compat;
+import std;
 
 int efe() {
     std::vector<int> a;

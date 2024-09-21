@@ -1,6 +1,8 @@
+module;
+#include <cstdint>
 export module timebox;
 
-import std.compat;
+import std;
 
 export namespace finik::profiler
 {

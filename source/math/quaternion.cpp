@@ -1,6 +1,6 @@
 module math:Quaternion;
 
-import std.compat;
+import std;
 
 const Quaternion Quaternion::Identity {0, 0, 0, 1};
 
@@ -14,12 +14,12 @@ Quaternion::Quaternion(float x, float y, float z, float w)
 
 Quaternion Quaternion::yawPitchRoll(float yaw, float pitch, float roll) // Euler sequence 2; -1; -3
 {
-    auto c1 = cosf(yaw / 2);
-    auto s1 = sinf(yaw / 2);
-    auto c2 = cosf(-pitch / 2);
-    auto s2 = sinf(-pitch / 2);
-    auto c3 = cosf(-roll / 2);
-    auto s3 = sinf(-roll / 2);
+    auto c1 = std::cosf(yaw / 2);
+    auto s1 = std::sinf(yaw / 2);
+    auto c2 = std::cosf(-pitch / 2);
+    auto s2 = std::sinf(-pitch / 2);
+    auto c3 = std::cosf(-roll / 2);
+    auto s3 = std::sinf(-roll / 2);
 
     return
     {

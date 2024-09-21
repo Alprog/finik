@@ -2,7 +2,7 @@
 
 #include "../gfx/render_system.h"
 
-import std.compat;
+import std;
 
 using namespace finik::gpumem;
 

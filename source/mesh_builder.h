@@ -2,8 +2,9 @@
 
 #include "gfx/dx.h"
 #include "gfx/vertex.h"
+#include <cstdint>
 
-import std.compat;
+import std;
 
 class Mesh;
 

@@ -1,5 +1,5 @@
 module;
-import std.compat;
+import std;
 export module lane;
 
 import timebox;

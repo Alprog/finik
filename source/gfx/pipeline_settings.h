@@ -4,7 +4,7 @@ class Shader;
 class PipelineState;
 
 #include "dx.h"
-import std.compat;
+import std;
 
 enum class CullMode : char
 {

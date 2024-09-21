@@ -4,7 +4,7 @@ module;
 module timebox_tracker;
 
 import profiler;
-import std.compat;
+import std;
 
 using namespace finik::profiler;
 

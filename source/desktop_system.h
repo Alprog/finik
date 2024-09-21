@@ -1,7 +1,8 @@
 #pragma once
 
 #include "gfx/dx.h"
-import std.compat;
+#include <cstdint>
+import std;
 
 class DesktopWindow;
 
