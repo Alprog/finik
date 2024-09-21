@@ -1,12 +1,12 @@
 #include "texture.h"
 
-#include "images.h"
+#include "../images.h"
 #include "descriptor_heap.h"
 #include "dx.h"
-#include "app.h"
+#include "../app.h"
 #include "render_system.h"
 #include "upload_buffer.h"
-#include "images.h"
+#include "../images.h"
 
 static const UINT TexturePixelSize = 4;
 
