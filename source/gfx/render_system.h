@@ -1,7 +1,5 @@
 #pragma once
 
-#include <math.h>
-
 #include "dx.h"
 #include <dxgi1_4.h>
 

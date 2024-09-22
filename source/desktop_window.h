@@ -1,6 +1,5 @@
 #pragma once
 
-#include <math.h>
 #include "gfx/dx.h"
 #include "windows.h"
 

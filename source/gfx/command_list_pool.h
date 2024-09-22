@@ -1,6 +1,5 @@
 #pragma once
 
-#include <math.h>
 #include "command_list.h"
 
 import std;
