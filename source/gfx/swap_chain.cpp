@@ -225,7 +225,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     // Render Dear ImGui graphics
     const float clear_color_with_alpha[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 
-    auto handle = renderTargets[backBufferIdx]->handle;
+    D3D12_CPU_DESCRIPTOR_HANDLE handle = renderTargets[backBufferIdx]->handle;
     command_list->ClearRenderTargetView(handle, clear_color_with_alpha, 0, nullptr);
     command_list->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     command_list->OMSetRenderTargets(1, &handle, FALSE, &depthStencilHandle.getCPU());

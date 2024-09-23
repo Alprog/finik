@@ -2,9 +2,6 @@
 
 #include "gfx/dx.h"
 
-//import imgui;
-import std;
-
 int efe() {
     std::vector<int> a;
 

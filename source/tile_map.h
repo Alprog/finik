@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gfx/dx.h"
 import std;
 
 class Image;

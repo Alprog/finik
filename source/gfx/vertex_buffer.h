@@ -4,6 +4,8 @@
 
 #include "vertex.h"
 
+import std;
+
 class VertexBuffer
 {
 public:

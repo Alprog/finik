@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "dx.h"
 #include "descriptor_handle.h"
 #include "constant_buffer.h"
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gfx/dx.h"
 #include "tile_map.h"
 
 class Mesh;

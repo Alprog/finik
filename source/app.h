@@ -1,7 +1,5 @@
 #pragma once
 
-#include "gfx/dx.h"
-
 #include "desktop_system.h"
 #include "input_system.h"
 #include "gfx/render_system.h"

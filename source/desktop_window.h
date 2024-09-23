@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gfx/dx.h"
 #include "windows.h"
 
 struct SDL_Window;

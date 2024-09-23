@@ -1,6 +1,5 @@
 #include "texture_view.h"
 
-#include "gfx/dx.h"
 #include "scene.h"
 #include "gfx/texture.h"
 #include "grid.h"

@@ -4714,6 +4714,8 @@ inline bool operator==( const D3D12_RENDER_PASS_DEPTH_STENCIL_DESC &a, const D3D
 //
 //================================================================================================
 
+import std;
+
 #ifndef D3DX12_USE_ATL
 #include <wrl/client.h>
 #define D3DX12_COM_PTR Microsoft::WRL::ComPtr
@@ -4724,7 +4726,6 @@ inline bool operator==( const D3D12_RENDER_PASS_DEPTH_STENCIL_DESC &a, const D3D
 #define D3DX12_COM_PTR_GET(x) x.p
 #define D3DX12_COM_PTR_ADDRESSOF(x) &x.p
 #endif
-import std;
 
 //------------------------------------------------------------------------------------------------
 class CD3DX12_STATE_OBJECT_DESC

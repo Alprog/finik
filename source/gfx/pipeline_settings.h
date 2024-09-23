@@ -3,7 +3,6 @@
 class Shader;
 class PipelineState;
 
-#include "dx.h"
 import std;
 
 enum class CullMode : char
