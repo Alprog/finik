@@ -1,10 +1,9 @@
 #pragma once
 
-#include "dx.h"
-
 #include "vertex.h"
 
 import std;
+import dx;
 
 class VertexBuffer
 {

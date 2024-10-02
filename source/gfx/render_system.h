@@ -1,14 +1,13 @@
 #pragma once
 
-#include "dx.h"
-#include <dxgi1_4.h>
+import dx;
 
-#include "descriptor_heap.h"
-#include "render_context.h"
-#include "render_lane.h"
-#include "command_queue.h"
-#include "command_list_pool.h"
-#include "../gpumem/oneshot_allocator.h"
+//#include "descriptor_heap.h"
+//#include "render_context.h"
+//#include "render_lane.h"
+//#include "command_queue.h"
+//#include "command_list_pool.h"
+//#include "../gpumem/oneshot_allocator.h"
 
 class Window;
 class PipelineState;

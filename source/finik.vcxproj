@@ -140,14 +140,18 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="console_view.cpp" />
+    <ClCompile Include="descriptors.ixx" />
     <ClCompile Include="desktop_system.cpp" />
+    <ClCompile Include="dx_module.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="gfx\command_list.cpp" />
     <ClCompile Include="gfx\command_list_pool.cpp" />
     <ClCompile Include="gfx\command_queue.cpp" />
     <ClCompile Include="gfx\constant_buffer.cpp" />
     <ClCompile Include="gfx\descriptor_handle.cpp" />
+    <ClCompile Include="gfx\descriptor_handle.ixx" />
     <ClCompile Include="gfx\descriptor_heap.cpp" />
+    <ClCompile Include="gfx\descriptor_heap.ixx" />
     <ClCompile Include="gfx\fence.cpp" />
     <ClCompile Include="gfx\gfx_test.cpp" />
     <ClCompile Include="gfx\gpu_profiler.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="gfx\swap_chain.cpp" />
     <ClCompile Include="gfx\texture.cpp" />
     <ClCompile Include="gfx\upload_buffer.cpp" />
+    <ClCompile Include="gfx\upload_buffer.ixx" />
     <ClCompile Include="gfx\vertex.cpp" />
     <ClCompile Include="gfx\vertex_buffer.cpp" />
     <ClCompile Include="gpumem\oneshot_allocator.cpp" />
@@ -253,8 +258,6 @@
     <ClInclude Include="gfx\command_list_pool.h" />
     <ClInclude Include="gfx\command_queue.h" />
     <ClInclude Include="gfx\constant_buffer.h" />
-    <ClInclude Include="gfx\descriptor_handle.h" />
-    <ClInclude Include="gfx\descriptor_heap.h" />
     <ClInclude Include="gfx\dx.h" />
     <ClInclude Include="gfx\fence.h" />
     <ClInclude Include="gfx\gpu_profiler.h" />
@@ -270,7 +273,6 @@
     <ClInclude Include="gfx\root_signature_params.h" />
     <ClInclude Include="gfx\swap_chain.h" />
     <ClInclude Include="gfx\texture.h" />
-    <ClInclude Include="gfx\upload_buffer.h" />
     <ClInclude Include="gfx\vertex.h" />
     <ClInclude Include="gfx\vertex_buffer.h" />
     <ClInclude Include="gpumem\allocation.h" />

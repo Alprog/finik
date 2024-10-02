@@ -1,11 +1,12 @@
-#pragma once
+export module descriptors:handle;
 
-#include "dx.h"
+import dx;
 
 class DescriptorHeap;
 
-struct DescriptorHandle
+export struct DescriptorHandle
 {
+public:
     DescriptorHandle();
     DescriptorHandle(DescriptorHeap* heap, int index);
 

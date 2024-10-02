@@ -1,5 +1,6 @@
-#include "descriptor_handle.h"
-#include "descriptor_heap.h"
+module descriptors:handle;
+
+import :heap;
 
 DescriptorHandle::DescriptorHandle()
     : heap {nullptr}

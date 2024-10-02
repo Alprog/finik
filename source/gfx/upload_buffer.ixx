@@ -1,6 +1,6 @@
-#pragma once
+export module UploadBuffer;
 
-#include "dx.h"
+import dx;
 
 class RenderSystem;
 

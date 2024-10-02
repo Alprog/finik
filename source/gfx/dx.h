@@ -13,3 +13,8 @@
 using namespace Microsoft::WRL;
 
 #define MUST < 0 ? throw : 0
+
+template<typename T> struct Hey
+{
+    T value;
+};

@@ -1,13 +1,12 @@
-#pragma once
+export module descriptors:heap;
 
-#include "dx.h"
+import dx;
+import :handle;
 
-#include "descriptor_handle.h"
-
-class DescriptorHeap
+export class DescriptorHeap
 {
 public:
-    DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, UINT maxCount);
+    DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, unsigned int maxCount);
 
     ID3D12DescriptorHeap* get() { return heap.Get(); }
     DescriptorHandle getNextHandle();
