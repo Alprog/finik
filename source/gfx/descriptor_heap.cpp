@@ -31,6 +31,5 @@ DescriptorHeap::DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE 
 DescriptorHandle DescriptorHeap::getNextHandle()
 {
     assert(descriptorCount < maxCount);
-    descriptorCount++;
-    return DescriptorHandle(this, descriptorCount);
+    return DescriptorHandle(this, descriptorCount++);
 }
