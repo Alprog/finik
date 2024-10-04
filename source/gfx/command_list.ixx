@@ -1,11 +1,9 @@
-#pragma once
+export module command_list;
 
-#include "dx.h"
+import dx;
+import render_system_fwd;
 
-class RenderSystem;
-class CommandListPool;
-
-class CommandList
+export class CommandList
 {
 public:
     explicit CommandList(RenderSystem& renderSystem, CommandListPool& pool, int frameIndex);

@@ -1,10 +1,8 @@
+export module pipeline_state;
 
-#pragma once
-
-#include "dx.h"
-#include "pipeline_settings.h"
-
-class RenderSystem;
+import dx;
+import pipeline_settings;
+import render_system_fwd;
 
 class PipelineState
 {

@@ -1,7 +1,7 @@
-export module descriptors:heap;
+export module descriptor_heap;
 
 import dx;
-import :handle;
+import descriptor_handle;
 
 export class DescriptorHeap
 {

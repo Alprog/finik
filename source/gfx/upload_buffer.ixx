@@ -1,10 +1,9 @@
 export module UploadBuffer;
 
 import dx;
+import render_system_fwd;
 
-class RenderSystem;
-
-class UploadBuffer
+export class UploadBuffer
 {
 public:
     UploadBuffer(RenderSystem& renderSystem, int size);

@@ -1,4 +1,4 @@
-#include "pipeline_settings.h"
+module pipeline_settings;
 
 PipelineSettings::PipelineSettings()
     : vertexShader {nullptr}

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "dx.h"
+import dx;
+
 #include "render_command.h"
 
 class RenderSystem;

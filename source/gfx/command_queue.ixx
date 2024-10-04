@@ -1,13 +1,11 @@
-#pragma once
+export module command_queue;
 
-#include "dx.h"
-#include "fence.h"
 import std;
+import dx;
+import fence;
+import render_system_fwd;
 
-class RenderSystem;
-class CommandList;
-
-class CommandQueue
+export class CommandQueue
 {
 public:
     CommandQueue(RenderSystem& renderSystem);

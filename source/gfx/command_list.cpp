@@ -1,8 +1,10 @@
-#include "command_list.h"
+module command_list;
 
-#include "render_system.h"
-#include "command_list_pool.h"
-#include "gpu_profiler.h"
+#include <dx_helpers.h>
+
+import render_system;
+//#include "command_list_pool.h"
+//#include "gpu_profiler.h"
 
 CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
     : renderSystem{ renderSystem }
@@ -11,7 +13,13 @@ CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, cons
 {
     auto device = renderSystem.get_device();
 
-    auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator));
+    //auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator));
+    
+    auto& a = __uuidof(**(&commandAllocator));
+
+    auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(**(&commandAllocator)), reinterpret_cast<void**>(&commandAllocator));
+    
+    
     if (FAILED(result)) throw;
 
     result = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator.Get(), nullptr, IID_PPV_ARGS(&listImpl));

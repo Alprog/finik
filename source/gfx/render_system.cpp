@@ -1,4 +1,4 @@
-#include "render_system.h"
+module render_system;
 
 #include <SDL.h>
 #include <SDL_syswm.h>

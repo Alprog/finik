@@ -1,8 +1,8 @@
-#pragma once
+export module vertex;
 
 import math;
 
-struct StandardVertex
+export struct StandardVertex
 {
     Vector3 position;
     Vector3 normal;

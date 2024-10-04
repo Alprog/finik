@@ -1,12 +1,12 @@
-#pragma once
+export module texture;
 
-#include "dx.h"
+import dx;
 import std;
-#include "descriptor_handle.h"
+import descriptor_handle;
 
 class Image;
 
-class Texture
+export class Texture
 {
 public:
     Texture(int width, int height);

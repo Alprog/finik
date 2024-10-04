@@ -1,8 +1,7 @@
-export module descriptors:handle;
+export module descriptor_handle;
 
 import dx;
-
-class DescriptorHeap;
+import render_system_fwd;
 
 export struct DescriptorHandle
 {

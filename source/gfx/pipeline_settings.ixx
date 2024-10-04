@@ -1,18 +1,16 @@
-#pragma once
+export module pipeline_settings;
 
-class Shader;
-class PipelineState;
-
+import render_system_fwd;
 import std;
 
-enum class CullMode : char
+export enum class CullMode : char
 {
     None,
     Front,
     Back
 };
 
-class PipelineSettings
+export class PipelineSettings
 {
 public:
     PipelineSettings();
@@ -20,7 +18,7 @@ public:
     Shader* vertexShader;
     Shader* pixelShader;
 
-   union
+    union
     {
         struct
         {
@@ -36,7 +34,7 @@ public:
     }
 };
 
-template <>
+export template <>
 struct std::hash<PipelineSettings>
 {
     size_t operator()(const PipelineSettings &ps) const

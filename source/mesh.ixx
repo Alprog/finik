@@ -1,8 +1,9 @@
-#pragma once
-
-#include "gfx/vertex_buffer.h"
-
+module;
 #include <cstdint>
+export module mesh;
+
+import vertex;
+import vertex_buffer;
 import std;
 
 class VertexBuffer;

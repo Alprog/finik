@@ -1,12 +1,10 @@
-#pragma once
+export module command_list_pool;
 
-#include "command_list.h"
-
+import render_system_fwd;
+import command_list;
 import std;
 
-class RenderSystem;
-
-class CommandListPool
+export class CommandListPool
 {
     friend class CommandList;
 

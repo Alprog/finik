@@ -1,4 +1,4 @@
-#include "render_state.h"
+module render_state;
 
 #include "../shader.h"
 #include "pipeline_state.h"

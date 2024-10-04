@@ -1,10 +1,9 @@
-#pragma once
+export module index_buffer;
 
-#include "dx.h"
+import dx;
+import std;
 
-class Renderer;
-
-class IndexBuffer
+export class IndexBuffer
 {
 public:
     void Load();

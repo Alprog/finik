@@ -1,4 +1,4 @@
-#include "swap_chain.h"
+module swap_chain;
 
 #include "../desktop_window.h"
 

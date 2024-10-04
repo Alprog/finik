@@ -1,6 +1,6 @@
-module descriptors:handle;
+module descriptor_handle;
 
-import :heap;
+import descriptor_heap;
 
 DescriptorHandle::DescriptorHandle()
     : heap {nullptr}

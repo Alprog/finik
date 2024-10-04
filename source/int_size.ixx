@@ -1,6 +1,6 @@
-#pragma once
+export module int_size;
 
-struct IntSize
+export struct IntSize
 {
 public:
     int width;

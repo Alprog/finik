@@ -62,7 +62,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking;$(SolutionDir)\..\3rd-party\zlib;$(SolutionDir)\..\3rd-party\libpng</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..\3rd-party;$(SolutionDir)\..\3rd-party\SDL2-2.30.4\include;$(SolutionDir)\..\3rd-party\imgui-docking;$(SolutionDir)\..\3rd-party\zlib;$(SolutionDir)\..\3rd-party\libpng</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>true</EnableModules>
       <BuildStlModules>false</BuildStlModules>
@@ -140,42 +140,57 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="console_view.cpp" />
-    <ClCompile Include="descriptors.ixx" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="dx_module.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="gfx\command_list.cpp" />
+    <ClCompile Include="gfx\command_list.ixx" />
     <ClCompile Include="gfx\command_list_pool.cpp" />
+    <ClCompile Include="gfx\command_list_pool.ixx" />
     <ClCompile Include="gfx\command_queue.cpp" />
+    <ClCompile Include="gfx\command_queue.ixx" />
     <ClCompile Include="gfx\constant_buffer.cpp" />
+    <ClCompile Include="gfx\constant_buffer.ixx" />
     <ClCompile Include="gfx\descriptor_handle.cpp" />
     <ClCompile Include="gfx\descriptor_handle.ixx" />
     <ClCompile Include="gfx\descriptor_heap.cpp" />
     <ClCompile Include="gfx\descriptor_heap.ixx" />
     <ClCompile Include="gfx\fence.cpp" />
-    <ClCompile Include="gfx\gfx_test.cpp" />
+    <ClCompile Include="gfx\fence.ixx" />
     <ClCompile Include="gfx\gpu_profiler.cpp" />
     <ClCompile Include="gfx\index_buffer.cpp" />
+    <ClCompile Include="gfx\index_buffer.ixx" />
     <ClCompile Include="gfx\pipeline_settings.cpp" />
+    <ClCompile Include="gfx\pipeline_settings.ixx" />
     <ClCompile Include="gfx\pipeline_state.cpp" />
+    <ClCompile Include="gfx\pipeline_state.ixx" />
     <ClCompile Include="gfx\render_command.cpp" />
     <ClCompile Include="gfx\render_context.cpp" />
     <ClCompile Include="gfx\render_lane.cpp" />
+    <ClCompile Include="gfx\render_lane.ixx" />
     <ClCompile Include="gfx\render_state.cpp" />
+    <ClCompile Include="gfx\render_state.ixx" />
     <ClCompile Include="gfx\render_system.cpp" />
+    <ClCompile Include="gfx\render_system.ixx" />
     <ClCompile Include="gfx\render_target.cpp" />
+    <ClCompile Include="gfx\render_target.ixx" />
     <ClCompile Include="gfx\swap_chain.cpp" />
+    <ClCompile Include="gfx\swap_chain.ixx" />
     <ClCompile Include="gfx\texture.cpp" />
+    <ClCompile Include="gfx\texture.ixx" />
     <ClCompile Include="gfx\upload_buffer.cpp" />
     <ClCompile Include="gfx\upload_buffer.ixx" />
     <ClCompile Include="gfx\vertex.cpp" />
+    <ClCompile Include="gfx\vertex.ixx" />
     <ClCompile Include="gfx\vertex_buffer.cpp" />
+    <ClCompile Include="gfx\vertex_buffer.ixx" />
     <ClCompile Include="gpumem\oneshot_allocator.cpp" />
     <ClCompile Include="gpumem\memory_page.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
     <ClCompile Include="imgui.ixx" />
+    <ClCompile Include="int_size.ixx" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="math.ixx" />
     <ClCompile Include="math\matrix.ixx" />
@@ -187,6 +202,7 @@
     <ClCompile Include="math\vector2.ixx" />
     <ClCompile Include="math\vector3.ixx" />
     <ClCompile Include="math\vector4.ixx" />
+    <ClCompile Include="mesh.ixx" />
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="profiler\lane.cpp" />
     <ClCompile Include="profiler\lane.ixx" />
@@ -197,6 +213,7 @@
     <ClCompile Include="profiler\timebox_tracker.cpp" />
     <ClCompile Include="profiler\timebox_tracker.ixx" />
     <ClCompile Include="profiler_view.cpp" />
+    <ClCompile Include="render_system_fwd.ixx" />
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="stats_view.cpp" />
     <ClCompile Include="test.cpp" />
@@ -253,37 +270,20 @@
     <ClInclude Include="camera_controller.h" />
     <ClInclude Include="console_view.h" />
     <ClInclude Include="desktop_system.h" />
+    <ClInclude Include="dx_helpers.h" />
     <ClInclude Include="flamegraph.h" />
-    <ClInclude Include="gfx\command_list.h" />
-    <ClInclude Include="gfx\command_list_pool.h" />
-    <ClInclude Include="gfx\command_queue.h" />
-    <ClInclude Include="gfx\constant_buffer.h" />
     <ClInclude Include="gfx\dx.h" />
-    <ClInclude Include="gfx\fence.h" />
     <ClInclude Include="gfx\gpu_profiler.h" />
-    <ClInclude Include="gfx\index_buffer.h" />
-    <ClInclude Include="gfx\pipeline_settings.h" />
-    <ClInclude Include="gfx\pipeline_state.h" />
     <ClInclude Include="gfx\render_command.h" />
     <ClInclude Include="gfx\render_context.h" />
-    <ClInclude Include="gfx\render_lane.h" />
-    <ClInclude Include="gfx\render_state.h" />
-    <ClInclude Include="gfx\render_system.h" />
-    <ClInclude Include="gfx\render_target.h" />
     <ClInclude Include="gfx\root_signature_params.h" />
-    <ClInclude Include="gfx\swap_chain.h" />
-    <ClInclude Include="gfx\texture.h" />
-    <ClInclude Include="gfx\vertex.h" />
-    <ClInclude Include="gfx\vertex_buffer.h" />
     <ClInclude Include="gpumem\allocation.h" />
     <ClInclude Include="gpumem\oneshot_allocator.h" />
     <ClInclude Include="gpumem\memory_page.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="images.h" />
-    <ClInclude Include="int_size.h" />
     <ClInclude Include="log.h" />
-    <ClInclude Include="mesh.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="profiler_view.h" />
     <ClInclude Include="scene_view.h" />

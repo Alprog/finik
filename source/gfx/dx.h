@@ -14,7 +14,5 @@ using namespace Microsoft::WRL;
 
 #define MUST < 0 ? throw : 0
 
-template<typename T> struct Hey
-{
-    T value;
-};
+template <typename T>
+using ComPtr = Microsoft::WRL::ComPtr<T>;

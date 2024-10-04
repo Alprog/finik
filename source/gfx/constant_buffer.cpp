@@ -1,4 +1,5 @@
-#include "constant_buffer.h"
+module constant_buffer;
+
 #include "render_system.h"
 #include "upload_buffer.h"
 

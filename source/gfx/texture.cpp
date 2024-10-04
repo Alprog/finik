@@ -1,4 +1,4 @@
-#include "texture.h"
+module texture;
 
 #include "../images.h"
 #include "descriptor_heap.h"

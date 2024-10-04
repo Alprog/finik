@@ -1,14 +1,16 @@
-#pragma once
-
+module;
 #include "dx.h"
-#include "descriptor_handle.h"
-#include "../int_size.h"
+#include <cstdint>
+export module render_lane;
+
+import descriptor_handle;
+import int_size;
 
 class Scene;
 class Camera;
 class Fence;
 
-class RenderSurface
+export class RenderSurface
 {
 public:
     void init(IntSize resolution);
@@ -34,7 +36,7 @@ public:
     D3D12_RECT scissorRect;
 };
 
-class RenderLane
+export class RenderLane
 {
 public:
     RenderLane(Scene& scene, Camera& camera, IntSize resolution);
@@ -48,5 +50,5 @@ private:
     Camera& camera;
     RenderSurface surface;
 
-    UINT64 fenceValue = 0;
+    uint64_t fenceValue = 0;
 };

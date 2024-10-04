@@ -1,16 +1,13 @@
+module;
+#include <cstdint>
+export module constant_buffer;
 
-#pragma once
-
-#include "descriptor_handle.h"
-#include "constant_buffer.h"
-
-class DXRenderer;
-class RenderSystem;
-class UploadBuffer;
+import descriptor_handle;
+import render_system_fwd;
 
 import math;
 
-class ConstantBuffer
+export class ConstantBuffer
 {
 public:
     ConstantBuffer() = default;
@@ -31,5 +28,5 @@ public:
     int version;
 
     int gpuVersion;
-    UINT8* uploadDataBegin;
+    uint8_t* uploadDataBegin;
 };

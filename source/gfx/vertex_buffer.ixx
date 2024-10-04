@@ -1,11 +1,10 @@
-#pragma once
-
-#include "vertex.h"
+export module vertex_buffer;
 
 import std;
 import dx;
+import vertex;
 
-class VertexBuffer
+export class VertexBuffer
 {
 public:
     void Load();

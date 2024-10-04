@@ -1,9 +1,9 @@
 
 #pragma once
 
-class Mesh;
-class Texture;
-class RenderState;
+import mesh;
+import texture;
+import render_state;
 
 struct RenderCommand
 {

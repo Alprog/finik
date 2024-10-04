@@ -1,10 +1,9 @@
-#pragma once
+export module fence;
 
 import dx;
+import render_system_fwd;
 
-class RenderSystem;
-
-class Fence
+export class Fence
 {
 public:
     Fence(RenderSystem& renderSystem, ID3D12CommandQueue& queue);

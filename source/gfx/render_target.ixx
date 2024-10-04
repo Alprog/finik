@@ -1,10 +1,8 @@
-#pragma once
+export module render_target;
 
-#include "dx.h"
+import dx;
 
-#include "descriptor_handle.h"
-
-class RenderTarget
+export class RenderTarget
 {
 public:
     ComPtr<ID3D12Resource> resource;    // render target texture

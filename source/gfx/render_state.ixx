@@ -1,13 +1,9 @@
-#pragma once
+export module render_state;
 
-class Shader;
-class Texture;
-class ConstantBuffer;
-class PipelineState;
+import render_system_fwd;
+import pipeline_settings;
 
-#include "pipeline_settings.h"
-
-class RenderState
+export class RenderState
 {
 public:
     RenderState();

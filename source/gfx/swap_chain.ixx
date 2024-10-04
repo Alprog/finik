@@ -1,27 +1,25 @@
-#pragma once
+module;
+#include <cstdint>
+export module swap_chain;
 
-#include "dx.h"
-
-#include "render_target.h"
+import dx;
+import descriptor_handle;
+import render_system_fwd;
+import std;
+import render_target;
 
 static int const NUM_BACK_BUFFER = 3;
 static int const NUM_FRAMES_IN_FLIGHT = 3;
 
 class DesktopWindow;
-class ID3D12Fence;
-class IDXGISwapChain3;
-class FrameContext;
-struct ID3D12GraphicsCommandList;
 
-struct FrameContext
+export struct FrameContext
 {
     ID3D12CommandAllocator* CommandAllocator;
-    UINT64                  FenceValue;
+    uint64_t                FenceValue;
 };
 
-typedef void* HANDLE;
-
-class SwapChain
+export class SwapChain
 {
 public:
     SwapChain(DesktopWindow& window);
@@ -53,6 +51,6 @@ public:
 
     bool swapChainOccluded = false;
     FrameContext frameContext[NUM_FRAMES_IN_FLIGHT] = {};
-    UINT frameIndex = 0;
+    uint32_t frameIndex = 0;
     FrameContext* current_frame_ctx;
 }; 

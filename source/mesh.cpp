@@ -1,6 +1,5 @@
-#include "mesh.h"
+module mesh;
 
-#include "gfx/vertex_buffer.h"
 #include "gfx/index_buffer.h"
 
 Mesh* createCubeMesh()

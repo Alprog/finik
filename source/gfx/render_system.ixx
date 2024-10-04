@@ -1,12 +1,12 @@
-#pragma once
+export module render_system;
 
 import dx;
+import render_system_fwd;
+import std;
+import command_queue;
+import command_list_pool;
+import render_lane;
 
-//#include "descriptor_heap.h"
-//#include "render_context.h"
-//#include "render_lane.h"
-//#include "command_queue.h"
-//#include "command_list_pool.h"
 //#include "../gpumem/oneshot_allocator.h"
 
 class Window;
@@ -15,7 +15,7 @@ struct FrameContext;
 class RenderContext;
 class GpuProfiler;
 
-class RenderSystem
+export class RenderSystem
 {
     friend class App;
 
@@ -52,10 +52,10 @@ private:
     void createRenderContext();
     void createProfiler();
     
-    ComPtr<ID3D12Device> device = nullptr;
+    ComPtr<ID3D12Device> device;
     CommandQueue* commandQueue = nullptr;
     ComPtr<ID3D12CommandAllocator> commandAllocators[3];
-    ComPtr<ID3D12GraphicsCommandList> commandList = nullptr;
+    ComPtr<ID3D12GraphicsCommandList> commandList;
 
     GpuProfiler* gpuProfiler = nullptr;
 
@@ -70,7 +70,7 @@ private:
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 
     std::unique_ptr<CommandListPool> commandListPool;
-    std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
+    //std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
 
 public:
     std::vector<std::shared_ptr<RenderLane>> lanes;

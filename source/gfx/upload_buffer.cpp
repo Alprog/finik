@@ -1,11 +1,11 @@
 module UploadBuffer;
 
-//#include "render_system.h"
+import render_system;
 
 UploadBuffer::UploadBuffer(RenderSystem& renderSystem, int size)
     : Size { size }
 {
-    /*auto device = renderSystem.get_device();
+    auto device = renderSystem.get_device();
 
     auto result = device->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -19,7 +19,7 @@ UploadBuffer::UploadBuffer(RenderSystem& renderSystem, int size)
 
     CD3DX12_RANGE readRange(0, 0);
     result = Resource->Map(0, &readRange, reinterpret_cast<void**>(&Data));
-    if (FAILED(result)) throw;*/
+    if (FAILED(result)) throw;
 }
 
 int UploadBuffer::GetSize() const

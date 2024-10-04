@@ -1,7 +1,7 @@
-#include "command_queue.h"
+module command_queue;
 
-#include "render_system.h"
-#include "command_list.h"
+import render_system;
+import command_list;
 
 CommandQueue::CommandQueue(RenderSystem& renderSystem)
 {
