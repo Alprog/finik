@@ -1,16 +1,18 @@
-#include "render_lane.h"
-
-#include "../app.h"
-#include "render_system.h"
+module;
+#include "dx.h"
 #include "../scene.h"
-#include "fence.h"
-#include "../camera.h"
-#include "command_queue.h"
 #include "../timer.h"
 #include "../log.h";
-#include "command_list.h"
+#include "../camera.h"
+module render_lane;
 
+import app;
+import render_system;
+import fence;
+import command_queue;
+import command_list;
 import timebox_tracker;
+import descriptor_heap;
 
 void RenderSurface::init(IntSize resolution)
 {

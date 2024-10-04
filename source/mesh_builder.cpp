@@ -1,8 +1,9 @@
 #include "mesh_builder.h"
 
-#include "mesh.h"
-#include "gfx/vertex_buffer.h"
-#include "gfx/index_buffer.h"
+import mesh;
+import vertex_buffer;
+import index_buffer;
+import math;
 
 void MeshBuilder::AddTile(int x, int y)
 {

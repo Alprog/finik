@@ -1,6 +1,8 @@
+module;
+#include "dx.h"
 module vertex_buffer;
 
-//#include "../app.h"
+import app;
 import render_system;
 
 import math;

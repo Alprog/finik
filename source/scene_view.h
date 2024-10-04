@@ -2,10 +2,10 @@
 
 #include "view.h"
 #include "camera.h"
-#include "gfx/render_lane.h"
 #include "camera_controller.h"
 
 import std;
+import render_lane;
 
 class Scene;
 

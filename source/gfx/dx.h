@@ -8,9 +8,9 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 
-#include <wrl/client.h>
+#include <dxgi1_4.h>
 
-using namespace Microsoft::WRL;
+#include <wrl/client.h>
 
 #define MUST < 0 ? throw : 0
 

@@ -1,11 +1,12 @@
 #pragma once
 
+#include "dx.h"
+
 import dx;
+import render_system_fwd;
 
 #include "render_command.h"
 
-class RenderSystem;
-class Mesh;
 struct Matrix;
 
 class RenderContext

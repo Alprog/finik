@@ -1,6 +1,17 @@
-#include "app.h"
-
+module;
 #include "desktop_window.h"
+#include <SDL.h>
+#include <SDL_syswm.h>
+#include "gui.h"
+module app;
+
+import render_system;
+import swap_chain;
+import render_lane;
+import std;
+import imgui;
+import timebox_tracker;
+import descriptor_heap;
 
 App& App::get_instance()
 {
@@ -16,26 +27,6 @@ App::App()
     , profiler{}
 {
 }
-
-
-#include <SDL.h>
-#include <SDL_syswm.h>
-
-#include "app.h"
-#include "desktop_window.h"
-#include "scene.h"
-#include "gui.h"
-
-#include "gfx/render_system.h"
-#include "gfx/swap_chain.h"
-#include "gfx/render_lane.h"
-#include "log.h"
-#include "timer.h"
-#include "gfx/gpu_profiler.h"
-
-import std;
-import imgui;
-import timebox_tracker;
 
 void handle_input()
 {

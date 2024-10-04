@@ -1,8 +1,8 @@
 #include "profiler_view.h"
 
-#include "app.h"
 #include "flamegraph.h"
 
+import app;
 import imgui;
 import math;
 

@@ -136,6 +136,7 @@
     <ClCompile Include="..\3rd-party\zlib\zutil.c" />
     <ClCompile Include="actor.cpp" />
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="app.ixx" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
@@ -216,7 +217,6 @@
     <ClCompile Include="render_system_fwd.ixx" />
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="stats_view.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
@@ -264,13 +264,11 @@
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
     <ClInclude Include="actor.h" />
-    <ClInclude Include="app.h" />
     <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_controller.h" />
     <ClInclude Include="console_view.h" />
     <ClInclude Include="desktop_system.h" />
-    <ClInclude Include="dx_helpers.h" />
     <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gfx\dx.h" />
     <ClInclude Include="gfx\gpu_profiler.h" />

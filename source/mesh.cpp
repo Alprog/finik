@@ -1,6 +1,6 @@
 module mesh;
 
-#include "gfx/index_buffer.h"
+import math;
 
 Mesh* createCubeMesh()
 {

@@ -1,4 +1,6 @@
-module UploadBuffer;
+module;
+#include "dx.h"
+module upload_buffer;
 
 import render_system;
 

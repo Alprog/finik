@@ -1,6 +1,6 @@
 #include "actor.h"
 
-#include "mesh.h"
+import mesh;
 
 Actor::Actor()
 {

@@ -1,7 +1,8 @@
 #include "tile_map.h"
 
 #include "images.h"
-#include "gfx/texture.h"
+
+import texture;
 
 TileMap::TileMap()
 {

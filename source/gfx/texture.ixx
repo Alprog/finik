@@ -1,10 +1,11 @@
+module;
+#include "dx.h"
+class Image;
 export module texture;
 
 import dx;
 import std;
 import descriptor_handle;
-
-class Image;
 
 export class Texture
 {

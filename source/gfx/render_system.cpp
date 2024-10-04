@@ -1,10 +1,8 @@
-module render_system;
-
+module;
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-#include <d3d12.h>
-#include <dxgi1_4.h>
+#include "dx.h"
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -15,16 +13,16 @@ module render_system;
 #pragma comment(lib, "dxguid.lib")
 #endif
 
-#include "imgui_internal.h"
-#include "pipeline_state.h"
-
-#include "../app.h"
 #include "../desktop_window.h"
-#include "command_queue.h"
 #include "gpu_profiler.h"
+module render_system;
 
+import app;
 import imgui;
 import std;
+import pipeline_state;
+import command_queue;
+import descriptor_heap;
 
 class ResultChecker
 {
@@ -181,7 +179,7 @@ void RenderSystem::createCommandAllocators()
 
 void RenderSystem::createOneshotAllocator()
 {
-    oneshotAllocator = std::make_unique<finik::gpumem::OneshotAllocator>(*this);
+    //oneshotAllocator = std::make_unique<finik::gpumem::OneshotAllocator>(*this);
 }
 
 void RenderSystem::createCommandList()

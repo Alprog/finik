@@ -1,7 +1,10 @@
+module;
+#include "dx.h"
 module constant_buffer;
 
-#include "render_system.h"
-#include "upload_buffer.h"
+import render_system;
+import upload_buffer;
+import descriptor_heap;
 
 ConstantBuffer::ConstantBuffer(RenderSystem& renderSystem)
     : version{0}

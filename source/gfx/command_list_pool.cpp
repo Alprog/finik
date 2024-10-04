@@ -1,6 +1,6 @@
 module command_list_pool;
 
-#include "../app.h"
+import app;
 
 CommandListPool::CommandListPool(RenderSystem& renderSystem)
     : renderSystem{ renderSystem }

@@ -1,3 +1,5 @@
+module;
+#include "dx.h"
 module command_queue;
 
 import render_system;

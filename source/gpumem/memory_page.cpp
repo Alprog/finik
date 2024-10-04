@@ -1,6 +1,6 @@
 #include "memory_page.h"
 
-#include "../gfx/render_system.h"
+import render_system;
 
 using namespace finik::gpumem;
 

@@ -1,6 +1,6 @@
 #include "oneshot_allocator.h"
 
-#include "../gfx/render_system.h"
+import render_system;
 
 import std;
 

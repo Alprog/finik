@@ -4,12 +4,10 @@ export module mesh;
 
 import vertex;
 import vertex_buffer;
+import index_buffer;
 import std;
 
-class VertexBuffer;
-class IndexBuffer;
-
-class Mesh
+export class Mesh
 {
 public:
     std::vector<StandardVertex> vertices;
@@ -19,4 +17,4 @@ public:
     IndexBuffer* indexBuffer;
 };
 
-Mesh* createCubeMesh();
+export Mesh* createCubeMesh();

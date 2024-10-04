@@ -2,18 +2,19 @@
 
 #include "shader.h"
 #include "gfx/render_command.h"
-#include "app.h"
-#include "gfx/render_system.h"
-#include "gfx/render_state.h"
-#include "mesh.h"
-#include "gfx/constant_buffer.h"
+
 #include "camera.h"
-#include "gfx/texture.h"
 #include "grid.h"
 #include "actor.h"
 #include "gfx/root_signature_params.h"
 
+import app;
 import math;
+import render_system;
+import render_state;
+import mesh;
+import constant_buffer;
+import texture;
 
 Scene::Scene()
 {

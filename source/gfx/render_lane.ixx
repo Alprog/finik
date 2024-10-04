@@ -1,14 +1,12 @@
 module;
 #include "dx.h"
 #include <cstdint>
+class Scene;
+class Camera;
 export module render_lane;
 
 import descriptor_handle;
 import int_size;
-
-class Scene;
-class Camera;
-class Fence;
 
 export class RenderSurface
 {

@@ -1,15 +1,16 @@
-module swap_chain;
-
+module;
+#include "dx.h"
 #include "../desktop_window.h"
-
-#include "../app.h"
-
 #include <dxgi.h>
 #include "../log.h"
 #include "../timer.h"
 #include "gpu_profiler.h"
+module swap_chain;
 
+import app;
 import std;
+import render_system;
+import descriptor_heap;
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;

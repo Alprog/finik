@@ -1,5 +1,3 @@
-#include "app.h"
-
 #include "SDL.h"
 #include "desktop_system.h"
 #include "scene.h"
@@ -12,6 +10,8 @@
 #include "stats_view.h"
 #include "timer.h"
 #include "profiler_view.h"
+
+import app;
 
 int main(int argc, char* argv[])
 {

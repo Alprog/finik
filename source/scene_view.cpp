@@ -1,12 +1,14 @@
 #include "scene_view.h"
 
-#include "app.h"
-#include "gfx/render_system.h"
-#include "gfx/render_lane.h"
 #include "scene.h"
 #include "log.h"
+#include "gfx/dx.h"
 
+import app;
 import imgui;
+import render_system;
+import int_size;
+import descriptor_handle;
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View{ name }

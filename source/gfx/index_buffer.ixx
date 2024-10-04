@@ -1,3 +1,5 @@
+module;
+#include "dx.h"
 export module index_buffer;
 
 import dx;

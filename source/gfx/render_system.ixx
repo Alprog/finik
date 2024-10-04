@@ -1,3 +1,8 @@
+module;
+#include "dx.h"
+#include "gpu_profiler.h"
+#include "render_context.h"
+class Window;
 export module render_system;
 
 import dx;
@@ -8,12 +13,6 @@ import command_list_pool;
 import render_lane;
 
 //#include "../gpumem/oneshot_allocator.h"
-
-class Window;
-class PipelineState;
-struct FrameContext;
-class RenderContext;
-class GpuProfiler;
 
 export class RenderSystem
 {

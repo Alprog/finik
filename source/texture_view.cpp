@@ -1,10 +1,11 @@
 #include "texture_view.h"
 
 #include "scene.h"
-#include "gfx/texture.h"
 #include "grid.h"
 #include "tile_map.h"
+#include "gfx/dx.h"
 
+import texture;
 import imgui;
 
 TextureView::TextureView(const char* name, Scene& scene)

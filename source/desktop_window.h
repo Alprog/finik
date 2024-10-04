@@ -2,10 +2,11 @@
 
 #include "windows.h"
 
+import swap_chain;
+
 struct SDL_Window;
 using WindowImpl = SDL_Window;
 
-class SwapChain;
 class Scene;
 class Gui;
 

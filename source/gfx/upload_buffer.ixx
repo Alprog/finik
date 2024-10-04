@@ -1,4 +1,6 @@
-export module UploadBuffer;
+module;
+#include "dx.h"
+export module upload_buffer;
 
 import dx;
 import render_system_fwd;

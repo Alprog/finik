@@ -1,1 +1,1 @@
-#include "render_target.h"
+module render_target;

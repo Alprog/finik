@@ -1,7 +1,8 @@
 #pragma once
 
-#include "gfx/pipeline_state.h"
 #include "gfx/render_command.h"
+
+import pipeline_state;
 
 class RenderContext;
 class Camera;
@@ -10,6 +11,7 @@ class Grid;
 class Actor;
 
 import math;
+import std;
 
 class Scene
 {

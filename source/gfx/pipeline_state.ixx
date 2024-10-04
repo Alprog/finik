@@ -1,10 +1,12 @@
+module;
+#include "dx.h"
 export module pipeline_state;
 
 import dx;
 import pipeline_settings;
 import render_system_fwd;
 
-class PipelineState
+export class PipelineState
 {
 public:
     PipelineState(RenderSystem& renderSystem, const PipelineSettings& pipelineSettings);

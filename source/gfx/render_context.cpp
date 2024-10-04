@@ -1,14 +1,15 @@
 #include "render_context.h"
 
-#include "vertex_buffer.h"
-#include "index_buffer.h"
-#include "render_state.h"
 #include "render_command.h"
-#include "pipeline_state.h"
-#include "../mesh.h"
-#include "constant_buffer.h"
-#include "texture.h"
 #include "root_signature_params.h"
+
+import vertex_buffer;
+import index_buffer;
+import render_state;
+import pipeline_state;
+import mesh;
+import constant_buffer;
+import texture;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }

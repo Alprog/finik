@@ -1,15 +1,14 @@
-#pragma once
-
+module;
 #include "desktop_system.h"
 #include "input_system.h"
-#include "gfx/render_system.h"
 #include "scene_manager.h"
+class Window;
+export module app;
 
+import render_system;
 import profiler;
 
-class Window;
-
-class App
+export class App
 {
 public:
     static App& get_instance();

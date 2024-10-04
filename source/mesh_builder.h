@@ -1,9 +1,9 @@
 #pragma once
 
-#include "gfx/vertex.h"
 #include <cstdint>
 
 import std;
+import vertex;
 
 class Mesh;
 

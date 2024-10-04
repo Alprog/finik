@@ -1,5 +1,7 @@
 module;
+#include "dx.h"
 #include <cstdint>
+class DesktopWindow;
 export module swap_chain;
 
 import dx;
@@ -8,10 +10,8 @@ import render_system_fwd;
 import std;
 import render_target;
 
-static int const NUM_BACK_BUFFER = 3;
-static int const NUM_FRAMES_IN_FLIGHT = 3;
-
-class DesktopWindow;
+export constexpr int NUM_BACK_BUFFER = 3;
+export constexpr int NUM_FRAMES_IN_FLIGHT = 3;
 
 export struct FrameContext
 {

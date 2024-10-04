@@ -1,3 +1,5 @@
+module;
+#include "dx.h"
 export module descriptor_handle;
 
 import dx;

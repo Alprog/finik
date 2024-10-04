@@ -4,14 +4,15 @@
 #include <SDL_syswm.h>
 
 #include "gui.h"
-#include "gfx/swap_chain.h"
 
-#include "app.h"
-#include "gfx/render_system.h"
 #include "scene.h"
 
 #include "camera.h"
+
+import app;
 import std;
+import render_system;
+import swap_chain;
 
 DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }
@@ -41,16 +42,16 @@ DesktopWindow::~DesktopWindow()
 
 void DesktopWindow::renderScene()
 {
-    //static Camera camera;
-    //camera.position = Vector3(0, 1, -3);
-    //camera.lookAt = Vector3::Zero;
-    //camera.FieldOfView = std::numbers::pi / 2.0f;
-    //camera.calcViewMatrix();
-    //camera.calcProjectionMatrix();
+    static Camera camera;
+    camera.position = Vector3(0, 1, -3);
+    camera.lookAt = Vector3::Zero;
+    camera.FieldOfView = std::numbers::pi / 2.0f;
+    camera.calcViewMatrix();
+    camera.calcProjectionMatrix();
 
-    //if (scene != nullptr)
-    //{
-    //    auto context = App::get_instance().render_system.getRenderContext();
-    //    scene->render(*context, &camera);
-    //}
+    if (scene != nullptr)
+    {
+        auto context = App::get_instance().render_system.getRenderContext();
+        scene->render(*context, &camera);
+    }
 }
