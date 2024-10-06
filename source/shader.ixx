@@ -3,6 +3,7 @@ module;
 export module shader;
 
 import path;
+import dx;
 
 export enum ShaderType
 {

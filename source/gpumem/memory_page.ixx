@@ -2,6 +2,7 @@ module;
 #include "gfx/dx.h"
 export module memory_page;
 
+import dx;
 import render_system_fwd;
 
 namespace finik::gpumem

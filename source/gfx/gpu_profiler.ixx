@@ -4,6 +4,7 @@ export module gpu_profiler;
 
 import std;
 import render_system_fwd;
+import dx;
 
 export struct StampRange
 {
