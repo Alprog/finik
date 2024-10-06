@@ -1,9 +1,9 @@
 module;
 #include "dx.h"
-#include "../log.h"
-#include "../timer.h"
 module fence;
 
+import log;
+import timer;
 import render_system;
 
 Fence::Fence(RenderSystem& renderSystem, ID3D12CommandQueue& queue)

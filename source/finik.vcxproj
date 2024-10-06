@@ -198,6 +198,7 @@
     <ClCompile Include="imgui.ixx" />
     <ClCompile Include="int_size.ixx" />
     <ClCompile Include="log.cpp" />
+    <ClCompile Include="log.ixx" />
     <ClCompile Include="math.ixx" />
     <ClCompile Include="math\matrix.ixx" />
     <ClCompile Include="math\matrix3x3.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="timer.ixx" />
     <ClCompile Include="utils.ixx" />
     <ClCompile Include="view.cpp" />
     <ClCompile Include="input_system.cpp" />
@@ -283,7 +285,6 @@
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="images.h" />
-    <ClInclude Include="log.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="profiler_view.h" />
     <ClInclude Include="scene_view.h" />
@@ -291,7 +292,6 @@
     <ClInclude Include="texel.h" />
     <ClInclude Include="texture_view.h" />
     <ClInclude Include="tile_map.h" />
-    <ClInclude Include="timer.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="input_system.h" />
     <ClInclude Include="scene.h" />

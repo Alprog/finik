@@ -1,6 +1,6 @@
-module;
-#include "../timer.h"
 module lane;
+
+import timer;
 
 using namespace finik::profiler;
 

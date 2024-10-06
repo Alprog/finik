@@ -1,6 +1,7 @@
-#include "log.h"
-
+module;
 #include "Windows.h"
+module log;
+
 import std;
 
 void log_impl(std::string text)

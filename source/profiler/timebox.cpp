@@ -1,6 +1,6 @@
 module timebox;
 
-#include "../timer.h"
+import timer;
 
 using namespace finik::profiler;
 

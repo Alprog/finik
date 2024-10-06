@@ -1,7 +1,7 @@
-module;
-#include "../timer.h"
-#include "../log.h"
 module profiler;
+
+import log;
+import timer;
 
 using namespace finik::profiler;
 

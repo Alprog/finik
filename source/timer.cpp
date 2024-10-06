@@ -1,6 +1,7 @@
-#include "timer.h"
-
+module;
 #include <Windows.h>
+#include <cstdint>
+module timer;
 
 import std;
 

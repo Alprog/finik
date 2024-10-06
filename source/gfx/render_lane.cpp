@@ -1,8 +1,6 @@
 module;
 #include "dx.h"
 #include "../scene.h"
-#include "../timer.h"
-#include "../log.h";
 #include "../camera.h"
 module render_lane;
 
@@ -13,6 +11,8 @@ import command_queue;
 import command_list;
 import timebox_tracker;
 import descriptor_heap;
+import timer;
+import log;
 
 void RenderSurface::init(IntSize resolution)
 {
