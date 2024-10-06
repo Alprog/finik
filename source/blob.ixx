@@ -1,10 +1,9 @@
-
-#pragma once
+export module blob;
 
 import std;
-#include "path.h"
+import path;
 
-class Blob
+export class Blob
 {
 public:
     Blob(Path path);

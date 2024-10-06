@@ -1,4 +1,4 @@
-#include "actor.h"
+module actor;
 
 import mesh;
 

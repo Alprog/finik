@@ -1,6 +1,6 @@
+module path;
 
-#include "Path.h"
-#include "Utils.h"
+import utils;
 
 // absolute - "C:/path" or "/path"
 // relative - "path" or "./path" or "../path"

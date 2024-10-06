@@ -4,13 +4,13 @@ module;
 #include <dxgi.h>
 #include "../log.h"
 #include "../timer.h"
-#include "gpu_profiler.h"
 module swap_chain;
 
 import app;
 import std;
 import render_system;
 import descriptor_heap;
+import gpu_profiler;
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;

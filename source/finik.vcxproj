@@ -135,9 +135,11 @@
     <ClCompile Include="..\3rd-party\zlib\uncompr.c" />
     <ClCompile Include="..\3rd-party\zlib\zutil.c" />
     <ClCompile Include="actor.cpp" />
+    <ClCompile Include="actor.ixx" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="app.ixx" />
     <ClCompile Include="blob.cpp" />
+    <ClCompile Include="blob.ixx" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="console_view.cpp" />
@@ -208,6 +210,7 @@
     <ClCompile Include="math\vector4.ixx" />
     <ClCompile Include="mesh.ixx" />
     <ClCompile Include="mesh_builder.cpp" />
+    <ClCompile Include="path.ixx" />
     <ClCompile Include="profiler\lane.cpp" />
     <ClCompile Include="profiler\lane.ixx" />
     <ClCompile Include="profiler\profiler.cpp" />
@@ -224,6 +227,7 @@
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="utils.ixx" />
     <ClCompile Include="view.cpp" />
     <ClCompile Include="input_system.cpp" />
     <ClCompile Include="main.cpp" />
@@ -266,8 +270,6 @@
     <ClInclude Include="..\3rd-party\zlib\zconf.h" />
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
-    <ClInclude Include="actor.h" />
-    <ClInclude Include="blob.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_controller.h" />
     <ClInclude Include="console_view.h" />
@@ -291,12 +293,10 @@
     <ClInclude Include="timer.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="input_system.h" />
-    <ClInclude Include="path.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="singleton.h" />
-    <ClInclude Include="utils.h" />
     <ClInclude Include="desktop_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

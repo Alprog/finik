@@ -1,9 +1,9 @@
 #pragma once
 
-#include "path.h"
 #include "texel.h"
 
 import std;
+import path;
 
 class Image
 {

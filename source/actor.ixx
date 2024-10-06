@@ -1,10 +1,9 @@
-#pragma once
+export module actor;
 
 import math;
+import mesh;
 
-class Mesh;
-
-class Actor
+export class Actor
 {
 public:
     Actor();

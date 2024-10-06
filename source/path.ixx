@@ -1,9 +1,8 @@
-
-#pragma once
+export module path;
 
 import std;
 
-class Path
+export class Path
 {
     friend class std::hash<Path>;
 
@@ -74,7 +73,7 @@ private:
     std::string canonicalPath;
 };
 
-template<>
+export template<>
 struct std::hash<Path>
 {
     size_t operator()(const Path& path) const

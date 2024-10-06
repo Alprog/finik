@@ -1,7 +1,8 @@
 #pragma once
 
 #include "gfx/dx.h"
-#include "path.h"
+
+import path;
 
 class DXRenderer;
 

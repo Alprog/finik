@@ -1,5 +1,4 @@
-
-#include "Utils.h"
+module utils;
 
 import std;
 

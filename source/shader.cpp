@@ -1,7 +1,8 @@
 
 #include "shader.h"
-#include "blob.h"
 #include <d3dcompiler.h>
+
+import blob;
 
 Shader::Shader(Path path, ShaderType type, const std::string& entryPoint)
     : type{ type }

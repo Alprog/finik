@@ -1,5 +1,5 @@
+module blob;
 
-#include "blob.h"
 import std;
 
 Blob::Blob(Path path)

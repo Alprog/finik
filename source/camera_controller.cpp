@@ -1,10 +1,10 @@
 #include "camera_controller.h"
 
 #include "camera.h"
-#include "utils.h"
 
 import std;
 import imgui;
+import utils;
 
 CameraController::CameraController(Camera& camera)
     : camera{ camera }

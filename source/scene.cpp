@@ -4,7 +4,6 @@
 
 #include "camera.h"
 #include "grid.h"
-#include "actor.h"
 
 import app;
 import math;
@@ -15,6 +14,7 @@ import constant_buffer;
 import texture;
 import render_command;
 import root_signature_params;
+import actor;
 
 Scene::Scene()
 {
