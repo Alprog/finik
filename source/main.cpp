@@ -2,8 +2,6 @@
 #include "desktop_system.h"
 #include "desktop_window.h"
 
-#include "gui.h"
-
 import app;
 import timer;
 import scene_view;
@@ -12,6 +10,7 @@ import texture_view;
 import stats_view;
 import profiler_view;
 import scene;
+import gui;
 
 int main(int argc, char* argv[])
 {
