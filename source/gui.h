@@ -1,7 +1,7 @@
 #pragma once
 
-#include "view.h"
 import std;
+import view;
 
 class DesktopWindow;
 struct ImGuiContext;

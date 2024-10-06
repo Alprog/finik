@@ -1,7 +1,7 @@
-#include "texture_view.h"
-
+module;
 #include "scene.h"
 #include "gfx/dx.h"
+module texture_view;
 
 import texture;
 import imgui;

@@ -1,10 +1,10 @@
-#pragma once
-
-#include "view.h"
-
+module;
 class Scene;
+export module texture_view;
 
-class TextureView : public View
+import view;
+
+export class TextureView : public View
 {
 public:
     TextureView(const char* name, Scene& scene);

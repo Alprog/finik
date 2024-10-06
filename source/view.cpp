@@ -1,4 +1,4 @@
-#include "view.h"
+module view;
 
 import imgui;
 

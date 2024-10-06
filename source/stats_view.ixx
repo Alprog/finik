@@ -1,10 +1,9 @@
-#pragma once
+export module stats_view;
 
-#include "view.h"
+import view;
+import scene_view;
 
-class SceneView;
-
-class StatsView : public View
+export class StatsView : public View
 {
 public:
     StatsView(const char* name, SceneView& sceneView);

@@ -1,6 +1,6 @@
-#pragma once
+export module view;
 
-class View
+export class View
 {
 public:
     View(const char* name);

@@ -1,7 +1,7 @@
-#include "scene_view.h"
-
+module;
 #include "scene.h"
 #include "gfx/dx.h"
+module scene_view;
 
 import app;
 import imgui;

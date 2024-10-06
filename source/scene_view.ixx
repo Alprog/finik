@@ -1,15 +1,14 @@
-#pragma once
-
-#include "view.h"
+module;
 #include "camera.h"
 #include "camera_controller.h"
+class Scene;
+export module scene_view;
 
 import std;
 import render_lane;
+import view;
 
-class Scene;
-
-class SceneView : public View
+export class SceneView : public View
 {
 public:
     SceneView(const char* name, Scene& scene);

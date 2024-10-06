@@ -143,6 +143,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="console_view.cpp" />
+    <ClCompile Include="console_view.ixx" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="dx_module.ixx" />
     <ClCompile Include="flamegraph.cpp" />
@@ -223,13 +224,17 @@
     <ClCompile Include="profiler\timebox_tracker.cpp" />
     <ClCompile Include="profiler\timebox_tracker.ixx" />
     <ClCompile Include="profiler_view.cpp" />
+    <ClCompile Include="profiler_view.ixx" />
     <ClCompile Include="render_system_fwd.ixx" />
     <ClCompile Include="scene_view.cpp" />
+    <ClCompile Include="scene_view.ixx" />
     <ClCompile Include="shader.ixx" />
     <ClCompile Include="stats_view.cpp" />
+    <ClCompile Include="stats_view.ixx" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texel.ixx" />
     <ClCompile Include="texture_view.cpp" />
+    <ClCompile Include="texture_view.ixx" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tile_map.ixx" />
     <ClCompile Include="timer.cpp" />
@@ -250,6 +255,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="desktop_window.cpp" />
+    <ClCompile Include="view.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd-party\imgui-docking\backends\imgui_impl_dx12.h" />
@@ -279,7 +285,6 @@
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="camera_controller.h" />
-    <ClInclude Include="console_view.h" />
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gfx\dx.h" />
@@ -288,11 +293,6 @@
     <ClInclude Include="gpumem\memory_page.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="mesh_builder.h" />
-    <ClInclude Include="profiler_view.h" />
-    <ClInclude Include="scene_view.h" />
-    <ClInclude Include="stats_view.h" />
-    <ClInclude Include="texture_view.h" />
-    <ClInclude Include="view.h" />
     <ClInclude Include="input_system.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />

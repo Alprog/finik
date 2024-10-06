@@ -1,7 +1,6 @@
-#include "stats_view.h"
-
-#include "scene_view.h"
+module;
 #include "scene.h"
+module stats_view;
 
 import imgui;
 

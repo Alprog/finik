@@ -1,8 +1,8 @@
-#pragma once
+export module console_view;
 
-#include "view.h"
+import view;
 
-class ConsoleView : public View
+export class ConsoleView : public View
 {
 public:
     ConsoleView(const char* name);

@@ -1,6 +1,6 @@
-#include "profiler_view.h"
-
+module;
 #include "flamegraph.h"
+module profiler_view;
 
 import app;
 import imgui;

@@ -4,14 +4,14 @@
 #include "desktop_window.h"
 
 #include "gui.h"
-#include "scene_view.h"
-#include "console_view.h"
-#include "texture_view.h"
-#include "stats_view.h"
-#include "profiler_view.h"
 
 import app;
 import timer;
+import scene_view;
+import console_view;
+import texture_view;
+import stats_view;
+import profiler_view;
 
 int main(int argc, char* argv[])
 {

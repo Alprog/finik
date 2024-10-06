@@ -1,4 +1,4 @@
-#include "console_view.h"
+module console_view;
 
 import imgui;
 
