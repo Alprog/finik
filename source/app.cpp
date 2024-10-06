@@ -2,7 +2,6 @@ module;
 #include "desktop_window.h"
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include "gui.h"
 module app;
 
 import render_system;
@@ -12,6 +11,7 @@ import std;
 import imgui;
 import timebox_tracker;
 import descriptor_heap;
+import gui;
 
 App& App::get_instance()
 {

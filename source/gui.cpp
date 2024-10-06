@@ -1,6 +1,6 @@
-#include "gui.h"
-
+module;
 #include "desktop_window.h"
+module gui;
 
 import app;
 import imgui;

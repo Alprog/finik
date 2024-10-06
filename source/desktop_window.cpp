@@ -3,14 +3,13 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-#include "gui.h"
-
 import app;
 import std;
 import render_system;
 import swap_chain;
 import scene;
 import camera;
+import gui;
 
 DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }

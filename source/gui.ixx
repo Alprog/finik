@@ -1,15 +1,14 @@
-#pragma once
+module;
+class DesktopWindow;
+struct ImGuiContext;
+using GuiImpl = ImGuiContext;
+struct ID3D12GraphicsCommandList;
+export module gui;
 
 import std;
 import view;
 
-class DesktopWindow;
-struct ImGuiContext;
-using GuiImpl = ImGuiContext;
-
-struct ID3D12GraphicsCommandList;
-
-class Gui
+export class Gui
 {
 public:
     Gui(DesktopWindow& window);

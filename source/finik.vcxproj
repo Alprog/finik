@@ -199,6 +199,7 @@
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="grid.ixx" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="gui.ixx" />
     <ClCompile Include="images.cpp" />
     <ClCompile Include="images.ixx" />
     <ClCompile Include="imgui.ixx" />
@@ -295,7 +296,6 @@
     <ClInclude Include="gpumem\allocation.h" />
     <ClInclude Include="gpumem\oneshot_allocator.h" />
     <ClInclude Include="gpumem\memory_page.h" />
-    <ClInclude Include="gui.h" />
     <ClInclude Include="input_system.h" />
     <ClInclude Include="desktop_window.h" />
   </ItemGroup>
