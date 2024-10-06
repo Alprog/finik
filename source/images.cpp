@@ -1,5 +1,6 @@
-#include "images.h"
+module;
 #include "png.h"
+module images;
 
 import std;
 

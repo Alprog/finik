@@ -1,6 +1,6 @@
-#pragma once
+export module texel;
 
-struct Texel
+export struct Texel
 {
     static const Texel Transparent;
     static const Texel Black;

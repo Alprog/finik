@@ -1,4 +1,4 @@
-#include "texel.h"
+module texel;
 
 const Texel Texel::Transparent = Texel{ 0, 0, 0, 0 };
 const Texel Texel::Black = Texel{ 0, 0, 0, 0xFF };

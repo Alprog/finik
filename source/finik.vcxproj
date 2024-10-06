@@ -195,6 +195,7 @@
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="images.cpp" />
+    <ClCompile Include="images.ixx" />
     <ClCompile Include="imgui.ixx" />
     <ClCompile Include="int_size.ixx" />
     <ClCompile Include="log.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="shader.ixx" />
     <ClCompile Include="stats_view.cpp" />
     <ClCompile Include="texel.cpp" />
+    <ClCompile Include="texel.ixx" />
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="timer.cpp" />
@@ -284,12 +286,10 @@
     <ClInclude Include="gpumem\memory_page.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gui.h" />
-    <ClInclude Include="images.h" />
     <ClInclude Include="mesh_builder.h" />
     <ClInclude Include="profiler_view.h" />
     <ClInclude Include="scene_view.h" />
     <ClInclude Include="stats_view.h" />
-    <ClInclude Include="texel.h" />
     <ClInclude Include="texture_view.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="view.h" />

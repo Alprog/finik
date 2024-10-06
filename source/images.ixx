@@ -1,11 +1,10 @@
-#pragma once
-
-#include "texel.h"
+export module images;
 
 import std;
 import path;
+import texel;
 
-class Image
+export class Image
 {
 public:
     int width;
@@ -19,7 +18,7 @@ public:
     size_t getByteSize() { return width * height * 4; };
 };
 
-namespace Images
+export namespace Images
 {
     Image* loadPng(Path path);
 }

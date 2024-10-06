@@ -1,13 +1,12 @@
 module;
-#include "../images.h"
 #include "dx.h"
-#include "../images.h"
 module texture;
 
 import app;
 import descriptor_heap;
 import render_system;
 import upload_buffer;
+import images;
 
 static const UINT TexturePixelSize = 4;
 
