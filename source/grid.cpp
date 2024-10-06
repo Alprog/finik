@@ -1,7 +1,8 @@
-#include "grid.h"
+module grid;
 
 #include "mesh_builder.h"
-#include "images.h"
+
+import images;
 
 Grid::Grid()
 {

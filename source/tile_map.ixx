@@ -1,11 +1,10 @@
-#pragma once
+export module tile_map;
 
 import std;
+import texture;
+import images;
 
-class Image;
-class Texture;
-
-class TileMap
+export class TileMap
 {
 public:
     TileMap();

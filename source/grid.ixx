@@ -1,10 +1,9 @@
-#pragma once
+export module grid;
 
-#include "tile_map.h"
+import tile_map;
+import mesh;
 
-class Mesh;
-
-class Grid
+export class Grid
 {
 public:
     Grid();
