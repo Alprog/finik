@@ -222,6 +222,7 @@
     <ClCompile Include="profiler_view.cpp" />
     <ClCompile Include="render_system_fwd.ixx" />
     <ClCompile Include="scene_view.cpp" />
+    <ClCompile Include="shader.ixx" />
     <ClCompile Include="stats_view.cpp" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texture_view.cpp" />
@@ -295,7 +296,6 @@
     <ClInclude Include="input_system.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />
-    <ClInclude Include="shader.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="desktop_window.h" />
   </ItemGroup>

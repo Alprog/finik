@@ -1,11 +1,11 @@
 module;
 #include "dx.h"
-#include "../shader.h"
 module pipeline_state;
 
 import app;
 import render_system;
 import root_signature_params;
+import shader;
 
 PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings& pipelineSettings)
     : pipelineSettings{ pipelineSettings }

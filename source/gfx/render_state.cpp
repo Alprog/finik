@@ -1,10 +1,9 @@
-module;
-#include "../shader.h"
 module render_state;
 
 import pipeline_state;
 import std;
 import app;
+import shader;
 
 std::unordered_map<PipelineSettings, PipelineState*> states;
 

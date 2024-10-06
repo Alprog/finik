@@ -1,18 +1,16 @@
-#pragma once
-
+module;
 #include "gfx/dx.h"
+export module shader;
 
 import path;
 
-class DXRenderer;
-
-enum ShaderType
+export enum ShaderType
 {
     Vertex,
     Pixel
 };
 
-class Shader
+export class Shader
 {
 public:
     Shader(Path path, ShaderType type, const std::string& entryPoint);
