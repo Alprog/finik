@@ -1,7 +1,6 @@
 #include "scene_view.h"
 
 #include "scene.h"
-#include "log.h"
 #include "gfx/dx.h"
 
 import app;
@@ -9,6 +8,7 @@ import imgui;
 import render_system;
 import int_size;
 import descriptor_handle;
+import log;
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View{ name }

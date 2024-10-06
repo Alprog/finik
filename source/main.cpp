@@ -8,10 +8,10 @@
 #include "console_view.h"
 #include "texture_view.h"
 #include "stats_view.h"
-#include "timer.h"
 #include "profiler_view.h"
 
 import app;
+import timer;
 
 int main(int argc, char* argv[])
 {

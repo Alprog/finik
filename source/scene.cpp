@@ -1,9 +1,6 @@
 #include "scene.h"
 
-#include "shader.h"
-
 #include "camera.h"
-#include "grid.h"
 
 import app;
 import math;
@@ -15,6 +12,8 @@ import texture;
 import render_command;
 import root_signature_params;
 import actor;
+import shader;
+import grid;
 
 Scene::Scene()
 {
