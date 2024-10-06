@@ -1,12 +1,10 @@
 #include "scene.h"
 
 #include "shader.h"
-#include "gfx/render_command.h"
 
 #include "camera.h"
 #include "grid.h"
 #include "actor.h"
-#include "gfx/root_signature_params.h"
 
 import app;
 import math;
@@ -15,6 +13,8 @@ import render_state;
 import mesh;
 import constant_buffer;
 import texture;
+import render_command;
+import root_signature_params;
 
 Scene::Scene()
 {

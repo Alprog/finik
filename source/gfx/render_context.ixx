@@ -1,15 +1,13 @@
-#pragma once
-
+module;
 #include "dx.h"
+export module render_context;
 
 import dx;
 import render_system_fwd;
+import render_command;
+import math;
 
-#include "render_command.h"
-
-struct Matrix;
-
-class RenderContext
+export class RenderContext
 {
 public:
     RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList);

@@ -159,14 +159,16 @@
     <ClCompile Include="gfx\fence.cpp" />
     <ClCompile Include="gfx\fence.ixx" />
     <ClCompile Include="gfx\gpu_profiler.cpp" />
+    <ClCompile Include="gfx\gpu_profiler.ixx" />
     <ClCompile Include="gfx\index_buffer.cpp" />
     <ClCompile Include="gfx\index_buffer.ixx" />
     <ClCompile Include="gfx\pipeline_settings.cpp" />
     <ClCompile Include="gfx\pipeline_settings.ixx" />
     <ClCompile Include="gfx\pipeline_state.cpp" />
     <ClCompile Include="gfx\pipeline_state.ixx" />
-    <ClCompile Include="gfx\render_command.cpp" />
+    <ClCompile Include="gfx\render_command.ixx" />
     <ClCompile Include="gfx\render_context.cpp" />
+    <ClCompile Include="gfx\render_context.ixx" />
     <ClCompile Include="gfx\render_lane.cpp" />
     <ClCompile Include="gfx\render_lane.ixx" />
     <ClCompile Include="gfx\render_state.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="gfx\render_system.ixx" />
     <ClCompile Include="gfx\render_target.cpp" />
     <ClCompile Include="gfx\render_target.ixx" />
+    <ClCompile Include="gfx\root_signature_params.ixx" />
     <ClCompile Include="gfx\swap_chain.cpp" />
     <ClCompile Include="gfx\swap_chain.ixx" />
     <ClCompile Include="gfx\texture.cpp" />
@@ -271,10 +274,6 @@
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gfx\dx.h" />
-    <ClInclude Include="gfx\gpu_profiler.h" />
-    <ClInclude Include="gfx\render_command.h" />
-    <ClInclude Include="gfx\render_context.h" />
-    <ClInclude Include="gfx\root_signature_params.h" />
     <ClInclude Include="gpumem\allocation.h" />
     <ClInclude Include="gpumem\oneshot_allocator.h" />
     <ClInclude Include="gpumem\memory_page.h" />

@@ -1,7 +1,5 @@
 module;
 #include "dx.h"
-#include "gpu_profiler.h"
-#include "render_context.h"
 class Window;
 export module render_system;
 
@@ -11,6 +9,8 @@ import std;
 import command_queue;
 import command_list_pool;
 import render_lane;
+import render_context;
+import gpu_profiler;
 
 //#include "../gpumem/oneshot_allocator.h"
 

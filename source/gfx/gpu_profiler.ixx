@@ -1,11 +1,11 @@
-#pragma once
-
+module;
 #include "dx.h"
+export module gpu_profiler;
+
 import std;
+import render_system_fwd;
 
-class RenderSystem;
-
-struct StampRange
+export struct StampRange
 {
     int count() const { return endIndex - startIndex; }
 
@@ -14,7 +14,7 @@ struct StampRange
     int readyFenceValue = 0;
 };
 
-class GpuProfiler
+export class GpuProfiler
 {
 public:
     GpuProfiler(RenderSystem& renderSystem);

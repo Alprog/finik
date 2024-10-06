@@ -1,7 +1,4 @@
-#include "render_context.h"
-
-#include "render_command.h"
-#include "root_signature_params.h"
+module render_context;
 
 import vertex_buffer;
 import index_buffer;
@@ -10,6 +7,8 @@ import pipeline_state;
 import mesh;
 import constant_buffer;
 import texture;
+import render_command;
+import root_signature_params;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }

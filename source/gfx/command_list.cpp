@@ -1,10 +1,10 @@
 module;
 #include "dx.h"
-#include "gpu_profiler.h"
 module command_list;
 
 import render_system;
 import command_list_pool;
+import gpu_profiler;
 
 CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
     : renderSystem{ renderSystem }

@@ -1,20 +1,20 @@
-#pragma once
+export module root_signature_params;
 
 import math;
 
-struct MeshConstantBuffer
+export struct MeshConstantBuffer
 {
     Matrix Model;
 };
 
-struct FrameConstantBuffer
+export struct FrameConstantBuffer
 {
     Matrix View;
     Matrix Projection;
     Matrix ViewProjection;
 };
 
-enum RootSignatureParams
+export enum RootSignatureParams
 {
     MeshInlinedConstants = 0,
     FrameConstantBufferView = 1,

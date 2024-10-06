@@ -1,7 +1,6 @@
 #pragma once
 
-#include "gfx/render_command.h"
-
+import render_command;
 import pipeline_state;
 
 class RenderContext;

@@ -1,7 +1,8 @@
-#include "gpu_profiler.h"
-
+module;
+#include "dx.h"
 #include "../log.h"
 #include "../timer.h"
+module gpu_profiler;
 
 import app;
 import std;

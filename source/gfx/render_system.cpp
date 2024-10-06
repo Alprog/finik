@@ -14,7 +14,6 @@ module;
 #endif
 
 #include "../desktop_window.h"
-#include "gpu_profiler.h"
 module render_system;
 
 import app;
@@ -160,7 +159,7 @@ void RenderSystem::createDescriptorHeap()
 
     dsvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 3);
 
-    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 10);
+    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 50);
 }
 
 void RenderSystem::createCommandListPool()
