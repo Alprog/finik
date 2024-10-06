@@ -1,4 +1,4 @@
-#include "mesh_builder.h"
+module mesh_builder;
 
 import mesh;
 import vertex_buffer;

@@ -1,13 +1,12 @@
-#pragma once
-
+module;
 #include <cstdint>
+export module mesh_builder;
 
 import std;
 import vertex;
+import mesh;
 
-class Mesh;
-
-class MeshBuilder
+export class MeshBuilder
 {
 public:
     std::vector<StandardVertex> Vertices;
