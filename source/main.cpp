@@ -1,6 +1,5 @@
 #include "SDL.h"
 #include "desktop_system.h"
-#include "scene.h"
 #include "desktop_window.h"
 
 #include "gui.h"
@@ -12,6 +11,7 @@ import console_view;
 import texture_view;
 import stats_view;
 import profiler_view;
+import scene;
 
 int main(int argc, char* argv[])
 {

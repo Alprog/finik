@@ -1,5 +1,4 @@
 module;
-#include "scene.h"
 #include "gfx/dx.h"
 module scene_view;
 
@@ -9,6 +8,7 @@ import render_system;
 import int_size;
 import descriptor_handle;
 import log;
+import scene;
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View{ name }

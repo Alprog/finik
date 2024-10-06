@@ -1,7 +1,5 @@
 module;
 #include "dx.h"
-#include "../scene.h"
-#include "../camera.h"
 module render_lane;
 
 import app;
@@ -13,6 +11,8 @@ import timebox_tracker;
 import descriptor_heap;
 import timer;
 import log;
+import camera;
+import scene;
 
 void RenderSurface::init(IntSize resolution)
 {

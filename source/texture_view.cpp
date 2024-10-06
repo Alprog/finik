@@ -1,5 +1,4 @@
 module;
-#include "scene.h"
 #include "gfx/dx.h"
 module texture_view;
 
@@ -7,6 +6,7 @@ import texture;
 import imgui;
 import grid;
 import tile_map;
+import scene;
 
 TextureView::TextureView(const char* name, Scene& scene)
     : View {name}
