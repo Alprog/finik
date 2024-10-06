@@ -5,14 +5,12 @@
 
 #include "gui.h"
 
-#include "scene.h"
-
-#include "camera.h"
-
 import app;
 import std;
 import render_system;
 import swap_chain;
+import scene;
+import camera;
 
 DesktopWindow::DesktopWindow(int width, int height)
     : width{ width }

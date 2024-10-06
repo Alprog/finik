@@ -1,10 +1,10 @@
-#pragma once
+export module scene_manager;
 
 import std;
 
-class Scene;
+import scene_system_fwd;
 
-class SceneManager
+export class SceneManager
 {
     friend class App;
 

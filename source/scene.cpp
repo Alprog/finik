@@ -1,6 +1,4 @@
-#include "scene.h"
-
-#include "camera.h"
+module scene;
 
 import app;
 import math;
@@ -14,6 +12,7 @@ import root_signature_params;
 import actor;
 import shader;
 import grid;
+import camera;
 
 Scene::Scene()
 {

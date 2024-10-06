@@ -1,8 +1,7 @@
-module;
-#include "scene.h"
 module stats_view;
 
 import imgui;
+import scene;
 
 StatsView::StatsView(const char* name, SceneView& sceneView)
     : View{ name }

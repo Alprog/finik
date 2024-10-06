@@ -1,5 +1,6 @@
-#include "scene_manager.h"
-#include "scene.h"
+module scene_manager;
+
+import scene;
 
 SceneManager::SceneManager()
 {

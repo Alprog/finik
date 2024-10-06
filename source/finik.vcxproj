@@ -141,7 +141,9 @@
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="blob.ixx" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera.ixx" />
     <ClCompile Include="camera_controller.cpp" />
+    <ClCompile Include="camera_controller.ixx" />
     <ClCompile Include="console_view.cpp" />
     <ClCompile Include="console_view.ixx" />
     <ClCompile Include="desktop_system.cpp" />
@@ -227,6 +229,9 @@
     <ClCompile Include="profiler_view.cpp" />
     <ClCompile Include="profiler_view.ixx" />
     <ClCompile Include="render_system_fwd.ixx" />
+    <ClCompile Include="scene.ixx" />
+    <ClCompile Include="scene_manager.ixx" />
+    <ClCompile Include="scene_system_fwd.ixx" />
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="scene_view.ixx" />
     <ClCompile Include="shader.ixx" />
@@ -284,8 +289,6 @@
     <ClInclude Include="..\3rd-party\zlib\zconf.h" />
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="camera_controller.h" />
     <ClInclude Include="desktop_system.h" />
     <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gfx\dx.h" />
@@ -294,8 +297,6 @@
     <ClInclude Include="gpumem\memory_page.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="input_system.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="scene_manager.h" />
     <ClInclude Include="desktop_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

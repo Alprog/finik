@@ -1,4 +1,4 @@
-#include "camera.h"
+module camera;
 
 import std;
 

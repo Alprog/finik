@@ -1,18 +1,17 @@
-#pragma once
+export module scene;
 
 import render_command;
 import pipeline_state;
-
-class RenderContext;
-class Camera;
-class Texture;
-class Grid;
-class Actor;
+import render_system_fwd;
+import scene_system_fwd;
 
 import math;
 import std;
+import actor;
+import grid;
+import texture;
 
-class Scene
+export class Scene
 {
 public:
     Scene();

@@ -1,6 +1,4 @@
-#include "camera_controller.h"
-
-#include "camera.h"
+module camera_controller;
 
 import std;
 import imgui;

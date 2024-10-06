@@ -1,12 +1,11 @@
-module;
-#include "camera.h"
-#include "camera_controller.h"
-class Scene;
 export module scene_view;
 
 import std;
 import render_lane;
 import view;
+import camera;
+import camera_controller;
+import scene;
 
 export class SceneView : public View
 {

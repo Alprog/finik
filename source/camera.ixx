@@ -1,12 +1,10 @@
-#pragma once
+export module camera;
 
 import math;
+import scene_system_fwd;
+import render_system_fwd;
 
-class Scene;
-class RenderContext;
-class RenderTarget;
-
-class Camera
+export class Camera
 {
 public:
     Camera();

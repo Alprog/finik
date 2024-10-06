@@ -1,11 +1,10 @@
-#pragma once
+export module camera_controller;
 
 import std;
 import math;
+import camera;
 
-class Camera;
-
-class CameraController
+export class CameraController
 {
 public:
     CameraController(Camera& camera);
