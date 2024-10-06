@@ -1,10 +1,9 @@
-module;
-#include "flamegraph.h"
 module profiler_view;
 
 import app;
 import imgui;
 import math;
+import flamegraph;
 
 void ProfilerView::draw_content()
 {

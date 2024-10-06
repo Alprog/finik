@@ -1,4 +1,4 @@
-#include "flamegraph.h"
+module flamegraph;
 
 import imgui;
 

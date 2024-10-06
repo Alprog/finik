@@ -149,6 +149,7 @@
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="dx_module.ixx" />
     <ClCompile Include="flamegraph.cpp" />
+    <ClCompile Include="flamegraph.ixx" />
     <ClCompile Include="gfx\command_list.cpp" />
     <ClCompile Include="gfx\command_list.ixx" />
     <ClCompile Include="gfx\command_list_pool.cpp" />
@@ -290,7 +291,6 @@
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
     <ClInclude Include="desktop_system.h" />
-    <ClInclude Include="flamegraph.h" />
     <ClInclude Include="gfx\dx.h" />
     <ClInclude Include="gpumem\allocation.h" />
     <ClInclude Include="gpumem\oneshot_allocator.h" />
