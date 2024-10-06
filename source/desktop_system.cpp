@@ -1,7 +1,6 @@
-#include "desktop_system.h"
-
+module;
 #include <SDL.h>
-#include "desktop_window.h"
+module desktop_system;
 
 DesktopSystem::DesktopSystem()
 {

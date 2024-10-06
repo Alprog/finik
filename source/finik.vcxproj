@@ -147,6 +147,8 @@
     <ClCompile Include="console_view.cpp" />
     <ClCompile Include="console_view.ixx" />
     <ClCompile Include="desktop_system.cpp" />
+    <ClCompile Include="desktop_system.ixx" />
+    <ClCompile Include="desktop_window.ixx" />
     <ClCompile Include="dx_module.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="flamegraph.ixx" />
@@ -194,8 +196,11 @@
     <ClCompile Include="gfx\vertex.ixx" />
     <ClCompile Include="gfx\vertex_buffer.cpp" />
     <ClCompile Include="gfx\vertex_buffer.ixx" />
+    <ClCompile Include="gpumem\allocation.ixx" />
+    <ClCompile Include="gpumem\memory_page.ixx" />
     <ClCompile Include="gpumem\oneshot_allocator.cpp" />
     <ClCompile Include="gpumem\memory_page.cpp" />
+    <ClCompile Include="gpumem\oneshot_allocator.ixx" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="grid.ixx" />
     <ClCompile Include="gui.cpp" />
@@ -292,12 +297,7 @@
     <ClInclude Include="..\3rd-party\zlib\zconf.h" />
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
-    <ClInclude Include="desktop_system.h" />
     <ClInclude Include="gfx\dx.h" />
-    <ClInclude Include="gpumem\allocation.h" />
-    <ClInclude Include="gpumem\oneshot_allocator.h" />
-    <ClInclude Include="gpumem\memory_page.h" />
-    <ClInclude Include="desktop_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

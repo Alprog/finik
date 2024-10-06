@@ -1,8 +1,8 @@
-#pragma once
+export module oneshot_allocator;
 
-#include "memory_page.h"
-
-class RenderSystem;
+import std;
+import memory_page;
+import render_system_fwd;
 
 namespace finik::gpumem
 {

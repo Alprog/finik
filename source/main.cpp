@@ -1,6 +1,4 @@
 #include "SDL.h"
-#include "desktop_system.h"
-#include "desktop_window.h"
 
 import app;
 import timer;
@@ -11,6 +9,8 @@ import stats_view;
 import profiler_view;
 import scene;
 import gui;
+import desktop_window;
+import desktop_system;
 
 int main(int argc, char* argv[])
 {

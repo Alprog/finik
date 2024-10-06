@@ -12,8 +12,6 @@ module;
 #include <dxgidebug.h>
 #pragma comment(lib, "dxguid.lib")
 #endif
-
-#include "../desktop_window.h"
 module render_system;
 
 import app;
@@ -22,6 +20,7 @@ import std;
 import pipeline_state;
 import command_queue;
 import descriptor_heap;
+import desktop_window;
 
 class ResultChecker
 {

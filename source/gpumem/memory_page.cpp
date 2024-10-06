@@ -1,4 +1,6 @@
-#include "memory_page.h"
+module;
+#include "gfx/dx.h"
+module memory_page;
 
 import render_system;
 

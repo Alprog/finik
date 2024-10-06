@@ -1,7 +1,7 @@
-#include "desktop_window.h"
-
+module;
 #include <SDL.h>
 #include <SDL_syswm.h>
+module desktop_window;
 
 import app;
 import std;

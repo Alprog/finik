@@ -1,16 +1,15 @@
-#pragma once
-
+module;
 #include "windows.h"
-
-import swap_chain;
-
 struct SDL_Window;
 using WindowImpl = SDL_Window;
 
 class Scene;
 class Gui;
+export module desktop_window;
 
-class DesktopWindow
+import swap_chain;
+
+export class DesktopWindow
 {
 public:
     DesktopWindow(int width, int height);

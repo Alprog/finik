@@ -1,12 +1,10 @@
-module;
-#include "desktop_system.h"
-class Window;
 export module app;
 
 import render_system;
 import profiler;
 import scene_manager;
 import input_system;
+import desktop_system;
 
 export class App
 {

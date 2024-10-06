@@ -1,7 +1,6 @@
-#include "oneshot_allocator.h"
+module oneshot_allocator;
 
 import render_system;
-
 import std;
 
 using namespace finik::gpumem;

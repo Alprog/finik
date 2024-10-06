@@ -1,6 +1,5 @@
 module;
 #include "dx.h"
-#include "../desktop_window.h"
 #include <dxgi.h>
 module swap_chain;
 
@@ -11,6 +10,7 @@ import descriptor_heap;
 import gpu_profiler;
 import log;
 import timer;
+import desktop_window;
 
 D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;

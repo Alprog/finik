@@ -1,11 +1,11 @@
-#pragma once
-
+module;
 #include <cstdint>
+export module desktop_system;
+
 import std;
+import desktop_window;
 
-class DesktopWindow;
-
-class DesktopSystem
+export class DesktopSystem
 {
     friend class App;
 

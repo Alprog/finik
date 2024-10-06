@@ -1,12 +1,12 @@
-#pragma once
+module;
+#include "gfx/dx.h"
+export module memory_page;
 
-#include "../gfx/dx.h"
-
-class RenderSystem;
+import render_system_fwd;
 
 namespace finik::gpumem
 {   
-    class MemoryPage
+    export class MemoryPage
     {
     public:
         MemoryPage(RenderSystem& renderSystem, int size);

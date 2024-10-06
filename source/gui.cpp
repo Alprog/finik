@@ -1,10 +1,9 @@
-module;
-#include "desktop_window.h"
 module gui;
 
 import app;
 import imgui;
 import render_system;
+import desktop_window;
 
 Gui::Gui(DesktopWindow& window)
     : window{window}
