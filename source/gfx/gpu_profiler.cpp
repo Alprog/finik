@@ -117,7 +117,7 @@ void GpuProfiler::grabReadyStamps(int completedValue)
                 readBackBuffer->Map(0, &readRange, &data);
 
                 UINT64* stampsData = static_cast<UINT64*>(data);
-                memcpy(&stamps[0], &stampsData[start], count * readBackRecordSize);
+                std::memcpy(&stamps[0], &stampsData[start], count * readBackRecordSize);
                 readBackBuffer->Unmap(0, nullptr);
 
                 for (auto& stamp : stamps)

@@ -16,3 +16,11 @@
 
 template <typename T>
 using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+//#define FAILED(hr) (((HRESULT)(hr)) < 0)
+//#define D3D12_FLOAT32_MAX	( 3.402823466e+38f )
+//#define	D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES	( 0xffffffff )
+//#define DXGI_CREATE_FACTORY_DEBUG 0x1
+//#define DXGI_STATUS_OCCLUDED ((HRESULT)0x087A0001L)
+//#define S_OK                                   ((HRESULT)0L)
+//#define S_FALSE                                ((HRESULT)1L)

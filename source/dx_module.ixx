@@ -17,6 +17,8 @@ export module dx;
 //export ID3D12RootSignature;
 //export ID3D12QueryHeap;
 //export ID3DBlob;
+//export ID3D12Debug;
+//export ID3D12InfoQueue;
 //
 //export D3D12_DESCRIPTOR_HEAP_TYPE;
 //export D3D12_INDEX_BUFFER_VIEW;
@@ -40,6 +42,9 @@ export module dx;
 //export D3D12_INPUT_ELEMENT_DESC;
 //export D3D12_RESOURCE_DIMENSION;
 //export D3D12_CLEAR_VALUE;
+//export D3D12_TEXTURE_LAYOUT;
+//export D3D12_RESOURCE_FLAGS;
+//export D3D_FEATURE_LEVEL;
 //
 //// d3dx12
 //export CD3DX12_CPU_DESCRIPTOR_HANDLE;
@@ -55,24 +60,56 @@ export module dx;
 //export CD3DX12_RASTERIZER_DESC;
 //export CD3DX12_ROOT_SIGNATURE_DESC;
 //export CD3DX12_SHADER_BYTECODE;
-
-//export DXGI_FORMAT;
-
+//export CD3DX12_TEXTURE_COPY_LOCATION;
+//
 //export HANDLE;
 //
-//// ComPtr
-//namespace Microsoft::WRL
-//{
-//    export template<typename T> class ComPtr;
-//}
+//export DXGI_ADAPTER_FLAG;
+//export DXGI_FORMAT;
+//export DXGI_SWAP_CHAIN_DESC1;
+//export DXGI_SWAP_CHAIN_FLAG;
 //
-//export template<typename T> class ComPtr : public Microsoft::WRL::ComPtr<T>
+//export IDXGIFactory4;
+//export IDXGIAdapter1;
+//export IDXGIFactory3;
+//export IDXGIFactory2;
+//export IDXGISwapChain1;
+//
+//export Microsoft::WRL::ComPtr;
+//
+//export template<typename T>
+//using ComPtr = Microsoft::WRL::ComPtr<T>;
+//
+//export namespace dx
 //{
-//public:
-//    T* operator->() const throw()
+//    template<typename... TArgs>
+//    auto CreateDXGIFactory1(TArgs... Args)
 //    {
-//        return ComPtr<T>::ptr_;
+//        return ::CreateDXGIFactory1(Args...);
 //    }
-//};
 //
-//export template<typename T> _Post_equal_to_(pp) _Post_satisfies_(return == pp) void** IID_PPV_ARGS_Helper(T * *pp);
+//    template<typename... TArgs>
+//    auto D3D12GetDebugInterface(TArgs... Args)
+//    {
+//        return ::D3D12GetDebugInterface(Args...);
+//    }
+//
+//    template<typename... TArgs>
+//    auto D3D12CreateDevice(TArgs... Args)
+//    {
+//        return ::D3D12CreateDevice(Args...);
+//    }    
+//
+//    template<typename... TArgs>
+//    auto D3D12SerializeRootSignature(TArgs... Args)
+//    {
+//        return ::D3D12SerializeRootSignature(Args...);
+//    }
+//
+//    template<typename... TArgs>
+//    auto CreateDXGIFactory2(TArgs... Args)
+//    {
+//        return ::CreateDXGIFactory2(Args...);
+//    }
+//}
+

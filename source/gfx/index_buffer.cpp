@@ -20,7 +20,7 @@ void IndexBuffer::Load()
 
     result = indexBufferResource->Map(0, &readRange, reinterpret_cast<void**>(&data));
     if (FAILED(result)) throw;
-    memcpy(data, &indices[0], indexBufferSize);
+    std::memcpy(data, &indices[0], indexBufferSize);
     indexBufferResource->Unmap(0, nullptr);
 
     indexBufferView.BufferLocation = indexBufferResource->GetGPUVirtualAddress();
