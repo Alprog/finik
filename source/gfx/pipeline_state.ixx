@@ -1,5 +1,3 @@
-module;
-#include "dx.h"
 export module pipeline_state;
 
 import dx;

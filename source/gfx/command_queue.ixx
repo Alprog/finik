@@ -1,5 +1,3 @@
-module;
-#include "dx.h"
 export module command_queue;
 
 import std;

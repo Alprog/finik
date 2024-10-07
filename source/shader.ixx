@@ -1,5 +1,3 @@
-module;
-#include "gfx/dx.h"
 export module shader;
 
 import path;

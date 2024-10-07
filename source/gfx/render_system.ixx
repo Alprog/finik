@@ -1,5 +1,4 @@
 module;
-#include "dx.h"
 class Window;
 export module render_system;
 

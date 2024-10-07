@@ -1,7 +1,6 @@
 module;
-#include "dx.h"
-#include <cstdint>
 class DesktopWindow;
+#include <cstdint>
 export module swap_chain;
 
 import dx;

@@ -5,6 +5,8 @@ module;
 #include <dxgi1_4.h>
 export module dx;
 
+export import <gfx/dx.h>;
+
 //export ID3D12Resource;
 //export ID3D12CommandQueue;
 //export ID3D12DescriptorHeap;

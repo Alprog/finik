@@ -1,5 +1,3 @@
-module;
-#include "dx.h"
 export module render_target;
 
 import dx;

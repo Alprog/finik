@@ -1,5 +1,3 @@
-module;
-#include "dx.h"
 export module gpu_profiler;
 
 import std;
