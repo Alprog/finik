@@ -10,7 +10,7 @@ public:
     PipelineState(RenderSystem& renderSystem, const PipelineSettings& pipelineSettings);
 
     PipelineSettings pipelineSettings;
-    ComPtr<ID3D12PipelineState> pipelineState;
-    ComPtr<ID3D12RootSignature> rootSignature;
+    MyPtr<ID3D12PipelineState> pipelineState;
+    MyPtr<ID3D12RootSignature> rootSignature;
 };
 

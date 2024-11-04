@@ -39,13 +39,13 @@ public:
 public:
     DesktopWindow& window;
 
-    ComPtr<IDXGISwapChain3> swapChain;
+    MyPtr<IDXGISwapChain3> swapChain;
 
     HANDLE hSwapChainWaitableObject;
     std::vector<std::shared_ptr<RenderTarget>> renderTargets;
     std::shared_ptr<RenderTarget> renderTarget;
 
-    ComPtr<ID3D12Resource> depthStencil;
+    MyPtr<ID3D12Resource> depthStencil;
     DescriptorHandle depthStencilHandle;
 
     bool swapChainOccluded = false;

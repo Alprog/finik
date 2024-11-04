@@ -19,7 +19,7 @@ RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandLi
 void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
-    auto constantBuffer = renderCommand.state->constantBuffer;
+    ConstantBuffer* constantBuffer = renderCommand.state->constantBuffer;
     constantBuffer->update();
 
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());

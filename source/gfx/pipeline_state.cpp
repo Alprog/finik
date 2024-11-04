@@ -43,8 +43,8 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
         CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
         rootSignatureDesc.Init(_countof(rootParameters), rootParameters, 1, &sampler, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
-        ComPtr<ID3DBlob> signature;
-        ComPtr<ID3DBlob> error;
+        MyPtr<ID3DBlob> signature;
+        MyPtr<ID3DBlob> error;
         auto result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
         if (FAILED(result)) throw;
 

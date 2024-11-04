@@ -15,5 +15,5 @@ public:
     Shader(Path path, ShaderType type, const std::string& entryPoint);
 
     ShaderType type;
-    ComPtr<ID3DBlob> blob;
+    MyPtr<ID3DBlob> blob;
 };

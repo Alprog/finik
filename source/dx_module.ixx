@@ -7,6 +7,8 @@ export module dx;
 
 export import <gfx/dx.h>;
 
+export import myptr;
+
 //export ID3D12Resource;
 //export ID3D12CommandQueue;
 //export ID3D12DescriptorHeap;

@@ -21,11 +21,11 @@ public:
 
     IntSize resolution;
 
-    ComPtr<ID3D12Resource> renderTarget;
+    MyPtr<ID3D12Resource> renderTarget;
     DescriptorHandle renderTargetHandle;
     DescriptorHandle textureHandle;
 
-    ComPtr<ID3D12Resource> depthStencil;
+    MyPtr<ID3D12Resource> depthStencil;
     DescriptorHandle depthStencilHandle;
 
     D3D12_VIEWPORT viewport = { 0 };

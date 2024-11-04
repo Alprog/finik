@@ -11,7 +11,7 @@ export class ConstantBuffer
 public:
     ConstantBuffer() = default;
     ConstantBuffer(RenderSystem& renderSystem);
-    ~ConstantBuffer();
+    ~ConstantBuffer() = default;
 
     void update();
 

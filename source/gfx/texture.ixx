@@ -15,7 +15,7 @@ public:
     void setData(Image& image);
 
 public:
-    ComPtr<ID3D12Resource> resource;
+    MyPtr<ID3D12Resource> resource;
     int Width;
     int Height;
 

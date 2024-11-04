@@ -24,7 +24,7 @@ namespace finik::gpumem
         int AvailableSize;
         int UsingFrame;
 
-        ComPtr<ID3D12Resource> Resource;
+        MyPtr<ID3D12Resource> Resource;
         char* Data;
         char* AvailableData;
     };

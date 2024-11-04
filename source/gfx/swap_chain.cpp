@@ -39,8 +39,8 @@ SwapChain::SwapChain(DesktopWindow& window)
     RenderSystem& render_system = App::get_instance().render_system;
 
     {
-        ComPtr<IDXGIFactory3> dxgiFactory;
-        ComPtr<IDXGISwapChain1> dxgiSwapChain1;
+        MyPtr<IDXGIFactory3> dxgiFactory;
+        MyPtr<IDXGISwapChain1> dxgiSwapChain1;
       
         uint32 createFactoryFlags = 0;
 #if defined(_DEBUG)
@@ -83,9 +83,9 @@ void SwapChain::CreateRenderTargets()
 
     for (uint32 i = 0; i < NUM_BACK_BUFFER; i++)
     {
-        auto renderTarget = std::make_shared<RenderTarget>();
-        
-        renderTarget->handle = render_system.getRtvHeap()->getNextHandle().getCPU();
+        auto renderTarget = std::make_shared<RenderTarget>();   
+        DescriptorHeap* heap = render_system.getRtvHeap();
+        renderTarget->handle = heap->getNextHandle().getCPU();
 
         ID3D12Resource* pBackBuffer = nullptr;
         swapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));

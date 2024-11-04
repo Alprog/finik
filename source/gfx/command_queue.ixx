@@ -17,7 +17,7 @@ public:
     
     void Flush();
 
-    ComPtr<ID3D12CommandQueue> queueImpl;
+    MyPtr<ID3D12CommandQueue> queueImpl;
     std::unique_ptr<Fence> fence;
 
     std::unique_ptr<Fence> frameFence;

@@ -1,5 +1,6 @@
 export module fence;
 
+import myptr;
 import dx;
 import render_system_fwd;
 
@@ -15,7 +16,7 @@ public:
 
 private:
     ID3D12CommandQueue& Queue;
-    ComPtr<ID3D12Fence> FenceImpl;
+    MyPtr<ID3D12Fence> FenceImpl;
     HANDLE FenceEvent = nullptr;
     int LastSignaledValue = 0;
 };

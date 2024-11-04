@@ -26,8 +26,8 @@ public:
     void grabReadyStamps(int completedValue);
 
 private:
-    ComPtr<ID3D12QueryHeap> queryHeap;
-    ComPtr<ID3D12Resource> readBackBuffer;
+    MyPtr<ID3D12QueryHeap> queryHeap;
+    MyPtr<ID3D12Resource> readBackBuffer;
 
     StampRange currentRange;
     std::queue<StampRange> queue;

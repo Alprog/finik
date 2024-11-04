@@ -19,8 +19,8 @@ private:
     int addTimestampQuery();
 
 public:
-    ComPtr<ID3D12GraphicsCommandList> listImpl;
-    ComPtr<ID3D12CommandAllocator> commandAllocator;
+    MyPtr<ID3D12GraphicsCommandList> listImpl;
+    MyPtr<ID3D12CommandAllocator> commandAllocator;
 
 private:
     RenderSystem& renderSystem;

@@ -15,6 +15,6 @@ public:
    
 private:
     int Size;
-    ComPtr<ID3D12Resource> Resource;
+    MyPtr<ID3D12Resource> Resource;
     void* Data;
 };

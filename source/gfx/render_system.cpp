@@ -20,6 +20,7 @@ import std;
 import pipeline_state;
 import command_queue;
 import descriptor_heap;
+import descriptor_handle;
 import desktop_window;
 
 class ResultChecker
@@ -68,7 +69,7 @@ void RenderSystem::init()
 
 void RenderSystem::enableDebugLayer()
 {
-    ComPtr<ID3D12Debug> debugInterface;
+    MyPtr<ID3D12Debug> debugInterface;
     auto result = D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface));
     if (SUCCEEDED(result))
     {
@@ -78,11 +79,11 @@ void RenderSystem::enableDebugLayer()
 
 void RenderSystem::createDevice()
 {
-    ComPtr<IDXGIFactory4> factory;
+    MyPtr<IDXGIFactory4> factory;
     auto result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
     if (FAILED(result)) throw;
 
-    ComPtr<IDXGIAdapter1> adapter;
+    MyPtr<IDXGIAdapter1> adapter;
     for (uint32 adapterIndex = 0; DXGI_ERROR_NOT_FOUND != factory.Get()->EnumAdapters1(adapterIndex, &adapter); adapterIndex++)
     {
         DXGI_ADAPTER_DESC1 desc;

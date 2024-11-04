@@ -1,6 +1,7 @@
 export module descriptor_heap;
 
 import dx;
+import render_system_fwd;
 import descriptor_handle;
 
 export class DescriptorHeap
@@ -22,7 +23,7 @@ public:
     }
 
 private:
-    ComPtr<ID3D12DescriptorHeap> heap;
+    MyPtr<ID3D12DescriptorHeap> heap;
 
     CD3DX12_CPU_DESCRIPTOR_HANDLE cpuStartHandle;
     CD3DX12_GPU_DESCRIPTOR_HANDLE gpuStartHandle;

@@ -9,6 +9,6 @@ public:
     void Load();
 
     std::vector<unsigned int> indices;
-    ComPtr<ID3D12Resource> indexBufferResource;
+    MyPtr<ID3D12Resource> indexBufferResource;
     D3D12_INDEX_BUFFER_VIEW indexBufferView;
 };
