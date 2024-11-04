@@ -1,10 +1,9 @@
-module;
-#include <cstdint>
 export module constant_buffer;
 
 import descriptor_handle;
 import render_system_fwd;
 
+import types;
 import math;
 
 export class ConstantBuffer
@@ -28,5 +27,5 @@ public:
     int version;
 
     int gpuVersion;
-    uint8_t* uploadDataBegin;
+    uint8* uploadDataBegin;
 };

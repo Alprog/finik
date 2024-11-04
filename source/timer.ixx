@@ -1,15 +1,14 @@
-module;
-#include <cstdint>
 export module timer;
 
+import types;
 import std;
 
 export
 {
     void initTimer();
-    uint64_t getTimestamp();
-    uint64_t toMicroseconds(uint64_t timestamp);
-    uint64_t getMicroseconds();
+    uint64 getTimestamp();
+    uint64 toMicroseconds(uint64 timestamp);
+    uint64 getMicroseconds();
 
-    uint64_t get_elapsed_time();
+    uint64 get_elapsed_time();
 }

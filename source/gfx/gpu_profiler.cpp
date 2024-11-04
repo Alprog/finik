@@ -10,7 +10,7 @@ import log;
 import timer;
 
 int constexpr MAX_TIMESTAMP = 100;
-int constexpr readBackRecordSize = sizeof(UINT64);
+int constexpr readBackRecordSize = sizeof(uint64);
 
 GpuProfiler::GpuProfiler(RenderSystem& renderSystem)
 {
@@ -42,7 +42,7 @@ GpuProfiler::GpuProfiler(RenderSystem& renderSystem)
         nullptr,
         IID_PPV_ARGS(&readBackBuffer));
 
-    UINT64 gpuFrequency;
+    uint64 gpuFrequency;
     renderSystem.get_command_queue()->GetTimestampFrequency(&gpuFrequency);
     ticksInMicrosecond = gpuFrequency / 1'000'000;
 
@@ -110,19 +110,19 @@ void GpuProfiler::grabReadyStamps(int completedValue)
             int count = end - start;
             if (count > 0)
             {
-                std::vector<UINT64> stamps;
+                std::vector<uint64> stamps;
                 stamps.resize(count);
 
                 void* data;
                 readBackBuffer->Map(0, &readRange, &data);
 
-                UINT64* stampsData = static_cast<UINT64*>(data);
+                uint64* stampsData = static_cast<uint64*>(data);
                 std::memcpy(&stamps[0], &stampsData[start], count * readBackRecordSize);
                 readBackBuffer->Unmap(0, nullptr);
 
                 for (auto& stamp : stamps)
                 {
-                    uint64_t microseconds = (stamp - syncedGpuTimestamp) / ticksInMicrosecond + syncedCpuMicroseconds;
+                    uint64 microseconds = (stamp - syncedGpuTimestamp) / ticksInMicrosecond + syncedCpuMicroseconds;
 
                     finik::profiler::Timebox timebox("label", 4);
 

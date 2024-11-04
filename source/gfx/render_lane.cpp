@@ -40,8 +40,8 @@ void RenderSurface::recreateRenderTarget()
     RenderSystem& render_system = App::get_instance().render_system;
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
-        static_cast<UINT>(resolution.width),
-        static_cast<UINT>(resolution.height),
+        static_cast<uint32>(resolution.width),
+        static_cast<uint32>(resolution.height),
         1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
@@ -66,8 +66,8 @@ void RenderSurface::recreateDepthStencil()
 {
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
-        static_cast<UINT>(resolution.width),
-        static_cast<UINT>(resolution.height),
+        static_cast<uint32>(resolution.width),
+        static_cast<uint32>(resolution.height),
         1, 1, DXGI_FORMAT_D32_FLOAT, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);

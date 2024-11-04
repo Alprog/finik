@@ -16,7 +16,7 @@ ConstantBuffer::ConstantBuffer(RenderSystem& renderSystem)
     cbvDesc.BufferLocation = uploadBuffer->GetGPUVirtualAddress();
     cbvDesc.SizeInBytes = (sizeof(data) + 255) & ~255; // align 256
 
-    uploadDataBegin = (UINT8*)uploadBuffer->GetData();
+    uploadDataBegin = (uint8*)uploadBuffer->GetData();
 
     descriptorHandle = renderSystem.getSrvCbvHeap()->getNextHandle();
     renderSystem.get_device()->CreateConstantBufferView(&cbvDesc, descriptorHandle.getCPU());

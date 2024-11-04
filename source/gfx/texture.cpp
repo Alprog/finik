@@ -2,13 +2,14 @@ module;
 #include "dx.h"
 module texture;
 
+import types;
 import app;
 import descriptor_heap;
 import render_system;
 import upload_buffer;
 import images;
 
-static const UINT TexturePixelSize = 4;
+static const uint32 TexturePixelSize = 4;
 
 Texture::Texture(int width, int height)
     : Width{ width }
@@ -98,7 +99,7 @@ void Texture::setData(Image& image)
         nullptr,
         IID_PPV_ARGS(&resource)) MUST;
 
-    const UINT64 uploadBufferSize = GetRequiredIntermediateSize(resource.Get(), 0, 1);
+    const uint64 uploadBufferSize = GetRequiredIntermediateSize(resource.Get(), 0, 1);
 
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
     memcpy(uploadBuffer.GetData(), image.data, uploadBufferSize);
@@ -113,8 +114,8 @@ void Texture::setData(Image& image)
     //UpdateSubresources(commandList, texture.Get(), uploadBuffer.GetResource(), 0, 0, 1, &textureData);
 
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcFootprint;
-    UINT numRows;
-    UINT64 rowSizeInBytes, totalBytes;
+    uint32 numRows;
+    uint64 rowSizeInBytes, totalBytes;
     device->GetCopyableFootprints(&resource.Get()->GetDesc(), 0, 1, 0, &srcFootprint, &numRows, &rowSizeInBytes, &totalBytes);
 
     const CD3DX12_TEXTURE_COPY_LOCATION Src(uploadBuffer.GetResource(), srcFootprint);

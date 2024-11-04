@@ -13,6 +13,7 @@ module;
 #endif
 module render_system;
 
+import types;
 import app;
 import imgui;
 import std;
@@ -82,7 +83,7 @@ void RenderSystem::createDevice()
     if (FAILED(result)) throw;
 
     ComPtr<IDXGIAdapter1> adapter;
-    for (UINT adapterIndex = 0; DXGI_ERROR_NOT_FOUND != factory.Get()->EnumAdapters1(adapterIndex, &adapter); adapterIndex++)
+    for (uint32 adapterIndex = 0; DXGI_ERROR_NOT_FOUND != factory.Get()->EnumAdapters1(adapterIndex, &adapter); adapterIndex++)
     {
         DXGI_ADAPTER_DESC1 desc;
         adapter->GetDesc1(&desc);

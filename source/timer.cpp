@@ -1,14 +1,14 @@
 module;
 #include <Windows.h>
-#include <cstdint>
 module timer;
 
+import types;
 import std;
 
-uint64_t startTimestamp;
-uint64_t cpuFrequency;
-uint64_t gpuFrequency;
-uint64_t cpuTicksInMicrosecond;
+uint64 startTimestamp;
+uint64 cpuFrequency;
+uint64 gpuFrequency;
+uint64 cpuTicksInMicrosecond;
 
 void initTimer()
 {
@@ -17,24 +17,24 @@ void initTimer()
     cpuTicksInMicrosecond = cpuFrequency / 1'000'000;
 }
 
-uint64_t getTimestamp()
+uint64 getTimestamp()
 {
-    uint64_t result;
+    uint64 result;
     QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&result));
     return result;
 }
 
-uint64_t get_elapsed_time()
+uint64 get_elapsed_time()
 {
     return (getTimestamp() - startTimestamp) / cpuTicksInMicrosecond;
 }
 
-uint64_t getMicroseconds()
+uint64 getMicroseconds()
 {
     return getTimestamp() / cpuTicksInMicrosecond;
 }
 
-uint64_t toMicroseconds(uint64_t timestamp)
+uint64 toMicroseconds(uint64 timestamp)
 {
     return timestamp / cpuTicksInMicrosecond;
 }

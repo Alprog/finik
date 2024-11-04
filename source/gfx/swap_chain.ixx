@@ -1,8 +1,8 @@
 module;
 class DesktopWindow;
-#include <cstdint>
 export module swap_chain;
 
+import types;
 import dx;
 import descriptor_handle;
 import render_system_fwd;
@@ -15,7 +15,7 @@ export constexpr int NUM_FRAMES_IN_FLIGHT = 3;
 export struct FrameContext
 {
     ID3D12CommandAllocator* CommandAllocator;
-    uint64_t                FenceValue;
+    uint64                  FenceValue;
 };
 
 export class SwapChain
@@ -50,6 +50,6 @@ public:
 
     bool swapChainOccluded = false;
     FrameContext frameContext[NUM_FRAMES_IN_FLIGHT] = {};
-    uint32_t frameIndex = 0;
+    uint32 frameIndex = 0;
     FrameContext* current_frame_ctx;
 }; 

@@ -253,6 +253,7 @@
     <ClCompile Include="tile_map.ixx" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="timer.ixx" />
+    <ClCompile Include="types.ixx" />
     <ClCompile Include="utils.ixx" />
     <ClCompile Include="view.cpp" />
     <ClCompile Include="input_system.cpp" />

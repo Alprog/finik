@@ -1,6 +1,6 @@
 export module profiler;
 
-#include <cstdint>
+import types;
 import std;
 import lane;
 
@@ -23,7 +23,7 @@ export namespace finik::profiler
 
     private:
         int frameIndex = -1;
-        uint64_t frameStartTime = 0;
+        uint64 frameStartTime = 0;
         float deltaTime = 0;
         
         Lane cpuLane;

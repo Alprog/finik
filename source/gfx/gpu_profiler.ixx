@@ -1,5 +1,6 @@
 export module gpu_profiler;
 
+import types;
 import std;
 import render_system_fwd;
 import dx;
@@ -30,9 +31,9 @@ private:
 
     StampRange currentRange;
     std::queue<StampRange> queue;
-    UINT64 ticksInMicrosecond;
+    uint64 ticksInMicrosecond;
 
-    UINT64 syncedGpuTimestamp;
-    UINT64 syncedCpuTimestamp;
-    UINT64 syncedCpuMicroseconds;
+    uint64 syncedGpuTimestamp;
+    uint64 syncedCpuTimestamp;
+    uint64 syncedCpuMicroseconds;
 };

@@ -42,7 +42,7 @@ SwapChain::SwapChain(DesktopWindow& window)
         ComPtr<IDXGIFactory3> dxgiFactory;
         ComPtr<IDXGISwapChain1> dxgiSwapChain1;
       
-        UINT createFactoryFlags = 0;
+        uint32 createFactoryFlags = 0;
 #if defined(_DEBUG)
         createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
@@ -63,14 +63,14 @@ SwapChain::SwapChain(DesktopWindow& window)
     CreateRenderTargets();
     CreateDepthStencil();
 
-    for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
+    for (uint32 i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (render_system.get_device()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&frameContext[i].CommandAllocator)) != S_OK)
             throw;
 }
 
 SwapChain::~SwapChain()
 {
-    for (UINT i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
+    for (uint32 i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
         if (frameContext[i].CommandAllocator) { frameContext[i].CommandAllocator->Release(); frameContext[i].CommandAllocator = nullptr; }
 
     if (swapChain) { swapChain->SetFullscreenState(false, nullptr); }
@@ -81,7 +81,7 @@ void SwapChain::CreateRenderTargets()
 {
     RenderSystem& render_system = App::get_instance().render_system;
 
-    for (UINT i = 0; i < NUM_BACK_BUFFER; i++)
+    for (uint32 i = 0; i < NUM_BACK_BUFFER; i++)
     {
         auto renderTarget = std::make_shared<RenderTarget>();
         
@@ -102,8 +102,8 @@ void SwapChain::CreateRenderTarget()
 
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
-        static_cast<UINT>(window.width),
-        static_cast<UINT>(window.height),
+        static_cast<uint32>(window.width),
+        static_cast<uint32>(window.height),
         1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
@@ -127,8 +127,8 @@ void SwapChain::CreateDepthStencil()
 {
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
-        static_cast<UINT>(window.width),
-        static_cast<UINT>(window.height),
+        static_cast<uint32>(window.width),
+        static_cast<uint32>(window.height),
         1, 1, DXGI_FORMAT_D32_FLOAT, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
@@ -165,7 +165,7 @@ void SwapChain::WaitForLastSubmittedFrame()
 {
 //    FrameContext* frameCtx = &frameContext[frameIndex % NUM_FRAMES_IN_FLIGHT];
 //
-//    UINT64 fenceValue = frameCtx->FenceValue;
+//    uint64 fenceValue = frameCtx->FenceValue;
 //    if (fenceValue == 0)
 //        return; // No fence was signaled
 //
@@ -179,7 +179,7 @@ void SwapChain::WaitForLastSubmittedFrame()
 
 FrameContext* SwapChain::WaitForNextFrameResources()
 {
-    UINT nextFrameIndex = frameIndex + 1;
+    uint32 nextFrameIndex = frameIndex + 1;
     frameIndex = nextFrameIndex;
 
     //HANDLE waitableObjects[] = { hSwapChainWaitableObject, nullptr };
@@ -188,7 +188,7 @@ FrameContext* SwapChain::WaitForNextFrameResources()
     RenderSystem& render_system = App::get_instance().render_system;
 
     FrameContext* frameCtx = &frameContext[nextFrameIndex % NUM_FRAMES_IN_FLIGHT];
-    UINT64 fenceValue = frameCtx->FenceValue;
+    uint64 fenceValue = frameCtx->FenceValue;
     if (fenceValue != 0) // means no fence was signaled
     {
         frameCtx->FenceValue = 0;
@@ -208,7 +208,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
 
     current_frame_ctx = WaitForNextFrameResources();
 
-    UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
+    uint32 backBufferIdx = swapChain->GetCurrentBackBufferIndex();
     current_frame_ctx->CommandAllocator->Reset();
 
     command_list->Reset(current_frame_ctx->CommandAllocator, nullptr);
@@ -246,7 +246,7 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
 
 void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
 {
-    UINT backBufferIdx = swapChain->GetCurrentBackBufferIndex();
+    uint32 backBufferIdx = swapChain->GetCurrentBackBufferIndex();
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -277,6 +277,6 @@ void SwapChain::present()
 
     swapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
 
-    UINT64 fenceValue = render_system.get_command_queue().fence->SignalNext();
+    uint64 fenceValue = render_system.get_command_queue().fence->SignalNext();
     current_frame_ctx->FenceValue = fenceValue;
 }

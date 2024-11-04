@@ -1,7 +1,6 @@
-module;
-#include <cstdint>
 export module mesh;
 
+import types;
 import vertex;
 import vertex_buffer;
 import index_buffer;
@@ -11,7 +10,7 @@ export class Mesh
 {
 public:
     std::vector<StandardVertex> vertices;
-    std::vector<uint32_t> indices;
+    std::vector<uint32> indices;
 
     VertexBuffer* vertexBuffer;
     IndexBuffer* indexBuffer;

@@ -11,8 +11,6 @@ import render_lane;
 import render_context;
 import gpu_profiler;
 
-//#include "../gpumem/oneshot_allocator.h"
-
 export class RenderSystem
 {
     friend class App;

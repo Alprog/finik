@@ -4,7 +4,7 @@ import timer;
 
 using namespace finik::profiler;
 
-Timebox::Timebox(const char* label, uint8_t level)
+Timebox::Timebox(const char* label, uint8 level)
     : label{ label}
     , startTimestamp { getMicroseconds() }
     , endTimestamp { 0 }

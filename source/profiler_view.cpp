@@ -41,8 +41,8 @@ void ProfilerView::draw_content()
     if (end == 0)
         return;
 
-    const uint64_t startTime = cpuTimeboxes[start].startTimestamp;
-    const uint64_t endTime = cpuTimeboxes[end - 1].endTimestamp;
+    const uint64 startTime = cpuTimeboxes[start].startTimestamp;
+    const uint64 endTime = cpuTimeboxes[end - 1].endTimestamp;
 
     finik::drawFlamegraph(&cpuTimeboxes[start], end - start, startTime, endTime, Vector2(900, 30));
 
