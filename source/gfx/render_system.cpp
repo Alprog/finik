@@ -99,7 +99,7 @@ void RenderSystem::createDevice()
         }
     }
 
-    ComPtr<IDXGIAdapter1> hardwareAdapter;
+    MyPtr<IDXGIAdapter1> hardwareAdapter;
     hardwareAdapter = adapter.Detach();
 
     result = D3D12CreateDevice(hardwareAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
@@ -109,8 +109,8 @@ void RenderSystem::createDevice()
 void RenderSystem::setupDebug()
 {
 #ifdef DX12_ENABLE_DEBUG_LAYER
-    ComPtr<ID3D12InfoQueue> pInfoQueue;
-    if (SUCCEEDED(device.As(&pInfoQueue)))
+    MyPtr<ID3D12InfoQueue> pInfoQueue;
+    if (SUCCEEDED(device.As(pInfoQueue)))
     {
         pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
         pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);

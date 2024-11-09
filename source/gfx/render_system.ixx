@@ -11,6 +11,7 @@ import command_list_pool;
 import render_lane;
 import render_context;
 import gpu_profiler;
+import myptr;
 
 export class RenderSystem
 {
@@ -61,7 +62,7 @@ private:
     std::unique_ptr<DescriptorHeap> dsvHeap; // Depth Stencil View
     std::unique_ptr<DescriptorHeap> srvCbvHeap;
 
-    ComPtr<ID3D12Device> device;
+    MyPtr<ID3D12Device> device;
 
     std::shared_ptr<PipelineState> pipelineState;
 
