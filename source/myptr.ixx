@@ -100,5 +100,5 @@ protected:
     }
 
 private:
-    T* ptr;
+    T* ptr = nullptr;
 };
