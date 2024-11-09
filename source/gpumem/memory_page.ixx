@@ -1,11 +1,13 @@
 export module memory_page;
 
+import types;
 import dx;
 import render_system_fwd;
+import allocation;
 
-namespace finik::gpumem
+export namespace finik::gpumem
 {   
-    export class MemoryPage
+    class MemoryPage
     {
     public:
         MemoryPage(RenderSystem& renderSystem, int size);
@@ -13,19 +15,18 @@ namespace finik::gpumem
         int GetFullSize() const;
         int GetAvailableSize() const;
 
-        void* Allocate(int size, int usingFrame);
+        Allocation Allocate(int size, int usingFrame);
 
-        void* GetData() const;
+        byte* GetData() const;
         ID3D12Resource* GetResource() const;
         D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
 
     private:
-        int FullSize;
-        int AvailableSize;
-        int UsingFrame;
+        ID3D12Resource* Resource;
+        byte* Data;
 
-        MyPtr<ID3D12Resource> Resource;
-        char* Data;
-        char* AvailableData;
+        int32 FullSize;
+        int32 UsedSize;
+        int32 UsingFrame;
     };
 }

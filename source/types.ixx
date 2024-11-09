@@ -12,6 +12,8 @@ export using uint16 = unsigned short;
 export using uint32 = unsigned int;
 export using uint64 = unsigned long long;
 
+export using byte = uint8;
+
 static_assert(sizeof(int8) * BIT_COUNT == 8);
 static_assert(sizeof(int16) * BIT_COUNT == 16);
 static_assert(sizeof(int32) * BIT_COUNT == 32);

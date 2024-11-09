@@ -13,6 +13,8 @@ import actor;
 import shader;
 import grid;
 import camera;
+import oneshot_allocator;
+import allocation;
 
 Scene::Scene()
 {
@@ -63,7 +65,11 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 {
     auto& renderSystem = App::get_instance().render_system;
 
-    auto constantBuffer = getConstantBuffer(camera);
+    int32 frameIndex = App::get_instance().getFrameIndex();
+    int32 size = sizeof(ConstantBuffer::data);
+
+    finik::gpumem::Allocation allocation = renderSystem.getOneshotAllocator().Allocate(size, frameIndex);
+    ConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
     if (!renderCommand.state)
     {

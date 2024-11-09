@@ -12,6 +12,7 @@ import render_lane;
 import render_context;
 import gpu_profiler;
 import myptr;
+import oneshot_allocator;
 
 export class RenderSystem
 {
@@ -32,6 +33,7 @@ public:
     GpuProfiler* getProfiler();
 
     CommandList& getFreeCommandList();
+    finik::gpumem::OneshotAllocator& getOneshotAllocator();
 
     void ImguiInitHelper();
 
@@ -69,7 +71,7 @@ private:
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 
     std::unique_ptr<CommandListPool> commandListPool;
-    //std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
+    std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
 
 public:
     std::vector<std::shared_ptr<RenderLane>> lanes;

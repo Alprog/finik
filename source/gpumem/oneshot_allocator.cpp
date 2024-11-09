@@ -10,7 +10,7 @@ OneshotAllocator::OneshotAllocator(RenderSystem& renderSystem)
 {
 }
 
-void* OneshotAllocator::Allocate(const int size, const int frame)
+Allocation OneshotAllocator::Allocate(const int size, const int frame)
 {
     auto allignedSize = size;
 
@@ -23,7 +23,6 @@ void* OneshotAllocator::Allocate(const int size, const int frame)
             return page.Allocate(allignedSize, frame);
         }
     }
-
 
     return CreateNewPage().Allocate(allignedSize, frame);
 }

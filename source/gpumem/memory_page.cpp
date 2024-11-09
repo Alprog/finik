@@ -8,13 +8,20 @@ using namespace finik::gpumem;
 
 MemoryPage::MemoryPage(RenderSystem& renderSystem, int size)
     : FullSize{ size }
-    , AvailableSize{ size }
+    , UsedSize { 0 }
     , UsingFrame { 0 }
 {
     auto device = renderSystem.get_device();
 
+    static D3D12_HEAP_PROPERTIES HeapProps;
+    HeapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
+    HeapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+    HeapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+    HeapProps.CreationNodeMask = 1;
+    HeapProps.VisibleNodeMask = 1;
+
     auto result = device->CreateCommittedResource(
-        &CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_UNKNOWN, D3D12_MEMORY_POOL_UNKNOWN),
+        &HeapProps,
         D3D12_HEAP_FLAG_NONE,
         &CD3DX12_RESOURCE_DESC::Buffer(size),
         D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -26,6 +33,7 @@ MemoryPage::MemoryPage(RenderSystem& renderSystem, int size)
     CD3DX12_RANGE readRange(0, 0);
     result = Resource->Map(0, &readRange, reinterpret_cast<void**>(&Data));
     if (FAILED(result)) throw;
+
 }
 
 int MemoryPage::GetFullSize() const
@@ -35,32 +43,36 @@ int MemoryPage::GetFullSize() const
 
 int MemoryPage::GetAvailableSize() const
 {
-    return AvailableSize;
+    return FullSize - UsedSize;
 }
 
-void* MemoryPage::Allocate(int size, int usingFrame)
+Allocation MemoryPage::Allocate(int size, int usingFrame)
 {
-    if (AvailableSize < size)
+    Allocation allocation;
+    if (UsedSize + size > FullSize)
     {
-        return nullptr;
+        allocation.CpuData = nullptr;
     }
     else
     {
-        auto result = Data[AvailableSize];
+        allocation.CpuData = &Data[UsedSize];
+        allocation.GpuAddress = GetGPUVirtualAddress() + UsedSize;
+
+        UsedSize += size;
         UsingFrame = max(usingFrame, UsingFrame);
 
-
     }
+    return allocation;
 }
 
-void* MemoryPage::GetData() const
+byte* MemoryPage::GetData() const
 {
     return Data;
 }
 
 ID3D12Resource* MemoryPage::GetResource() const
 {
-    return Resource.Get();
+    return Resource;
 }
 
 D3D12_GPU_VIRTUAL_ADDRESS MemoryPage::GetGPUVirtualAddress() const

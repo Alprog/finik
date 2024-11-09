@@ -178,7 +178,7 @@ void RenderSystem::createCommandAllocators()
 
 void RenderSystem::createOneshotAllocator()
 {
-    //oneshotAllocator = std::make_unique<finik::gpumem::OneshotAllocator>(*this);
+    oneshotAllocator = std::make_unique<finik::gpumem::OneshotAllocator>(*this);
 }
 
 void RenderSystem::createCommandList()
@@ -270,3 +270,7 @@ CommandList& RenderSystem::getFreeCommandList()
     return commandListPool->retrieveOne();
 }
 
+finik::gpumem::OneshotAllocator& RenderSystem::getOneshotAllocator()
+{
+    return *oneshotAllocator;
+}
