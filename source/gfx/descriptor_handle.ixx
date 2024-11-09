@@ -1,7 +1,7 @@
 export module descriptor_handle;
 
 import dx;
-export import render_system_fwd;
+import render_system_fwd;
 
 export struct DescriptorHandle
 {

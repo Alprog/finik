@@ -2,7 +2,7 @@ module;
 class Window;
 export module render_system;
 
-export import render_system_fwd;
+import render_system_fwd;
 
 import dx;
 import std;

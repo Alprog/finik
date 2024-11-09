@@ -1,11 +1,22 @@
+module;
+#include "d3d12.h"
+
+#ifndef D3DX12_USE_ATL
+#include <wrl/client.h>
+#define D3DX12_COM_PTR Microsoft::WRL::ComPtr
+#define D3DX12_COM_PTR_GET(x) x.Get()
+#define D3DX12_COM_PTR_ADDRESSOF(x) x.GetAddressOf()
+#else
+#define D3DX12_COM_PTR ATL::CComPtr
+#define D3DX12_COM_PTR_GET(x) x.p
+#define D3DX12_COM_PTR_ADDRESSOF(x) &x.p
+#endif
 export module d3dx;
 
-#define __WRL_ASSERT__(cond)
+import std;
 
 #ifndef __D3DX12_H__
 #define __D3DX12_H__
-
-#include "d3d12.h"
 
 #if defined( __cplusplus )
 
@@ -17,17 +28,17 @@ export module d3dx;
 #endif
 
 export struct CD3DX12_DEFAULT {};
-extern const DECLSPEC_SELECTANY CD3DX12_DEFAULT D3D12_DEFAULT;
+export extern const DECLSPEC_SELECTANY CD3DX12_DEFAULT D3D12_DEFAULT;
 
 //------------------------------------------------------------------------------------------------
-inline bool operator==(const D3D12_VIEWPORT& l, const D3D12_VIEWPORT& r) noexcept
+export inline bool operator==(const D3D12_VIEWPORT& l, const D3D12_VIEWPORT& r) noexcept
 {
     return l.TopLeftX == r.TopLeftX && l.TopLeftY == r.TopLeftY && l.Width == r.Width &&
         l.Height == r.Height && l.MinDepth == r.MinDepth && l.MaxDepth == r.MaxDepth;
 }
 
 //------------------------------------------------------------------------------------------------
-inline bool operator!=(const D3D12_VIEWPORT& l, const D3D12_VIEWPORT& r) noexcept
+export inline bool operator!=(const D3D12_VIEWPORT& l, const D3D12_VIEWPORT& r) noexcept
 {
     return !(l == r);
 }
@@ -4748,19 +4759,6 @@ export inline bool operator==(const D3D12_RENDER_PASS_DEPTH_STENCIL_DESC& a, con
 //
 //================================================================================================
 
-import std;
-
-#ifndef D3DX12_USE_ATL
-#include <wrl/client.h>
-#define D3DX12_COM_PTR Microsoft::WRL::ComPtr
-#define D3DX12_COM_PTR_GET(x) x.Get()
-#define D3DX12_COM_PTR_ADDRESSOF(x) x.GetAddressOf()
-#else
-#define D3DX12_COM_PTR ATL::CComPtr
-#define D3DX12_COM_PTR_GET(x) x.p
-#define D3DX12_COM_PTR_ADDRESSOF(x) &x.p
-#endif
-
 //------------------------------------------------------------------------------------------------
 export class CD3DX12_STATE_OBJECT_DESC
 {
@@ -7061,8 +7059,6 @@ public:
 //================================================================================================
 // D3DX12 Check Feature Support
 //================================================================================================
-
-import std;
 
 export class CD3DX12FeatureSupport
 {

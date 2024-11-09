@@ -146,6 +146,7 @@
     <ClCompile Include="camera_controller.ixx" />
     <ClCompile Include="console_view.cpp" />
     <ClCompile Include="console_view.ixx" />
+    <ClCompile Include="d3dx.ixx" />
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="desktop_system.ixx" />
     <ClCompile Include="desktop_window.ixx" />
