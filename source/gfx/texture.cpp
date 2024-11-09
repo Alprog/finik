@@ -50,7 +50,9 @@ Texture::Texture(int width, int height)
     srvDesc.Format = textureDesc.Format;
     srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
     srvDesc.Texture2D.MipLevels = 1;
-    descriptorHandle = renderSystem.getSrvCbvHeap()->getNextHandle();
+
+    DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
+    descriptorHandle = heap->getNextHandle();
     device->CreateShaderResourceView(resource.Get(), &srvDesc, descriptorHandle.getCPU());
 }
 
