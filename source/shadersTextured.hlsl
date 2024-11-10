@@ -7,6 +7,8 @@ cbuffer MeshConstantBuffer : register(b0)
 
 cbuffer FrameConstantBuffer : register(b1)
 {
+	float4x4 View;
+	float4x4 Projection;
 	float4x4 ViewProject;
 };
 

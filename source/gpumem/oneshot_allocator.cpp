@@ -10,7 +10,7 @@ OneshotAllocator::OneshotAllocator(RenderSystem& renderSystem)
 {
 }
 
-Allocation OneshotAllocator::Allocate(const int size, const int frame)
+RawAllocation OneshotAllocator::Allocate(const int size, const int frame)
 {
     constexpr int32 alignmentMask = 0xFF;
     const int32 allignedSize = (size + alignmentMask) & ~alignmentMask;

@@ -5,11 +5,7 @@ import render_system_fwd;
 
 import types;
 import math;
-
-struct FrameConstantBuffer
-{
-    Matrix ViewProjection;
-};
+import root_signature_params;
 
 export class ConstantBuffer
 {
@@ -23,11 +19,7 @@ public:
     UploadBuffer* uploadBuffer;
     DescriptorHandle descriptorHandle;
 
-    struct
-    {
-        Matrix ViewProjection;
-    }
-    data;
+    FrameConstantBuffer data;
 
     int version;
 

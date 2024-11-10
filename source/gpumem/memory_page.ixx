@@ -15,7 +15,7 @@ export namespace finik::gpumem
         int GetFullSize() const;
         int GetAvailableSize() const;
 
-        Allocation Allocate(int size, int usingFrame);
+        RawAllocation Allocate(int size, int usingFrame);
 
         byte* GetData() const;
         ID3D12Resource* GetResource() const;
@@ -23,7 +23,7 @@ export namespace finik::gpumem
 
     private:
         ID3D12Resource* Resource;
-        byte* Data;
+        void* Data;
 
         int32 FullSize;
         int32 UsedSize;

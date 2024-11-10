@@ -9,6 +9,7 @@ import constant_buffer;
 import texture;
 import render_command;
 import root_signature_params;
+import app;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -22,9 +23,13 @@ void RenderContext::draw(RenderCommand renderCommand)
     ConstantBuffer* constantBuffer = renderCommand.state->constantBuffer;
     constantBuffer->update();
 
+    int32 frameIndex = App::get_instance().getFrameIndex();
+    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>(frameIndex);
+    *frameConstantBuffer.Data = constantBuffer->data;
+
     PipelineState* pipeline = renderCommand.state->getPipelineState();
     commandList.SetGraphicsRootSignature(pipeline->rootSignature.Get());
-    //commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
     

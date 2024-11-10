@@ -30,8 +30,7 @@ MemoryPage::MemoryPage(RenderSystem& renderSystem, int size)
 
     if (FAILED(result)) throw;
 
-    CD3DX12_RANGE readRange(0, 0);
-    result = Resource->Map(0, &readRange, reinterpret_cast<void**>(&Data));
+    result = Resource->Map(0, nullptr, &Data);
     if (FAILED(result)) throw;
 
 }
@@ -46,16 +45,16 @@ int MemoryPage::GetAvailableSize() const
     return FullSize - UsedSize;
 }
 
-Allocation MemoryPage::Allocate(int size, int usingFrame)
+RawAllocation MemoryPage::Allocate(int size, int usingFrame)
 {
-    Allocation allocation;
+    RawAllocation allocation;
     if (UsedSize + size > FullSize)
     {
         allocation.CpuData = nullptr;
     }
     else
     {
-        allocation.CpuData = &Data[UsedSize];
+        allocation.CpuData = reinterpret_cast<byte*>(Data) + UsedSize;
         allocation.GpuAddress = GetGPUVirtualAddress() + UsedSize;
 
         UsedSize += size;
@@ -67,7 +66,7 @@ Allocation MemoryPage::Allocate(int size, int usingFrame)
 
 byte* MemoryPage::GetData() const
 {
-    return Data;
+    return reinterpret_cast<byte*>(Data);
 }
 
 ID3D12Resource* MemoryPage::GetResource() const

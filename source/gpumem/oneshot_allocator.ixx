@@ -12,7 +12,13 @@ export namespace finik::gpumem
     public:
         explicit OneshotAllocator(RenderSystem& renderSystem);
 
-        Allocation Allocate(int size, int frame);
+        RawAllocation Allocate(int size, int frame);
+
+        template <typename T>
+        Allocation<T> Allocate(int usingFrame)
+        {
+            return Allocation<T>(Allocate(sizeof(T), usingFrame));
+        }
 
     private:
         MemoryPage& CreateNewPage();

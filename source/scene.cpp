@@ -68,10 +68,10 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     int32 frameIndex = App::get_instance().getFrameIndex();
     int32 size = sizeof(ConstantBuffer::data);
 
-    finik::gpumem::Allocation allocation = renderSystem.getOneshotAllocator().Allocate(size, frameIndex);
-    ConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
-    auto* data = reinterpret_cast<FrameConstantBuffer*>(allocation.CpuData);
+    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>(frameIndex);
+
+    ConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
     if (!renderCommand.state)
     {
@@ -103,7 +103,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     constantBuffer->version++;
     constantBuffer->update();
 
-    data->ViewProjection = V * P;
+    frameConstantBuffer->ViewProjection = V * P;
 
     renderCommand2.state->constantBuffer = constantBuffer;
     renderCommand2.state->constantBuffer = constantBuffer;
@@ -117,7 +117,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
-    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, allocation.GpuAddress);
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
 
