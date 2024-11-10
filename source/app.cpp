@@ -67,6 +67,7 @@ void App::run_game_loop()
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
         render_system.get_command_queue().freeCompletedLists();
+        render_system.getOneshotAllocator().FreePages();
         render_system.getProfiler()->grabReadyStamps(completedValue);
 
         {

@@ -24,7 +24,7 @@ void RenderContext::draw(RenderCommand renderCommand)
     constantBuffer->update();
 
     int32 frameIndex = App::get_instance().getFrameIndex();
-    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>(frameIndex);
+    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>();
     *frameConstantBuffer.Data = constantBuffer->data;
 
     PipelineState* pipeline = renderCommand.state->getPipelineState();

@@ -69,7 +69,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     int32 size = sizeof(ConstantBuffer::data);
 
 
-    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>(frameIndex);
+    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>();
 
     ConstantBuffer* constantBuffer = getConstantBuffer(camera);
 

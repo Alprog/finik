@@ -14,12 +14,13 @@ export namespace finik::gpumem
 
         int GetFullSize() const;
         int GetAvailableSize() const;
-
-        RawAllocation Allocate(int size, int usingFrame);
-
+        int GetUsingFrame() const;
         byte* GetData() const;
         ID3D12Resource* GetResource() const;
         D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
+
+        RawAllocation Allocate(int size, int usingFrame);
+        void Reset();
 
     private:
         ID3D12Resource* Resource;

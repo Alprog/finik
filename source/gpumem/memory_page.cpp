@@ -45,6 +45,26 @@ int MemoryPage::GetAvailableSize() const
     return FullSize - UsedSize;
 }
 
+int MemoryPage::GetUsingFrame() const
+{
+    return UsingFrame;
+}
+
+byte* MemoryPage::GetData() const
+{
+    return reinterpret_cast<byte*>(Data);
+}
+
+ID3D12Resource* MemoryPage::GetResource() const
+{
+    return Resource;
+}
+
+D3D12_GPU_VIRTUAL_ADDRESS MemoryPage::GetGPUVirtualAddress() const
+{
+    return Resource->GetGPUVirtualAddress();
+}
+
 RawAllocation MemoryPage::Allocate(int size, int usingFrame)
 {
     RawAllocation allocation;
@@ -64,17 +84,7 @@ RawAllocation MemoryPage::Allocate(int size, int usingFrame)
     return allocation;
 }
 
-byte* MemoryPage::GetData() const
+void MemoryPage::Reset()
 {
-    return reinterpret_cast<byte*>(Data);
-}
-
-ID3D12Resource* MemoryPage::GetResource() const
-{
-    return Resource;
-}
-
-D3D12_GPU_VIRTUAL_ADDRESS MemoryPage::GetGPUVirtualAddress() const
-{
-    return Resource->GetGPUVirtualAddress();
+    UsedSize = 0;
 }

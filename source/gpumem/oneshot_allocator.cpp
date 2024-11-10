@@ -2,6 +2,7 @@ module oneshot_allocator;
 
 import render_system;
 import std;
+import app;
 
 using namespace finik::gpumem;
 
@@ -26,7 +27,24 @@ RawAllocation OneshotAllocator::Allocate(const int size, const int frame)
     return CreateNewPage().Allocate(allignedSize, frame);
 }
 
+void OneshotAllocator::FreePages()
+{
+    auto currentFrame = GetCurrentFrame();
+    for (auto& page : pages)
+    {
+        if (page.GetUsingFrame() < currentFrame)
+        {
+            page.Reset();
+        }
+    }
+}
+
 MemoryPage& OneshotAllocator::CreateNewPage()
 {
     return pages.emplace_back(renderSystem, 4096);
+}
+
+int32 OneshotAllocator::GetCurrentFrame()
+{
+    return App::get_instance().getFrameIndex();
 }
