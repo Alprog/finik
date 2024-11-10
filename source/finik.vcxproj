@@ -150,7 +150,7 @@
     <ClCompile Include="desktop_system.cpp" />
     <ClCompile Include="desktop_system.ixx" />
     <ClCompile Include="desktop_window.ixx" />
-    <ClCompile Include="dx_module.ixx" />
+    <ClCompile Include="dx.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="flamegraph.ixx" />
     <ClCompile Include="gfx\command_list.cpp" />

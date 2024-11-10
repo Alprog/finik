@@ -12,9 +12,8 @@ OneshotAllocator::OneshotAllocator(RenderSystem& renderSystem)
 
 Allocation OneshotAllocator::Allocate(const int size, const int frame)
 {
-    auto allignedSize = size;
-
-    //assert(allignedSize < 4096);
+    constexpr int32 alignmentMask = 0xFF;
+    const int32 allignedSize = (size + alignmentMask) & ~alignmentMask;
 
     for (auto& page : pages)
     {

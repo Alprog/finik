@@ -13,17 +13,15 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     auto device = renderSystem.get_device();
 
     {
-        CD3DX12_DESCRIPTOR_RANGE ranges[3];
-        ranges[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1); // b1
-        ranges[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0
-        ranges[2].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1); // t1
-        
-
         CD3DX12_ROOT_PARAMETER rootParameters[4];
         rootParameters[RootSignatureParams::MeshInlinedConstants].InitAsConstants(16, 0); // b0
-        rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsDescriptorTable(1, &ranges[0], D3D12_SHADER_VISIBILITY_VERTEX);
-        rootParameters[RootSignatureParams::TextureView1].InitAsDescriptorTable(1, &ranges[1], D3D12_SHADER_VISIBILITY_PIXEL);
-        rootParameters[RootSignatureParams::TextureView2].InitAsDescriptorTable(1, &ranges[2], D3D12_SHADER_VISIBILITY_PIXEL);
+        rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
+
+        rootParameters[RootSignatureParams::TextureView1].InitAsDescriptorTable(
+            1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0), D3D12_SHADER_VISIBILITY_PIXEL); // t0
+       
+        rootParameters[RootSignatureParams::TextureView2].InitAsDescriptorTable(
+            1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1), D3D12_SHADER_VISIBILITY_PIXEL); // t1
 
         D3D12_STATIC_SAMPLER_DESC sampler = {};
         sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;

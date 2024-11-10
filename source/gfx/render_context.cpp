@@ -24,7 +24,7 @@ void RenderContext::draw(RenderCommand renderCommand)
 
     PipelineState* pipeline = renderCommand.state->getPipelineState();
     commandList.SetGraphicsRootSignature(pipeline->rootSignature.Get());
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
+    //commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
     

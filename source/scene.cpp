@@ -71,6 +71,8 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     finik::gpumem::Allocation allocation = renderSystem.getOneshotAllocator().Allocate(size, frameIndex);
     ConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
+    auto* data = reinterpret_cast<FrameConstantBuffer*>(allocation.CpuData);
+
     if (!renderCommand.state)
     {
         renderCommand.mesh = createCubeMesh();
@@ -101,6 +103,8 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     constantBuffer->version++;
     constantBuffer->update();
 
+    data->ViewProjection = V * P;
+
     renderCommand2.state->constantBuffer = constantBuffer;
     renderCommand2.state->constantBuffer = constantBuffer;
     renderContext.draw(renderCommand2);
@@ -113,7 +117,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::FrameConstantBufferView, constantBuffer->descriptorHandle.getGPU());
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, allocation.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
 

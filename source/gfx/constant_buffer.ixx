@@ -6,6 +6,11 @@ import render_system_fwd;
 import types;
 import math;
 
+struct FrameConstantBuffer
+{
+    Matrix ViewProjection;
+};
+
 export class ConstantBuffer
 {
 public:
