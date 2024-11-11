@@ -107,7 +107,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     renderCommand2.state->constantBuffer = constantBuffer;
     renderCommand2.state->constantBuffer = constantBuffer;
-    renderContext.draw(renderCommand2);
 
     actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
@@ -129,4 +128,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderContext.setModelMatrix(actor->transformMatrix);
         renderContext.drawMesh(actor->mesh);
     }
+
+    renderContext.draw(renderCommand2);
 }

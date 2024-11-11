@@ -1,15 +1,8 @@
 module render_context;
 
-import vertex_buffer;
-import index_buffer;
-import render_state;
-import pipeline_state;
-import mesh;
 import constant_buffer;
-import texture;
-import render_command;
-import root_signature_params;
-import app;
+import pipeline_state;
+import render_system;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -23,16 +16,9 @@ void RenderContext::draw(RenderCommand renderCommand)
     ConstantBuffer* constantBuffer = renderCommand.state->constantBuffer;
     constantBuffer->update();
 
-    int32 frameIndex = App::get_instance().getFrameIndex();
-    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>();
-    *frameConstantBuffer.Data = constantBuffer->data;
-
-    PipelineState* pipeline = renderCommand.state->getPipelineState();
-    commandList.SetGraphicsRootSignature(pipeline->rootSignature.Get());
-    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
-    
+
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 
     static Matrix Matrix = Matrix::Identity;
@@ -54,5 +40,6 @@ void RenderContext::setModelMatrix(const Matrix& matrix)
 {
     auto meshConstantBuffer = renderSystem.getOneshotAllocator().Allocate<MeshConstantBuffer>();
     meshConstantBuffer.Data->Model = matrix;
+
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MeshConstantBufferView, meshConstantBuffer.GpuAddress);
 }
