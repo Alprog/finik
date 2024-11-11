@@ -52,5 +52,7 @@ void RenderContext::drawMesh(Mesh* mesh)
 
 void RenderContext::setModelMatrix(const Matrix& matrix)
 {
-    commandList.SetGraphicsRoot32BitConstants(RootSignatureParams::MeshInlinedConstants, 16, &matrix, 0);
+    auto meshConstantBuffer = renderSystem.getOneshotAllocator().Allocate<MeshConstantBuffer>();
+    meshConstantBuffer.Data->Model = matrix;
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MeshConstantBufferView, meshConstantBuffer.GpuAddress);
 }

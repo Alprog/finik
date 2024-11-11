@@ -14,7 +14,7 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
 
     {
         CD3DX12_ROOT_PARAMETER rootParameters[4];
-        rootParameters[RootSignatureParams::MeshInlinedConstants].InitAsConstants(16, 0); // b0
+        rootParameters[RootSignatureParams::MeshConstantBufferView].InitAsConstantBufferView(0); // b0
 
         rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
         

@@ -16,7 +16,7 @@ export struct FrameConstantBuffer
 
 export enum RootSignatureParams
 {
-    MeshInlinedConstants = 0,
+    MeshConstantBufferView = 0,
     FrameConstantBufferView = 1,
     TextureView1 = 2,
     TextureView2 = 3
