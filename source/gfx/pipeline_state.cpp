@@ -13,7 +13,7 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     auto device = renderSystem.get_device();
 
     {
-        CD3DX12_ROOT_PARAMETER rootParameters[4];
+        CD3DX12_ROOT_PARAMETER rootParameters[RootSignatureParams::Count];
         rootParameters[RootSignatureParams::MeshConstantBufferView].InitAsConstantBufferView(0); // b0
 
         rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
@@ -23,6 +23,9 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
        
         rootParameters[RootSignatureParams::TextureView2].InitAsDescriptorTable(
             1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1), D3D12_SHADER_VISIBILITY_PIXEL); // t1
+
+        rootParameters[RootSignatureParams::TestConstantBufferView].InitAsDescriptorTable(
+            1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 2), D3D12_SHADER_VISIBILITY_PIXEL); // b2
 
         D3D12_STATIC_SAMPLER_DESC sampler = {};
         sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;

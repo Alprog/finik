@@ -19,6 +19,8 @@ void RenderContext::draw(RenderCommand renderCommand)
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
 
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TestConstantBufferView, renderCommand.texture2->descriptorHandle.getGPU());
+
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 
     static Matrix Matrix = Matrix::Identity;

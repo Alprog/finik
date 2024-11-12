@@ -2,11 +2,13 @@ export module upload_buffer;
 
 import dx;
 import render_system_fwd;
+import types;
 
 export class UploadBuffer
 {
 public:
     UploadBuffer(RenderSystem& renderSystem, int size);
+    ~UploadBuffer();
 
     int GetSize() const;
     void* GetData() const;
@@ -15,6 +17,6 @@ public:
    
 private:
     int Size;
-    MyPtr<ID3D12Resource> Resource;
+    ID3D12Resource* InternalResource;
     void* Data;
 };

@@ -300,6 +300,7 @@
     <ClInclude Include="..\3rd-party\zlib\zconf.h" />
     <ClInclude Include="..\3rd-party\zlib\zlib.h" />
     <ClInclude Include="..\3rd-party\zlib\zutil.h" />
+    <ClInclude Include="asserts.h" />
     <ClInclude Include="gfx\dx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,6 @@
 module;
 #include <stdio.h>
-#include <cassert>
+#include <asserts.h>
 #include "dx.h"
 module descriptor_heap;
 
@@ -30,6 +30,6 @@ DescriptorHeap::DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE 
 
 DescriptorHandle DescriptorHeap::getNextHandle()
 {
-    assert(descriptorCount < maxCount);
+    ASSERT(descriptorCount < maxCount);
     return DescriptorHandle(this, descriptorCount++);
 }
