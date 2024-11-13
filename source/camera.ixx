@@ -1,6 +1,6 @@
 export module camera;
 
-import math;
+import core;
 import scene_system_fwd;
 import render_system_fwd;
 

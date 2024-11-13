@@ -1,6 +1,6 @@
 export module memory_page;
 
-import types;
+import core;
 import dx;
 import render_system_fwd;
 import allocation;

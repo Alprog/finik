@@ -1,7 +1,6 @@
 export module blob;
 
-import std;
-import path;
+import core;
 
 export class Blob
 {

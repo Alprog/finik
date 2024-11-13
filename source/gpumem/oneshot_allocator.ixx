@@ -1,10 +1,9 @@
 export module oneshot_allocator;
 
-import std;
+import core;
 import memory_page;
 import render_system_fwd;
 import allocation;
-import types;
 
 export namespace finik::gpumem
 {

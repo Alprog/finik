@@ -1,7 +1,6 @@
 export module mesh_builder;
 
-import types;
-import std;
+import core;
 import vertex;
 import mesh;
 

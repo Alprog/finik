@@ -1,6 +1,6 @@
 export module root_signature_params;
 
-import math;
+import core;
 
 export struct MeshConstantBuffer
 {

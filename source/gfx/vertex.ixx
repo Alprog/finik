@@ -1,6 +1,6 @@
 export module vertex;
 
-import math;
+import core;
 
 export struct StandardVertex
 {

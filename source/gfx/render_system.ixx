@@ -4,8 +4,8 @@ export module render_system;
 
 import render_system_fwd;
 
+import core;
 import dx;
-import std;
 import command_queue;
 import command_list_pool;
 import render_lane;

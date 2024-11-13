@@ -1,5 +1,6 @@
 export module app;
 
+import core;
 import render_system;
 import profiler;
 import scene_manager;

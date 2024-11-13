@@ -1,7 +1,7 @@
 export module texture;
 
+import core;
 import dx;
-import std;
 import descriptor_handle;
 import images;
 

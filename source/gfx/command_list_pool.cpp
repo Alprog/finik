@@ -1,5 +1,6 @@
 module command_list_pool;
 
+import core;
 import app;
 
 CommandListPool::CommandListPool(RenderSystem& renderSystem)

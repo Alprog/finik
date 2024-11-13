@@ -1,8 +1,8 @@
 export module upload_buffer;
 
+import core;
 import dx;
 import render_system_fwd;
-import types;
 
 export class UploadBuffer
 {

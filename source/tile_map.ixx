@@ -1,6 +1,6 @@
 export module tile_map;
 
-import std;
+import core;
 import texture;
 import images;
 

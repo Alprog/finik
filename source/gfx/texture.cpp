@@ -2,7 +2,6 @@ module;
 #include "dx.h"
 module texture;
 
-import types;
 import app;
 import descriptor_heap;
 import render_system;

@@ -1,8 +1,7 @@
 module camera_controller;
 
-import std;
+import core;
 import imgui;
-import utils;
 
 CameraController::CameraController(Camera& camera)
     : camera{ camera }

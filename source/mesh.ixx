@@ -1,10 +1,9 @@
 export module mesh;
 
-import types;
+import core;
 import vertex;
 import vertex_buffer;
 import index_buffer;
-import std;
 
 export class Mesh
 {

@@ -1,7 +1,6 @@
 export module camera_controller;
 
-import std;
-import math;
+import core;
 import camera;
 
 export class CameraController

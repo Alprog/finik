@@ -5,7 +5,7 @@ using GuiImpl = ImGuiContext;
 struct ID3D12GraphicsCommandList;
 export module gui;
 
-import std;
+import core;
 import view;
 
 export class Gui

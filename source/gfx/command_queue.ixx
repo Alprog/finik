@@ -1,6 +1,6 @@
 export module command_queue;
 
-import std;
+import core;
 import dx;
 import fence;
 import render_system_fwd;

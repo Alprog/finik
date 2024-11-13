@@ -1,6 +1,6 @@
 export module vertex_buffer;
 
-import std;
+import core;
 import dx;
 import vertex;
 

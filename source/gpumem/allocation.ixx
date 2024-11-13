@@ -1,7 +1,7 @@
 export module allocation;
 
+import core;
 import dx;
-import types;
 
 export namespace finik::gpumem
 {

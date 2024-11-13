@@ -1,7 +1,6 @@
 module render_state;
 
 import pipeline_state;
-import std;
 import app;
 import shader;
 

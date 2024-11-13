@@ -1,10 +1,9 @@
 export module render_lane;
 
+import core;
 import descriptor_handle;
-import int_size;
 import dx;
 import scene_system_fwd;
-import types;
 
 export class RenderSurface
 {

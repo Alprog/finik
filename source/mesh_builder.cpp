@@ -3,7 +3,6 @@ module mesh_builder;
 import mesh;
 import vertex_buffer;
 import index_buffer;
-import math;
 
 void MeshBuilder::AddTile(int x, int y)
 {

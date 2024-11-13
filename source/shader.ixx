@@ -1,6 +1,6 @@
 export module shader;
 
-import path;
+import core;
 import dx;
 
 export enum ShaderType

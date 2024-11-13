@@ -2,7 +2,7 @@ module;
 #include "Windows.h"
 module log;
 
-import std;
+import core;
 
 void log_impl(std::string text)
 {

@@ -1,7 +1,6 @@
 export module profiler;
 
-import types;
-import std;
+import core;
 import lane;
 
 export namespace finik::profiler

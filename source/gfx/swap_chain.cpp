@@ -4,7 +4,6 @@ module;
 module swap_chain;
 
 import app;
-import std;
 import render_system;
 import descriptor_heap;
 import gpu_profiler;

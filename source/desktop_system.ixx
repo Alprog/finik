@@ -1,7 +1,6 @@
 export module desktop_system;
 
-import types;
-import std;
+import core;
 import desktop_window;
 
 export class DesktopSystem

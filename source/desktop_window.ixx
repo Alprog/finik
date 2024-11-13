@@ -7,6 +7,7 @@ class Scene;
 class Gui;
 export module desktop_window;
 
+import core;
 import swap_chain;
 
 export class DesktopWindow

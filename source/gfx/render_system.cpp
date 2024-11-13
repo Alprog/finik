@@ -13,10 +13,8 @@ module;
 #endif
 module render_system;
 
-import types;
 import app;
 import imgui;
-import std;
 import pipeline_state;
 import command_queue;
 import descriptor_heap;
@@ -159,7 +157,7 @@ void RenderSystem::createDescriptorHeap()
 
     dsvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 3);
 
-    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 50);
+    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1000);
 }
 
 void RenderSystem::createCommandListPool()

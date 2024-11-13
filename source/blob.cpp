@@ -1,7 +1,5 @@
 module blob;
 
-import std;
-
 Blob::Blob(Path path)
 {
     std::ifstream fstream(path.c_str(), std::ios::binary);

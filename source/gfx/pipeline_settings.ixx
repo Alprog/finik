@@ -1,7 +1,7 @@
 export module pipeline_settings;
 
+import core;
 import render_system_fwd;
-import std;
 
 export enum class CullMode : char
 {

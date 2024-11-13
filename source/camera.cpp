@@ -1,7 +1,5 @@
 module camera;
 
-import std;
-
 Camera::Camera()
 {
     viewMatrix = Matrix::Identity;

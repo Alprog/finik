@@ -2,11 +2,8 @@ module;
 #include "dx.h"
 module vertex_buffer;
 
-import types;
 import app;
 import render_system;
-
-import math;
 
 void VertexBuffer::Load()
 {

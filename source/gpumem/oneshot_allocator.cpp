@@ -1,7 +1,6 @@
 module oneshot_allocator;
 
 import render_system;
-import std;
 import app;
 
 using namespace finik::gpumem;

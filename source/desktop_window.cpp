@@ -4,7 +4,6 @@ module;
 module desktop_window;
 
 import app;
-import std;
 import render_system;
 import swap_chain;
 import scene;

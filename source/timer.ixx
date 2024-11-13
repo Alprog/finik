@@ -1,7 +1,6 @@
 export module timer;
 
-import types;
-import std;
+import core;
 
 export
 {

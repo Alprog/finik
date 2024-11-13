@@ -1,6 +1,6 @@
 export module scene_manager;
 
-import std;
+import core;
 
 import scene_system_fwd;
 

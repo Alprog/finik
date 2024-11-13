@@ -1,9 +1,9 @@
 export module render_context;
 
+import core;
 import dx;
 import render_system_fwd;
 import render_command;
-import math;
 
 export class RenderContext
 {

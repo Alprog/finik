@@ -1,6 +1,6 @@
 export module scene_view;
 
-import std;
+import core;
 import render_lane;
 import view;
 import camera;

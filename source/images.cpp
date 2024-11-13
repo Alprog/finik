@@ -2,8 +2,6 @@ module;
 #include "png.h"
 module images;
 
-import std;
-
 #define PNGSIGSIZE 8
 
 Texel& Image::getTexel(int x, int y)

@@ -1,7 +1,6 @@
 export module gpu_profiler;
 
-import types;
-import std;
+import core;
 import render_system_fwd;
 import dx;
 

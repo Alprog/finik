@@ -1,7 +1,6 @@
-module;
-import std;
 export module lane;
 
+import core;
 import timebox;
 
 export namespace finik::profiler

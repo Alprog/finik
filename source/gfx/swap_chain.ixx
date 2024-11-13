@@ -2,11 +2,10 @@ module;
 class DesktopWindow;
 export module swap_chain;
 
-import types;
+import core;
 import dx;
 import descriptor_handle;
 import render_system_fwd;
-import std;
 import render_target;
 
 export constexpr int NUM_BACK_BUFFER = 3;

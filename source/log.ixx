@@ -1,6 +1,6 @@
 export module log;
 
-import std;
+import core;
 
 export void log_impl(std::string text);
 

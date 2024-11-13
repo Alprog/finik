@@ -5,7 +5,6 @@ module scene_view;
 import app;
 import imgui;
 import render_system;
-import int_size;
 import descriptor_handle;
 import log;
 import scene;

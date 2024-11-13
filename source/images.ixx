@@ -1,7 +1,6 @@
 export module images;
 
-import std;
-import path;
+import core;
 import texel;
 
 export class Image

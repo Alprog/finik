@@ -1,7 +1,5 @@
 module mesh;
 
-import math;
-
 Mesh* createCubeMesh()
 {
     auto mesh = new Mesh();

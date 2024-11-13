@@ -1,8 +1,6 @@
 export module flamegraph;
 
-import types;
-import std;
-import math;
+import core;
 import timebox;
 
 export namespace finik

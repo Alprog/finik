@@ -1,5 +1,6 @@
 export module render_state;
 
+import core;
 import render_system_fwd;
 import pipeline_settings;
 

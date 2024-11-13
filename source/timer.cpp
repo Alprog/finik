@@ -2,9 +2,6 @@ module;
 #include <Windows.h>
 module timer;
 
-import types;
-import std;
-
 uint64 startTimestamp;
 uint64 cpuFrequency;
 uint64 gpuFrequency;

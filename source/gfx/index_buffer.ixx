@@ -1,7 +1,7 @@
 export module index_buffer;
 
+import core;
 import dx;
-import std;
 
 export class IndexBuffer
 {

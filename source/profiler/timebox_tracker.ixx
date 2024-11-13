@@ -1,6 +1,6 @@
 export module timebox_tracker;
 
-import std;
+import core;
 
 export namespace finik::profiler
 {

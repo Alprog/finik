@@ -3,9 +3,7 @@ module;
 #include <d3dcompiler.h>
 module shader;
 
-import types;
 import blob;
-import path;
 
 Shader::Shader(Path path, ShaderType type, const std::string& entryPoint)
     : type{ type }

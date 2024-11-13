@@ -1,7 +1,6 @@
 module scene;
 
 import app;
-import math;
 import render_system;
 import render_state;
 import mesh;

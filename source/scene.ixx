@@ -5,8 +5,7 @@ import pipeline_state;
 import render_system_fwd;
 import scene_system_fwd;
 
-import math;
-import std;
+import core;
 import actor;
 import grid;
 import texture;
