@@ -234,7 +234,10 @@
     <ClCompile Include="input_system.ixx" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="log.ixx" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="material.ixx" />
+    <ClCompile Include="material_manager.cpp" />
+    <ClCompile Include="material_manager.ixx" />
     <ClCompile Include="mesh.ixx" />
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="mesh_builder.ixx" />

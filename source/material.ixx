@@ -4,7 +4,7 @@ import core;
 import texture;
 import texture_id;
 
-export class Material
+export class MaterialData
 {
     Color ColorA;
     Color ColorB;
@@ -16,4 +16,15 @@ export class Material
     TextureId TextureD;
 };
 
-static_assert(sizeof(Material) == 80);
+export class Material
+{
+    Material();
+    ~Material();
+
+    std::vector<Color> Colors;
+    std::vector<Texture> Textures;
+
+    int32 Index;
+};
+
+static_assert(sizeof(MaterialData) == 80);
