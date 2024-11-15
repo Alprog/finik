@@ -147,6 +147,7 @@
     <ClCompile Include="console_view.cpp" />
     <ClCompile Include="console_view.ixx" />
     <ClCompile Include="core.ixx" />
+    <ClCompile Include="core\color.ixx" />
     <ClCompile Include="core\math\int_size.ixx" />
     <ClCompile Include="core\math\math.ixx" />
     <ClCompile Include="core\math\matrix.cpp" />

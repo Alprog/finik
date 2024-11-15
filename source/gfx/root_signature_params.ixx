@@ -16,12 +16,17 @@ export struct FrameConstantBuffer
 
 export enum RootSignatureParams
 {
-    MeshConstantBufferView = 0,
-    FrameConstantBufferView = 1,
-    TextureView1 = 2,
-    TextureView2 = 3,
-    TextureArray = 4,
-    MaterialInlineConstants = 5,
+    // permanent
+    UnboundTextureTable,
+    MaterialsConstantBufferView,
+
+    // per frame
+    FrameConstantBufferView,
+    
+    // per draw
+    MeshConstantBufferView,
+    TextureView1,
+    MaterialInlineConstants,
     
     Count
 };

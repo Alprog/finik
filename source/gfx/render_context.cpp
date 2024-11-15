@@ -17,8 +17,7 @@ void RenderContext::draw(RenderCommand renderCommand)
     constantBuffer->update();
 
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
-
+    
     uint32 TextureId = renderCommand.texture2->descriptorHandle.getIndex();
     commandList.SetGraphicsRoot32BitConstant(RootSignatureParams::MaterialInlineConstants, TextureId, 0);
 
