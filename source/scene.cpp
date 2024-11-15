@@ -122,19 +122,19 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);
     
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     
     CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::UnboundTextureTable, startHandle);
 
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 
-
     for (auto& actor : actors)
     {
         renderContext.setModelMatrix(actor->transformMatrix);
+        renderContext.setMaterial(*actor->material);
         renderContext.drawMesh(actor->mesh);
     }
 
+    renderContext.setMaterial(*grid->material);
     renderContext.draw(renderCommand2);
 }

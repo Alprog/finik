@@ -25,7 +25,6 @@ export enum RootSignatureParams
     
     // per draw
     MeshConstantBufferView,
-    TextureView1,
     MaterialInlineConstants,
     
     Count

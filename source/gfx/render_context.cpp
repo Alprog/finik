@@ -15,11 +15,7 @@ void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
     GpuBuffer<FrameConstantBuffer>* constantBuffer = renderCommand.state->constantBuffer;
-    
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
-    
-    uint32 TextureId = renderCommand.texture2->descriptorHandle.getIndex();
-    commandList.SetGraphicsRoot32BitConstant(RootSignatureParams::MaterialInlineConstants, TextureId, 0);
+   
 
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 
@@ -44,4 +40,9 @@ void RenderContext::setModelMatrix(const Matrix& matrix)
     meshConstantBuffer.Data->Model = matrix;
 
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MeshConstantBufferView, meshConstantBuffer.GpuAddress);
+}
+
+void RenderContext::setMaterial(const Material& material)
+{
+    commandList.SetGraphicsRoot32BitConstant(RootSignatureParams::MaterialInlineConstants, material.Index, 0);
 }
