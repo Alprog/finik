@@ -17,8 +17,8 @@ import allocation;
 
 Scene::Scene()
 {
-    texture = new Texture("C:/finik/source/skullbox.png");
-    cellTexture = new Texture("C:/finik/source/cell.png");
+    texture = new Texture("C:/finik/textures/skullbox.png");
+    cellTexture = new Texture("C:/finik/textures/cell.png");
     grid = new Grid();
 
     actors.push_back(new Actor());
@@ -76,7 +76,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     {
         renderCommand.mesh = createCubeMesh();
 
-        auto path = "C:/finik/source/shadersTextured.hlsl";
+        auto path = "C:/finik/shaders/shadersTextured.hlsl";
         renderCommand.state = new RenderState();
         renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
@@ -88,7 +88,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     {
         renderCommand2.mesh = grid->mesh;
 
-        auto path = "C:/finik/source/grid.hlsl";
+        auto path = "C:/finik/shaders/grid.hlsl";
         renderCommand2.state = new RenderState();       
         renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));

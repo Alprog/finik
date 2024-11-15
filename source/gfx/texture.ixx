@@ -4,8 +4,9 @@ import core;
 import dx;
 import descriptor_handle;
 import images;
+import gpu_resource;
 
-export class Texture
+export class Texture : public GpuResource
 {
 public:
     Texture(int width, int height);
@@ -15,7 +16,6 @@ public:
     void setData(Image& image);
 
 public:
-    MyPtr<ID3D12Resource> resource;
     int Width;
     int Height;
 

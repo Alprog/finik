@@ -42,7 +42,7 @@ Texture::Texture(int width, int height)
         &textureDesc,
         D3D12_RESOURCE_STATE_COPY_DEST,
         nullptr,
-        IID_PPV_ARGS(&resource)) MUST;
+        IID_PPV_ARGS(&InternalResource)) MUST;
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -52,7 +52,7 @@ Texture::Texture(int width, int height)
 
     DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
     descriptorHandle = heap->getNextHandle();
-    device->CreateShaderResourceView(resource.Get(), &srvDesc, descriptorHandle.getCPU());
+    device->CreateShaderResourceView(InternalResource, &srvDesc, descriptorHandle.getCPU());
 }
 
 Texture::Texture(Image& image)
@@ -81,7 +81,7 @@ void Texture::setData(Image& image)
 
     auto& commandQueue = renderSystem.get_command_queue();
 
-    const uint64 uploadBufferSize = GetRequiredIntermediateSize(resource.Get(), 0, 1);
+    const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
 
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
     memcpy(uploadBuffer.GetData(), image.data, uploadBufferSize);
@@ -98,13 +98,13 @@ void Texture::setData(Image& image)
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcFootprint;
     uint32 numRows;
     uint64 rowSizeInBytes, totalBytes;
-    device->GetCopyableFootprints(&resource.Get()->GetDesc(), 0, 1, 0, &srcFootprint, &numRows, &rowSizeInBytes, &totalBytes);
+    device->GetCopyableFootprints(&InternalResource->GetDesc(), 0, 1, 0, &srcFootprint, &numRows, &rowSizeInBytes, &totalBytes);
 
     const CD3DX12_TEXTURE_COPY_LOCATION Src(uploadBuffer.GetResource(), srcFootprint);
-    const CD3DX12_TEXTURE_COPY_LOCATION Dst(resource.Get(), 0);
+    const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
     commandList->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
-    commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+    commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
     commandList->Close();
     ID3D12CommandList* ppCommandLists[] = { commandList };
     commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);

@@ -1,8 +1,8 @@
 module;
 #include "asserts.h"
-module resource;
+module gpu_resource;
 
-Resource::~Resource()
+GpuResource::~GpuResource()
 {
     int32 Result = InternalResource->Release();
     ASSERT(Result == 0);

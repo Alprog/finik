@@ -1,12 +1,13 @@
-export module resource;
+export module gpu_resource;
 
 import core;
 import dx;
 
-export class Resource
+export class GpuResource
 {
 public:
-    virtual ~Resource();
+    virtual ~GpuResource();
 
+protected:
     ID3D12Resource* InternalResource;
 };

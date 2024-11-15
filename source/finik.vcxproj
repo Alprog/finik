@@ -262,6 +262,8 @@
     <ClCompile Include="stats_view.ixx" />
     <ClCompile Include="texel.cpp" />
     <ClCompile Include="texel.ixx" />
+    <ClCompile Include="texture_id.ixx" />
+    <ClCompile Include="texture_id.cpp" />
     <ClCompile Include="texture_view.cpp" />
     <ClCompile Include="texture_view.ixx" />
     <ClCompile Include="tile_map.cpp" />
