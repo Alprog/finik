@@ -14,6 +14,7 @@ import grid;
 import camera;
 import oneshot_allocator;
 import allocation;
+import descriptor_heap;
 
 Scene::Scene()
 {
@@ -62,7 +63,7 @@ ConstantBuffer* getConstantBuffer(Camera* camera)
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
-    auto& renderSystem = App::get_instance().render_system;
+    RenderSystem& renderSystem = App::get_instance().render_system;
 
     int32 frameIndex = App::get_instance().getFrameIndex();
     int32 size = sizeof(ConstantBuffer::data);
@@ -117,7 +118,9 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
-    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView2, renderCommand.texture2->descriptorHandle.getGPU());
+    
+    CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureArray, startHandle);
 
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 

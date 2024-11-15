@@ -20,7 +20,8 @@ export enum RootSignatureParams
     FrameConstantBufferView = 1,
     TextureView1 = 2,
     TextureView2 = 3,
-    TestConstantBufferView = 4,
+    TextureArray = 4,
+    MaterialInlineConstants = 5,
     
     Count
 };

@@ -24,8 +24,10 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
         rootParameters[RootSignatureParams::TextureView2].InitAsDescriptorTable(
             1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1), D3D12_SHADER_VISIBILITY_PIXEL); // t1
 
-        rootParameters[RootSignatureParams::TestConstantBufferView].InitAsDescriptorTable(
-            1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 2), D3D12_SHADER_VISIBILITY_PIXEL); // b2
+        rootParameters[RootSignatureParams::MaterialInlineConstants].InitAsConstants(1, 2); // b2
+
+        rootParameters[RootSignatureParams::TextureArray].InitAsDescriptorTable(
+            1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 1), D3D12_SHADER_VISIBILITY_PIXEL); // t0, space1
 
         D3D12_STATIC_SAMPLER_DESC sampler = {};
         sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;

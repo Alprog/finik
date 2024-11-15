@@ -35,8 +35,8 @@ Shader::Shader(Path path, ShaderType type, const std::string& entryPoint)
 
     auto& source = fileBlob.asString();
 
-    auto target = type == ShaderType::Vertex ? "vs_5_0" : "ps_5_0";
-    uint32 compileFlags = 0;
+    auto target = type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
+    uint32 compileFlags = D3DCOMPILE_ENABLE_UNBOUNDED_DESCRIPTOR_TABLES;
 
     ID3DBlob* errorBlob = nullptr;
     

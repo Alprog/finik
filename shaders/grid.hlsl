@@ -16,10 +16,6 @@ struct PSInput
 	uint2 coord : TEXCOORD2;
 };
 
-Texture2D g_texture : register(t0);
-SamplerState g_sampler : register(s0);
-Texture2D gridTexture : register(t1);
-
 PSInput VSMain(VSInput input)
 {
 	PSInput result;
@@ -40,7 +36,7 @@ float4 PSMain(PSInput input) : SV_TARGET
 		return 1;
 
 	
-	float3 fillColor = gridTexture.Sample(g_sampler, float2(input.coord) / 256).rgb;
+	float3 fillColor = textures[TextureId].Sample(g_sampler, float2(input.coord) / 256).rgb;
 	float3 borderColor = g_texture.Sample(g_sampler, input.uv).rgb;
 	
 	return float4(fillColor + borderColor, 1);	
