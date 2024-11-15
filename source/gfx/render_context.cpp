@@ -3,6 +3,7 @@ module render_context;
 import constant_buffer;
 import pipeline_state;
 import render_system;
+import root_signature_params;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
@@ -13,9 +14,8 @@ RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandLi
 void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
-    ConstantBuffer* constantBuffer = renderCommand.state->constantBuffer;
-    constantBuffer->update();
-
+    GpuBuffer<FrameConstantBuffer>* constantBuffer = renderCommand.state->constantBuffer;
+    
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     
     uint32 TextureId = renderCommand.texture2->descriptorHandle.getIndex();

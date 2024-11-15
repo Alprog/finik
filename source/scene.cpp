@@ -42,9 +42,9 @@ void Scene::update(float deltaTime)
     }
 }
 
-ConstantBuffer* getConstantBuffer(Camera* camera)
+GpuFrameConstantBuffer* getConstantBuffer(Camera* camera)
 {
-    static std::unordered_map<Camera*, ConstantBuffer*> maps[5];
+    static std::unordered_map<Camera*, GpuFrameConstantBuffer*> maps[5];
 
     auto frameIndex = App::get_instance().profiler.getFrameIndex();
     auto& constantBuffers = maps[frameIndex % 5];
@@ -56,7 +56,7 @@ ConstantBuffer* getConstantBuffer(Camera* camera)
     }
 
     auto& renderSystem = App::get_instance().render_system;
-    auto constantBuffer = new ConstantBuffer(renderSystem);
+    auto constantBuffer = new GpuFrameConstantBuffer(renderSystem);
     constantBuffers[camera] = constantBuffer;
     return constantBuffer;
 }
@@ -66,12 +66,12 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     RenderSystem& renderSystem = App::get_instance().render_system;
 
     int32 frameIndex = App::get_instance().getFrameIndex();
-    int32 size = sizeof(ConstantBuffer::data);
+    int32 size = sizeof(GpuFrameConstantBuffer::data);
 
 
     auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstantBuffer>();
 
-    ConstantBuffer* constantBuffer = getConstantBuffer(camera);
+    GpuFrameConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
     if (!renderCommand.state)
     {
@@ -99,9 +99,8 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
-    constantBuffer->data.ViewProjection = V * P;
-    constantBuffer->version++;
-    constantBuffer->update();
+    (*constantBuffer)->ViewProjection = V * P;
+
 
     frameConstantBuffer->ViewProjection = V * P;
 
