@@ -43,6 +43,7 @@ export D3D12_TEXTURE_LAYOUT;
 export D3D12_RESOURCE_FLAGS;
 export D3D_FEATURE_LEVEL;
 export HANDLE;
+export ID3DInclude;
 
 export import d3dx;
 export import myptr;
