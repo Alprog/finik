@@ -7,6 +7,13 @@ Grid::Grid()
 {
     tileMap = new ::TileMap();
 	mesh = CreateMesh();
+
+	auto cellTexture = new Texture("C:/finik/textures/cell.png");
+
+	material = new Material("grid_material");
+	material->Textures.push_back(cellTexture);
+	material->Textures.push_back(tileMap->Texture);
+	material->RefreshBuffer();
 }
 
 Mesh* Grid::CreateMesh()

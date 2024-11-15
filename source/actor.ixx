@@ -2,6 +2,7 @@ export module actor;
 
 import math;
 import mesh;
+import material;
 
 export class Actor
 {
@@ -12,4 +13,5 @@ public:
 
     Matrix transformMatrix;
     Mesh* mesh;
+    Material* material;
 };

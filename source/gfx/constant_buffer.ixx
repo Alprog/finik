@@ -20,15 +20,25 @@ public:
 export template <typename T>
 class GpuBuffer : public GpuDataBuffer
 {
+    using Base = GpuDataBuffer;
+
 public:
     GpuBuffer(RenderSystem& renderSystem)
         : GpuDataBuffer(sizeof(T), renderSystem)
     {
+        data = reinterpret_cast<T*>(Base::data);
+    }
+
+    T* data;
+
+    T* GetData()
+    {
+        return data;
     }
 
     T* operator->()
     {
-        return reinterpret_cast<T*>(data);
+        return data;
     }
 };
 

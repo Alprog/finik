@@ -4,10 +4,24 @@ import core;
 import constant_buffer;
 import material;
 
+export using GpuMaterialsConstantBuffer = GpuBuffer<MaterialsConstantBuffer>;
+
 export class MaterialManager
 {
-    void Register(Material* material);
+public:
+    static MaterialManager& GetInstance()
+    {
+        static MaterialManager instance;
+        return instance;
+    }
+
+    MaterialManager();
+
+    int32 Register(Material* material);
     void Unregister(Material* material);
 
-    std::vector<Material*> materials;
+    void WriteToBuffer(Material* material);
+
+    std::vector<Material*> Materials;
+    GpuMaterialsConstantBuffer* ConstantBuffer;
 };

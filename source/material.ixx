@@ -4,25 +4,34 @@ import core;
 import texture;
 import texture_id;
 
-export class MaterialData
+export struct MaterialData
 {
     Color ColorA;
     Color ColorB;
     Color ColorC;
     Color ColorD;
-    TextureId TextureA;
-    TextureId TextureB;
-    TextureId TextureC;
-    TextureId TextureD;
+    int32 TextureA;
+    int32 TextureB;
+    int32 TextureC;
+    int32 TextureD;
+};
+
+export struct MaterialsConstantBuffer
+{
+    MaterialData Materials[80];
 };
 
 export class Material
 {
-    Material();
+public:
+    Material(std::string name);
     ~Material();
 
+    void RefreshBuffer();
+
+    std::string Name;
     std::vector<Color> Colors;
-    std::vector<Texture> Textures;
+    std::vector<Texture*> Textures;
 
     int32 Index;
 };

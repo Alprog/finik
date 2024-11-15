@@ -15,6 +15,8 @@ import camera;
 import oneshot_allocator;
 import allocation;
 import descriptor_heap;
+import material_manager;
+import upload_buffer;
 
 Scene::Scene()
 {
@@ -115,6 +117,10 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
     commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
+    
+    auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);
+    
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::TextureView1, renderCommand.texture->descriptorHandle.getGPU());
     
