@@ -31,7 +31,7 @@ public:
 
     std::string Name;
     std::vector<Color> Colors;
-    std::vector<Texture*> Textures;
+    std::vector<std::shared_ptr<Texture>> Textures;
 
     int32 Index;
 };

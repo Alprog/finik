@@ -61,8 +61,8 @@ Texture::Texture(Image& image)
     setData(image);
 }
 
-Texture::Texture(std::string filePath)
-    : Texture(*Images::loadPng(filePath))
+Texture::Texture(Path path)
+    : Texture(*Images::loadPng(path))
 {
 }
 

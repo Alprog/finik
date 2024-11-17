@@ -23,8 +23,6 @@ public:
 
     RenderCommand renderCommand;
     RenderCommand renderCommand2;
-    Texture* texture;
-    Texture* cellTexture;
    
     Ray hoverRay;
     Vector3 castedPos;

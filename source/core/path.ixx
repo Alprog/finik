@@ -24,6 +24,9 @@ public:
     friend Path operator+(const Path& lhs, const Path& rhs);
     Path& operator+=(const Path& rhs);
 
+    friend Path operator/(const Path& lhs, const Path& rhs);
+    Path& operator/=(const Path& rhs);
+
     Path getParentPath() const;
 
     std::string getName() const;
@@ -56,12 +59,12 @@ public:
         return canonicalPath.c_str();
     }
 
-    inline friend bool operator ==(const Path& lhs, const Path& rhs)
+    inline friend bool operator==(const Path& lhs, const Path& rhs)
     {
         return lhs.canonicalPath == rhs.canonicalPath;
     }
 
-    inline friend bool operator !=(const Path& lhs, const Path& rhs)
+    inline friend bool operator!=(const Path& lhs, const Path& rhs)
     {
         return lhs.canonicalPath != rhs.canonicalPath;
     }

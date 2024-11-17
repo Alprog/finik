@@ -2,6 +2,8 @@ module;
 #include "png.h"
 module images;
 
+import blob;
+
 #define PNGSIGSIZE 8
 
 Texel& Image::getTexel(int x, int y)
@@ -54,54 +56,57 @@ void readData(png_structp pngPtr, png_bytep data, png_size_t length)
 
 Image* Images::loadPng(Path path)
 {
-    std::ifstream fstream { path, std::ios::binary };
-    if (fstream.is_open())
+    Blob blob(path);
+    return loadPng(blob);
+}
+
+Image* Images::loadPng(Blob& blob)
+{
+    std::istringstream inputStream(blob.asString());
+    if (validate(inputStream))
     {
-        if (validate(fstream))
+        auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+        auto infoPtr = png_create_info_struct(pngPtr);
+
+        if (setjmp(png_jmpbuf(pngPtr)))
         {
-            auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            auto infoPtr = png_create_info_struct(pngPtr);
-
-            if (setjmp(png_jmpbuf(pngPtr)))
-            {
-                return nullptr;
-            }
-
-            png_set_read_fn(pngPtr, (png_voidp)&fstream, readData);
-
-            png_set_sig_bytes(pngPtr, PNGSIGSIZE);
-            png_read_info(pngPtr, infoPtr);
-
-            auto imgWidth = png_get_image_width(pngPtr, infoPtr);
-            auto imgHeight = png_get_image_height(pngPtr, infoPtr);
-            auto bitdepth = png_get_bit_depth(pngPtr, infoPtr);
-            auto channels = png_get_channels(pngPtr, infoPtr);
-            auto color_type = png_get_color_type(pngPtr, infoPtr);
-
-            printf("width %i, heigth %i, bitdepth %i, channels %i, type %i",
-                   imgWidth, imgHeight, bitdepth, channels, color_type);
-            fflush(stdout);
-
-            const unsigned int stride = imgWidth * bitdepth * channels / 8;
-
-            auto image = new Image();
-            image->width = imgWidth;
-            image->height = imgHeight;
-            image->data = new Texel[imgWidth * imgHeight];
-
-            auto rowPtrs = new png_bytep[imgHeight];
-            for (size_t i = 0; i < imgHeight; i++)
-            {
-                rowPtrs[i] = (png_bytep)image->data + i * stride;
-            }
-
-            png_read_image(pngPtr, rowPtrs);
-
-            delete[] (png_bytep)rowPtrs;
-            png_destroy_read_struct(&pngPtr, &infoPtr, nullptr);
-
-            return image;
+            return nullptr;
         }
+
+        png_set_read_fn(pngPtr, (png_voidp)&inputStream, readData);
+
+        png_set_sig_bytes(pngPtr, PNGSIGSIZE);
+        png_read_info(pngPtr, infoPtr);
+
+        auto imgWidth = png_get_image_width(pngPtr, infoPtr);
+        auto imgHeight = png_get_image_height(pngPtr, infoPtr);
+        auto bitdepth = png_get_bit_depth(pngPtr, infoPtr);
+        auto channels = png_get_channels(pngPtr, infoPtr);
+        auto color_type = png_get_color_type(pngPtr, infoPtr);
+
+        printf("width %i, heigth %i, bitdepth %i, channels %i, type %i",
+                imgWidth, imgHeight, bitdepth, channels, color_type);
+        fflush(stdout);
+
+        const unsigned int stride = imgWidth * bitdepth * channels / 8;
+
+        auto image = new Image();
+        image->width = imgWidth;
+        image->height = imgHeight;
+        image->data = new Texel[imgWidth * imgHeight];
+
+        auto rowPtrs = new png_bytep[imgHeight];
+        for (size_t i = 0; i < imgHeight; i++)
+        {
+            rowPtrs[i] = (png_bytep)image->data + i * stride;
+        }
+
+        png_read_image(pngPtr, rowPtrs);
+
+        delete[] (png_bytep)rowPtrs;
+        png_destroy_read_struct(&pngPtr, &infoPtr, nullptr);
+
+        return image;
     }
 
     return nullptr;

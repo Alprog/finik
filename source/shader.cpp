@@ -9,7 +9,7 @@ class IncludeHandler : public ID3DInclude {
 public:
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override {
         
-        Path path = Path::combine("C:/finik/shaders", pFileName);
+        Path path = Path("C:/finik/shaders") / pFileName;
         
         Blob fileBlob(path);
 

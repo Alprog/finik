@@ -10,6 +10,6 @@ public:
     TileMap();
 
     Image* Image;
-    Texture* Texture;
+    std::shared_ptr<Texture> Texture;
     bool Changed;
 };

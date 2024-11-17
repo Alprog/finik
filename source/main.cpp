@@ -1,5 +1,6 @@
 #include "SDL.h"
 
+import core;
 import app;
 import timer;
 import scene_view;
@@ -11,6 +12,7 @@ import scene;
 import gui;
 import desktop_window;
 import desktop_system;
+import assets_view;
 
 int main(int argc, char* argv[])
 {
@@ -32,6 +34,8 @@ int main(int argc, char* argv[])
     window->gui->views.push_back(std::make_unique<StatsView>("statsView", *sceneView));
 
     window->gui->views.push_back(std::make_unique<ProfilerView>("profilerView"));
+
+    window->gui->views.push_back(std::make_unique<AssetsView>("assetsView"));
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;

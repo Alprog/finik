@@ -2,6 +2,7 @@ export module images;
 
 import core;
 import texel;
+import blob;
 
 export class Image
 {
@@ -20,4 +21,5 @@ public:
 export namespace Images
 {
     Image* loadPng(Path path);
+    Image* loadPng(Blob& blob);
 }

@@ -20,8 +20,6 @@ import upload_buffer;
 
 Scene::Scene()
 {
-    texture = new Texture("C:/finik/textures/skullbox.png");
-    cellTexture = new Texture("C:/finik/textures/cell.png");
     grid = new Grid();
 
     actors.push_back(new Actor());
@@ -83,8 +81,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand.state = new RenderState();
         renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
-        renderCommand.texture = texture;
-        renderCommand.texture2 = grid->tileMap->Texture;
     }
 
     if (!renderCommand2.state)
@@ -95,8 +91,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderCommand2.state = new RenderState();       
         renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
-        renderCommand2.texture = cellTexture;
-        renderCommand2.texture2 = grid->tileMap->Texture;
     }
 
     auto V = camera->viewMatrix;

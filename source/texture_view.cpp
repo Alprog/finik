@@ -16,7 +16,7 @@ TextureView::TextureView(const char* name, Scene& scene)
 
 void TextureView::draw_content()
 {
-    auto* Texture = scene.grid->tileMap->Texture;
+    auto Texture = scene.grid->tileMap->Texture;
     D3D12_GPU_DESCRIPTOR_HANDLE handle = Texture->descriptorHandle.getGPU();
 
     ImTextureID textureId = (void*)handle.ptr;

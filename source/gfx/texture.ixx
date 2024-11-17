@@ -11,7 +11,7 @@ export class Texture : public GpuResource
 public:
     Texture(int width, int height);
     Texture(Image& image);
-    Texture(std::string filePath);
+    Texture(Path path);
 
     void setData(Image& image);
 

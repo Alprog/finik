@@ -11,5 +11,5 @@ TileMap::TileMap()
     Image->data = new Texel[Image->width * Image->height];
     Image->generateChessboard();
 
-    Texture = new ::Texture(*Image);
+    Texture = std::make_shared<::Texture>(*Image);
 }

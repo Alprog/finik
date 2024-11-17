@@ -160,6 +160,17 @@ Path& Path::operator+=(const Path& rhs)
     return *this;
 }
 
+Path operator/(const Path& lhs, const Path& rhs)
+{
+    return Path::combine(lhs, rhs);
+}
+
+Path& Path::operator/=(const Path& rhs)
+{
+    append(rhs.canonicalPath);
+    return *this;
+}
+
 Path Path::getParentPath() const
 {
     auto index = canonicalPath.find_last_of("/");
