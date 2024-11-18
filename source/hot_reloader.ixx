@@ -2,6 +2,7 @@ export module hot_reloader;
 
 import core;
 import blob;
+import file_watcher;
 
 export class HotReloader : public Singleton<HotReloader>
 {
@@ -20,9 +21,17 @@ public:
 
     void Update()
     {
-
+        for (auto& changedPath : FileWatcher::GetInstance().ChangedFiles)
+        {
+            auto it = Callbacks.find(changedPath);
+            if (it != std::end(Callbacks))
+            {
+                Blob blob(changedPath);
+                it->second(blob);
+            }
+        }
+        FileWatcher::GetInstance().ChangedFiles.clear();
     }
 
-    std::unordered_set<Path> ChangedFiles;
     std::unordered_map<Path, Callback> Callbacks;
 };

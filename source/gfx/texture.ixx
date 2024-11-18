@@ -24,5 +24,7 @@ public:
     int Width;
     int Height;
 
+    D3D12_RESOURCE_STATES state;
+
     DescriptorHandle descriptorHandle;
 };

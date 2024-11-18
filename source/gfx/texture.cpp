@@ -44,6 +44,8 @@ Texture::Texture(int width, int height)
         nullptr,
         IID_PPV_ARGS(&InternalResource)) MUST;
 
+    state = D3D12_RESOURCE_STATE_COPY_DEST;
+
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Format = textureDesc.Format;
@@ -73,7 +75,11 @@ Texture::Texture(Blob& blob)
 
 void Texture::HotReload(Blob& blob)
 {
-
+    Image* image = Images::loadPng(blob);
+    if (image->width == Width && image->height == Height)
+    {
+        setData(*image);
+    }
 }
 
 void Texture::setData(Image& image)
@@ -105,6 +111,11 @@ void Texture::setData(Image& image)
     commandList->Reset(commandAllocator, nullptr);
     //UpdateSubresources(commandList, texture.Get(), uploadBuffer.GetResource(), 0, 0, 1, &textureData);
 
+    if (state == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
+    {
+        commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST));
+    }
+
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcFootprint;
     uint32 numRows;
     uint64 rowSizeInBytes, totalBytes;
@@ -119,4 +130,6 @@ void Texture::setData(Image& image)
     ID3D12CommandList* ppCommandLists[] = { commandList };
     commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
     commandQueue.Flush();
+
+    state = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 }

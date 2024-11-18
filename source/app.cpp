@@ -12,6 +12,7 @@ import descriptor_heap;
 import gui;
 import desktop_window;
 import file_watcher;
+import hot_reloader;
 
 App& App::GetInstance()
 {
@@ -64,6 +65,7 @@ void App::run_game_loop()
         float deltaTime = profiler.getDeltaTime();
 
         FileWatcher::GetInstance().Update();
+        HotReloader::GetInstance().Update();
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
         render_system.get_command_queue().freeCompletedLists();
