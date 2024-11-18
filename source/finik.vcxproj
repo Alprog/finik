@@ -169,6 +169,7 @@
     <ClCompile Include="core\math\vector4.ixx" />
     <ClCompile Include="core\path.cpp" />
     <ClCompile Include="core\path.ixx" />
+    <ClCompile Include="core\singleton.ixx" />
     <ClCompile Include="core\types.ixx" />
     <ClCompile Include="core\utils.ixx" />
     <ClCompile Include="d3dx.ixx" />
@@ -177,6 +178,7 @@
     <ClCompile Include="desktop_window.ixx" />
     <ClCompile Include="dx.ixx" />
     <ClCompile Include="assets.ixx" />
+    <ClCompile Include="file_watcher.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="flamegraph.ixx" />
     <ClCompile Include="gfx\command_list.cpp" />
@@ -232,6 +234,7 @@
     <ClCompile Include="grid.ixx" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="gui.ixx" />
+    <ClCompile Include="hot_reloader.ixx" />
     <ClCompile Include="images.cpp" />
     <ClCompile Include="images.ixx" />
     <ClCompile Include="imgui.ixx" />

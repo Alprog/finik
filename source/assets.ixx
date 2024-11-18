@@ -4,6 +4,7 @@ import core;
 import texture;
 import shader;
 import asset_path;
+import hot_reloader;
 
 export class Assets
 {
@@ -30,6 +31,11 @@ public:
         }
 
         auto texture = std::make_shared<Texture>(path);
+
+        HotReloader::GetInstance().Add(path, [](auto& blob) {
+            //
+        });
+
         Textures[path] = texture;
         return texture;
     }
