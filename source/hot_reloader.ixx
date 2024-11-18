@@ -11,9 +11,6 @@ public:
     void Add(Path filePath, const Callback& Callback)
     {
         Callbacks[filePath] = Callback;
-    
-        
-;
     }
 
     void Remove(Path filePath)

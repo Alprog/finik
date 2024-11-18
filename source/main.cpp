@@ -14,6 +14,8 @@ import desktop_window;
 import desktop_system;
 import assets_view;
 
+import file_watcher;
+
 int main(int argc, char* argv[])
 {
     initTimer();

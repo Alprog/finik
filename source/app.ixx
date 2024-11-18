@@ -17,8 +17,10 @@ private:
 
 public:
     void run_game_loop();
-
     int getFrameIndex();
+
+private:
+    void handle_input();
 
 public:
     DesktopSystem desktop_system;

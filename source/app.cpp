@@ -11,11 +11,12 @@ import timebox_tracker;
 import descriptor_heap;
 import gui;
 import desktop_window;
+import file_watcher;
 
 App& App::GetInstance()
 {
-    static App theApp;
-    return theApp;
+    static App instance;
+    return instance;
 }
 
 App::App()
@@ -27,10 +28,8 @@ App::App()
 {
 }
 
-void handle_input()
+void App::handle_input()
 {
-    auto& desktop_system = App::GetInstance().desktop_system;
-
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -63,6 +62,8 @@ void App::run_game_loop()
         Profile _("frame");
 
         float deltaTime = profiler.getDeltaTime();
+
+        FileWatcher::GetInstance().Update();
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
         render_system.get_command_queue().freeCompletedLists();

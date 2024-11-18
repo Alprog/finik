@@ -5,6 +5,7 @@ import texture;
 import shader;
 import asset_path;
 import hot_reloader;
+import file_watcher;
 
 export class Assets
 {
@@ -20,6 +21,8 @@ public:
     Assets()
     {
         AssetDirectory = toStr(std::filesystem::current_path().c_str());
+
+        FileWatcher::GetInstance().WatchDirectory("C:/finik/textures");
     }
 
     std::shared_ptr<Texture> GetTexture(AsssetPath path)
