@@ -12,7 +12,7 @@ import descriptor_heap;
 import gui;
 import desktop_window;
 
-App& App::get_instance()
+App& App::GetInstance()
 {
     static App theApp;
     return theApp;
@@ -29,7 +29,7 @@ App::App()
 
 void handle_input()
 {
-    auto& desktop_system = App::get_instance().desktop_system;
+    auto& desktop_system = App::GetInstance().desktop_system;
 
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -54,7 +54,7 @@ void handle_input()
 
 void App::run_game_loop()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     profiler.start();
 
@@ -74,7 +74,7 @@ void App::run_game_loop()
             handle_input();
         }
 
-        if (App::get_instance().desktop_system.windows.empty())
+        if (App::GetInstance().desktop_system.windows.empty())
         {
             break;
         }

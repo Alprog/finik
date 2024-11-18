@@ -10,7 +10,7 @@ import desktop_system;
 export class App
 {
 public:
-    static App& get_instance();
+    static App& GetInstance();
 
 private:
     App();

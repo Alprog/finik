@@ -46,7 +46,7 @@ GpuFrameConstantBuffer* getConstantBuffer(Camera* camera)
 {
     static std::unordered_map<Camera*, GpuFrameConstantBuffer*> maps[5];
 
-    auto frameIndex = App::get_instance().profiler.getFrameIndex();
+    auto frameIndex = App::GetInstance().profiler.getFrameIndex();
     auto& constantBuffers = maps[frameIndex % 5];
 
     auto it = constantBuffers.find(camera);
@@ -55,7 +55,7 @@ GpuFrameConstantBuffer* getConstantBuffer(Camera* camera)
         return it->second;
     }
 
-    auto& renderSystem = App::get_instance().render_system;
+    auto& renderSystem = App::GetInstance().render_system;
     auto constantBuffer = new GpuFrameConstantBuffer(renderSystem);
     constantBuffers[camera] = constantBuffer;
     return constantBuffer;
@@ -63,9 +63,9 @@ GpuFrameConstantBuffer* getConstantBuffer(Camera* camera)
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
-    RenderSystem& renderSystem = App::get_instance().render_system;
+    RenderSystem& renderSystem = App::GetInstance().render_system;
 
-    int32 frameIndex = App::get_instance().getFrameIndex();
+    int32 frameIndex = App::GetInstance().getFrameIndex();
     int32 size = sizeof(GpuFrameConstantBuffer::data);
 
 

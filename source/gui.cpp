@@ -26,7 +26,7 @@ Gui::Gui(DesktopWindow& window)
     // Setup Platform/Renderer backends
     ImGui_ImplSDL2_InitForD3D(window.get_impl());
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     render_system.ImguiInitHelper();
 }
 

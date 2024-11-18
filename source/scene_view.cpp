@@ -17,7 +17,7 @@ SceneView::SceneView(const char* name, Scene& scene)
 {
     renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{ 1024, 800 });
 
-    auto& lanes = App::get_instance().render_system.lanes;
+    auto& lanes = App::GetInstance().render_system.lanes;
     lanes.push_back(renderLane);
 }
 

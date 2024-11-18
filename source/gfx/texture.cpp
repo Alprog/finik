@@ -14,7 +14,7 @@ Texture::Texture(int width, int height)
     : Width{ width }
     , Height{ height }
 {
-    auto& renderSystem = App::get_instance().render_system;
+    auto& renderSystem = App::GetInstance().render_system;
 
     auto device = renderSystem.get_device();
     auto commandList = renderSystem.get_command_list();
@@ -70,7 +70,7 @@ void Texture::setData(Image& image)
 {
     //image->generateChessboard();
 
-    auto& renderSystem = App::get_instance().render_system;
+    auto& renderSystem = App::GetInstance().render_system;
 
     auto device = renderSystem.get_device();
     auto commandList = renderSystem.get_command_list();

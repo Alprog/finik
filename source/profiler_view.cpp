@@ -6,7 +6,7 @@ import flamegraph;
 
 void ProfilerView::draw_content()
 {
-    auto& profiler = App::get_instance().profiler;
+    auto& profiler = App::GetInstance().profiler;
     ImGui::Text("frame: %i", profiler.getFrameIndex());
     ImGui::Text("deltaTime: %f", profiler.getDeltaTime());
     ImGui::Text("FPS: %f", profiler.getFPS());

@@ -35,7 +35,7 @@ SwapChain::SwapChain(DesktopWindow& window)
         sd.Stereo = FALSE;
     }
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     {
         MyPtr<IDXGIFactory3> dxgiFactory;
@@ -78,7 +78,7 @@ SwapChain::~SwapChain()
 
 void SwapChain::CreateRenderTargets()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     for (uint32 i = 0; i < NUM_BACK_BUFFER; i++)
     {
@@ -107,7 +107,7 @@ void SwapChain::CreateRenderTarget()
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -137,7 +137,7 @@ void SwapChain::CreateDepthStencil()
     clearValue.DepthStencil.Depth = 1.0f;
     clearValue.DepthStencil.Stencil = 0;
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     auto result = render_system.get_device()->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
@@ -184,7 +184,7 @@ FrameContext* SwapChain::WaitForNextFrameResources()
     //HANDLE waitableObjects[] = { hSwapChainWaitableObject, nullptr };
     //DWORD numWaitableObjects = 1;
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     FrameContext* frameCtx = &frameContext[nextFrameIndex % NUM_FRAMES_IN_FLIGHT];
     uint64 fenceValue = frameCtx->FenceValue;
@@ -203,7 +203,7 @@ FrameContext* SwapChain::WaitForNextFrameResources()
 
 void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     current_frame_ctx = WaitForNextFrameResources();
 
@@ -256,20 +256,20 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
     barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
     command_list->ResourceBarrier(1, &barrier);
 
-    //App::get_instance().render_system.getProfiler()->addStamp(*command_list, "end");
+    //App::GetInstance().render_system.getProfiler()->addStamp(*command_list, "end");
     
     command_list->Close();
 }
 
 void SwapChain::execute(ID3D12GraphicsCommandList* command_list)
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     render_system.get_command_queue()->ExecuteCommandLists(1, (ID3D12CommandList* const*)&command_list);
 }
 
 void SwapChain::present()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     
     bool vsyncEnabled = true;
     HRESULT hr = swapChain->Present(vsyncEnabled ? 1 : 0, 0);

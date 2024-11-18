@@ -40,7 +40,7 @@ PipelineState* RenderState::getPipelineState()
         }
         else
         {
-            auto& renderSystem = App::get_instance().render_system;
+            auto& renderSystem = App::GetInstance().render_system;
             pipelineState = new PipelineState(renderSystem, pipelineSettings);
             states[pipelineSettings] = pipelineState;
         }

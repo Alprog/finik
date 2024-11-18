@@ -7,7 +7,7 @@ import render_system;
 
 void VertexBuffer::Load()
 {
-    auto device = App::get_instance().render_system.get_device();
+    auto device = App::GetInstance().render_system.get_device();
 
     const uint32 vertexBufferSize = sizeof(StandardVertex) * vertices.size();
 

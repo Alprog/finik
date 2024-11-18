@@ -10,7 +10,7 @@ CommandListPool::CommandListPool(RenderSystem& renderSystem)
 
 CommandList& CommandListPool::retrieveOne()
 {
-    auto frameIndex = App::get_instance().getFrameIndex();
+    auto frameIndex = App::GetInstance().getFrameIndex();
     
     if (freeLists.empty())
     {

@@ -45,5 +45,5 @@ MemoryPage& OneshotAllocator::CreateNewPage()
 
 int32 OneshotAllocator::GetCurrentFrame()
 {
-    return App::get_instance().getFrameIndex();
+    return App::GetInstance().getFrameIndex();
 }

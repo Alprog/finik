@@ -47,7 +47,7 @@ void DesktopWindow::renderScene()
 
     if (scene != nullptr)
     {
-        auto context = App::get_instance().render_system.getRenderContext();
+        auto context = App::GetInstance().render_system.getRenderContext();
         scene->render(*context, &camera);
     }
 }

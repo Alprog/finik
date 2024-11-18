@@ -22,7 +22,7 @@ void RenderSurface::init(IntSize resolution)
 
 void RenderSurface::createHandles()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
     textureHandle = render_system.getSrvCbvHeap()->getNextHandle();
     depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
@@ -37,7 +37,7 @@ void RenderSurface::resize(IntSize resolution)
 
 void RenderSurface::recreateRenderTarget()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
         static_cast<uint32>(resolution.width),
@@ -77,7 +77,7 @@ void RenderSurface::recreateDepthStencil()
     clearValue.DepthStencil.Depth = 1.0f;
     clearValue.DepthStencil.Stencil = 0;
 
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     auto result = render_system.get_device()->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
@@ -95,7 +95,7 @@ void RenderSurface::recreateDepthStencil()
 
 void RenderSurface::startRendering(ID3D12GraphicsCommandList* commandList)
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -151,7 +151,7 @@ void RenderLane::resize(IntSize resolution)
 {
     if (surface.resolution != resolution)
     {
-        RenderSystem& render_system = App::get_instance().render_system;
+        RenderSystem& render_system = App::GetInstance().render_system;
         render_system.get_command_queue().Flush();
 
         surface.resize(resolution);
@@ -167,7 +167,7 @@ RenderSurface& RenderLane::getSurface()
 
 void RenderLane::render()
 {
-    RenderSystem& render_system = App::get_instance().render_system;
+    RenderSystem& render_system = App::GetInstance().render_system;
     auto& commandQueue = render_system.get_command_queue();
 
     {

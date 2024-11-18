@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 {
     initTimer();
 
-    App& app = App::get_instance();
+    App& app = App::GetInstance();
 
     Scene& scene = app.scene_manager.create_scene();
     DesktopWindow* window = app.desktop_system.create_window(1024, 800);

@@ -93,7 +93,7 @@ void GpuProfiler::endFrameRange(const int readyFenceValue)
 
 void GpuProfiler::grabReadyStamps(int completedValue)
 {
-    auto& lane = App::get_instance().profiler.GetGpuLane();
+    auto& lane = App::GetInstance().profiler.GetGpuLane();
 
     while (!queue.empty() && completedValue >= queue.front().readyFenceValue)
     {
