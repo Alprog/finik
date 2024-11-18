@@ -61,8 +61,13 @@ Texture::Texture(Image& image)
     setData(image);
 }
 
-Texture::Texture(Path path)
+Texture::Texture(AsssetPath path)
     : Texture(*Images::loadPng(path))
+{
+}
+
+Texture::Texture(Blob& blob)
+    : Texture(*Images::loadPng(blob))
 {
 }
 

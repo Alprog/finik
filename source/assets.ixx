@@ -21,26 +21,28 @@ public:
     Assets()
     {
         AssetDirectory = toStr(std::filesystem::current_path().c_str());
-
-        FileWatcher::GetInstance().WatchDirectory("C:/finik/textures");
     }
 
-    std::shared_ptr<Texture> GetTexture(AsssetPath path)
+    std::shared_ptr<Texture> GetTexture(AsssetPath assetPath)
     {
-        auto it = Textures.find(path);
+        auto it = Textures.find(assetPath);
         if (it != Textures.end())
         {
             return it->second;
         }
 
-        auto texture = std::make_shared<Texture>(path);
+        auto fullFilePath = Path::combine(AssetDirectory, assetPath);
+        FileWatcher::GetInstance().WatchFile(fullFilePath);
+
+        Blob blob(fullFilePath);
+        auto texture = std::make_shared<Texture>(blob);
 
         auto texture_ptr = texture.get();
-        HotReloader::GetInstance().Add(path, [texture_ptr](auto& blob) {
+        HotReloader::GetInstance().Add(fullFilePath, [texture_ptr](auto& blob) {
             texture_ptr->HotReload(blob);
         });
 
-        Textures[path] = texture;
+        Textures[assetPath] = texture;
         return texture;
     }
 

@@ -15,6 +15,5 @@ Actor::Actor()
     material->Textures.push_back(texture);
     material->RefreshBuffer();
 
-    Assets::GetInstance().GetTexture("C:/finik/textures/head.png");
-    Assets::GetInstance().GetTexture("C:/finik/textures/head.png");
+    Assets::GetInstance().GetTexture("textures/head.png");
 }
