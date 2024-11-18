@@ -35,8 +35,9 @@ public:
 
         auto texture = std::make_shared<Texture>(path);
 
-        HotReloader::GetInstance().Add(path, [](auto& blob) {
-            //
+        auto texture_ptr = texture.get();
+        HotReloader::GetInstance().Add(path, [texture_ptr](auto& blob) {
+            texture_ptr->HotReload(blob);
         });
 
         Textures[path] = texture;

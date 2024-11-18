@@ -66,6 +66,11 @@ Texture::Texture(Path path)
 {
 }
 
+void Texture::HotReload(Blob& blob)
+{
+
+}
+
 void Texture::setData(Image& image)
 {
     //image->generateChessboard();
