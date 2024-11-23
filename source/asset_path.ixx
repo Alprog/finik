@@ -2,7 +2,7 @@ export module asset_path;
 
 import core;
 
-export class AsssetPath : public Path
+export class AssetPath : public Path
 {
     using Path::Path;
 };

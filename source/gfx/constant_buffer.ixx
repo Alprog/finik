@@ -42,4 +42,4 @@ public:
     }
 };
 
-export using GpuFrameConstantBuffer = GpuBuffer<FrameConstantBuffer>;
+export using FrameConstantBuffer = GpuBuffer<FrameConstants>;

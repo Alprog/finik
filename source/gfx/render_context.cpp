@@ -14,7 +14,7 @@ RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandLi
 void RenderContext::draw(RenderCommand renderCommand)
 {
     auto mesh = renderCommand.mesh;
-    GpuBuffer<FrameConstantBuffer>* constantBuffer = renderCommand.state->constantBuffer;
+    GpuBuffer<FrameConstants>* constantBuffer = renderCommand.state->constantBuffer;
    
 
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
@@ -36,7 +36,7 @@ void RenderContext::drawMesh(Mesh* mesh)
 
 void RenderContext::setModelMatrix(const Matrix& matrix)
 {
-    auto meshConstantBuffer = renderSystem.getOneshotAllocator().Allocate<MeshConstantBuffer>();
+    auto meshConstantBuffer = renderSystem.getOneshotAllocator().Allocate<MeshConstants>();
     meshConstantBuffer.Data->Model = matrix;
 
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MeshConstantBufferView, meshConstantBuffer.GpuAddress);

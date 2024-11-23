@@ -138,6 +138,7 @@
     <ClCompile Include="actor.ixx" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="app.ixx" />
+    <ClCompile Include="asset.ixx" />
     <ClCompile Include="assets_view.cpp" />
     <ClCompile Include="assets_view.ixx" />
     <ClCompile Include="asset_path.ixx" />
@@ -270,6 +271,7 @@
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="scene_view.ixx" />
     <ClCompile Include="shader.ixx" />
+    <ClCompile Include="shader_compiler.ixx" />
     <ClCompile Include="stats_view.cpp" />
     <ClCompile Include="stats_view.ixx" />
     <ClCompile Include="texel.cpp" />

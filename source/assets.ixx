@@ -23,7 +23,7 @@ public:
         AssetDirectory = toStr(std::filesystem::current_path().c_str());
     }
 
-    std::shared_ptr<Texture> GetTexture(AsssetPath assetPath)
+    std::shared_ptr<Texture> GetTexture(AssetPath assetPath)
     {
         auto it = Textures.find(assetPath);
         if (it != Textures.end())
@@ -46,7 +46,7 @@ public:
         return texture;
     }
 
-    Shader* GetShader(AsssetPath path)
+    Shader* GetShader(AssetPath path)
     {
         return nullptr;
     }

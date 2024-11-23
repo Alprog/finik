@@ -2,12 +2,12 @@ export module root_signature_params;
 
 import core;
 
-export struct MeshConstantBuffer
+export struct MeshConstants
 {
     Matrix Model;
 };
 
-export struct FrameConstantBuffer
+export struct FrameConstants
 {
     Matrix View;
     Matrix Projection;

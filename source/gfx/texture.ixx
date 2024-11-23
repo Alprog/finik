@@ -7,16 +7,17 @@ import images;
 import gpu_resource;
 import blob;
 import asset_path;
+import asset;
 
-export class Texture : public GpuResource
+export class Texture : public GpuResource, public Asset
 {
 public:
     Texture(int width, int height);
     Texture(Image& image);
-    Texture(AsssetPath path);
+    Texture(AssetPath path);
     Texture(Blob& blob);
     
-    void HotReload(Blob& blob);
+    void HotReload(Blob& blob) override;
 
     void setData(Image& image);
 
