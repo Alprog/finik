@@ -12,21 +12,16 @@ class IncludeHandler : public ID3DInclude
 public:
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override 
     {    
-        Path path = Path("C:/finik/shaders") / pFileName;
-        
-        Blob fileBlob(path);
+        std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().GetShaderSourceFile(pFileName);
 
-        char* data = new char[fileBlob.size()];
-        memcpy(data, fileBlob.data(), fileBlob.size());
+        const std::string& sourceText = sourceFile->GetSourceText();
 
-        *ppData = data;
-        *pBytes = static_cast<UINT>(fileBlob.size());
+        *ppData = &sourceText[0];
+        *pBytes = static_cast<UINT>(sourceText.size());
         return S_OK;
     }
 
     HRESULT __stdcall Close(LPCVOID pData) override {
-        // Free the memory allocated in Open
-        delete[] pData;
         return S_OK;
     }
 };

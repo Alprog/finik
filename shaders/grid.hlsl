@@ -1,4 +1,4 @@
-#include "common.inc"
+#include "shaders/common.inc"
 
 struct VSInput
 {
