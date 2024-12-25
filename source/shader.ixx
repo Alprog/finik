@@ -30,14 +30,15 @@ struct std::hash<ShaderKey>
     }
 };
 
+export using ShaderByteCode = MyPtr<ID3DBlob>;
+
 export class Shader
 {
 public:
-    Shader(AssetPath assetPath, ShaderType type, const std::string& entryPoint);
+    Shader(ShaderKey key);
 
-    void Compile();
+    void Recompile();
 
     ShaderKey key;
-
-    MyPtr<ID3DBlob> blob; // compiled code
+    ShaderByteCode bytecodeBlob; // compiled code
 };

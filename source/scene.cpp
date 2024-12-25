@@ -17,6 +17,7 @@ import allocation;
 import descriptor_heap;
 import material_manager;
 import upload_buffer;
+import shader_manager;
 
 Scene::Scene()
 {
@@ -73,24 +74,26 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     FrameConstantBuffer* constantBuffer = getConstantBuffer(camera);
 
+    auto& ShaderManager = ShaderManager::GetInstance();
+
     if (!renderCommand.state)
     {
         renderCommand.mesh = createCubeMesh();
 
-        auto path = "shaders/shadersTextured.hlsl";
+        AssetPath path = "shaders/shadersTextured.hlsl";
         renderCommand.state = new RenderState();
-        renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
-        renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
+        renderCommand.state->setVertexShader(ShaderManager.getVertexShader(path, "VSMain"));
+        renderCommand.state->setPixelShader(ShaderManager.getPixelShader(path, "PSMain"));
     }
 
     if (!renderCommand2.state)
     {
         renderCommand2.mesh = grid->mesh;
 
-        auto path = "shaders/grid.hlsl";
+        AssetPath path = "shaders/grid.hlsl";
         renderCommand2.state = new RenderState();       
-        renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
-        renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
+        renderCommand2.state->setVertexShader(ShaderManager.getVertexShader(path, "VSMain"));
+        renderCommand2.state->setPixelShader(ShaderManager.getPixelShader(path, "PSMain"));
     }
 
     auto V = camera->viewMatrix;

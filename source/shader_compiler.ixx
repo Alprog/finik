@@ -1,17 +1,13 @@
 export module shader_compiler;
 
 import core;
-import singleton;
 import asset_path;
+import shader;
 
-export class ShaderCompiler
+export class ShaderCompiler : public Singleton<ShaderCompiler>
 {
 public:
-    ShaderCompiler GetInstance()
-    {
-        static ShaderCompiler instance;
-        return instance;
-    }
+    void Compile(ShaderKey key, ShaderByteCode& bytecodeBlob);
 
     void AddIncludeDirectory(AssetPath directory)
     {

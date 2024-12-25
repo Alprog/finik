@@ -7,12 +7,12 @@ import asset_path;
 export class ShaderManager : public Singleton<ShaderManager>
 {
 public:
-    Shader* getVertexShader(AssetPath assetPath, std::string& entryName)
+    Shader* getVertexShader(AssetPath assetPath, const std::string& entryName)
     {
-        return getShader({ assetPath, ShaderType::Pixel, entryName });
+        return getShader({ assetPath, ShaderType::Vertex, entryName });
     }
     
-    Shader* getPixelShader(AssetPath assetPath, std::string& entryName)
+    Shader* getPixelShader(AssetPath assetPath, const std::string& entryName)
     {
         return getShader({ assetPath, ShaderType::Pixel, entryName });
     }
@@ -24,7 +24,10 @@ public:
         {
             return it->second;
         }
-        return nullptr;
+        
+        auto shader = new Shader(key);
+        Shaders[key] = shader;
+        return shader;
     }
 
 private:
