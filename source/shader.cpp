@@ -3,6 +3,8 @@ module;
 #include <d3dcompiler.h>
 module shader;
 
+import assets;
+import shader_source_file;
 import blob;
 
 class IncludeHandler : public ID3DInclude 
@@ -29,20 +31,25 @@ public:
     }
 };
 
-Shader::Shader(Path path, ShaderType type, const std::string& entryPoint)
-    : type{ type }
+Shader::Shader(AssetPath assetPath, ShaderType type, const std::string& entryPoint)
 {
-    Blob fileBlob(path);
+    key = ShaderKey(assetPath, type, entryPoint);
+    Compile();
+}
 
-    auto& source = fileBlob.asString();
+void Shader::Compile()
+{
+    std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().GetShaderSourceFile(key.AssetPath);
 
-    auto target = type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
+    const std::string& source = sourceFile->GetSourceText();
+
+    auto target = key.Type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
     uint32 compileFlags = D3DCOMPILE_ENABLE_UNBOUNDED_DESCRIPTOR_TABLES;
 
     ID3DBlob* errorBlob = nullptr;
-    
+
     static IncludeHandler includeHandler;
-    auto result = D3DCompile(source.data(), source.size(), entryPoint.c_str(), nullptr, &includeHandler, entryPoint.c_str(), target, compileFlags, 0, &blob, &errorBlob);
+    auto result = D3DCompile(source.data(), source.size(), key.EntryPoint.c_str(), nullptr, &includeHandler, key.EntryPoint.c_str(), target, compileFlags, 0, &blob, &errorBlob);
 
     if (FAILED(result))
     {

@@ -77,7 +77,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     {
         renderCommand.mesh = createCubeMesh();
 
-        auto path = "C:/finik/shaders/shadersTextured.hlsl";
+        auto path = "shaders/shadersTextured.hlsl";
         renderCommand.state = new RenderState();
         renderCommand.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));
@@ -87,7 +87,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     {
         renderCommand2.mesh = grid->mesh;
 
-        auto path = "C:/finik/shaders/grid.hlsl";
+        auto path = "shaders/grid.hlsl";
         renderCommand2.state = new RenderState();       
         renderCommand2.state->setVertexShader(new Shader(path, ShaderType::Vertex, "VSMain"));
         renderCommand2.state->setPixelShader(new Shader(path, ShaderType::Pixel, "PSMain"));

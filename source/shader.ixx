@@ -2,6 +2,7 @@ export module shader;
 
 import core;
 import dx;
+import asset_path;
 
 export enum ShaderType
 {
@@ -9,11 +10,34 @@ export enum ShaderType
     Pixel
 };
 
+export struct ShaderKey
+{
+    AssetPath AssetPath;
+    ShaderType Type;
+    std::string EntryPoint;
+
+    bool operator==(const ShaderKey& other) const = default;
+};
+
+template <>
+struct std::hash<ShaderKey>
+{
+    std::size_t operator()(const ShaderKey& key) const
+    {
+        return (hash<std::string>()(key.AssetPath.str())
+            ^ (hash<int>()(static_cast<int>(key.Type) << 1)) >> 1)
+            ^ (hash<std::string>()(key.EntryPoint) << 1);
+    }
+};
+
 export class Shader
 {
 public:
-    Shader(Path path, ShaderType type, const std::string& entryPoint);
+    Shader(AssetPath assetPath, ShaderType type, const std::string& entryPoint);
 
-    ShaderType type;
-    MyPtr<ID3DBlob> blob;
+    void Compile();
+
+    ShaderKey key;
+
+    MyPtr<ID3DBlob> blob; // compiled code
 };

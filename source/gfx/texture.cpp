@@ -11,7 +11,8 @@ import images;
 static const uint32 TexturePixelSize = 4;
 
 Texture::Texture(int width, int height)
-    : Width{ width }
+    : Asset{ "" }
+    , Width{ width }
     , Height{ height }
 {
     auto& renderSystem = App::GetInstance().render_system;

@@ -2,10 +2,10 @@ export module assets;
 
 import core;
 import texture;
-import shader;
 import asset_path;
 import hot_reloader;
 import file_watcher;
+import shader_source_file;
 
 export class Assets
 {
@@ -46,11 +46,31 @@ public:
         return texture;
     }
 
-    Shader* GetShader(AssetPath path)
+    std::shared_ptr<ShaderSourceFile> GetShaderSourceFile(AssetPath assetPath)
     {
-        return nullptr;
+        auto it = ShaderSourceFiles.find(assetPath);
+        if (it != ShaderSourceFiles.end())
+        {
+            return it->second;
+        }
+
+        auto fullFilePath = Path::combine(AssetDirectory, assetPath);
+        FileWatcher::GetInstance().WatchFile(fullFilePath);
+
+        Blob blob(fullFilePath);
+        auto sourceFile = std::make_shared<ShaderSourceFile>(assetPath);
+        sourceFile->HotReload(blob);
+
+        auto sourceFile_ptr = sourceFile.get();
+        HotReloader::GetInstance().Add(fullFilePath, [sourceFile_ptr](auto& blob) {
+            sourceFile_ptr->HotReload(blob);
+            });
+
+        ShaderSourceFiles[assetPath] = sourceFile;
+        return sourceFile;
     }
 
     Path AssetDirectory;
     std::unordered_map<Path, std::shared_ptr<Texture>> Textures;
+    std::unordered_map<Path, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
 };

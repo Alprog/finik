@@ -7,6 +7,11 @@ import blob;
 export class Asset
 {
 public:
+    Asset(AssetPath assetPath)
+        : assetPath{ assetPath }
+    {
+    }
+
     virtual void HotReload(Blob& blob) = 0;
 
 private:
