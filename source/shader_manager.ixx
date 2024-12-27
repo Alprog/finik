@@ -19,12 +19,11 @@ public:
 
     Shader* getShader(const ShaderKey& key)
     {
-        auto it = Shaders.find(key);
-        if (it != std::end(Shaders))
+        if (auto it = Shaders.find_value(key))
         {
-            return it->second;
+            return *it;
         }
-        
+
         auto shader = new Shader(key);
         Shaders[key] = shader;
         return shader;

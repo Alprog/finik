@@ -74,6 +74,26 @@ public:
         return data.find(key);
     }
 
+    const TValue* find_value(const TKey& key) const
+    {
+        auto it = data.find(key);
+        if (it != std::end(data))
+        {
+            return it->second;
+        }
+        return nullptr;
+    }
+
+    TValue* find_value(const TKey& key)
+    {
+        auto it = data.find(key);
+        if (it != std::end(data))
+        {
+            return &it->second;
+        }
+        return nullptr;
+    }
+
     bool remove(const TKey& key)
     {
         return data.erase(key) > 0;
