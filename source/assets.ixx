@@ -7,16 +7,11 @@ import hot_reloader;
 import file_watcher;
 import shader_source_file;
 
-export class Assets
+export class Assets : public Singleton<Assets>
 {
     friend class AssetsView;
 
 public:
-    static Assets& GetInstance()
-    {
-        static Assets instance;
-        return instance;
-    }
 
     Assets()
     {

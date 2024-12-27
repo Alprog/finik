@@ -6,7 +6,6 @@ import descriptor_handle;
 import images;
 import gpu_resource;
 import blob;
-import asset_path;
 import asset;
 
 export class Texture : public GpuResource, public Asset
@@ -14,7 +13,6 @@ export class Texture : public GpuResource, public Asset
 public:
     Texture(int width, int height);
     Texture(Image& image);
-    Texture(AssetPath path);
     Texture(Blob& blob);
     
     void HotReload(Blob& blob) override;

@@ -1,5 +1,7 @@
 export module singleton;
 
+import std;
+
 export template <typename T>
 class Singleton
 {

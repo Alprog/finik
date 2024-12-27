@@ -15,7 +15,7 @@ struct Material
 // permanent
 Texture2D textures[] : register(t0);
 
-cbuffer MaterialsConstantBuffer : register(b3)
+cbuffer MaterialsConstantBuffer : register(b0)
 {
     Material Materials[80];
 };
@@ -29,12 +29,12 @@ cbuffer FrameConstantBuffer : register(b1)
 };
 
 // per draw
-cbuffer MeshConstantBuffer : register(b0)
+cbuffer MeshConstantBuffer : register(b2)
 {
 	float4x4 Model;
 };
 
-cbuffer MaterialConstantBuffer : register(b2)
+cbuffer MaterialConstantBuffer : register(b3)
 {
     uint MaterialId; 
 };

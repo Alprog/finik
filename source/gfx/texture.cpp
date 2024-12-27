@@ -64,11 +64,6 @@ Texture::Texture(Image& image)
     setData(image);
 }
 
-Texture::Texture(AssetPath path)
-    : Texture(*Images::loadPng(path))
-{
-}
-
 Texture::Texture(Blob& blob)
     : Texture(*Images::loadPng(blob))
 {
@@ -81,6 +76,7 @@ void Texture::HotReload(Blob& blob)
     {
         setData(*image);
     }
+    version++;
 }
 
 void Texture::setData(Image& image)

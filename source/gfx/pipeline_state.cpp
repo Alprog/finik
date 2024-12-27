@@ -17,16 +17,13 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
 
         rootParameters[RootSignatureParams::UnboundTextureTable].InitAsDescriptorTable(
             1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0), D3D12_SHADER_VISIBILITY_PIXEL); // t0...
-
-        rootParameters[RootSignatureParams::MaterialsConstantBufferView].InitAsConstantBufferView(3); // b3
-
-        rootParameters[RootSignatureParams::MeshConstantBufferView].InitAsConstantBufferView(0); // b0
+        rootParameters[RootSignatureParams::MaterialsConstantBufferView].InitAsConstantBufferView(0); // b0
 
         rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
-       
-        rootParameters[RootSignatureParams::MaterialInlineConstants].InitAsConstants(1, 2); // b2
 
-        
+        rootParameters[RootSignatureParams::MeshConstantBufferView].InitAsConstantBufferView(2); // b2
+        rootParameters[RootSignatureParams::MaterialInlineConstants].InitAsConstants(1, 3); // b3
+                
         D3D12_STATIC_SAMPLER_DESC sampler = {};
         sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
         sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;

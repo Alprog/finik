@@ -11,6 +11,7 @@ public:
     void HotReload(Blob& blob) override
     {
         sourceText = blob.asString();
+        version++;
     }
 
     const std::string& GetSourceText() const
