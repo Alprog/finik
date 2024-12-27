@@ -156,6 +156,7 @@
     <ClCompile Include="core\containers\array.ixx" />
     <ClCompile Include="core\containers\containers.ixx" />
     <ClCompile Include="core\containers\hash_map.ixx" />
+    <ClCompile Include="core\containers\hash_set.ixx" />
     <ClCompile Include="core\math\int_size.ixx" />
     <ClCompile Include="core\math\math.ixx" />
     <ClCompile Include="core\math\matrix.cpp" />

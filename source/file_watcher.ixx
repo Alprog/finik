@@ -31,7 +31,7 @@ struct WatchedDirectory
             NULL, &overlapped, NULL);
     }
 
-    void Update(std::unordered_set<Path>& changedFiles)
+    void Update(HashSet<Path>& changedFiles)
     {
         DWORD result = WaitForSingleObject(overlapped.hEvent, 0);
         if (result == WAIT_OBJECT_0)
@@ -100,5 +100,5 @@ public:
     }
 
     HashMap<Path, WatchedDirectory*> WatchedDirectories;
-    std::unordered_set<Path> ChangedFiles;
+    HashSet<Path> ChangedFiles;
 };
