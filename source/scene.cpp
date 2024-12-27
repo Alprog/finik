@@ -45,7 +45,7 @@ void Scene::update(float deltaTime)
 
 FrameConstantBuffer* getConstantBuffer(Camera* camera)
 {
-    static std::unordered_map<Camera*, FrameConstantBuffer*> maps[5];
+    static HashMap<Camera*, FrameConstantBuffer*> maps[5];
 
     auto frameIndex = App::GetInstance().profiler.getFrameIndex();
     auto& constantBuffers = maps[frameIndex % 5];

@@ -31,5 +31,5 @@ public:
     }
 
 private:
-    std::unordered_map<ShaderKey, Shader*> Shaders;
+    HashMap<ShaderKey, Shader*> Shaders;
 };

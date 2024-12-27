@@ -49,7 +49,7 @@ public:
         return data.capacity();
     }
 
-    bool contains(const T& value)
+    bool contains(const T& value) const
     {
         return index_of(value) >= 0;
     }
@@ -85,7 +85,7 @@ public:
         return data.emplace_back(std::forward<Args>(args)...);
     }
 
-    int32 index_of(const T& value)
+    int32 index_of(const T& value) const
     {
         for (int32 i = 0; i < data.size(); i++)
         {

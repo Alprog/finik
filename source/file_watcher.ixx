@@ -95,10 +95,10 @@ public:
     {
         if (!WatchedDirectories.contains(directoryPath))
         {
-            WatchedDirectories.emplace(directoryPath, new WatchedDirectory{ directoryPath });
+            WatchedDirectories[directoryPath] = new WatchedDirectory{ directoryPath };
         }
     }
 
-    std::unordered_map<Path, WatchedDirectory*> WatchedDirectories;
+    HashMap<Path, WatchedDirectory*> WatchedDirectories;
     std::unordered_set<Path> ChangedFiles;
 };

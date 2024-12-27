@@ -4,7 +4,7 @@ import pipeline_state;
 import app;
 import shader;
 
-std::unordered_map<PipelineSettings, PipelineState*> states;
+HashMap<PipelineSettings, PipelineState*> states;
 
 RenderState::RenderState()
     : constantBuffer {nullptr}

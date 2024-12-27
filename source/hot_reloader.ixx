@@ -16,7 +16,7 @@ public:
 
     void Remove(Path filePath)
     {
-        Callbacks.erase(filePath);
+        Callbacks.remove(filePath);
     }
 
     void Update()
@@ -33,5 +33,5 @@ public:
         FileWatcher::GetInstance().ChangedFiles.clear();
     }
 
-    std::unordered_map<Path, Callback> Callbacks;
+    HashMap<Path, Callback> Callbacks;
 };

@@ -85,6 +85,6 @@ public:
     Array<AssetBundle> bundles;
 
     Path AssetDirectory;
-    std::unordered_map<AssetPath, std::shared_ptr<Texture>> Textures;
-    std::unordered_map<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
+    HashMap<AssetPath, std::shared_ptr<Texture>> Textures;
+    HashMap<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
 };
