@@ -8,7 +8,7 @@ export class ResourceStorage
 {
 
 private:
-    std::vector<GpuResource*> Resources;
+    Array<GpuResource*> Resources;
 
     DescriptorHeap Heap;
 };

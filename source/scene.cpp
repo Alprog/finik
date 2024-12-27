@@ -23,8 +23,8 @@ Scene::Scene()
 {
     grid = new Grid();
 
-    actors.push_back(new Actor());
-    actors.push_back(new Actor());
+    actors.append(new Actor());
+    actors.append(new Actor());
 }
 
 void Scene::update(float deltaTime)

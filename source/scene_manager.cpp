@@ -17,6 +17,6 @@ void SceneManager::update(float deltaTime)
 Scene& SceneManager::create_scene()
 {
     auto scene = new Scene();
-    scenes.push_back(scene);
+    scenes.append(scene);
     return *scene;
 }

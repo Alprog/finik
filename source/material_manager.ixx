@@ -22,6 +22,6 @@ public:
 
     void WriteToBuffer(Material* material);
 
-    std::vector<Material*> Materials;
+    Array<Material*> Materials;
     GpuMaterialsConstantBuffer* ConstantBuffer;
 };

@@ -11,8 +11,8 @@ public:
 
     void AddIncludeDirectory(AssetPath directory)
     {
-        InlcudeDirectories.push_back(directory);
+        InlcudeDirectories.append(directory);
     }
 
-    std::vector<AssetPath> InlcudeDirectories;
+    Array<AssetPath> InlcudeDirectories;
 };

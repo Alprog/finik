@@ -1,4 +1,4 @@
-export module types;
+export module primitive_types;
 
 constexpr int BIT_COUNT = 8;
 

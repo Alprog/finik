@@ -6,6 +6,7 @@ import asset_path;
 import hot_reloader;
 import file_watcher;
 import shader_source_file;
+import asset_bundle;
 
 export class Assets : public Singleton<Assets>
 {
@@ -16,6 +17,22 @@ public:
     Assets()
     {
         AssetDirectory = toStr(std::filesystem::current_path().c_str());
+    }
+
+    void mount(Path folder_path)
+    {
+        bundles.append(AssetBundle(folder_path));
+    }
+
+    void unmount(Path folder_path)
+    {
+        for (int32 i = bundles.count() - 1; i >= 0; i--)
+        {
+            if (bundles[i].get_folder_path() == folder_path)
+            {
+                bundles.remove_at(i);
+            }
+        }
     }
 
     std::shared_ptr<Texture> GetTexture(AssetPath assetPath)
@@ -65,7 +82,9 @@ public:
         return sourceFile;
     }
 
+    Array<AssetBundle> bundles;
+
     Path AssetDirectory;
-    std::unordered_map<Path, std::shared_ptr<Texture>> Textures;
-    std::unordered_map<Path, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
+    std::unordered_map<AssetPath, std::shared_ptr<Texture>> Textures;
+    std::unordered_map<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
 };

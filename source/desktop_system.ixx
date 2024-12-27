@@ -15,5 +15,5 @@ public:
     DesktopWindow* get_window_by_id(uint32 id) const;
     void close_window(DesktopWindow* window);
 
-    std::vector<DesktopWindow*> windows;
+    Array<DesktopWindow*> windows;
 };

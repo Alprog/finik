@@ -31,7 +31,7 @@ void RenderContext::drawMesh(Mesh* mesh)
     commandList.IASetVertexBuffers(0, 1, &mesh->vertexBuffer->vertexBufferView);
     commandList.IASetIndexBuffer(&mesh->indexBuffer->indexBufferView);
 
-    commandList.DrawIndexedInstanced(mesh->indexBuffer->indices.size(), 1, 0, 0, 0);
+    commandList.DrawIndexedInstanced(mesh->indexBuffer->indices.count(), 1, 0, 0, 0);
 }
 
 void RenderContext::setModelMatrix(const Matrix& matrix)

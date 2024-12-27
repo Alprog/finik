@@ -8,8 +8,8 @@ import index_buffer;
 export class Mesh
 {
 public:
-    std::vector<StandardVertex> vertices;
-    std::vector<uint32> indices;
+    Array<StandardVertex> vertices;
+    Array<uint32> indices;
 
     VertexBuffer* vertexBuffer;
     IndexBuffer* indexBuffer;

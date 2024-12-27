@@ -19,7 +19,7 @@ public:
     void render(RenderContext& context, Camera* camera);
     
     Grid* grid;
-    std::vector<Actor*> actors;
+    Array<Actor*> actors;
 
     RenderCommand renderCommand;
     RenderCommand renderCommand2;

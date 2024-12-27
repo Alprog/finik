@@ -19,7 +19,7 @@ DesktopSystem::~DesktopSystem()
 DesktopWindow* DesktopSystem::create_window(int width, int height)
 {
     auto window = new DesktopWindow(width, height);
-    windows.push_back(window);
+    windows.append(window);
     return window;
 }
 
@@ -35,10 +35,6 @@ DesktopWindow* DesktopSystem::get_window_by_id(uint32_t id) const
 
 void DesktopSystem::close_window(DesktopWindow* window)
 {
-    auto it = std::find(std::begin(windows), std::end(windows), window);
-    if (it != std::end(windows))
-    {
-        windows.erase(it);
-    }
+    windows.remove(window);
     delete window;
 }

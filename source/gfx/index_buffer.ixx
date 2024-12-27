@@ -8,7 +8,7 @@ export class IndexBuffer
 public:
     void Load();
 
-    std::vector<unsigned int> indices;
+    Array<unsigned int> indices;
     MyPtr<ID3D12Resource> indexBufferResource;
     D3D12_INDEX_BUFFER_VIEW indexBufferView;
 };

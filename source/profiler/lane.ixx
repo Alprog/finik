@@ -10,7 +10,7 @@ export namespace finik::profiler
     public:
         Lane();
 
-        std::vector<Timebox> timeboxes;
+        Array<Timebox> timeboxes;
         int level;
 
         Timebox& startTimebox(const char* label);

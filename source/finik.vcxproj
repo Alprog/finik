@@ -141,6 +141,7 @@
     <ClCompile Include="asset.ixx" />
     <ClCompile Include="assets_view.cpp" />
     <ClCompile Include="assets_view.ixx" />
+    <ClCompile Include="asset_bundle.ixx" />
     <ClCompile Include="asset_path.ixx" />
     <ClCompile Include="blob.cpp" />
     <ClCompile Include="blob.ixx" />
@@ -152,6 +153,8 @@
     <ClCompile Include="console_view.ixx" />
     <ClCompile Include="core.ixx" />
     <ClCompile Include="core\color.ixx" />
+    <ClCompile Include="core\containers\array.ixx" />
+    <ClCompile Include="core\containers\containers.ixx" />
     <ClCompile Include="core\math\int_size.ixx" />
     <ClCompile Include="core\math\math.ixx" />
     <ClCompile Include="core\math\matrix.cpp" />
@@ -171,7 +174,7 @@
     <ClCompile Include="core\path.cpp" />
     <ClCompile Include="core\path.ixx" />
     <ClCompile Include="core\singleton.ixx" />
-    <ClCompile Include="core\types.ixx" />
+    <ClCompile Include="core\primitive_types.ixx" />
     <ClCompile Include="core\utils.ixx" />
     <ClCompile Include="d3dx.ixx" />
     <ClCompile Include="desktop_system.cpp" />

@@ -1,6 +1,6 @@
 export module math:IntSize;
 
-import types;
+import primitive_types;
 
 export struct IntSize
 {

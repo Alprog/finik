@@ -1,8 +1,9 @@
 export module core;
 
 export import std;
-export import types;
+export import primitive_types;
 export import math;
+export import containers;
 export import utils;
 export import path;
 export import color;

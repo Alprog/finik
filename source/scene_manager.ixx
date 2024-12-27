@@ -15,5 +15,5 @@ public:
     Scene& create_scene();
 
 public:
-    std::vector<Scene*> scenes;
+    Array<Scene*> scenes;
 };

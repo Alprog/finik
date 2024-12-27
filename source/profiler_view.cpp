@@ -18,7 +18,7 @@ void ProfilerView::draw_content()
 
     int frameCount = 10;
 
-    for (int i = cpuTimeboxes.size() - 1; i >= 0; i--)
+    for (int i = cpuTimeboxes.count() - 1; i >= 0; i--)
     {
         if (!strcmp(cpuTimeboxes[i].label, "frame"))
         {
@@ -51,7 +51,7 @@ void ProfilerView::draw_content()
     if (gpuTimeboxes.empty())
         return;
 
-    end = gpuTimeboxes.size() - 1;
+    end = gpuTimeboxes.count() - 1;
     
     for (start = end - 1; start > 0; start--)
     {
