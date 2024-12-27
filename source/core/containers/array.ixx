@@ -29,6 +29,11 @@ public:
         data.push_back(value);
     }
 
+    void append(T&& value)
+    {
+        data.push_back(std::forward<T>(value));
+    }
+
     auto begin() const
     {
         return data.begin();
@@ -98,6 +103,21 @@ public:
         data.insert(std::begin(data) + index, value);
     }
 
+    void insert(int32 index, T&& value)
+    {
+        data.insert(std::begin(data) + index, std::forward<T>(value));
+    }
+
+    const T& last() const
+    {
+        return data.back();
+    }
+
+    T& last()
+    {
+        return data.back();
+    }
+
     bool remove(const T& value)
     {
         const int32 index = index_of(value);
@@ -112,6 +132,11 @@ public:
     void remove_at(int32 index)
     {
         data.erase(std::begin(data) + index);
+    }
+
+    void remove_last()
+    {
+        data.pop_back();
     }
 
     void reserve(int32 capacity)

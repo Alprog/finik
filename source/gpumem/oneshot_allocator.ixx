@@ -30,6 +30,6 @@ export namespace finik::gpumem
 
         RenderSystem& renderSystem;
 
-        std::vector<MemoryPage> pages;
+        Array<MemoryPage> pages;
     };
 } 

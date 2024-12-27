@@ -74,5 +74,5 @@ private:
     std::unique_ptr<finik::gpumem::OneshotAllocator> oneshotAllocator;
 
 public:
-    std::vector<std::shared_ptr<RenderLane>> lanes;
+    Array<std::shared_ptr<RenderLane>> lanes;
 };

@@ -17,6 +17,6 @@ public:
 private:
     RenderSystem& renderSystem;
 
-    std::vector<std::unique_ptr<CommandList>> lists;
-    std::vector<CommandList*> freeLists;
+    Array<std::unique_ptr<CommandList>> lists;
+    Array<CommandList*> freeLists;
 };

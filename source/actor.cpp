@@ -12,7 +12,7 @@ Actor::Actor()
 
     auto texture = Assets::GetInstance().GetTexture("textures/skullbox.png");
     material = new Material("actor");
-    material->Textures.push_back(texture);
+    material->Textures.append(texture);
     material->RefreshBuffer();
 
     Assets::GetInstance().GetTexture("textures/head.png");

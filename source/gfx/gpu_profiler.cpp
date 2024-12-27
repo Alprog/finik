@@ -109,7 +109,7 @@ void GpuProfiler::grabReadyStamps(int completedValue)
             int count = end - start;
             if (count > 0)
             {
-                std::vector<uint64> stamps;
+                Array<uint64> stamps;
                 stamps.resize(count);
 
                 void* data;

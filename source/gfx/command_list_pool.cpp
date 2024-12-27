@@ -17,13 +17,13 @@ CommandList& CommandListPool::retrieveOne()
         return *lists.emplace_back(std::make_unique<CommandList>(renderSystem, *this, frameIndex));
     }
 
-    auto& list = *freeLists.back();
-    freeLists.pop_back();
+    auto& list = *freeLists.last();
+    freeLists.remove_last();
     list.reset(frameIndex);
     return list;
 }
 
 void CommandListPool::putBack(CommandList& commandList)
 {
-    freeLists.push_back(&commandList);
+    freeLists.append(&commandList);
 }

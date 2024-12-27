@@ -41,7 +41,7 @@ public:
     MyPtr<IDXGISwapChain3> swapChain;
 
     HANDLE hSwapChainWaitableObject;
-    std::vector<std::shared_ptr<RenderTarget>> renderTargets;
+    Array<std::shared_ptr<RenderTarget>> renderTargets;
     std::shared_ptr<RenderTarget> renderTarget;
 
     MyPtr<ID3D12Resource> depthStencil;

@@ -91,7 +91,7 @@ void SwapChain::CreateRenderTargets()
         render_system.get_device()->CreateRenderTargetView(pBackBuffer, nullptr, renderTarget->handle);
         renderTarget->resource = pBackBuffer;
     
-        renderTargets.push_back(renderTarget);
+        renderTargets.append(renderTarget);
     }
 }
 

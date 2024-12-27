@@ -30,8 +30,8 @@ public:
     void RefreshBuffer();
 
     std::string Name;
-    std::vector<Color> Colors;
-    std::vector<std::shared_ptr<Texture>> Textures;
+    Array<Color> Colors;
+    Array<std::shared_ptr<Texture>> Textures;
 
     int32 Index;
 };

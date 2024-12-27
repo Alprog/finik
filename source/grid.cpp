@@ -12,8 +12,8 @@ Grid::Grid()
 	auto cellTexture = Assets::GetInstance().GetTexture("textures/cell.png");
 
 	material = new Material("grid_material");
-	material->Textures.push_back(cellTexture);
-	material->Textures.push_back(tileMap->Texture);
+	material->Textures.append(cellTexture);
+	material->Textures.append(tileMap->Texture);
 	material->RefreshBuffer();
 }
 
