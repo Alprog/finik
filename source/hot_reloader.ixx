@@ -23,11 +23,11 @@ public:
     {
         for (auto& changedPath : FileWatcher::GetInstance().ChangedFiles)
         {
-            auto it = Callbacks.find(changedPath);
-            if (it != std::end(Callbacks))
+            auto it = Callbacks.find_value(changedPath);
+            if (it)
             {
                 Blob blob(changedPath);
-                it->second(blob);
+                (*it)(blob);
             }
         }
         FileWatcher::GetInstance().ChangedFiles.clear();

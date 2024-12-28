@@ -33,10 +33,10 @@ PipelineState* RenderState::getPipelineState()
 {
     if (pipelineState == nullptr)
     {
-        auto it = states.find(pipelineSettings);
-        if (it != states.end())
+        auto it = states.find_value(pipelineSettings);
+        if (it)
         {
-            pipelineState = it->second;
+            pipelineState = *it;
         }
         else
         {

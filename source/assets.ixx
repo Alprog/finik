@@ -26,13 +26,10 @@ public:
 
     void unmount(Path folder_path)
     {
-        for (int32 i = bundles.count() - 1; i >= 0; i--)
+        bundles.remove_if([folder_path](const AssetBundle& bundle)
         {
-            if (bundles[i].get_folder_path() == folder_path)
-            {
-                bundles.remove_at(i);
-            }
-        }
+            return bundle.get_folder_path() == folder_path;
+        });
     }
 
     std::shared_ptr<Texture> GetTexture(AssetPath assetPath)

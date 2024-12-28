@@ -11,7 +11,7 @@ public:
     {
     }
 
-    Path get_folder_path()
+    Path get_folder_path() const
     {
         return folder_path;
     }

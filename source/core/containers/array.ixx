@@ -134,6 +134,11 @@ public:
         data.erase(std::begin(data) + index);
     }
 
+    void remove_if(std::function<bool(const T&)> predicate)
+    {
+        std::erase_if(data, predicate);
+    }
+
     void remove_last()
     {
         data.pop_back();

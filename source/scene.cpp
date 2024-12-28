@@ -50,10 +50,10 @@ FrameConstantBuffer* getConstantBuffer(Camera* camera)
     auto frameIndex = App::GetInstance().profiler.getFrameIndex();
     auto& constantBuffers = maps[frameIndex % 5];
 
-    auto it = constantBuffers.find(camera);
-    if (it != constantBuffers.end())
+    auto it = constantBuffers.find_value(camera);
+    if (it)
     {
-        return it->second;
+        return *it;
     }
 
     auto& renderSystem = App::GetInstance().render_system;

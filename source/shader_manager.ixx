@@ -19,7 +19,8 @@ public:
 
     Shader* getShader(const ShaderKey& key)
     {
-        if (auto it = Shaders.find_value(key))
+        auto it = Shaders.find_value(key);
+        if (it)
         {
             return *it;
         }
