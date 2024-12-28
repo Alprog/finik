@@ -44,7 +44,7 @@ public:
         return data.begin();
     }
 
-    int32 capacity() const
+    int32 capacity() const noexcept
     {
         return data.capacity();
     }
