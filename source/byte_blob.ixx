@@ -1,11 +1,11 @@
-export module blob;
+export module byte_blob;
 
 import core;
 
-export class Blob
+export class ByteBlob
 {
 public:
-    Blob(Path path);
+    ByteBlob(Path path);
 
     void* data() { return &str[0]; }
     size_t size() { return str.size(); };

@@ -5,7 +5,7 @@ module shader_compiler;
 
 import assets;
 import shader_source_file;
-import blob;
+import byte_blob;
 
 class IncludeHandler : public ID3DInclude
 {

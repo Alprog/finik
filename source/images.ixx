@@ -2,7 +2,7 @@ export module images;
 
 import core;
 import texel;
-import blob;
+import byte_blob;
 
 export class Image
 {
@@ -21,5 +21,5 @@ public:
 export namespace Images
 {
     Image* loadPng(Path path);
-    Image* loadPng(Blob& blob);
+    Image* loadPng(ByteBlob& blob);
 }

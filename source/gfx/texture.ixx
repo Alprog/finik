@@ -5,7 +5,7 @@ import dx;
 import descriptor_handle;
 import images;
 import gpu_resource;
-import blob;
+import byte_blob;
 import asset;
 
 export class Texture : public GpuResource, public Asset
@@ -13,9 +13,9 @@ export class Texture : public GpuResource, public Asset
 public:
     Texture(int width, int height);
     Texture(Image& image);
-    Texture(Blob& blob);
+    Texture(ByteBlob& blob);
     
-    void HotReload(Blob& blob) override;
+    void HotReload(ByteBlob& blob) override;
 
     void setData(Image& image);
 

@@ -64,12 +64,12 @@ Texture::Texture(Image& image)
     setData(image);
 }
 
-Texture::Texture(Blob& blob)
+Texture::Texture(ByteBlob& blob)
     : Texture(*Images::loadPng(blob))
 {
 }
 
-void Texture::HotReload(Blob& blob)
+void Texture::HotReload(ByteBlob& blob)
 {
     Image* image = Images::loadPng(blob);
     if (image->width == Width && image->height == Height)

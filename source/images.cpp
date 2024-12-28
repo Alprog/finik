@@ -2,7 +2,7 @@ module;
 #include "png.h"
 module images;
 
-import blob;
+import byte_blob;
 
 #define PNGSIGSIZE 8
 
@@ -56,11 +56,11 @@ void readData(png_structp pngPtr, png_bytep data, png_size_t length)
 
 Image* Images::loadPng(Path path)
 {
-    Blob blob(path);
+    ByteBlob blob(path);
     return loadPng(blob);
 }
 
-Image* Images::loadPng(Blob& blob)
+Image* Images::loadPng(ByteBlob& blob)
 {
     std::istringstream inputStream(blob.asString());
     if (validate(inputStream))

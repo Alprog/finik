@@ -18,20 +18,29 @@ public:
         Path working_directory = toStr(std::filesystem::current_path().c_str());
         AssetDirectory = working_directory / "assets";
 
-        mount(working_directory / "assets");
-        mount(working_directory / "mods");
+        mount_folder(working_directory / "assets");
+        mount_folder(working_directory / "mods");
     }
 
-    void mount(Path folder_path)
+    ~Assets()
     {
-        bundles.append(AssetBundle(folder_path));
-    }
-
-    void unmount(Path folder_path)
-    {
-        bundles.remove_if([folder_path](const AssetBundle& bundle)
+        for (auto p_bundle : bundles)
         {
-            return bundle.get_folder_path() == folder_path;
+            delete p_bundle;
+        }
+    }
+
+    void mount_folder(Path folder_path)
+    {
+        bundles.append(new AssetFolder(folder_path));
+    }
+
+    void unmount_folder(Path folder_path)
+    {
+        bundles.remove_if([folder_path](auto& p_bundle)
+        {
+            auto asset_folder = dynamic_cast<AssetFolder*>(p_bundle);
+            return asset_folder && asset_folder->get_folder_path() == folder_path;;
         });
     }
 
@@ -58,7 +67,7 @@ public:
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
         FileWatcher::GetInstance().WatchFile(fullFilePath);
 
-        Blob blob(fullFilePath);
+        ByteBlob blob(fullFilePath);
         auto texture = std::make_shared<Texture>(blob);
 
         auto texture_ptr = texture.get();
@@ -81,7 +90,7 @@ public:
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
         FileWatcher::GetInstance().WatchFile(fullFilePath);
 
-        Blob blob(fullFilePath);
+        ByteBlob blob(fullFilePath);
         auto sourceFile = std::make_shared<ShaderSourceFile>(assetPath);
         sourceFile->HotReload(blob);
 
@@ -94,7 +103,7 @@ public:
         return sourceFile;
     }
 
-    Array<AssetBundle> bundles;
+    Array<AssetBundle*> bundles;
 
     Path AssetDirectory;
     HashMap<AssetPath, std::shared_ptr<Texture>> Textures;

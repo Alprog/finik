@@ -143,8 +143,8 @@
     <ClCompile Include="assets_view.ixx" />
     <ClCompile Include="asset_bundle.ixx" />
     <ClCompile Include="asset_path.ixx" />
-    <ClCompile Include="blob.cpp" />
-    <ClCompile Include="blob.ixx" />
+    <ClCompile Include="byte_blob.cpp" />
+    <ClCompile Include="byte_blob.ixx" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera.ixx" />
     <ClCompile Include="camera_controller.cpp" />
@@ -157,6 +157,7 @@
     <ClCompile Include="core\containers\containers.ixx" />
     <ClCompile Include="core\containers\hash_map.ixx" />
     <ClCompile Include="core\containers\hash_set.ixx" />
+    <ClCompile Include="core\containers\sorted_array.ixx" />
     <ClCompile Include="core\math\int_size.ixx" />
     <ClCompile Include="core\math\math.ixx" />
     <ClCompile Include="core\math\matrix.cpp" />

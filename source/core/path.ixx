@@ -62,15 +62,7 @@ public:
         return normal_form.c_str();
     }
 
-    inline friend bool operator==(const Path& lhs, const Path& rhs)
-    {
-        return lhs.normal_form == rhs.normal_form;
-    }
-
-    inline friend bool operator!=(const Path& lhs, const Path& rhs)
-    {
-        return lhs.normal_form != rhs.normal_form;
-    }
+    std::strong_ordering operator<=>(const Path& other) const = default;
 
 private:
     static void fixSlashes(std::string& pathString);

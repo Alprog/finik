@@ -2,7 +2,7 @@ export module asset;
 
 import core;
 import asset_path;
-import blob;
+import byte_blob;
 
 export class Asset
 {
@@ -13,7 +13,7 @@ public:
     {
     }
 
-    virtual void HotReload(Blob& blob) = 0;
+    virtual void HotReload(ByteBlob& blob) = 0;
 
     int32 get_version() const { return version; }
 

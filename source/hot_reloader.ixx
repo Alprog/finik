@@ -1,13 +1,13 @@
 export module hot_reloader;
 
 import core;
-import blob;
+import byte_blob;
 import file_watcher;
 
 export class HotReloader : public Singleton<HotReloader>
 {
 public:
-    using Callback = std::function<void(Blob& blob)>;
+    using Callback = std::function<void(ByteBlob& blob)>;
 
     void Add(Path filePath, const Callback& Callback)
     {
@@ -26,7 +26,7 @@ public:
             auto it = Callbacks.find_value(changedPath);
             if (it)
             {
-                Blob blob(changedPath);
+                ByteBlob blob(changedPath);
                 (*it)(blob);
             }
         }

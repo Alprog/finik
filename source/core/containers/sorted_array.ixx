@@ -1,37 +1,28 @@
-export module containers:array;
+export module containers:sorted_array;
 
 import std;
 import primitive_types;
 
 export template <typename T>
-class Array
+class SortedArray
 {
 public:
-    Array() = default;
+    SortedArray() = default;
 
-    Array(std::initializer_list<T> list)
+    SortedArray(std::initializer_list<T> list)
         : data{ list }
     {
+        sort();
     }
 
-    T& operator[](size_t index) 
+    T& operator[](size_t index)
     {
         return data[index];
     }
-    
-    const T& operator[](size_t index) const 
-    {
-        return data[index]; 
-    }
 
-    void append(const T& value)
+    const T& operator[](size_t index) const
     {
-        data.push_back(value);
-    }
-
-    void append(T&& value)
-    {
-        data.push_back(std::forward<T>(value));
+        return data[index];
     }
 
     auto begin() const
@@ -79,33 +70,34 @@ public:
         return data.end();
     }
 
-    template< class... Args >
-    auto& emplace_back(Args&&... args) 
-    {
-        return data.emplace_back(std::forward<Args>(args)...);
-    }
-
     int32 index_of(const T& value) const
     {
-        for (int32 i = 0; i < data.size(); i++)
+        int32 left = 0;
+        int32 right = data.size() - 1;
+
+        while (left <= right)
         {
-            if (data[i] == value)
+            int32 mid = left + (right - left) / 2;
+            if (data[mid] == value)
             {
-                return i;
+                return mid;
+            }
+            else if (data[mid] < value)
+            {
+                left = mid + 1;
+            }
+            else
+            {
+                right = mid - 1;
             }
         }
-
         return -1;
     }
 
-    void insert(int32 index, const T& value)
+    void insert(const T& value)
     {
-        data.insert(std::begin(data) + index, value);
-    }
-
-    void insert(int32 index, T&& value)
-    {
-        data.insert(std::begin(data) + index, std::forward<T>(value));
+        auto it = std::ranges::lower_bound(data, value);
+        data.insert(it, value);
     }
 
     const T& last() const
@@ -159,30 +151,10 @@ public:
         data.resize(new_count, value);
     }
 
+private:
     void sort()
     {
         std::sort(data.begin(), data.end());
-    }
-
-    bool swap_remove(const T& value)
-    {
-        const int32 index = index_of(value);
-        if (index >= 0)
-        {
-            swap_remove_at(index);
-            return true;
-        }
-        return false;
-    }
-
-    void swap_remove_at(int32 index)
-    {
-        int32 last_index = count() - 1;
-        if (index < last_index)
-        {
-            std::swap(data[index], data[last_index]);
-        }
-        data.pop_back();
     }
 
 private:
