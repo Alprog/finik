@@ -13,10 +13,13 @@ export class Assets : public Singleton<Assets>
     friend class AssetsView;
 
 public:
-
     Assets()
     {
-        AssetDirectory = toStr(std::filesystem::current_path().c_str());
+        Path working_directory = toStr(std::filesystem::current_path().c_str());
+        AssetDirectory = working_directory / "assets";
+
+        mount(working_directory / "assets");
+        mount(working_directory / "mods");
     }
 
     void mount(Path folder_path)
@@ -30,6 +33,18 @@ public:
         {
             return bundle.get_folder_path() == folder_path;
         });
+    }
+
+    bool exists(AssetPath path)
+    {
+        // not implemented
+        return true;
+    }
+
+    bool is_loaded(AssetPath path)
+    {
+        // not implemented
+        return true;
     }
 
     std::shared_ptr<Texture> GetTexture(AssetPath assetPath)

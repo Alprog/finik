@@ -11,8 +11,9 @@ public:
 
     Path(const char* pathCString);
     Path(const std::string& pathString);
+    Path(const std::filesystem::path fs_path);
 
-    static std::string getCanonical(std::string pathString);
+    static std::string getNormalized(std::string pathString);
     static bool isAbsolute(const std::string& pathString);
 
     static Path combine(const std::string lhs, const std::string rhs);
@@ -37,43 +38,45 @@ public:
     bool isAbsolute() const;
     bool isRelative() const;
 
+    Path getRelativeTo(Path basePath) const;
+
     static bool isEqual(const Path& path1, const Path& path2, bool caseSensitive = true);
 
     inline operator std::string&()
     {
-        return canonicalPath;
+        return normal_form;
     }
 
     inline operator const std::string&() const
     {
-        return canonicalPath;
+        return normal_form;
     }
 
     inline std::string str() const
     {
-        return canonicalPath;
+        return normal_form;
     }
 
     inline const char* c_str() const
     {
-        return canonicalPath.c_str();
+        return normal_form.c_str();
     }
 
     inline friend bool operator==(const Path& lhs, const Path& rhs)
     {
-        return lhs.canonicalPath == rhs.canonicalPath;
+        return lhs.normal_form == rhs.normal_form;
     }
 
     inline friend bool operator!=(const Path& lhs, const Path& rhs)
     {
-        return lhs.canonicalPath != rhs.canonicalPath;
+        return lhs.normal_form != rhs.normal_form;
     }
 
 private:
     static void fixSlashes(std::string& pathString);
     static void applyDots(std::string& pathString);
 
-    std::string canonicalPath;
+    std::string normal_form;
 };
 
 export template<>
@@ -81,6 +84,6 @@ struct std::hash<Path>
 {
     size_t operator()(const Path& path) const
     {
-        return std::hash<std::string>()(path.canonicalPath);
+        return std::hash<std::string>()(path.normal_form);
     }
 };

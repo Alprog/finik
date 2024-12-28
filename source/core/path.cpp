@@ -5,24 +5,29 @@ import utils;
 // absolute - "C:/path" or "/path"
 // relative - "path" or "./path" or "../path"
 // empty path not allowed: use "." (related) or "/" (absolute) instead
-// in canonical form using unix-style forward slash "/"
+// in normal form using unix-style forward slash "/"
 
 Path::Path()
-    : canonicalPath(".")
+    : normal_form(".")
 {
 }
 
 Path::Path(const char* pathCString)
 {
-    canonicalPath = getCanonical(pathCString);
+    normal_form = getNormalized(pathCString);
 }
 
 Path::Path(const std::string& pathString)
 {
-    canonicalPath = getCanonical(pathString);
+    normal_form = getNormalized(pathString);
 }
 
-std::string Path::getCanonical(std::string pathString)
+Path::Path(const std::filesystem::path fs_path)
+    : Path(fs_path.string())
+{
+}
+
+std::string Path::getNormalized(std::string pathString)
 {
     fixSlashes(pathString);
     applyDots(pathString);
@@ -129,14 +134,14 @@ Path Path::combine(const std::string lhs, const std::string rhs)
 
 void Path::append(const std::string pathString)
 {
-    canonicalPath = getCanonical(canonicalPath + "/" + pathString);
+    normal_form = getNormalized(normal_form + "/" + pathString);
 }
 
 void Path::cd(const Path path)
 {
     if (path.isAbsolute())
     {
-        canonicalPath = path.str();
+        normal_form = path.normal_form;
     }
     else
     {
@@ -156,7 +161,7 @@ Path operator+(const Path& lhs, const Path& rhs)
 
 Path& Path::operator+=(const Path& rhs)
 {
-    append(rhs.canonicalPath);
+    append(rhs.normal_form);
     return *this;
 }
 
@@ -167,33 +172,33 @@ Path operator/(const Path& lhs, const Path& rhs)
 
 Path& Path::operator/=(const Path& rhs)
 {
-    append(rhs.canonicalPath);
+    append(rhs.normal_form);
     return *this;
 }
 
 Path Path::getParentPath() const
 {
-    auto index = canonicalPath.find_last_of("/");
+    auto index = normal_form.find_last_of("/");
     if (index == std::string::npos)
     {
         return "";
     }
     else
     {
-        return canonicalPath.substr(0, index);
+        return normal_form.substr(0, index);
     }
 }
 
 std::string Path::getName() const
 {
-    auto index = canonicalPath.find_last_of("/");
+    auto index = normal_form.find_last_of("/");
     if (index == std::string::npos)
     {
-        return canonicalPath;
+        return normal_form;
     }
     else
     {
-        return canonicalPath.substr(index + 1);
+        return normal_form.substr(index + 1);
     }
 }
 
@@ -227,22 +232,31 @@ std::string Path::getExtension() const
 
 bool Path::isAbsolute() const
 {
-    return isAbsolute(canonicalPath);
+    return isAbsolute(normal_form);
 }
 
 bool Path::isRelative() const
 {
-    return !isAbsolute(canonicalPath);
+    return !isAbsolute(normal_form);
+}
+
+Path Path::getRelativeTo(Path basePath) const
+{
+    if (normal_form.starts_with(basePath.normal_form))
+    {
+        return Path(normal_form.substr(basePath.normal_form.size() + 1));
+    }
+    return normal_form;
 }
 
 bool Path::isEqual(const Path& path1, const Path& path2, bool caseSensitive)
 {
     if (caseSensitive)
     {
-        return path1.canonicalPath == path2.canonicalPath;
+        return path1.normal_form == path2.normal_form;
     }
     else
     {
-        return caseInsensitiveCompare(path1.canonicalPath, path2.canonicalPath);
+        return caseInsensitiveCompare(path1.normal_form, path2.normal_form);
     }
 }
