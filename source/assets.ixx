@@ -7,6 +7,8 @@ import hot_reloader;
 import file_watcher;
 import shader_source_file;
 import asset_bundle;
+import asset_info;
+import byte_blob;
 
 export class Assets : public Singleton<Assets>
 {
@@ -46,7 +48,6 @@ public:
 
     bool exists(AssetPath path)
     {
-        // not implemented
         return true;
     }
 
@@ -58,10 +59,10 @@ public:
 
     std::shared_ptr<Texture> GetTexture(AssetPath assetPath)
     {
-        auto it = Textures.find(assetPath);
-        if (it != Textures.end())
+        auto it = Textures.find_value(assetPath);
+        if (it)
         {
-            return it->second;
+            return *it;
         }
 
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
@@ -81,10 +82,10 @@ public:
 
     std::shared_ptr<ShaderSourceFile> GetShaderSourceFile(AssetPath assetPath)
     {
-        auto it = ShaderSourceFiles.find(assetPath);
-        if (it != ShaderSourceFiles.end())
+        auto it = ShaderSourceFiles.find_value(assetPath);
+        if (it)
         {
-            return it->second;
+            return *it;
         }
 
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
@@ -97,11 +98,13 @@ public:
         auto sourceFile_ptr = sourceFile.get();
         HotReloader::GetInstance().Add(fullFilePath, [sourceFile_ptr](auto& blob) {
             sourceFile_ptr->HotReload(blob);
-            });
+        });
 
         ShaderSourceFiles[assetPath] = sourceFile;
         return sourceFile;
     }
+
+    Array<AssetInfo> asset_infos;
 
     Array<AssetBundle*> bundles;
 
