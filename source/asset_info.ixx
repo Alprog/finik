@@ -7,6 +7,15 @@ import asset_bundle;
 
 export struct AssetInfo
 {
+    AssetInfo() = default;
+
+    AssetInfo(AssetPath virtual_path, AssetBundle* bundle, int32 version = 0)
+        : virtual_path { virtual_path }
+        , actual_bundle{ bundle }
+        , actual_version { version }
+    {
+    }
+
     bool is_loaded() const
     {
         return loaded_asset != nullptr;

@@ -98,6 +98,19 @@ public:
         return -1;
     }
 
+    int32 index_of(std::function<bool(const T&)> predicate)
+    {
+        for (int32 i = 0; i < data.size(); i++)
+        {
+            if (predicate(data[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     void insert(int32 index, const T& value)
     {
         data.insert(std::begin(data) + index, value);

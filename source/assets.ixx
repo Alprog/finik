@@ -34,7 +34,21 @@ public:
 
     void mount_folder(Path folder_path)
     {
-        bundles.append(new AssetFolder(folder_path));
+        auto folder = new AssetFolder(folder_path);
+        bundles.append(folder);
+        for (AssetPath& asset_path : folder->asset_pathes)
+        {
+            auto it = asset_infos.find_value(asset_path);
+            if (it)
+            {
+                it->actual_bundle = folder;
+                it->actual_version = 0;
+            }
+            else
+            {
+                asset_infos[asset_path] = AssetInfo(asset_path, folder);
+            }
+        }
     }
 
     void unmount_folder(Path folder_path)
@@ -104,7 +118,7 @@ public:
         return sourceFile;
     }
 
-    Array<AssetInfo> asset_infos;
+    HashMap<AssetPath, AssetInfo> asset_infos;
 
     Array<AssetBundle*> bundles;
 
