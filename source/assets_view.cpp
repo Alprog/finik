@@ -1,5 +1,6 @@
 module assets_view;
 
+import core;
 import imgui;
 import assets;
 
