@@ -110,32 +110,6 @@ public:
         return data.back();
     }
 
-    SortedArray<T> merge(SortedArray<T> a, SortedArray<T> b)
-    {
-        SortedArray<T> result;
-
-        result.reserve(a.count() + b.count());
-
-        int32 a_index, b_index = 0;
-
-        std::strong_ordering ordering = a[a_index] <=> b[b_index];
-        if (ordering == std::strong_ordering::less)
-        {
-            result.data.push_back(a[a_index++]);
-        }
-        else if (ordering == std::strong_ordering::greater)
-        {
-            result.data.push_back(b[b_index++]);
-        }
-        else
-        {
-            result.data.push_back(a[a_index++]);
-            b_index++;
-        }
-
-        return result;
-    }   
-
     bool remove(const T& value)
     {
         const int32 index = index_of(value);
