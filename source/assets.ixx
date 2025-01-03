@@ -137,15 +137,9 @@ public:
         }
 
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
-        FileWatcher::GetInstance().WatchFile(fullFilePath);
 
         ByteBlob blob(fullFilePath);
         auto texture = std::make_shared<Texture>(blob);
-
-        auto texture_ptr = texture.get();
-        HotReloader::GetInstance().Add(fullFilePath, [texture_ptr](auto& blob) {
-            texture_ptr->HotReload(blob);
-        });
 
         Textures[assetPath] = texture;
         return texture;
@@ -160,16 +154,10 @@ public:
         }
 
         auto fullFilePath = Path::combine(AssetDirectory, assetPath);
-        FileWatcher::GetInstance().WatchFile(fullFilePath);
 
         ByteBlob blob(fullFilePath);
         auto sourceFile = std::make_shared<ShaderSourceFile>(assetPath);
         sourceFile->HotReload(blob);
-
-        auto sourceFile_ptr = sourceFile.get();
-        HotReloader::GetInstance().Add(fullFilePath, [sourceFile_ptr](auto& blob) {
-            sourceFile_ptr->HotReload(blob);
-        });
 
         ShaderSourceFiles[assetPath] = sourceFile;
         return sourceFile;
