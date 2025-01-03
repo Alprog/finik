@@ -69,6 +69,11 @@ public:
         return data.erase(value) > 0;
     }
 
+    int32 remove_if(std::function<bool(const T&)> predicate)
+    {
+        return std::erase_if(data, predicate);
+    }
+
 private:
     std::unordered_set<T> data;
 };

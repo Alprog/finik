@@ -12,7 +12,7 @@ export struct AssetInfo
     AssetInfo(AssetPath virtual_path, AssetBundle* bundle, int32 version = 0)
         : virtual_path { virtual_path }
         , actual_bundle{ bundle }
-        , actual_version { version }
+        , version { version }
     {
     }
 
@@ -28,7 +28,7 @@ export struct AssetInfo
 
     AssetPath virtual_path;
     
-    int32 actual_version;
+    int32 version;
     AssetBundle* actual_bundle;
 
     std::shared_ptr<Asset> loaded_asset;

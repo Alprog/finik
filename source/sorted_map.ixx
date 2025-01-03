@@ -1,15 +1,15 @@
-export module containers:hash_map;
+export module containers:sorted_map;
 
 import std;
 import primitive_types;
 
 export template <typename TKey, typename TValue>
-class HashMap
+class SortedMap
 {
 public:
-    HashMap() = default;
+    SortedMap() = default;
 
-    HashMap(std::initializer_list<std::pair<TKey, TValue>> list)
+    SortedMap(std::initializer_list<std::pair<TKey, TValue>> list)
         : data{ list }
     {
     }
@@ -18,7 +18,7 @@ public:
     {
         return data[key];
     }
-    
+
     TValue& operator[](const TKey& key)
     {
         return data[key];
@@ -99,11 +99,11 @@ public:
         return data.erase(key) > 0;
     }
 
-    void remove_if(std::function<bool(const std::pair<TKey, TValue>&)> predicate)
+    int32 remove_if(std::function<bool(const std::pair<TKey, TValue>&)> predicate)
     {
-        std::erase_if(data, predicate);
+        return std::erase_if(data, predicate);
     }
 
 private:
-    std::unordered_map<TKey, TValue> data;
+    std::map<TKey, TValue> data;
 };

@@ -147,9 +147,9 @@ public:
         data.erase(std::begin(data) + index);
     }
 
-    void remove_if(std::function<bool(const T&)> predicate)
+    int32 remove_if(std::function<bool(const T&)> predicate)
     {
-        std::erase_if(data, predicate);
+        return std::erase_if(data, predicate);
     }
 
     void remove_last()

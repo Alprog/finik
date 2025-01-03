@@ -1,18 +1,20 @@
 module;
 #include "Windows.h"
 #include "asserts.h"
-export module file_watcher;
+export module asset_folder;
 
 import core;
+import asset_bundle;
+import asset_path;
 
-struct WatchedDirectory
+struct DirectoryWatcher
 {
     Path directoryPath;
     HANDLE file;
     byte changeBuffer[1024];
     OVERLAPPED overlapped;
 
-    WatchedDirectory(Path path)
+    DirectoryWatcher(Path path)
         : directoryPath{ path }
     {
         file = CreateFileA(path.c_str(),
@@ -31,7 +33,7 @@ struct WatchedDirectory
             NULL, &overlapped, NULL);
     }
 
-    void Update(HashSet<Path>& changedFiles)
+    void update(std::function<void(AssetPath, int32)> callback)
     {
         DWORD result = WaitForSingleObject(overlapped.hEvent, 0);
         if (result == WAIT_OBJECT_0)
@@ -45,18 +47,7 @@ struct WatchedDirectory
             {
                 DWORD nameLength = event->FileNameLength / sizeof(wchar_t);
                 std::string fileName = std::string(&event->FileName[0], &event->FileName[nameLength]);
-
-                switch (event->Action)
-                {
-                    case FILE_ACTION_MODIFIED:
-                    case FILE_ACTION_RENAMED_OLD_NAME:
-                    case FILE_ACTION_RENAMED_NEW_NAME:
-                    case FILE_ACTION_ADDED:
-                    case FILE_ACTION_REMOVED:
-                    {
-                        changedFiles.insert(Path::combine(directoryPath, fileName));
-                    }
-                }
+                callback(fileName, event->Action);
 
                 // Are there more events to handle?
                 if (event->NextEntryOffset) {
@@ -77,30 +68,58 @@ struct WatchedDirectory
     }
 };
 
-export class FileWatcher : public Singleton<FileWatcher>
+
+export class AssetFolder : public AssetBundle
 {
 public:
-    void WatchFile(Path filePath)
+    AssetFolder(Path folder_path)
+        : folder_path{ folder_path }
+        , watcher{ folder_path }
     {
-        WatchDirectory(filePath.getParentPath());
-    }
-
-    void Update()
-    {
-        for (auto& Directory : WatchedDirectories)
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(folder_path.str()))
         {
-            Directory.second->Update(ChangedFiles);
+            if (entry.is_regular_file())
+            {
+                const Path file_path = entry.path();
+                const AssetPath relative_path = file_path.getRelativeTo(folder_path);
+                entries[relative_path] = AssetStatus::Added;
+            }
         }
     }
 
-    void WatchDirectory(Path directoryPath)
+    void update() override
     {
-        if (!WatchedDirectories.contains(directoryPath))
+        watcher.update([this](AssetPath asset_path, int32 Action) 
         {
-            WatchedDirectories[directoryPath] = new WatchedDirectory{ directoryPath };
-        }
+            switch (Action)
+            {
+            case FILE_ACTION_ADDED:
+            case FILE_ACTION_RENAMED_NEW_NAME:
+            {
+                entries[asset_path] = entries.contains(asset_path) ? AssetStatus::Modified : AssetStatus::Added;
+                break;
+            }
+
+            case FILE_ACTION_MODIFIED:
+                entries[asset_path] = AssetStatus::Modified;
+                break;
+
+            case FILE_ACTION_REMOVED:
+            case FILE_ACTION_RENAMED_OLD_NAME:
+                entries[asset_path] = AssetStatus::Removing;
+                break;
+            }
+
+            synced = false;
+        });
     }
 
-    HashMap<Path, WatchedDirectory*> WatchedDirectories;
-    HashSet<Path> ChangedFiles;
+    Path get_folder_path() const
+    {
+        return folder_path;
+    }
+
+private:
+    Path folder_path;
+    DirectoryWatcher watcher;
 };
