@@ -14,6 +14,4 @@ Actor::Actor()
     material = new Material("actor");
     material->Textures.append(texture);
     material->RefreshBuffer();
-
-    Assets::GetInstance().GetTexture("textures/head.png");
 }
