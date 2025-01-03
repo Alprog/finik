@@ -6,6 +6,8 @@ import primitive_types;
 export template <typename TKey, typename TValue>
 class HashMap
 {
+    using predicate_func = std::function<bool(const std::pair<TKey, TValue>&)>;
+
 public:
     HashMap() = default;
 
@@ -37,6 +39,11 @@ public:
     bool contains(const TKey& key) const
     {
         return data.contains(key);
+    }
+
+    bool contains(predicate_func predicate)
+    {
+        return std::find_if(data.begin(), data.end(), predicate) != data.end();
     }
 
     int32 count() const
@@ -99,7 +106,7 @@ public:
         return data.erase(key) > 0;
     }
 
-    void remove_if(std::function<bool(const std::pair<TKey, TValue>&)> predicate)
+    void remove_if(predicate_func predicate)
     {
         std::erase_if(data, predicate);
     }

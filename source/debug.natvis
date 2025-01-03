@@ -27,6 +27,10 @@
         </Expand>
     </Type>
 
+    <Type Name="SortedMap&lt;*&gt;">
+        <DisplayString>{data}</DisplayString>
+    </Type>
+
     <Type Name="HashMap&lt;*&gt;">
         <DisplayString>{data}</DisplayString>
     </Type>

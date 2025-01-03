@@ -8,7 +8,7 @@ import file_watcher;
 import shader_source_file;
 import asset_bundle;
 import asset_folder;
-import asset_info;
+import asset_desc;
 import byte_blob;
 
 export class Assets : public Singleton<Assets>
@@ -58,11 +58,11 @@ public:
                 {
                 case AssetStatus::Added:
                 {
-                    auto it = asset_infos.find_value(path);
+                    auto it = asset_descs.find_value(path);
                     if (!it)
                     {
                         // add fully new
-                        asset_infos[path] = AssetInfo(path, &bundle);
+                        asset_descs[path] = AssetDesc(path, &bundle);
                     }
                     else
                     {
@@ -79,7 +79,7 @@ public:
                     
                 case AssetStatus::Modified:
                 {
-                    auto it = asset_infos.find_value(path);
+                    auto it = asset_descs.find_value(path);
                     if (it && it->actual_bundle == &bundle)
                     {
                         it->version++;
@@ -93,6 +93,8 @@ public:
                     break;
                 }
             }
+
+            bundle.entries.remove_if([](auto& pair) { return pair.second == AssetStatus::Removing; });
 
             bundle.synced = true;
         }
@@ -117,7 +119,7 @@ public:
 
     bool exists(AssetPath path)
     {
-        return asset_infos.contains(path);
+        return asset_descs.contains(path);
     }
 
     bool is_loaded(AssetPath path)
@@ -184,7 +186,7 @@ private:
     }
 
 private:
-    HashMap<AssetPath, AssetInfo> asset_infos;
+    HashMap<AssetPath, AssetDesc> asset_descs;
 
     Array<AssetBundle*> bundles;
 
