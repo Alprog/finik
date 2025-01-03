@@ -89,7 +89,24 @@ public:
                 }                    
 
                 case AssetStatus::Removing:
-                    // not implemented
+                    auto it = asset_descs.find_value(path);
+                    if (it && it->actual_bundle == &bundle)
+                    {
+                        it->actual_bundle = nullptr;
+                        for (int32 index = bundle.priority - 1; index >= 0; index--)
+                        {
+                            if (bundles[index]->has(path))
+                            {
+                                it->actual_bundle = bundles[index];
+                                it->version++;
+                                break;
+                            }
+                        }
+                        if (!it->actual_bundle && !it->is_loaded())
+                        {
+                            asset_descs.remove(path);
+                        }
+                    }
                     break;
                 }
             }
