@@ -66,10 +66,12 @@ public:
                 {
                     entries[info.relative_path] = AssetStatus::Added;
                     times[info.relative_path] = info.time;
+                    synced = false;
                 }
                 else if (update_time(info.relative_path, info.time))
                 {
                     *it = AssetStatus::Modified;
+                    synced = false;
                 }
             }
 
@@ -87,6 +89,7 @@ public:
                     else
                     {
                         status = AssetStatus::Removing;
+                        synced = false;
                     }
                 }
             }
