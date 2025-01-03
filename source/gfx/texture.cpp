@@ -10,27 +10,40 @@ import images;
 
 static const uint32 TexturePixelSize = 4;
 
-Texture::Texture(int width, int height)
-    : Asset{ "" }
-    , Width{ width }
-    , Height{ height }
+Texture::Texture(AssetPath asset_path)
+    : Asset{ asset_path }
+    , Width{0}
+    , Height{0}
 {
     auto& renderSystem = App::GetInstance().render_system;
+    DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
+    descriptorHandle = heap->getNextHandle();
+}
 
-    auto device = renderSystem.get_device();
-    auto commandList = renderSystem.get_command_list();
+void Texture::resize(int32 width, int32 height)
+{
+    if (this->Width == width && this->Height == height)
+    {
+        return;
+    }
 
-    ID3D12CommandAllocator* commandAllocator = nullptr;
-    if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)) != S_OK)
-        throw;
+    this->Width = width;
+    this->Height = height;
 
-    auto& commandQueue = renderSystem.get_command_queue();
+    if (InternalResource)
+    {
+        InternalResource->Release();
+        InternalResource = nullptr;
+    }
+
+    auto& renderSystem = App::GetInstance().render_system;
+    auto* device = renderSystem.get_device();
 
     D3D12_RESOURCE_DESC textureDesc = {};
     textureDesc.MipLevels = 1;
     textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    textureDesc.Width = Width;
-    textureDesc.Height = Height;
+    textureDesc.Width = width;
+    textureDesc.Height = height;
     textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
     textureDesc.DepthOrArraySize = 1;
     textureDesc.SampleDesc.Count = 1;
@@ -53,9 +66,13 @@ Texture::Texture(int width, int height)
     srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
     srvDesc.Texture2D.MipLevels = 1;
 
-    DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
-    descriptorHandle = heap->getNextHandle();
     device->CreateShaderResourceView(InternalResource, &srvDesc, descriptorHandle.getCPU());
+}
+
+Texture::Texture(int32 width, int32 height)
+    : Texture( "" )
+{
+    resize(width, height);
 }
 
 Texture::Texture(Image& image)
@@ -64,18 +81,11 @@ Texture::Texture(Image& image)
     setData(image);
 }
 
-Texture::Texture(ByteBlob& blob)
-    : Texture(*Images::loadPng(blob))
-{
-}
-
 void Texture::hot_reload(ByteBlob& blob)
 {
     Image* image = Images::loadPng(blob);
-    if (image->width == Width && image->height == Height)
-    {
-        setData(*image);
-    }
+    resize(image->width, image->height);
+    setData(*image);
     version++;
 }
 

@@ -166,23 +166,6 @@ public:
         return std::dynamic_pointer_cast<T, Asset>(get_asset(path));
     }
 
-    std::shared_ptr<Texture> GetTexture(AssetPath asset_path)
-    {
-        auto it = Textures.find_value(asset_path);
-        if (it)
-        {
-            return *it;
-        }
-
-        auto fullFilePath = Path::combine(AssetDirectory, asset_path);
-
-        ByteBlob blob(fullFilePath);
-        auto texture = std::make_shared<Texture>(blob);
-
-        Textures[asset_path] = texture;
-        return texture;
-    }
-
 private:
     void refresh_bundle_priorities()
     {

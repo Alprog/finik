@@ -9,5 +9,5 @@ public:
     virtual ~GpuResource();
 
 protected:
-    ID3D12Resource* InternalResource;
+    ID3D12Resource* InternalResource = nullptr;
 };

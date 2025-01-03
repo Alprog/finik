@@ -7,15 +7,17 @@ import images;
 import gpu_resource;
 import byte_blob;
 import asset;
+import asset_path;
 
 export class Texture : public GpuResource, public Asset
 {
 public:
-    using Asset::Asset;
+    Texture(AssetPath asset_path);
 
-    Texture(int width, int height);
+    void resize(int32 width, int32 height);
+
+    Texture(int32 width, int32 height);
     Texture(Image& image);
-    Texture(ByteBlob& blob);
     
     void hot_reload(ByteBlob& blob) override;
 

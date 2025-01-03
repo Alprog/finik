@@ -9,7 +9,7 @@ Grid::Grid()
     tileMap = new ::TileMap();
 	mesh = CreateMesh();
 
-	auto cellTexture = Assets::GetInstance().GetTexture("textures/cell.png");
+	auto cellTexture = Assets::GetInstance().get<Texture>("textures/cell.png");
 
 	material = new Material("grid_material");
 	material->Textures.append(cellTexture);
