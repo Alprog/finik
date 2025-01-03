@@ -9,7 +9,7 @@ export class Asset
 public:
     Asset(AssetPath assetPath)
         : assetPath{ assetPath }
-        , version { 0 }
+        , version { -1 }
     {
     }
 

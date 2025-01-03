@@ -150,7 +150,7 @@ public:
         return false;
     }
 
-    std::shared_ptr<Asset> get(AssetPath path)
+    std::shared_ptr<Asset> get_asset(AssetPath path)
     {
         auto it = asset_descs.find_value(path);
         if (it)
@@ -158,6 +158,12 @@ public:
             return it->get_asset();
         }
         return nullptr;
+    }
+
+    template <typename T>
+    std::shared_ptr<T> get(AssetPath path)
+    {
+        return std::dynamic_pointer_cast<T, Asset>(get_asset(path));
     }
 
     std::shared_ptr<Texture> GetTexture(AssetPath asset_path)
@@ -175,24 +181,6 @@ public:
 
         Textures[asset_path] = texture;
         return texture;
-    }
-
-    std::shared_ptr<ShaderSourceFile> GetShaderSourceFile(AssetPath asset_path)
-    {
-        auto it = ShaderSourceFiles.find_value(asset_path);
-        if (it)
-        {
-            return *it;
-        }
-
-        auto fullFilePath = Path::combine(AssetDirectory, asset_path);
-
-        ByteBlob blob(fullFilePath);
-        auto sourceFile = std::make_shared<ShaderSourceFile>(asset_path);
-        sourceFile->hot_reload(blob);
-
-        ShaderSourceFiles[asset_path] = sourceFile;
-        return sourceFile;
     }
 
 private:

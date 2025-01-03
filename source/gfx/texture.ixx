@@ -11,6 +11,8 @@ import asset;
 export class Texture : public GpuResource, public Asset
 {
 public:
+    using Asset::Asset;
+
     Texture(int width, int height);
     Texture(Image& image);
     Texture(ByteBlob& blob);

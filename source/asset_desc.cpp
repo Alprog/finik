@@ -9,12 +9,14 @@ void AssetDesc::create_asset()
 
     if (extension == ".png")
     {
-        loaded_asset = std::shared_ptr<Texture>();
+        loaded_asset = std::make_shared<Texture>(virtual_path);
     }
-    else if (extension == ".inc" || extension == ".shader")
+    else if (extension == ".inc" || extension == ".hlsl")
     {
-        loaded_asset = std::shared_ptr<ShaderSourceFile>();
+        loaded_asset = std::make_shared<ShaderSourceFile>(virtual_path);
     }
-
-    throw "unknown asset extension";
+    else
+    {
+        throw "unknown asset extension";
+    }
 }

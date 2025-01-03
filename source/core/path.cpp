@@ -226,7 +226,7 @@ std::string Path::getExtension() const
     }
     else
     {
-        return name.substr(index + 1);
+        return name.substr(index);
     }
 }
 

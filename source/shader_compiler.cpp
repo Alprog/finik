@@ -12,7 +12,7 @@ class IncludeHandler : public ID3DInclude
 public:
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
     {
-        std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().GetShaderSourceFile(pFileName);
+        std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().get<ShaderSourceFile>(pFileName);
 
         const std::string& sourceText = sourceFile->GetSourceText();
 
@@ -28,9 +28,9 @@ public:
 
 void ShaderCompiler::Compile(ShaderKey key, ShaderByteCode& bytecodeBlob)
 {   
-    std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().GetShaderSourceFile(key.AssetPath);
+    std::shared_ptr<ShaderSourceFile> source_file = Assets::GetInstance().get<ShaderSourceFile>(key.AssetPath);
 
-    const std::string& source = sourceFile->GetSourceText();
+    const std::string& source = source_file->GetSourceText();
 
     auto target = key.Type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
     uint32 compileFlags = D3DCOMPILE_ENABLE_UNBOUNDED_DESCRIPTOR_TABLES;
