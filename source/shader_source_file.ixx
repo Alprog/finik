@@ -8,7 +8,7 @@ export class ShaderSourceFile : public Asset
 public:
     using Asset::Asset;
 
-    void HotReload(ByteBlob& blob) override
+    void hot_reload(ByteBlob& blob) override
     {
         sourceText = blob.asString();
         version++;

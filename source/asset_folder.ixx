@@ -101,6 +101,11 @@ public:
         return folder_path;
     }
 
+    ByteBlob get(AssetPath asset_path) const override
+    {
+        return { Path::combine(folder_path, asset_path) };
+    }
+
 private:
     Array<FileInfo> get_folder_files()
     {

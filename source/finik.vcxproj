@@ -142,6 +142,7 @@
     <ClCompile Include="assets_view.cpp" />
     <ClCompile Include="assets_view.ixx" />
     <ClCompile Include="asset_bundle.ixx" />
+    <ClCompile Include="asset_desc.cpp" />
     <ClCompile Include="asset_folder.ixx" />
     <ClCompile Include="asset_desc.ixx" />
     <ClCompile Include="asset_path.ixx" />

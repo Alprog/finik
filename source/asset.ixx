@@ -13,7 +13,7 @@ public:
     {
     }
 
-    virtual void HotReload(ByteBlob& blob) = 0;
+    virtual void hot_reload(ByteBlob& blob) = 0;
 
     int32 get_version() const { return version; }
 

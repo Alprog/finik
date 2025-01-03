@@ -10,6 +10,7 @@ import asset_bundle;
 import asset_folder;
 import asset_desc;
 import byte_blob;
+import asset;
 
 export class Assets : public Singleton<Assets>
 {
@@ -141,42 +142,56 @@ public:
 
     bool is_loaded(AssetPath path)
     {
-        // not implemented
-        return true;
+        auto it = asset_descs.find_value(path);
+        if (it)
+        {
+            return it->is_loaded();
+        }
+        return false;
     }
 
-    std::shared_ptr<Texture> GetTexture(AssetPath assetPath)
+    std::shared_ptr<Asset> get(AssetPath path)
     {
-        auto it = Textures.find_value(assetPath);
+        auto it = asset_descs.find_value(path);
+        if (it)
+        {
+            return it->get_asset();
+        }
+        return nullptr;
+    }
+
+    std::shared_ptr<Texture> GetTexture(AssetPath asset_path)
+    {
+        auto it = Textures.find_value(asset_path);
         if (it)
         {
             return *it;
         }
 
-        auto fullFilePath = Path::combine(AssetDirectory, assetPath);
+        auto fullFilePath = Path::combine(AssetDirectory, asset_path);
 
         ByteBlob blob(fullFilePath);
         auto texture = std::make_shared<Texture>(blob);
 
-        Textures[assetPath] = texture;
+        Textures[asset_path] = texture;
         return texture;
     }
 
-    std::shared_ptr<ShaderSourceFile> GetShaderSourceFile(AssetPath assetPath)
+    std::shared_ptr<ShaderSourceFile> GetShaderSourceFile(AssetPath asset_path)
     {
-        auto it = ShaderSourceFiles.find_value(assetPath);
+        auto it = ShaderSourceFiles.find_value(asset_path);
         if (it)
         {
             return *it;
         }
 
-        auto fullFilePath = Path::combine(AssetDirectory, assetPath);
+        auto fullFilePath = Path::combine(AssetDirectory, asset_path);
 
         ByteBlob blob(fullFilePath);
-        auto sourceFile = std::make_shared<ShaderSourceFile>(assetPath);
-        sourceFile->HotReload(blob);
+        auto sourceFile = std::make_shared<ShaderSourceFile>(asset_path);
+        sourceFile->hot_reload(blob);
 
-        ShaderSourceFiles[assetPath] = sourceFile;
+        ShaderSourceFiles[asset_path] = sourceFile;
         return sourceFile;
     }
 

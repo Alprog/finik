@@ -15,7 +15,7 @@ public:
     Texture(Image& image);
     Texture(ByteBlob& blob);
     
-    void HotReload(ByteBlob& blob) override;
+    void hot_reload(ByteBlob& blob) override;
 
     void setData(Image& image);
 

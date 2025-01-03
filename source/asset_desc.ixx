@@ -16,6 +16,26 @@ export struct AssetDesc
     {
     }
 
+    std::shared_ptr<Asset> get_asset()
+    {
+        if (!is_loaded())
+        {
+            create_asset();
+            load();
+        }
+        return loaded_asset;
+    }
+
+    void create_asset();
+
+    void load()
+    {
+        if (actual_bundle)
+        {
+            loaded_asset->hot_reload(actual_bundle->get(virtual_path));
+        }
+    }
+       
     bool is_loaded() const
     {
         return loaded_asset != nullptr;

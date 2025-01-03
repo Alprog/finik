@@ -69,7 +69,7 @@ Texture::Texture(ByteBlob& blob)
 {
 }
 
-void Texture::HotReload(ByteBlob& blob)
+void Texture::hot_reload(ByteBlob& blob)
 {
     Image* image = Images::loadPng(blob);
     if (image->width == Width && image->height == Height)

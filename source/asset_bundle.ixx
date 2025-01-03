@@ -2,6 +2,7 @@ export module asset_bundle;
 
 import core;
 import asset_path;
+import byte_blob;
 
 export enum class AssetStatus
 {
@@ -27,6 +28,8 @@ public:
     {
         return entries.contains(asset_path);
     }
+
+    virtual ByteBlob get(AssetPath asset_path) const = 0;
 
 protected:
     SortedMap<AssetPath, AssetStatus> entries;
