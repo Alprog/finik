@@ -19,9 +19,10 @@ public:
     Texture(int32 width, int32 height);
     Texture(Image& image);
     
-    void hot_reload(ByteBlob& blob) override;
-
     void setData(Image& image);
+
+protected:
+    void hot_reload(ByteBlob& blob) override;
 
 public:
     int Width;

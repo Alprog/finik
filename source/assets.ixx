@@ -43,14 +43,33 @@ public:
             p_bundle->update();
         }
 
+        bool changed = false;
+
         for (auto p_bundle : bundles)
         {
-            sync_bundle(*p_bundle);
+            changed |= sync_bundle(*p_bundle);
+        }
+
+        if (changed)
+        {
+            hot_reload();
         }
     }
 
-    void sync_bundle(AssetBundle& bundle)
+    void hot_reload()
     {
+        for (auto& [path, desc] : asset_descs)
+        {
+            if (desc.need_reload())
+            {
+                desc.reload();
+            }
+        }
+    }
+
+    bool sync_bundle(AssetBundle& bundle)
+    {
+        bool changed = false;
         if (!bundle.synced)
         {
             for (auto& [path, status] : bundle.entries)
@@ -72,6 +91,7 @@ public:
                             // override existing
                             it->actual_bundle = &bundle;
                             it->version++;
+                            changed = true;
                         }
                     }
                     status = AssetStatus::Synced;
@@ -80,30 +100,32 @@ public:
                     
                 case AssetStatus::Modified:
                 {
-                    auto it = asset_descs.find_value(path);
-                    if (it && it->actual_bundle == &bundle)
+                    auto desc = asset_descs.find_value(path);
+                    if (desc && desc->actual_bundle == &bundle)
                     {
-                        it->version++;
+                        desc->version++;
+                        changed = true;
                     }
                     status = AssetStatus::Synced;
                     break;
                 }                    
 
                 case AssetStatus::Removing:
-                    auto it = asset_descs.find_value(path);
-                    if (it && it->actual_bundle == &bundle)
+                    auto desc = asset_descs.find_value(path);
+                    if (desc && desc->actual_bundle == &bundle)
                     {
-                        it->actual_bundle = nullptr;
+                        desc->actual_bundle = nullptr;
                         for (int32 index = bundle.priority - 1; index >= 0; index--)
                         {
                             if (bundles[index]->has(path))
                             {
-                                it->actual_bundle = bundles[index];
-                                it->version++;
+                                desc->actual_bundle = bundles[index];
+                                desc->version++;
+                                changed = true;
                                 break;
                             }
                         }
-                        if (!it->actual_bundle && !it->is_loaded())
+                        if (!desc->actual_bundle && !desc->is_loaded())
                         {
                             asset_descs.remove(path);
                         }
@@ -116,6 +138,7 @@ public:
 
             bundle.synced = true;
         }
+        return changed;
     }
 
     void mount_folder(Path folder_path)
@@ -184,4 +207,5 @@ private:
     Path AssetDirectory;
     HashMap<AssetPath, std::shared_ptr<Texture>> Textures;
     HashMap<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
+    bool need_hotreload = false;
 };

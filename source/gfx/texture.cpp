@@ -86,7 +86,6 @@ void Texture::hot_reload(ByteBlob& blob)
     Image* image = Images::loadPng(blob);
     resize(image->width, image->height);
     setData(*image);
-    version++;
 }
 
 void Texture::setData(Image& image)

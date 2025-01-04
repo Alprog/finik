@@ -8,15 +8,15 @@ export class ShaderSourceFile : public Asset
 public:
     using Asset::Asset;
 
-    void hot_reload(ByteBlob& blob) override
-    {
-        sourceText = blob.asString();
-        version++;
-    }
-
     const std::string& GetSourceText() const
     {
         return sourceText;
+    }
+
+protected:
+    void hot_reload(ByteBlob& blob) override
+    {
+        sourceText = blob.asString();
     }
 
 private:

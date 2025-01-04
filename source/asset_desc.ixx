@@ -9,10 +9,10 @@ export struct AssetDesc
 {
     AssetDesc() = default;
 
-    AssetDesc(AssetPath virtual_path, AssetBundle* bundle, int32 version = 0)
+    AssetDesc(AssetPath virtual_path, AssetBundle* bundle)
         : virtual_path { virtual_path }
         , actual_bundle{ bundle }
-        , version { version }
+        , version { 0 }
     {
     }
 
@@ -21,24 +21,29 @@ export struct AssetDesc
         if (!is_loaded())
         {
             create_asset();
-            load();
+            reload();
         }
         return loaded_asset;
     }
 
     void create_asset();
 
-    void load()
+    void reload()
     {
         if (actual_bundle)
         {
-            loaded_asset->hot_reload(actual_bundle->get(virtual_path));
+            loaded_asset->hot_reload(actual_bundle->get(virtual_path), version);
         }
     }
        
     bool is_loaded() const
     {
         return loaded_asset != nullptr;
+    }
+
+    bool need_reload() const
+    {
+        return loaded_asset && loaded_asset->get_version() != version;
     }
 
     std::strong_ordering operator<=>(AssetDesc& another)
