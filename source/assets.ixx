@@ -43,14 +43,12 @@ public:
             p_bundle->update();
         }
 
-        bool changed = false;
-
         for (auto p_bundle : bundles)
         {
-            changed |= sync_bundle(*p_bundle);
+            sync_bundle(*p_bundle);
         }
 
-        if (changed)
+        if (need_hot_reload)
         {
             hot_reload();
         }
@@ -58,16 +56,18 @@ public:
 
     void hot_reload()
     {
-        for (auto& [path, desc] : asset_descs)
+        bool success = true;
+        for (auto& [_, desc] : asset_descs)
         {
             if (desc.need_reload())
             {
-                desc.reload();
+                success |= desc.try_reload();
             }
         }
+        need_hot_reload = !success;
     }
 
-    bool sync_bundle(AssetBundle& bundle)
+    void sync_bundle(AssetBundle& bundle)
     {
         bool changed = false;
         if (!bundle.synced)
@@ -91,7 +91,7 @@ public:
                             // override existing
                             it->actual_bundle = &bundle;
                             it->version++;
-                            changed = true;
+                            need_hot_reload = true;
                         }
                     }
                     status = AssetStatus::Synced;
@@ -104,7 +104,7 @@ public:
                     if (desc && desc->actual_bundle == &bundle)
                     {
                         desc->version++;
-                        changed = true;
+                        need_hot_reload = true;
                     }
                     status = AssetStatus::Synced;
                     break;
@@ -121,7 +121,7 @@ public:
                             {
                                 desc->actual_bundle = bundles[index];
                                 desc->version++;
-                                changed = true;
+                                need_hot_reload = true;
                                 break;
                             }
                         }
@@ -138,7 +138,6 @@ public:
 
             bundle.synced = true;
         }
-        return changed;
     }
 
     void mount_folder(Path folder_path)
@@ -207,5 +206,5 @@ private:
     Path AssetDirectory;
     HashMap<AssetPath, std::shared_ptr<Texture>> Textures;
     HashMap<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
-    bool need_hotreload = false;
+    bool need_hot_reload = false;
 };

@@ -4,6 +4,7 @@ import core;
 import asset;
 import asset_path;
 import asset_bundle;
+import byte_blob;
 
 export struct AssetDesc
 {
@@ -21,19 +22,25 @@ export struct AssetDesc
         if (!is_loaded())
         {
             create_asset();
-            reload();
+            try_reload();
         }
         return loaded_asset;
     }
 
     void create_asset();
 
-    void reload()
+    bool try_reload()
     {
         if (actual_bundle)
         {
-            loaded_asset->hot_reload(actual_bundle->get(virtual_path), version);
+            ByteBlob blob = actual_bundle->get(virtual_path);
+            if (!blob.empty())
+            {
+                loaded_asset->hot_reload(blob, version);
+                return true;
+            }
         }
+        return false;
     }
        
     bool is_loaded() const

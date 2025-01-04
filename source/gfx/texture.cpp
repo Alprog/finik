@@ -90,8 +90,6 @@ void Texture::hot_reload(ByteBlob& blob)
 
 void Texture::setData(Image& image)
 {
-    //image->generateChessboard();
-
     auto& renderSystem = App::GetInstance().render_system;
 
     auto device = renderSystem.get_device();
@@ -101,21 +99,25 @@ void Texture::setData(Image& image)
     if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)) != S_OK)
         throw;
 
+    commandList->Reset(commandAllocator, nullptr);
+
     auto& commandQueue = renderSystem.get_command_queue();
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
-
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
-    memcpy(uploadBuffer.GetData(), image.data, uploadBufferSize);
-
-    //D3D12_SUBRESOURCE_DATA textureData = {};
-    //textureData.pData = image->data;
-    //textureData.RowPitch = image->width * TexturePixelSize;
-    //textureData.SlicePitch = textureData.RowPitch * image->height;
-
-
-    commandList->Reset(commandAllocator, nullptr);
-    //UpdateSubresources(commandList, texture.Get(), uploadBuffer.GetResource(), 0, 0, 1, &textureData);
+    
+    if (uploadBufferSize == image.getByteSize())
+    {
+        memcpy(uploadBuffer.GetData(), image.data, uploadBufferSize);
+    }
+    else
+    {
+        D3D12_SUBRESOURCE_DATA textureData = {};
+        textureData.pData = image.data;
+        textureData.RowPitch = image.width * TexturePixelSize;
+        textureData.SlicePitch = textureData.RowPitch * image.height;
+        UpdateSubresources(commandList, InternalResource, uploadBuffer.GetResource(), 0, 0, 1, &textureData);
+    }
 
     if (state == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
     {
