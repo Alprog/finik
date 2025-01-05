@@ -103,9 +103,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     frameConstantBuffer->ViewProjection = V * P;
 
-    renderCommand2.state->constantBuffer = constantBuffer;
-    renderCommand2.state->constantBuffer = constantBuffer;
-
     actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
 

@@ -6,11 +6,6 @@ import shader;
 
 HashMap<PipelineSettings, PipelineState*> states;
 
-RenderState::RenderState()
-    : constantBuffer {nullptr}
-{
-}
-
 void RenderState::setVertexShader(Shader* shader)
 {
     if (pipelineSettings.vertexShader != shader)

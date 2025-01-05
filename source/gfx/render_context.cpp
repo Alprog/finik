@@ -13,10 +13,6 @@ RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandLi
 
 void RenderContext::draw(RenderCommand renderCommand)
 {
-    auto mesh = renderCommand.mesh;
-    GpuBuffer<FrameConstants>* constantBuffer = renderCommand.state->constantBuffer;
-   
-
     commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
 
     static Matrix Matrix = Matrix::Identity;

@@ -8,12 +8,8 @@ import constant_buffer;
 export class RenderState
 {
 public:
-    RenderState();
-
     void setVertexShader(Shader* shader);
     void setPixelShader(Shader* shader);
-
-    FrameConstantBuffer* constantBuffer;
 
     PipelineState* getPipelineState();
 
