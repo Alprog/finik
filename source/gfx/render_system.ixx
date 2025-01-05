@@ -13,6 +13,7 @@ import render_context;
 import gpu_profiler;
 import myptr;
 import oneshot_allocator;
+import root_signature;
 
 export class RenderSystem
 {
@@ -31,6 +32,7 @@ public:
     DescriptorHeap* getSrvCbvHeap();
     RenderContext* getRenderContext();
     GpuProfiler* getProfiler();
+    RootSignature& getRootSignature();
 
     CommandList& getFreeCommandList();
     finik::gpumem::OneshotAllocator& getOneshotAllocator();
@@ -51,10 +53,13 @@ private:
     void createCommandList();   
     void createRenderContext();
     void createProfiler();
+    void createRootSignature();
     
     CommandQueue* commandQueue = nullptr;
     MyPtr<ID3D12CommandAllocator> commandAllocators[3];
     MyPtr<ID3D12GraphicsCommandList> commandList;
+
+    std::unique_ptr<RootSignature> rootSignature;
 
     GpuProfiler* gpuProfiler = nullptr;
 

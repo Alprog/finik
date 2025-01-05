@@ -224,6 +224,8 @@
     <ClCompile Include="gfx\render_system.ixx" />
     <ClCompile Include="gfx\render_target.cpp" />
     <ClCompile Include="gfx\render_target.ixx" />
+    <ClCompile Include="gfx\root_signature.cpp" />
+    <ClCompile Include="gfx\root_signature.ixx" />
     <ClCompile Include="gfx\root_signature_params.ixx" />
     <ClCompile Include="gfx\swap_chain.cpp" />
     <ClCompile Include="gfx\swap_chain.ixx" />

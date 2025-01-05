@@ -3,6 +3,7 @@ export module pipeline_state;
 import dx;
 import pipeline_settings;
 import render_system_fwd;
+import root_signature;
 
 export class PipelineState
 {
@@ -11,6 +12,6 @@ public:
 
     PipelineSettings pipelineSettings;
     MyPtr<ID3D12PipelineState> pipelineState;
-    MyPtr<ID3D12RootSignature> rootSignature;
+    RootSignature* rootSignature;
 };
 

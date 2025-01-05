@@ -31,35 +31,6 @@ void Scene::update(float deltaTime)
 {
     static float angle = 0;
     angle += deltaTime;
-
-    if (renderCommand.state)
-    {
-        //auto M = Matrix::RotationX(-3.14f / 4) * Matrix::RotationY(angle) * Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.5f));
-        //auto V = Matrix::Identity;
-        //auto P = Matrix::Identity;
-
-        //renderCommand.state->constantBuffer->data.MVP = M * V * P;
-        //renderCommand.state->constantBuffer->version++;
-    }
-}
-
-FrameConstantBuffer* getConstantBuffer(Camera* camera)
-{
-    static HashMap<Camera*, FrameConstantBuffer*> maps[5];
-
-    auto frameIndex = App::GetInstance().profiler.getFrameIndex();
-    auto& constantBuffers = maps[frameIndex % 5];
-
-    auto it = constantBuffers.find_value(camera);
-    if (it)
-    {
-        return *it;
-    }
-
-    auto& renderSystem = App::GetInstance().render_system;
-    auto constantBuffer = new FrameConstantBuffer(renderSystem);
-    constantBuffers[camera] = constantBuffer;
-    return constantBuffer;
 }
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
@@ -72,8 +43,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
 
-    FrameConstantBuffer* constantBuffer = getConstantBuffer(camera);
-
+    
     auto& ShaderManager = ShaderManager::GetInstance();
 
     if (!renderCommand.state)
@@ -98,8 +68,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
-    (*constantBuffer)->ViewProjection = V * P;
-
+    
 
     frameConstantBuffer->ViewProjection = V * P;
 
@@ -110,7 +79,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
-    commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature.Get());
+    commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature->signatureImpl.Get());
     
     auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);

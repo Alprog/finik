@@ -63,6 +63,7 @@ void RenderSystem::init()
     createCommandList();
     createRenderContext();
     createProfiler();
+    createRootSignature();
 }
 
 void RenderSystem::enableDebugLayer()
@@ -198,6 +199,11 @@ void RenderSystem::createProfiler()
     gpuProfiler = new GpuProfiler(*this);
 }
 
+void RenderSystem::createRootSignature()
+{
+    rootSignature = std::make_unique<RootSignature>( *this );
+}
+
 void RenderSystem::scheduleQueryResolving()
 {
     static int i = 0;
@@ -261,6 +267,11 @@ RenderContext* RenderSystem::getRenderContext()
 GpuProfiler* RenderSystem::getProfiler()
 {
     return gpuProfiler;
+}
+
+RootSignature& RenderSystem::getRootSignature()
+{
+    return *rootSignature;
 }
 
 CommandList& RenderSystem::getFreeCommandList()
