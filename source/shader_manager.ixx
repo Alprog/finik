@@ -7,6 +7,15 @@ import asset_path;
 export class ShaderManager : public Singleton<ShaderManager>
 {
 public:
+    void update()
+    {
+        if (sourceFilesChanged)
+        {
+            hotReloadOutdated();
+            sourceFilesChanged = false;
+        }
+    }
+
     Shader* getVertexShader(AssetPath assetPath, const std::string& entryName)
     {
         return getShader({ assetPath, ShaderType::Vertex, entryName });
@@ -22,14 +31,35 @@ public:
         auto it = Shaders.find_value(key);
         if (it)
         {
-            return *it;
+            return it->get();
         }
 
-        auto shader = new Shader(key);
+        auto shader = std::make_shared<Shader>(key);
         Shaders[key] = shader;
-        return shader;
+        return shader.get();
+    }
+
+    void onSourceFileChanged()
+    {
+        sourceFilesChanged = true;
     }
 
 private:
-    HashMap<ShaderKey, Shader*> Shaders;
+    int32 hotReloadOutdated()
+    {
+        int32 count = 0;
+        for (auto& [_, shader] : Shaders)
+        {
+            if (shader->dependencies.isOutdated())
+            {
+                shader->Recompile();
+                count++;
+            }
+        }
+        return count;
+    }
+
+private:
+    HashMap<ShaderKey, std::shared_ptr<Shader>> Shaders;
+    bool sourceFilesChanged = false;
 };

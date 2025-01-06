@@ -3,6 +3,7 @@ export module shader;
 import core;
 import dx;
 import asset_path;
+import asset_dependencies;
 
 export enum ShaderType
 {
@@ -37,8 +38,12 @@ export class Shader
 public:
     Shader(ShaderKey key);
 
+    bool IsValid() const { return errorMessage.empty(); }
+
     void Recompile();
 
     ShaderKey key;
     ShaderByteCode bytecodeBlob; // compiled code
+    std::string errorMessage;
+    AssetDependencies dependencies;
 };

@@ -14,6 +14,7 @@ import desktop_window;
 import file_watcher;
 import hot_reloader;
 import assets;
+import shader_manager;
 
 App& App::GetInstance()
 {
@@ -68,6 +69,7 @@ void App::run_game_loop()
         FileWatcher::GetInstance().Update();
         HotReloader::GetInstance().Update();
         Assets::GetInstance().update();
+        ShaderManager::GetInstance().update();
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
         render_system.get_command_queue().freeCompletedLists();

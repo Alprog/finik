@@ -10,5 +10,5 @@ Shader::Shader(ShaderKey key)
 
 void Shader::Recompile()
 {
-    ShaderCompiler::GetInstance().Compile(key, bytecodeBlob);
+    ShaderCompiler::GetInstance().Compile(key, bytecodeBlob, dependencies);
 }

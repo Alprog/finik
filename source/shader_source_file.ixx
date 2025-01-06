@@ -2,6 +2,7 @@ export module shader_source_file;
 
 import core;
 import asset;
+import shader_manager;
 
 export class ShaderSourceFile : public Asset
 {
@@ -17,6 +18,7 @@ protected:
     void hot_reload(ByteBlob& blob) override
     {
         sourceText = blob.asString();
+        ShaderManager::GetInstance().onSourceFileChanged();
     }
 
 private:

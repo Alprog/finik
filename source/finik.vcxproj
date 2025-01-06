@@ -142,6 +142,7 @@
     <ClCompile Include="assets_view.cpp" />
     <ClCompile Include="assets_view.ixx" />
     <ClCompile Include="asset_bundle.ixx" />
+    <ClCompile Include="asset_dependencies.ixx" />
     <ClCompile Include="asset_desc.cpp" />
     <ClCompile Include="asset_folder.ixx" />
     <ClCompile Include="asset_desc.ixx" />
@@ -161,6 +162,7 @@
     <ClCompile Include="core\containers\hash_map.ixx" />
     <ClCompile Include="core\containers\hash_set.ixx" />
     <ClCompile Include="core\containers\sorted_array.ixx" />
+    <ClCompile Include="core\containers\string.ixx" />
     <ClCompile Include="core\math\int_size.ixx" />
     <ClCompile Include="core\math\math.ixx" />
     <ClCompile Include="core\math\matrix.cpp" />

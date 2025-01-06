@@ -1,0 +1,27 @@
+export module asset_dependencies;
+
+import core;
+import asset;
+
+export struct AssetDependencies
+{
+    void add(std::shared_ptr<Asset> asset)
+    {
+        dependencies.emplace_back(asset, asset->get_version());
+    }
+
+    bool isOutdated()
+    {
+        for (auto& [asset, version] : dependencies)
+        {
+            if (asset->get_version() != version)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+private:
+    Array<std::pair<std::shared_ptr<Asset>, int32>> dependencies;
+};

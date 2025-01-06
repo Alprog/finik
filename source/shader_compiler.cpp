@@ -6,13 +6,20 @@ module shader_compiler;
 import assets;
 import shader_source_file;
 import byte_blob;
+import asset_dependencies;
 
 class IncludeHandler : public ID3DInclude
 {
 public:
+    IncludeHandler(AssetDependencies& dependencies)
+        : dependencies{ dependencies }
+    {
+    }
+
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
     {
         std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().get<ShaderSourceFile>(pFileName);
+        dependencies.add(sourceFile);
 
         const std::string& sourceText = sourceFile->GetSourceText();
 
@@ -24,11 +31,17 @@ public:
     HRESULT __stdcall Close(LPCVOID pData) override {
         return S_OK;
     }
+
+private:
+    AssetDependencies& dependencies;
 };
 
-void ShaderCompiler::Compile(ShaderKey key, ShaderByteCode& bytecodeBlob)
+void ShaderCompiler::Compile(ShaderKey key, ShaderByteCode& bytecodeBlob, AssetDependencies& dependencies)
 {   
+    dependencies = {};
+
     std::shared_ptr<ShaderSourceFile> source_file = Assets::GetInstance().get<ShaderSourceFile>(key.AssetPath);
+    dependencies.add(source_file);
 
     const std::string& source = source_file->GetSourceText();
 
@@ -37,7 +50,7 @@ void ShaderCompiler::Compile(ShaderKey key, ShaderByteCode& bytecodeBlob)
 
     ID3DBlob* errorBlob = nullptr;
 
-    static IncludeHandler includeHandler;
+    IncludeHandler includeHandler(dependencies);
     auto result = D3DCompile(source.data(), source.size(), key.EntryPoint.c_str(), nullptr, &includeHandler, key.EntryPoint.c_str(), target, compileFlags, 0, &bytecodeBlob, &errorBlob);
 
     if (FAILED(result))
