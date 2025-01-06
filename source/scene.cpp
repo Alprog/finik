@@ -2,11 +2,10 @@ module scene;
 
 import app;
 import render_system;
-import render_state;
+import effect;
 import mesh;
 import constant_buffer;
 import texture;
-import render_command;
 import root_signature_params;
 import actor;
 import shader;
@@ -17,7 +16,7 @@ import allocation;
 import descriptor_heap;
 import material_manager;
 import upload_buffer;
-import shader_manager;
+import effect_manager;
 
 Scene::Scene()
 {
@@ -43,28 +42,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
 
-    
-    auto& ShaderManager = ShaderManager::GetInstance();
-
-    if (!renderCommand.state)
-    {
-        renderCommand.mesh = createCubeMesh();
-
-        AssetPath path = "shaders/shadersTextured.hlsl";
-        renderCommand.state = new RenderState();
-        renderCommand.state->setVertexShader(ShaderManager.getVertexShader(path, "VSMain"));
-        renderCommand.state->setPixelShader(ShaderManager.getPixelShader(path, "PSMain"));
-    }
-
-    if (!renderCommand2.state)
-    {
-        renderCommand2.mesh = grid->mesh;
-
-        AssetPath path = "shaders/grid.hlsl";
-        renderCommand2.state = new RenderState();       
-        renderCommand2.state->setVertexShader(ShaderManager.getVertexShader(path, "VSMain"));
-        renderCommand2.state->setPixelShader(ShaderManager.getPixelShader(path, "PSMain"));
-    }
 
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
@@ -77,7 +54,6 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     //----------------------------------------------------
 
-    auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
 
     commandList.SetGraphicsRootSignature(renderSystem.getRootSignature().signatureImpl.Get());
@@ -90,7 +66,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::UnboundTextureTable, startHandle);
 
-    commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
+    commandList.SetPipelineState(EffectManager::GetInstance().get("standard")->getPipelineState()->pipelineState.Get());
 
     for (auto& actor : actors)
     {
@@ -101,10 +77,10 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     //----------------------
 
-    commandList.SetPipelineState(renderCommand2.state->getPipelineState()->pipelineState.Get());
+    commandList.SetPipelineState(EffectManager::GetInstance().get("grid")->getPipelineState()->pipelineState.Get());
     renderContext.setMaterial(*grid->material);
 
     renderContext.setModelMatrix(Matrix::Identity);
-    renderContext.drawMesh(renderCommand2.mesh);
+    renderContext.drawMesh(grid->mesh);
 
 }

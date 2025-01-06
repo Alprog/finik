@@ -1,11 +1,11 @@
-export module render_state;
+export module effect;
 
 import core;
 import render_system_fwd;
 import pipeline_settings;
 import constant_buffer;
 
-export class RenderState
+export class Effect
 {
 public:
     void setVertexShader(Shader* shader);

@@ -1,4 +1,4 @@
-module render_state;
+module effect;
 
 import pipeline_state;
 import app;
@@ -6,7 +6,7 @@ import shader;
 
 HashMap<PipelineSettings, PipelineState*> states;
 
-void RenderState::setVertexShader(Shader* shader)
+void Effect::setVertexShader(Shader* shader)
 {
     if (pipelineSettings.vertexShader != shader)
     {
@@ -15,7 +15,7 @@ void RenderState::setVertexShader(Shader* shader)
     }
 }
 
-void RenderState::setPixelShader(Shader* shader)
+void Effect::setPixelShader(Shader* shader)
 {
     if (pipelineSettings.pixelShader != shader)
     {
@@ -24,7 +24,7 @@ void RenderState::setPixelShader(Shader* shader)
     }
 }
 
-PipelineState* RenderState::getPipelineState()
+PipelineState* Effect::getPipelineState()
 {
     if (pipelineState == nullptr)
     {

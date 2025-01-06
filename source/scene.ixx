@@ -1,6 +1,6 @@
 export module scene;
 
-import render_command;
+import effect;
 import pipeline_state;
 import render_system_fwd;
 import scene_system_fwd;
@@ -21,8 +21,8 @@ public:
     Grid* grid;
     Array<Actor*> actors;
 
-    RenderCommand renderCommand;
-    RenderCommand renderCommand2;
+    Effect renderState;
+    Effect renderState2;
    
     Ray hoverRay;
     Vector3 castedPos;
