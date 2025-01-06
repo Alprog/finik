@@ -8,8 +8,8 @@ import constant_buffer;
 export class Effect
 {
 public:
-    void setVertexShader(Shader* shader);
-    void setPixelShader(Shader* shader);
+    void setVertexShader(std::shared_ptr<Shader> shader);
+    void setPixelShader(std::shared_ptr<Shader> shader);
 
     PipelineState* getPipelineState();
 

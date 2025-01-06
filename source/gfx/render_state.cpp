@@ -6,7 +6,7 @@ import shader;
 
 HashMap<PipelineSettings, PipelineState*> states;
 
-void Effect::setVertexShader(Shader* shader)
+void Effect::setVertexShader(std::shared_ptr<Shader> shader)
 {
     if (pipelineSettings.vertexShader != shader)
     {
@@ -15,7 +15,7 @@ void Effect::setVertexShader(Shader* shader)
     }
 }
 
-void Effect::setPixelShader(Shader* shader)
+void Effect::setPixelShader(std::shared_ptr<Shader> shader)
 {
     if (pipelineSettings.pixelShader != shader)
     {

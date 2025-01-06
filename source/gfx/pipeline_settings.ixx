@@ -2,6 +2,7 @@ export module pipeline_settings;
 
 import core;
 import render_system_fwd;
+import shader;
 
 export enum class CullMode : char
 {
@@ -15,8 +16,8 @@ export class PipelineSettings
 public:
     PipelineSettings();
 
-    Shader* vertexShader;
-    Shader* pixelShader;
+    std::shared_ptr<Shader> vertexShader;
+    std::shared_ptr<Shader> pixelShader;
 
     union
     {
@@ -37,10 +38,10 @@ public:
 export template <>
 struct std::hash<PipelineSettings>
 {
-    size_t operator()(const PipelineSettings &ps) const
+    size_t operator()(const PipelineSettings& settings) const
     {
-        size_t h1 = std::hash<Shader*>()(ps.vertexShader);
-        size_t h2 = std::hash<Shader*>()(ps.pixelShader);
+        size_t h1 = std::hash<void*>()(settings.vertexShader->bytecodeBlob.Get());
+        size_t h2 = std::hash<void*>()(settings.pixelShader->bytecodeBlob.Get());
         return h1 ^ (h2 << 1);
     }
 };

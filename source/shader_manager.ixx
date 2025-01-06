@@ -16,27 +16,27 @@ public:
         }
     }
 
-    Shader* getVertexShader(AssetPath assetPath, const std::string& entryName)
+    std::shared_ptr<Shader> getVertexShader(AssetPath assetPath, const std::string& entryName)
     {
         return getShader({ assetPath, ShaderType::Vertex, entryName });
     }
     
-    Shader* getPixelShader(AssetPath assetPath, const std::string& entryName)
+    std::shared_ptr<Shader> getPixelShader(AssetPath assetPath, const std::string& entryName)
     {
         return getShader({ assetPath, ShaderType::Pixel, entryName });
     }
 
-    Shader* getShader(const ShaderKey& key)
+    std::shared_ptr<Shader> getShader(const ShaderKey& key)
     {
         auto it = Shaders.find_value(key);
         if (it)
         {
-            return it->get();
+            return *it;
         }
 
         auto shader = std::make_shared<Shader>(key);
         Shaders[key] = shader;
-        return shader.get();
+        return shader;
     }
 
     void onSourceFileChanged()
