@@ -79,7 +79,8 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     auto mesh = renderCommand.mesh;
     auto& commandList = renderContext.commandList;
-    commandList.SetGraphicsRootSignature(renderCommand.state->getPipelineState()->rootSignature->signatureImpl.Get());
+
+    commandList.SetGraphicsRootSignature(renderSystem.getRootSignature().signatureImpl.Get());
     
     auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);
@@ -98,6 +99,12 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
         renderContext.drawMesh(actor->mesh);
     }
 
+    //----------------------
+
+    commandList.SetPipelineState(renderCommand2.state->getPipelineState()->pipelineState.Get());
     renderContext.setMaterial(*grid->material);
-    renderContext.draw(renderCommand2);
+
+    renderContext.setModelMatrix(Matrix::Identity);
+    renderContext.drawMesh(renderCommand2.mesh);
+
 }

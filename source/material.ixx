@@ -3,6 +3,7 @@ export module material;
 import core;
 import texture;
 import texture_id;
+import effect;
 
 export struct MaterialData
 {
@@ -34,6 +35,8 @@ public:
     Array<std::shared_ptr<Texture>> Textures;
 
     int32 Index;
+
+    std::shared_ptr<Effect> Effect;
 };
 
 static_assert(sizeof(MaterialData) == 80);

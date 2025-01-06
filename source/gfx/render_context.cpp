@@ -4,20 +4,12 @@ import constant_buffer;
 import pipeline_state;
 import render_system;
 import root_signature_params;
+import mesh;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
     , commandList{ commandList }
 {
-}
-
-void RenderContext::draw(RenderCommand renderCommand)
-{
-    commandList.SetPipelineState(renderCommand.state->getPipelineState()->pipelineState.Get());
-
-    static Matrix Matrix = Matrix::Identity;
-    setModelMatrix(Matrix);
-    drawMesh(renderCommand.mesh);
 }
 
 void RenderContext::drawMesh(Mesh* mesh)

@@ -188,6 +188,7 @@
     <ClCompile Include="desktop_window.ixx" />
     <ClCompile Include="dx.ixx" />
     <ClCompile Include="assets.ixx" />
+    <ClCompile Include="effect.ixx" />
     <ClCompile Include="file_watcher.ixx" />
     <ClCompile Include="flamegraph.cpp" />
     <ClCompile Include="flamegraph.ixx" />
