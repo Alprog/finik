@@ -6,11 +6,25 @@ import render_system;
 import root_signature_params;
 import mesh;
 import effect;
+import material_manager;
+import upload_buffer;
+import descriptor_heap;
 
 RenderContext::RenderContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList)
     : renderSystem{ renderSystem }
     , commandList{ commandList }
 {
+}
+
+void RenderContext::setupRoot()
+{
+    commandList.SetGraphicsRootSignature(renderSystem.getRootSignature().signatureImpl.Get());
+
+    auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);
+
+    CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
+    commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::UnboundTextureTable, startHandle);
 }
 
 void RenderContext::setFrameConstants(D3D12_GPU_VIRTUAL_ADDRESS gpuAddress)
