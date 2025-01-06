@@ -65,39 +65,6 @@ export
         return string;
     }
 
-    std::string lowerCase(std::string string)
-    {
-        std::transform(std::begin(string), std::end(string), std::begin(string), [](char c) { return std::tolower(c); });
-        return string;
-    }
-
-    std::string upperCase(std::string string)
-    {
-        std::transform(std::begin(string), std::end(string), std::begin(string), [](char c) { return std::toupper(c); });
-        return string;
-    }
-
-    bool caseInsensitiveCompare(const std::string& string1, const std::string& string2)
-    {
-        return lowerCase(string1) == lowerCase(string2);
-    }
-
-    bool startsWith(const std::string& string, const std::string& pattern)
-    {
-        return string.substr(0, pattern.size()) == pattern;
-    }
-
-    bool endsWith(const std::string& string, const std::string& pattern)
-    {
-        auto stringSize = string.size();
-        auto patternSize = string.size();
-        if (stringSize >= patternSize)
-        {
-            return string.substr(stringSize - patternSize, patternSize) == pattern;
-        }
-        return false;
-    }
-
     std::string toStr(std::wstring wstr)
     {
         return std::string(wstr.begin(), wstr.end());

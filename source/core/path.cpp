@@ -1,6 +1,7 @@
 module path;
 
 import utils;
+import containers;
 
 // absolute - "C:/path" or "/path"
 // relative - "path" or "./path" or "../path"
@@ -257,6 +258,6 @@ bool Path::isEqual(const Path& path1, const Path& path2, bool caseSensitive)
     }
     else
     {
-        return caseInsensitiveCompare(path1.normal_form, path2.normal_form);
+        return String::caseInsensitiveCompare(path1.normal_form, path2.normal_form);
     }
 }
