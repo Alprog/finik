@@ -32,5 +32,11 @@ void RenderContext::setModelMatrix(const Matrix& matrix)
 
 void RenderContext::setMaterial(const Material& material)
 {
+    setEffect(*material.Effect);
     commandList.SetGraphicsRoot32BitConstant(RootSignatureParams::MaterialInlineConstants, material.Index, 0);
+}
+
+void RenderContext::setEffect(Effect& effect)
+{
+    commandList.SetPipelineState(effect.getPipelineState()->pipelineState.Get());
 }

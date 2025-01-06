@@ -4,6 +4,7 @@ import mesh;
 import material;
 import texture;
 import assets;
+import effect_manager;
 
 Actor::Actor()
 {
@@ -12,6 +13,7 @@ Actor::Actor()
 
     auto texture = Assets::GetInstance().get<Texture>("textures/skullbox.png");
     material = new Material("actor");
+    material->Effect = EffectManager::GetInstance().get("standard");
     material->Textures.append(texture);
     material->RefreshBuffer();
 }

@@ -60,13 +60,13 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     
     auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
     commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::MaterialsConstantBufferView, address);
-    
-    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
-    
+       
     CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::UnboundTextureTable, startHandle);
 
-    commandList.SetPipelineState(EffectManager::GetInstance().get("standard")->getPipelineState()->pipelineState.Get());
+    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
+
+    //----------------------
 
     for (auto& actor : actors)
     {
@@ -77,10 +77,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
 
     //----------------------
 
-    commandList.SetPipelineState(EffectManager::GetInstance().get("grid")->getPipelineState()->pipelineState.Get());
-    renderContext.setMaterial(*grid->material);
-
     renderContext.setModelMatrix(Matrix::Identity);
+    renderContext.setMaterial(*grid->material);
     renderContext.drawMesh(grid->mesh);
-
 }

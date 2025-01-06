@@ -3,6 +3,7 @@ module grid;
 import mesh_builder;
 import images;
 import assets;
+import effect_manager;
 
 Grid::Grid()
 {
@@ -14,6 +15,7 @@ Grid::Grid()
 	material = new Material("grid_material");
 	material->Textures.append(cellTexture);
 	material->Textures.append(tileMap->Texture);
+	material->Effect = EffectManager::GetInstance().get("grid");
 	material->RefreshBuffer();
 }
 
