@@ -40,14 +40,14 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     int32 size = sizeof(FrameConstantBuffer::data);
 
 
-    auto frameConstantBuffer = renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
+    auto frameConstants = renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
 
 
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
     
 
-    frameConstantBuffer->ViewProjection = V * P;
+    frameConstants->ViewProjection = V * P;
 
     actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
     actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
@@ -64,7 +64,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
     commandList.SetGraphicsRootDescriptorTable(RootSignatureParams::UnboundTextureTable, startHandle);
 
-    commandList.SetGraphicsRootConstantBufferView(RootSignatureParams::FrameConstantBufferView, frameConstantBuffer.GpuAddress);
+    renderContext.setFrameConstants(frameConstants.GpuAddress);
 
     //----------------------
 
