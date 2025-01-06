@@ -13,17 +13,12 @@ void AssetsView::draw_content()
 {
     auto& assets = Assets::GetInstance();
 
-    ImGui::Text("Textures: %i", assets.Textures.count());
-    for (auto& texture : assets.Textures)
+    ImGui::Text("Loaded:");
+    for (auto& [path, desc] : assets.asset_descs)
     {
-        ImGui::Text("%s (%i)", texture.first.c_str(), texture.second.use_count());
-    }
-
-    ImGui::NewLine();
-
-    ImGui::Text("Shader source files: %i", assets.ShaderSourceFiles.count());
-    for (auto& texture : assets.ShaderSourceFiles)
-    {
-        ImGui::Text("%s (%i)", texture.first.c_str(), texture.second.use_count());
+        if (desc.is_loaded())
+        {
+            ImGui::Text("%s (%i)", path.c_str(), desc.loaded_asset.use_count());
+        }
     }
 }

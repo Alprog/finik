@@ -200,11 +200,8 @@ private:
 
 private:
     HashMap<AssetPath, AssetDesc> asset_descs;
-
     Array<AssetBundle*> bundles;
 
     Path AssetDirectory;
-    HashMap<AssetPath, std::shared_ptr<Texture>> Textures;
-    HashMap<AssetPath, std::shared_ptr<ShaderSourceFile>> ShaderSourceFiles;
     bool need_hot_reload = false;
 };
