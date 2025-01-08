@@ -10,6 +10,11 @@ export struct AssetDependencies
         dependencies.emplace_back(asset, asset->get_version());
     }
 
+    bool empty() const
+    {
+        return dependencies.empty();
+    }
+
     bool isOutdated()
     {
         for (auto& [asset, version] : dependencies)
