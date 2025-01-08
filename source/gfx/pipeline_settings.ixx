@@ -31,7 +31,7 @@ public:
     inline friend bool operator ==(const PipelineSettings& lhs, const PipelineSettings& rhs)
     {
         return lhs.vertexShader == rhs.vertexShader &&
-               lhs.pixelShader == rhs.pixelShader;
+            lhs.pixelShader == rhs.pixelShader;
     }
 };
 
@@ -40,8 +40,8 @@ struct std::hash<PipelineSettings>
 {
     size_t operator()(const PipelineSettings& settings) const
     {
-        size_t h1 = std::hash<void*>()(settings.vertexShader->bytecodeBlob.Get());
-        size_t h2 = std::hash<void*>()(settings.pixelShader->bytecodeBlob.Get());
+        size_t h1 = std::hash<int32>()(settings.vertexShader->bytecode.id);
+        size_t h2 = std::hash<int32>()(settings.pixelShader->bytecode.id);
         return h1 ^ (h2 << 1);
     }
 };

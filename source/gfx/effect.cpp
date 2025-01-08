@@ -11,7 +11,7 @@ void Effect::setVertexShader(std::shared_ptr<Shader> shader)
     if (pipelineSettings.vertexShader != shader)
     {
         pipelineSettings.vertexShader = shader;
-        pipelineState = nullptr;
+        resetPso();
     }
 }
 
@@ -20,7 +20,7 @@ void Effect::setPixelShader(std::shared_ptr<Shader> shader)
     if (pipelineSettings.pixelShader != shader)
     {
         pipelineSettings.pixelShader = shader;
-        pipelineState = nullptr;
+        resetPso();
     }
 }
 

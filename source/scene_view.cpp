@@ -39,30 +39,30 @@ void SceneView::draw_content()
     D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().textureHandle.getGPU();
 
     ImTextureID textureId = (void*)handle.ptr;
-    
+
     auto min = ImGui::GetWindowContentRegionMin();
     auto max = ImGui::GetWindowContentRegionMax();
     auto imSize = ImVec2(max.x - min.x, max.y - min.y);
-    
+
     Size = IntSize(static_cast<int>(imSize.x), static_cast<int>(imSize.y));
-    
+
     auto imageStartPos = ImGui::GetCursorScreenPos();
     ImGui::Image(textureId, imSize);
     if (ImGui::IsItemHovered())
     {
         auto mousePos = ImGui::GetMousePos();
-        
+
         auto dx = (static_cast<float>(mousePos.x) - imageStartPos.x) / imSize.x;
         auto dy = (static_cast<float>(mousePos.y) - imageStartPos.y) / imSize.y;
 
         auto ndcPos = Vector2(dx, 1 - dy) * 2.0f - Vector2::One;
-        
+
         log("ndc {} {}\n", ndcPos.x, ndcPos.y);
-        
+
         cameraContoller.HandleInput(DeltaTime);
         cameraContoller.RefreshCameraPosition();
 
-        auto ray = cameraContoller.camera.castRay(ndcPos);
+        auto ray = cameraContoller.Camera.castRay(ndcPos);
 
         log("ray {} {} {} | {} {} {}\n",
             ray.Origin.x, ray.Origin.y, ray.Origin.z,

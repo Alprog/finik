@@ -3,6 +3,7 @@ export module effect_manager;
 import core;
 import singleton;
 import effect;
+import shader;
 
 export class EffectManager : public Singleton<EffectManager>
 {
@@ -17,6 +18,17 @@ public:
     }
 
     void init();
+
+    void onShaderChanged(std::shared_ptr<Shader> shader)
+    {
+        for (auto [_, effect] : Effects)
+        {
+            if (effect->getVertexShader() == shader || effect->getPixelShader() == shader)
+            {
+                effect->resetPso();
+            }
+        }
+    };
 
 private:
     HashMap<std::string, std::shared_ptr<Effect>> Effects;

@@ -12,6 +12,5 @@ public:
 
     PipelineSettings pipelineSettings;
     MyPtr<ID3D12PipelineState> pipelineState;
-    RootSignature* rootSignature;
 };
 

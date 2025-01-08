@@ -22,6 +22,14 @@ export struct AssetDependencies
         return false;
     }
 
+    void actualize()
+    {
+        for (auto& [asset, version] : dependencies)
+        {
+            version = asset->get_version();
+        }
+    }
+
 private:
     Array<std::pair<std::shared_ptr<Asset>, int32>> dependencies;
 };

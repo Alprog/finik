@@ -31,19 +31,23 @@ struct std::hash<ShaderKey>
     }
 };
 
-export using ShaderByteCode = MyPtr<ID3DBlob>;
+export struct ShaderByteCode
+{
+    int32 id = -1;
+    MyPtr<ID3DBlob> blob;
+};
 
 export class Shader
 {
 public:
     Shader(ShaderKey key);
 
-    bool IsValid() const { return errorMessage.empty(); }
+    bool isValid() const { return errorMessage.empty(); }
 
-    void Recompile();
+    bool hotRecompile();
 
     ShaderKey key;
-    ShaderByteCode bytecodeBlob; // compiled code
-    std::string errorMessage;
-    AssetDependencies dependencies;
+    ShaderByteCode bytecode;
+    String errorMessage;
+    AssetDependencies hotreloadDependencies;
 };

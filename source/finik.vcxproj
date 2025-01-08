@@ -221,8 +221,8 @@
     <ClCompile Include="gfx\render_context.ixx" />
     <ClCompile Include="gfx\render_lane.cpp" />
     <ClCompile Include="gfx\render_lane.ixx" />
-    <ClCompile Include="gfx\render_state.cpp" />
-    <ClCompile Include="gfx\render_state.ixx" />
+    <ClCompile Include="gfx\effect.cpp" />
+    <ClCompile Include="gfx\effect.ixx" />
     <ClCompile Include="gfx\render_system.cpp" />
     <ClCompile Include="gfx\render_system.ixx" />
     <ClCompile Include="gfx\render_target.cpp" />
@@ -287,6 +287,7 @@
     <ClCompile Include="shader.ixx" />
     <ClCompile Include="shader_compiler.cpp" />
     <ClCompile Include="shader_compiler.ixx" />
+    <ClCompile Include="shader_manager.cpp" />
     <ClCompile Include="shader_manager.ixx" />
     <ClCompile Include="shader_source_file.ixx" />
     <ClCompile Include="sorted_map.ixx" />

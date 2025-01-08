@@ -12,8 +12,6 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
 {
     auto device = renderSystem.get_device();
 
-    rootSignature = &renderSystem.getRootSignature();
-
     D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
     {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
@@ -24,10 +22,10 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
     psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
-    psoDesc.pRootSignature = rootSignature->signatureImpl.Get();
+    psoDesc.pRootSignature = renderSystem.getRootSignature().signatureImpl.Get();
 
-    psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->bytecodeBlob.Get());
-    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.pixelShader->bytecodeBlob.Get());
+    psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->bytecode.blob.Get());
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.pixelShader->bytecode.blob.Get());
     psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.FrontCounterClockwise = false;

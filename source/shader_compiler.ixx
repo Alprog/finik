@@ -8,7 +8,15 @@ import asset_dependencies;
 export class ShaderCompiler : public Singleton<ShaderCompiler>
 {
 public:
-    void Compile(ShaderKey key, ShaderByteCode& bytecodeBlob, AssetDependencies& dependencies);
+    struct Output
+    {
+        ShaderByteCode bytecode;
+        AssetDependencies sourceAssets;
+        String errorMessage;
+    };
+
+    Output Compile(ShaderKey key);
+    Output Compile(const String& sourceText, ShaderType type, const String& entryPoint);
 
     void AddIncludeDirectory(AssetPath directory)
     {
@@ -16,4 +24,8 @@ public:
     }
 
     Array<AssetPath> InlcudeDirectories;
+
+
+
+    static int32 Counter;
 };

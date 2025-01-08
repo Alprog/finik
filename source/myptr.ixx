@@ -10,10 +10,27 @@ public:
     }
 
     template<class U>
-    MyPtr(U* other) throw() 
+    MyPtr(U* other) throw()
         : ptr(other)
     {
         InternalAddRef();
+    }
+
+    // copy constructor
+    MyPtr(const MyPtr& other) throw()
+        : ptr(other.ptr)
+    {
+        InternalAddRef();
+    }
+
+    // move constructor
+    MyPtr(MyPtr&& other) throw()
+        : ptr(nullptr)
+    {
+        if (this != reinterpret_cast<MyPtr*>(&reinterpret_cast<unsigned char&>(other)))
+        {
+            Swap(other);
+        }
     }
 
     ~MyPtr() throw()
@@ -60,6 +77,23 @@ public:
         {
             MyPtr(other).Swap(*this);
         }
+        return *this;
+    }
+
+    // copy assignment
+    MyPtr& operator=(const MyPtr& other) throw()
+    {
+        if (ptr != other.ptr)
+        {
+            MyPtr(other).Swap(*this);
+        }
+        return *this;
+    }
+
+    // move assignment
+    MyPtr& operator=(MyPtr&& other) throw()
+    {
+        MyPtr(static_cast<MyPtr&&>(other)).Swap(*this);
         return *this;
     }
 

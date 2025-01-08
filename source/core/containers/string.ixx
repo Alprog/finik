@@ -11,7 +11,7 @@ public:
 
     String(const char* c_string)
         : data{ c_string }
-    {        
+    {
     }
 
     String(const std::string& string)
@@ -64,6 +64,16 @@ public:
     int32 count() const
     {
         return data.size();
+    }
+
+    auto c_str() const
+    {
+        return data.c_str();
+    }
+
+    bool empty() const
+    {
+        return data.empty();
     }
 
     auto end() const

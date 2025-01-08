@@ -11,15 +11,15 @@ import asset_dependencies;
 class IncludeHandler : public ID3DInclude
 {
 public:
-    IncludeHandler(AssetDependencies& dependencies)
-        : dependencies{ dependencies }
+    IncludeHandler(AssetDependencies& sourceAssets)
+        : sourceAssets{ sourceAssets }
     {
     }
 
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
     {
         std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().get<ShaderSourceFile>(pFileName);
-        dependencies.add(sourceFile);
+        sourceAssets.add(sourceFile);
 
         const std::string& sourceText = sourceFile->GetSourceText();
 
@@ -33,34 +33,49 @@ public:
     }
 
 private:
-    AssetDependencies& dependencies;
+    AssetDependencies& sourceAssets;
 };
 
-void ShaderCompiler::Compile(ShaderKey key, ShaderByteCode& bytecodeBlob, AssetDependencies& dependencies)
-{   
-    dependencies = {};
+int32 ShaderCompiler::Counter = 0;
 
+ShaderCompiler::Output ShaderCompiler::Compile(ShaderKey key)
+{
     std::shared_ptr<ShaderSourceFile> source_file = Assets::GetInstance().get<ShaderSourceFile>(key.AssetPath);
-    dependencies.add(source_file);
+    const String& sourceText = source_file->GetSourceText();
 
-    const std::string& source = source_file->GetSourceText();
+    auto output = Compile(sourceText, key.Type, key.EntryPoint);
+    output.sourceAssets.add(source_file);
+    return output;
+}
 
-    auto target = key.Type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
+ShaderCompiler::Output ShaderCompiler::Compile(const String& sourceText, ShaderType type, const String& entryPoint)
+{
+    Output output;
+
+    auto target = type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
     uint32 compileFlags = D3DCOMPILE_ENABLE_UNBOUNDED_DESCRIPTOR_TABLES;
 
     ID3DBlob* errorBlob = nullptr;
 
-    IncludeHandler includeHandler(dependencies);
-    auto result = D3DCompile(source.data(), source.size(), key.EntryPoint.c_str(), nullptr, &includeHandler, key.EntryPoint.c_str(), target, compileFlags, 0, &bytecodeBlob, &errorBlob);
+    IncludeHandler includeHandler(output.sourceAssets);
+    auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler, entryPoint.c_str(), target, compileFlags, 0, &output.bytecode.blob, &errorBlob);
 
-    if (FAILED(result))
+    if (SUCCEEDED(result))
+    {
+        output.bytecode.id = Counter++;
+    }
+    else
     {
         if (errorBlob)
         {
-            char* str = static_cast<char*>(errorBlob->GetBufferPointer());
+            output.errorMessage = static_cast<char*>(errorBlob->GetBufferPointer());
             errorBlob->Release();
-            throw;
         }
-        throw;
+        else
+        {
+            output.errorMessage = "unknown error";
+        }
     }
+
+    return output;
 }

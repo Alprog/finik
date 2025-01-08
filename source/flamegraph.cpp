@@ -26,7 +26,7 @@ namespace finik
 
             startPos.x += widthPerTime * (timebox.startTimestamp - startTime);
             startPos.y += timebox.level * levelHeight;
-            
+
             endPos.x += widthPerTime * (timebox.endTimestamp - startTime);
             endPos.y += (timebox.level + 1) * levelHeight;
 
