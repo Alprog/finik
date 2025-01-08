@@ -285,6 +285,7 @@
     <ClCompile Include="scene_view.cpp" />
     <ClCompile Include="scene_view.ixx" />
     <ClCompile Include="shader.ixx" />
+    <ClCompile Include="shaders_view.ixx" />
     <ClCompile Include="shader_compiler.cpp" />
     <ClCompile Include="shader_compiler.ixx" />
     <ClCompile Include="shader_manager.cpp" />

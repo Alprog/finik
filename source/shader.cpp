@@ -15,6 +15,8 @@ bool Shader::hotRecompile()
 
     const bool successed = output.errorMessage.empty();
 
+    errorMessage = output.errorMessage;
+
     if (successed)
     {
         // use new bytecode and source file dependencies (includes)

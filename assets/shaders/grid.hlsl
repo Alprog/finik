@@ -42,5 +42,5 @@ float4 PSMain(PSInput input) : SV_TARGET
 	float3 fillColor = gridTexture.Sample(g_sampler, float2(input.coord) / 256).rgb;
 	float3 borderColor = cellTexture.Sample(g_sampler, input.uv).rgb;
 	
-	return float4(fillColor + borderColor, 1);	
+	return float4(fillColor + borderColor, 1);
 }

@@ -36,8 +36,6 @@ private:
     AssetDependencies& sourceAssets;
 };
 
-int32 ShaderCompiler::Counter = 0;
-
 ShaderCompiler::Output ShaderCompiler::Compile(ShaderKey key)
 {
     std::shared_ptr<ShaderSourceFile> source_file = Assets::GetInstance().get<ShaderSourceFile>(key.AssetPath);
@@ -58,13 +56,9 @@ ShaderCompiler::Output ShaderCompiler::Compile(const String& sourceText, ShaderT
     ID3DBlob* errorBlob = nullptr;
 
     IncludeHandler includeHandler(output.sourceAssets);
-    auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler, entryPoint.c_str(), target, compileFlags, 0, &output.bytecode.blob, &errorBlob);
+    auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler, entryPoint.c_str(), target, compileFlags, 0, &output.bytecode, &errorBlob);
 
-    if (SUCCEEDED(result))
-    {
-        output.bytecode.id = Counter++;
-    }
-    else
+    if (FAILED(result))
     {
         if (errorBlob)
         {

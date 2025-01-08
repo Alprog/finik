@@ -14,10 +14,11 @@ export enum class CullMode : char
 export class PipelineSettings
 {
 public:
-    PipelineSettings();
+    PipelineSettings() = default;
+    PipelineSettings(ShaderByteCode vertexByteCode, ShaderByteCode pixelByteCode);
 
-    std::shared_ptr<Shader> vertexShader;
-    std::shared_ptr<Shader> pixelShader;
+    ShaderByteCode vertexByteCode;
+    ShaderByteCode pixelByteCode;
 
     union
     {
@@ -30,8 +31,8 @@ public:
 
     inline friend bool operator ==(const PipelineSettings& lhs, const PipelineSettings& rhs)
     {
-        return lhs.vertexShader == rhs.vertexShader &&
-            lhs.pixelShader == rhs.pixelShader;
+        return lhs.vertexByteCode == rhs.vertexByteCode &&
+            lhs.pixelByteCode == rhs.pixelByteCode;
     }
 };
 
@@ -40,8 +41,8 @@ struct std::hash<PipelineSettings>
 {
     size_t operator()(const PipelineSettings& settings) const
     {
-        size_t h1 = std::hash<int32>()(settings.vertexShader->bytecode.id);
-        size_t h2 = std::hash<int32>()(settings.pixelShader->bytecode.id);
+        size_t h1 = std::hash<void*>()(settings.vertexByteCode.Get());
+        size_t h2 = std::hash<void*>()(settings.pixelByteCode.Get());
         return h1 ^ (h2 << 1);
     }
 };

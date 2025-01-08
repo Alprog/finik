@@ -13,6 +13,7 @@ import gui;
 import desktop_window;
 import desktop_system;
 import assets_view;
+import shaders_view;
 
 import file_watcher;
 
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
 
     Scene& scene = app.scene_manager.create_scene();
     DesktopWindow* window = app.desktop_system.create_window(1024, 800);
-    
+
     window->scene = &scene;
 
     window->gui->views.append(std::make_unique<ConsoleView>("consoleView"));
@@ -38,6 +39,7 @@ int main(int argc, char* argv[])
     window->gui->views.append(std::make_unique<ProfilerView>("profilerView"));
 
     window->gui->views.append(std::make_unique<AssetsView>("assetsView"));
+    window->gui->views.append(std::make_unique<ShadersView>("shadersView"));
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;

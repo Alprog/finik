@@ -8,18 +8,18 @@ HashMap<PipelineSettings, PipelineState*> states;
 
 void Effect::setVertexShader(std::shared_ptr<Shader> shader)
 {
-    if (pipelineSettings.vertexShader != shader)
+    if (vertexShader != shader)
     {
-        pipelineSettings.vertexShader = shader;
+        vertexShader = shader;
         resetPso();
     }
 }
 
 void Effect::setPixelShader(std::shared_ptr<Shader> shader)
 {
-    if (pipelineSettings.pixelShader != shader)
+    if (pixelShader != shader)
     {
-        pipelineSettings.pixelShader = shader;
+        pixelShader = shader;
         resetPso();
     }
 }
@@ -28,7 +28,9 @@ PipelineState* Effect::getPipelineState()
 {
     if (pipelineState == nullptr)
     {
-        auto it = states.find_value(pipelineSettings);
+        PipelineSettings settings(vertexShader->bytecode, pixelShader->bytecode);
+
+        auto it = states.find_value(settings);
         if (it)
         {
             pipelineState = *it;
@@ -36,8 +38,8 @@ PipelineState* Effect::getPipelineState()
         else
         {
             auto& renderSystem = App::GetInstance().render_system;
-            pipelineState = new PipelineState(renderSystem, pipelineSettings);
-            states[pipelineSettings] = pipelineState;
+            pipelineState = new PipelineState(renderSystem, settings);
+            states[settings] = pipelineState;
         }
     }
 

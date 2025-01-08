@@ -1,5 +1,7 @@
 export module myptr;
 
+import std;
+
 export template <typename T>
 class MyPtr
 {
@@ -109,6 +111,8 @@ public:
         InternalRelease();
         return &ptr;
     }
+
+    std::strong_ordering operator<=>(const MyPtr<T>& other) const = default;
 
 protected:
     void InternalAddRef() const throw()

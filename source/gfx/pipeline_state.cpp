@@ -24,8 +24,8 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
     psoDesc.pRootSignature = renderSystem.getRootSignature().signatureImpl.Get();
 
-    psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexShader->bytecode.blob.Get());
-    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.pixelShader->bytecode.blob.Get());
+    psoDesc.VS = CD3DX12_SHADER_BYTECODE(pipelineSettings.vertexByteCode.Get());
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(pipelineSettings.pixelByteCode.Get());
     psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.FrontCounterClockwise = false;

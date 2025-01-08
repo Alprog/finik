@@ -1,7 +1,7 @@
 module pipeline_settings;
 
-PipelineSettings::PipelineSettings()
-    : vertexShader {nullptr}
-    , pixelShader {nullptr}
+PipelineSettings::PipelineSettings(ShaderByteCode vertexByteCode, ShaderByteCode pixelByteCode)
+    : vertexByteCode{ vertexByteCode }
+    , pixelByteCode{ pixelByteCode }
 {
 }

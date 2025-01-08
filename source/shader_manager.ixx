@@ -16,8 +16,8 @@ public:
         auto& compiler = ShaderCompiler::GetInstance();
         fallbackVertexByteCode = compiler.Compile(getFallbackVertexShaderText(), ShaderType::Vertex, "VSMain").bytecode;
         fallbackPixelByteCode = compiler.Compile(getFallbackPixelShaderText(), ShaderType::Pixel, "PSMain").bytecode;
-        ASSERT(fallbackVertexByteCode.blob.Get());
-        ASSERT(fallbackPixelByteCode.blob.Get());
+        ASSERT(fallbackVertexByteCode.Get());
+        ASSERT(fallbackPixelByteCode.Get());
     }
 
     void update()
@@ -60,6 +60,11 @@ public:
     ShaderByteCode getFallbackByteCode(ShaderType type)
     {
         return type == ShaderType::Vertex ? fallbackVertexByteCode : fallbackPixelByteCode;
+    }
+
+    auto getAllShaders() const
+    {
+        return Shaders;
     }
 
 private:

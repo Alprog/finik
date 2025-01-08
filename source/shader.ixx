@@ -31,11 +31,7 @@ struct std::hash<ShaderKey>
     }
 };
 
-export struct ShaderByteCode
-{
-    int32 id = -1;
-    MyPtr<ID3DBlob> blob;
-};
+export using ShaderByteCode = MyPtr<ID3DBlob>;
 
 export class Shader
 {

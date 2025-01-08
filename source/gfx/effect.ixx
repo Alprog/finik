@@ -11,8 +11,8 @@ public:
     void setVertexShader(std::shared_ptr<Shader> shader);
     void setPixelShader(std::shared_ptr<Shader> shader);
 
-    std::shared_ptr<Shader> getVertexShader() { return pipelineSettings.vertexShader; }
-    std::shared_ptr<Shader> getPixelShader() { return pipelineSettings.pixelShader; }
+    std::shared_ptr<Shader> getVertexShader() { return vertexShader; }
+    std::shared_ptr<Shader> getPixelShader() { return pixelShader; }
 
     void resetPso()
     {
@@ -22,6 +22,8 @@ public:
     PipelineState* getPipelineState();
 
 private:
-    PipelineSettings pipelineSettings;
+    std::shared_ptr<Shader> vertexShader;
+    std::shared_ptr<Shader> pixelShader;
+
     PipelineState* pipelineState;
 };
