@@ -29,9 +29,14 @@ public:
     {
     }
 
-    String(int32 length)
+    explicit String(int32 length)
         : data(length, 0)
     {
+    }
+
+    operator std::string() const
+    {
+        return data;
     }
 
     char& operator[](size_t index)
@@ -45,6 +50,11 @@ public:
     }
 
     auto operator<=>(const String& other) const = default;
+
+    auto append(char c)
+    {
+        data.append(&c, 1);
+    }
 
     auto begin() const
     {
@@ -119,6 +129,35 @@ public:
         data.resize(new_count);
     }
 
+    int32 size() const
+    {
+        return data.size();
+    }
+
+    Array<String> split(String separator)
+    {
+        Array<String> result;
+
+        auto separatorSize = separator.size();
+        auto pattern = separator.c_str();
+
+        std::string::size_type index = 0;
+        while (index < size())
+        {
+            auto lastIndex = data.find(pattern, index);
+            if (lastIndex == std::string::npos)
+            {
+                lastIndex = size();
+            }
+
+            auto subStr = substr(index, lastIndex - index);
+            result.append(subStr);
+            index = lastIndex + separatorSize;
+        }
+
+        return result;
+    }
+
     bool startsWith(const String& pattern)
     {
         return substr(0, pattern.count()) == pattern;
@@ -129,6 +168,19 @@ public:
         return data.substr(startIndex, count);
     }
 
+    String get_trimmed() const
+    {
+        constexpr const char* spacing = " \n\r\t";
+        const int32 begin = data.find_first_not_of(spacing);
+        if (begin == std::string::npos)
+        {
+            return String::Empty;
+        }
+
+        const int32 end = data.find_last_not_of(spacing);
+        return data.substr(begin, end - begin + 1);
+    }
+
     String upperCase() const
     {
         String result(data.size());
@@ -136,6 +188,10 @@ public:
         return result;
     }
 
+    static const String Empty;
+
 private:
     std::string data;
 };
+
+const String String::Empty = "";

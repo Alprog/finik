@@ -14,8 +14,8 @@ import desktop_window;
 import desktop_system;
 import assets_view;
 import shaders_view;
-
-import file_watcher;
+import assets;
+import model;
 
 int main(int argc, char* argv[])
 {
@@ -43,6 +43,8 @@ int main(int argc, char* argv[])
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;
+
+    Assets::GetInstance().get<Model>("models/airplane.obj");
 
     app.run_game_loop();
 

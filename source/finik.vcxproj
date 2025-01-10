@@ -263,6 +263,8 @@
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="mesh_builder.ixx" />
     <ClCompile Include="myptr.ixx" />
+    <ClCompile Include="model.ixx" />
+    <ClCompile Include="obj\obj_loader.ixx" />
     <ClCompile Include="profiler\lane.cpp" />
     <ClCompile Include="profiler\lane.ixx" />
     <ClCompile Include="profiler\profiler.cpp" />

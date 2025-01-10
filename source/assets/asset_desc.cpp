@@ -2,6 +2,7 @@ module asset_desc;
 
 import texture;
 import shader_source_file;
+import model;
 
 void AssetDesc::create_asset()
 {
@@ -14,6 +15,10 @@ void AssetDesc::create_asset()
     else if (extension == ".inc" || extension == ".hlsl")
     {
         loaded_asset = std::make_shared<ShaderSourceFile>(virtual_path);
+    }
+    else if (extension == ".obj")
+    {
+        loaded_asset = std::make_shared<Model>(virtual_path);
     }
     else
     {
