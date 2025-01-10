@@ -38,5 +38,9 @@ float4 PSMain(PSInput input) : SV_TARGET
 	Texture2D mainTexture = textures[Materials[MaterialId].TextureA];
 	float4 texColor = mainTexture.Sample(g_sampler, input.uv);
 	
-	return lerp(color, texColor, 0.5);
+	float4 diffuseColor = lerp(color, texColor, 1);
+	
+	float diffuse = 0.2 + (dot(input.normal, -LightDirection) + 1) * 0.4;
+	
+	return diffuse * diffuseColor;
 }

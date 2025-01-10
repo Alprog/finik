@@ -254,6 +254,7 @@
     <ClCompile Include="images.ixx" />
     <ClCompile Include="imgui.ixx" />
     <ClCompile Include="input_system.ixx" />
+    <ClCompile Include="light.ixx" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="log.ixx" />
     <ClCompile Include="material.cpp" />

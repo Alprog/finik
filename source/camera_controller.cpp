@@ -109,8 +109,8 @@ void CameraController::HandleInput(float deltaTime)
 void CameraController::RefreshCameraPosition()
 {
     auto angle = GetAngle();
-    auto x = std::cos(angle) * -std::sin(Rotation);
-    auto y = std::cos(angle) * std::cos(Rotation);
+    auto x = std::cos(angle) * std::sin(Rotation);
+    auto y = std::cos(angle) * -std::cos(Rotation);
     auto z = std::sin(angle);
     auto OffsetDirection = Vector3(x, y, z);
 

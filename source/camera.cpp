@@ -16,10 +16,9 @@ void Camera::calcViewMatrix()
     Vector3 offset = position * -1.0f;
     Matrix offsetMatrix = Matrix::Translation(offset);
 
-    Vector3 forward = getForward();
-    Vector3 backward = -forward; // Y
-    Vector3 right = Vector3::cross(backward, Vector3::Up).getNormalized(); // Y ^ Z = X
-    Vector3 up = Vector3::cross(right, backward).getNormalized();          // X ^ Y = Z
+    Vector3 forward = getForward(); // Y
+    Vector3 right = Vector3::cross(forward, Vector3::Up).getNormalized(); // Y ^ Z = X
+    Vector3 up = Vector3::cross(right, forward).getNormalized();          // X ^ Y = Z
 
     // DX12 NDC
     Matrix orientationMtrx;

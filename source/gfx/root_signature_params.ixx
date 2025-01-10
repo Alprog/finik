@@ -9,9 +9,10 @@ export struct MeshConstants
 
 export struct FrameConstants
 {
+    Matrix ViewProjection;
     Matrix View;
     Matrix Projection;
-    Matrix ViewProjection;
+    Vector4 LightDirection;
 };
 
 export enum RootSignatureParams
@@ -22,10 +23,10 @@ export enum RootSignatureParams
 
     // per frame
     FrameConstantBufferView,
-    
+
     // per draw
     MeshConstantBufferView,
     MaterialInlineConstants,
-    
+
     Count
 };

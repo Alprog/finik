@@ -20,12 +20,16 @@ Scene::Scene()
 
     actors.append(new Actor());
     actors.append(new Actor());
+
+    light.direction = Vector4(-1, -1, -1, 0).getNormalized();
 }
 
 void Scene::update(float deltaTime)
 {
     static float angle = 0;
     angle += deltaTime;
+
+    light.direction = light.direction * Matrix::RotationZ(deltaTime);
 }
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
@@ -41,6 +45,7 @@ void Scene::render(RenderContext& renderContext, Camera* camera)
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
     frameConstants->ViewProjection = V * P;
+    frameConstants->LightDirection = light.direction;
     renderContext.setFrameConstants(frameConstants.GpuAddress);
 
     //----------------------
