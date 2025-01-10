@@ -3,8 +3,6 @@ export module assets;
 import core;
 import texture;
 import asset_path;
-import hot_reloader;
-import file_watcher;
 import shader_source_file;
 import asset_bundle;
 import asset_folder;
@@ -97,7 +95,7 @@ public:
                     status = AssetStatus::Synced;
                     break;
                 }
-                    
+
                 case AssetStatus::Modified:
                 {
                     auto desc = asset_descs.find_value(path);
@@ -108,7 +106,7 @@ public:
                     }
                     status = AssetStatus::Synced;
                     break;
-                }                    
+                }
 
                 case AssetStatus::Removing:
                     auto desc = asset_descs.find_value(path);
@@ -150,10 +148,10 @@ public:
     void unmount_folder(Path folder_path)
     {
         bundles.remove_if([folder_path](auto& p_bundle)
-        {
-            auto asset_folder = dynamic_cast<AssetFolder*>(p_bundle);
-            return asset_folder && asset_folder->get_folder_path() == folder_path;;
-        });
+            {
+                auto asset_folder = dynamic_cast<AssetFolder*>(p_bundle);
+                return asset_folder && asset_folder->get_folder_path() == folder_path;;
+            });
         refresh_bundle_priorities();
     }
 

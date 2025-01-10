@@ -11,8 +11,6 @@ import timebox_tracker;
 import descriptor_heap;
 import gui;
 import desktop_window;
-import file_watcher;
-import hot_reloader;
 import assets;
 import shader_manager;
 
@@ -46,7 +44,7 @@ void App::handle_input()
             else
             {
                 window->gui->set_context();
-               
+
             }
         }
 
@@ -66,8 +64,6 @@ void App::run_game_loop()
 
         float deltaTime = profiler.getDeltaTime();
 
-        FileWatcher::GetInstance().Update();
-        HotReloader::GetInstance().Update();
         Assets::GetInstance().update();
         ShaderManager::GetInstance().update();
 
@@ -107,7 +103,7 @@ void App::run_game_loop()
                 window->gui->prepare();
             }
         }
-       
+
 
         {
             Profile _("lanes");
