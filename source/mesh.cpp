@@ -1,14 +1,13 @@
 module mesh;
 
-Mesh *createCubeMesh()
+Mesh* createCubeMesh()
 {
     auto mesh = new Mesh();
 
     auto f = [](Vector3 vector) { return (vector - Vector3::One / 2) * 0.5f; };
 
-    mesh->vertexBuffer = new VertexBuffer();
-
     // clang-format off
+    mesh->vertexBuffer = new VertexBuffer();
     mesh->vertexBuffer->vertices = 
     {
         {f({1, 1, 1}), { 0, 1, 0}, {0.00f, 0.0f}},
@@ -42,12 +41,12 @@ Mesh *createCubeMesh()
 
         {f({0, 0, 1}), { 0, 0, 1}, {0.66f, 0.0f}} 
     };
+    mesh->vertexBuffer->Load();
     // clang-format on
 
-    mesh->vertexBuffer->Load();
-
     // clang-format off
-    mesh->indices =     
+    mesh->indexBuffer = new IndexBuffer();
+    mesh->indexBuffer->indices =     
     {
         0, 1, 2, 0, 2, 3, 
         4, 5, 6, 4, 6, 7,   
@@ -56,11 +55,8 @@ Mesh *createCubeMesh()
         16, 17, 18, 16, 18, 19,  
         20, 21, 22, 20, 22, 23 
     };
-    // clang-format on
-
-    mesh->indexBuffer = new IndexBuffer();
-    mesh->indexBuffer->indices = mesh->indices;
     mesh->indexBuffer->Load();
+    // clang-format on
 
     return mesh;
 }
