@@ -6,3 +6,4 @@ PointerAlignment: Left
 BreakConstructorInitializers: BeforeComma
 ReflowComments: false
 AlwaysBreakTemplateDeclarations: true
+ColumnLimit: 0

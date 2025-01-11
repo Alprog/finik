@@ -25,7 +25,7 @@ struct std::hash<ShaderKey>
 {
     std::size_t operator()(const ShaderKey& key) const
     {
-        return (hash<std::string>()(key.AssetPath.str()) ^ //
+        return (hash<std::string>()(key.AssetPath.str()) ^
                 (hash<int>()(static_cast<int>(key.Type) << 1)) >> 1) ^
                (hash<std::string>()(key.EntryPoint) << 1);
     }

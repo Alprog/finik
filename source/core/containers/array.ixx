@@ -10,18 +10,18 @@ public:
     Array() = default;
 
     Array(std::initializer_list<T> list)
-        : data{ list }
+        : data{list}
     {
     }
 
-    T& operator[](size_t index) 
+    T& operator[](size_t index)
     {
         return data[index];
     }
-    
-    const T& operator[](size_t index) const 
+
+    const T& operator[](size_t index) const
     {
-        return data[index]; 
+        return data[index];
     }
 
     void append(const T& value)
@@ -79,8 +79,8 @@ public:
         return data.end();
     }
 
-    template< class... Args >
-    auto& emplace_back(Args&&... args) 
+    template <class... Args>
+    auto& emplace_back(Args&&... args)
     {
         return data.emplace_back(std::forward<Args>(args)...);
     }
@@ -129,6 +129,11 @@ public:
     T& last()
     {
         return data.back();
+    }
+
+    int32 last_index()
+    {
+        return data.size() - 1;
     }
 
     bool remove(const T& value)
