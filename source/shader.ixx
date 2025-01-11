@@ -25,9 +25,9 @@ struct std::hash<ShaderKey>
 {
     std::size_t operator()(const ShaderKey& key) const
     {
-        return (hash<std::string>()(key.AssetPath.str())
-            ^ (hash<int>()(static_cast<int>(key.Type) << 1)) >> 1)
-            ^ (hash<std::string>()(key.EntryPoint) << 1);
+        return (hash<std::string>()(key.AssetPath.str()) ^ //
+                (hash<int>()(static_cast<int>(key.Type) << 1)) >> 1) ^
+               (hash<std::string>()(key.EntryPoint) << 1);
     }
 };
 
@@ -38,7 +38,10 @@ export class Shader
 public:
     Shader(ShaderKey key);
 
-    bool isValid() const { return errorMessage.empty(); }
+    bool isValid() const
+    {
+        return errorMessage.empty();
+    }
 
     bool hotRecompile();
 

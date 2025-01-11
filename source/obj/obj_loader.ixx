@@ -2,13 +2,22 @@ export module obj_loader;
 
 import core;
 
+struct VertexIndices
+{
+    int pi;
+    int ti;
+    int ni;
+};
+
+using Face = Array<VertexIndices>;
+
 export class ObjLoader
 {
 public:
     void load(String text)
     {
         Array<String> lines = text.split("\n");
-        for (auto& line : lines)
+        for (auto &line : lines)
         {
             auto arr = line.get_trimmed().split(" ");
             if (arr[0] == "v")
@@ -16,7 +25,7 @@ public:
                 auto x = std::stof(arr[1]);
                 auto y = std::stof(arr[2]);
                 auto z = std::stof(arr[3]);
-                vertices.emplace_back(x, y, z);
+                positions.emplace_back(x, y, z);
             }
 
             if (arr[0] == "vn")
@@ -34,34 +43,44 @@ public:
                 tex_coords.emplace_back(u, v);
             }
 
-            //if (arr[0] == "f")
-            //{
-            //    auto list = new Array<int>();
-            //    for (int i = 1; i < arr.count(); i++)
-            //    {
-            //        list.Add(int.Parse(arr[i].Split('/')[0]) - 1);
-            //    }
-            //    Faces.Add(new Face(list, CurrentMaterial));
-            //}
+            if (arr[0] == "f")
+            {
+                auto &face = faces.emplace_back();
+                for (int i = 1; i < arr.count(); i++)
+                {
+                    auto components = arr[i].split("/");
+                    auto extractIndex = [&components](int32 index)
+                    {
+                        if (components.count() < index || components[index].empty())
+                        {
+                            return -1;
+                        }
+                        return std::stoi(components[index]);
+                    };
 
-            //if (arr[0] == "mtllib")
-            //{
-            //    var directoryPath = new FileInfo(objPath).Directory.FullName;
-            //    var mtlPath = Path.Combine(directoryPath, arr[1]);
-            //    LoadMaterialLibrary(mtlPath);
-            //}
+                    face.emplace_back(extractIndex(0), extractIndex(1), extractIndex(2));
+                }
+            }
 
-            //if (arr[0] == "usemtl")
+            // if (arr[0] == "mtllib")
             //{
-            //    CurrentMaterial = Materials[arr[1]];
-            //}
+            //     var directoryPath = new FileInfo(objPath).Directory.FullName;
+            //     var mtlPath = Path.Combine(directoryPath, arr[1]);
+            //     LoadMaterialLibrary(mtlPath);
+            // }
+
+            // if (arr[0] == "usemtl")
+            //{
+            //     CurrentMaterial = Materials[arr[1]];
+            // }
         }
 
         return;
     }
 
-private:
-    Array<Vector3> vertices;
+public:
+    Array<Vector3> positions;
     Array<Vector3> normals;
     Array<Vector2> tex_coords;
+    Array<Face> faces;
 };

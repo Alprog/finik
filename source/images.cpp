@@ -24,7 +24,7 @@ void Image::generateChessboard()
         bool oddColumn = (y / cellHeight) % 2;
         for (int x = 0; x < width; x++)
         {
-            bool oddRow = (x / cellWidth) % 2;            
+            bool oddRow = (x / cellWidth) % 2;
             data[index++] = (oddColumn == oddRow) ? Texel::Green : Texel::Blue;
         }
     }
@@ -84,8 +84,8 @@ Image* Images::loadPng(ByteBlob& blob)
         auto channels = png_get_channels(pngPtr, infoPtr);
         auto color_type = png_get_color_type(pngPtr, infoPtr);
 
-        printf("width %i, heigth %i, bitdepth %i, channels %i, type %i",
-                imgWidth, imgHeight, bitdepth, channels, color_type);
+        printf("width %i, heigth %i, bitdepth %i, channels %i, type %i", imgWidth, imgHeight, bitdepth, channels,
+               color_type);
         fflush(stdout);
 
         const unsigned int stride = imgWidth * bitdepth * channels / 8;

@@ -3,7 +3,7 @@ module material;
 import material_manager;
 
 Material::Material(std::string name)
-    : Name { name }
+    : Name{name}
 {
     Index = MaterialManager::GetInstance().Register(this);
 }

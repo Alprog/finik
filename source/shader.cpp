@@ -4,7 +4,7 @@ import shader_compiler;
 import shader_manager;
 
 Shader::Shader(ShaderKey key)
-    : key{ key }
+    : key{key}
 {
     hotRecompile();
 }

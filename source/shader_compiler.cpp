@@ -12,11 +12,12 @@ class IncludeHandler : public ID3DInclude
 {
 public:
     IncludeHandler(AssetDependencies& sourceAssets)
-        : sourceAssets{ sourceAssets }
+        : sourceAssets{sourceAssets}
     {
     }
 
-    HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
+    HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData,
+                           UINT* pBytes) override
     {
         std::shared_ptr<ShaderSourceFile> sourceFile = Assets::GetInstance().get<ShaderSourceFile>(pFileName);
         sourceAssets.add(sourceFile);
@@ -28,7 +29,8 @@ public:
         return S_OK;
     }
 
-    HRESULT __stdcall Close(LPCVOID pData) override {
+    HRESULT __stdcall Close(LPCVOID pData) override
+    {
         return S_OK;
     }
 
@@ -56,7 +58,8 @@ ShaderCompiler::Output ShaderCompiler::Compile(const String& sourceText, ShaderT
     ID3DBlob* errorBlob = nullptr;
 
     IncludeHandler includeHandler(output.sourceAssets);
-    auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler, entryPoint.c_str(), target, compileFlags, 0, &output.bytecode, &errorBlob);
+    auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler,
+                             entryPoint.c_str(), target, compileFlags, 0, &output.bytecode, &errorBlob);
 
     if (FAILED(result))
     {

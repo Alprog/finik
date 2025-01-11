@@ -10,9 +10,9 @@ void ProfilerView::draw_content()
     ImGui::Text("frame: %i", profiler.getFrameIndex());
     ImGui::Text("deltaTime: %f", profiler.getDeltaTime());
     ImGui::Text("FPS: %f", profiler.getFPS());
-    
+
     auto& cpuTimeboxes = profiler.GetCpuLane().timeboxes;
-    
+
     int start = 0;
     int end = 0;
 
@@ -45,14 +45,13 @@ void ProfilerView::draw_content()
 
     finik::drawFlamegraph(&cpuTimeboxes[start], end - start, startTime, endTime, Vector2(900, 30));
 
-
     auto& gpuTimeboxes = profiler.GetGpuLane().timeboxes;
 
     if (gpuTimeboxes.empty())
         return;
 
     end = gpuTimeboxes.count() - 1;
-    
+
     for (start = end - 1; start > 0; start--)
     {
         if (gpuTimeboxes[start].startTimestamp < startTime)

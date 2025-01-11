@@ -31,12 +31,12 @@ public:
 
     std::shared_ptr<Shader> getVertexShader(AssetPath assetPath, const std::string& entryName)
     {
-        return getShader({ assetPath, ShaderType::Vertex, entryName });
+        return getShader({assetPath, ShaderType::Vertex, entryName});
     }
 
     std::shared_ptr<Shader> getPixelShader(AssetPath assetPath, const std::string& entryName)
     {
-        return getShader({ assetPath, ShaderType::Pixel, entryName });
+        return getShader({assetPath, ShaderType::Pixel, entryName});
     }
 
     std::shared_ptr<Shader> getShader(const ShaderKey& key)

@@ -29,20 +29,18 @@ public:
         unsigned int flags;
     };
 
-    inline friend bool operator ==(const PipelineSettings& lhs, const PipelineSettings& rhs)
+    inline friend bool operator==(const PipelineSettings &lhs, const PipelineSettings &rhs)
     {
-        return lhs.vertexByteCode == rhs.vertexByteCode &&
-            lhs.pixelByteCode == rhs.pixelByteCode;
+        return lhs.vertexByteCode == rhs.vertexByteCode && lhs.pixelByteCode == rhs.pixelByteCode;
     }
 };
 
-export template <>
-struct std::hash<PipelineSettings>
+export template <> struct std::hash<PipelineSettings>
 {
-    size_t operator()(const PipelineSettings& settings) const
+    size_t operator()(const PipelineSettings &settings) const
     {
-        size_t h1 = std::hash<void*>()(settings.vertexByteCode.Get());
-        size_t h2 = std::hash<void*>()(settings.pixelByteCode.Get());
+        size_t h1 = std::hash<void *>()(settings.vertexByteCode.Get());
+        size_t h2 = std::hash<void *>()(settings.pixelByteCode.Get());
         return h1 ^ (h2 << 1);
     }
 };

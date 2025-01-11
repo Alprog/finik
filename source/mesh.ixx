@@ -8,11 +8,8 @@ import index_buffer;
 export class Mesh
 {
 public:
-    Array<StandardVertex> vertices;
-    Array<uint32> indices;
-
-    VertexBuffer* vertexBuffer;
-    IndexBuffer* indexBuffer;
+    VertexBuffer *vertexBuffer;
+    IndexBuffer *indexBuffer;
 };
 
-export Mesh* createCubeMesh();
+export Mesh *createCubeMesh();

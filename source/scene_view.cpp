@@ -10,12 +10,12 @@ import log;
 import scene;
 
 SceneView::SceneView(const char* name, Scene& scene)
-    : View{ name }
-    , scene{ scene }
+    : View{name}
+    , scene{scene}
     , camera{}
-    , cameraContoller{ camera }
+    , cameraContoller{camera}
 {
-    renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{ 1024, 800 });
+    renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{1024, 800});
 
     auto& lanes = App::GetInstance().render_system.lanes;
     lanes.append(renderLane);
@@ -27,7 +27,7 @@ const CameraController& SceneView::getCameraController() const
 }
 
 static float DeltaTime = 0;
-static IntSize Size{ 0, 0 };
+static IntSize Size{0, 0};
 
 void SceneView::update(float deltaTime)
 {
@@ -64,9 +64,8 @@ void SceneView::draw_content()
 
         auto ray = cameraContoller.Camera.castRay(ndcPos);
 
-        log("ray {} {} {} | {} {} {}\n",
-            ray.Origin.x, ray.Origin.y, ray.Origin.z,
-            ray.Direction.x, ray.Direction.y, ray.Direction.z);
+        log("ray {} {} {} | {} {} {}\n", ray.Origin.x, ray.Origin.y, ray.Origin.z, ray.Direction.x, ray.Direction.y,
+            ray.Direction.z);
 
         if (ray.Direction.z != 0)
         {
