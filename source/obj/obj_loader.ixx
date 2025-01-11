@@ -17,7 +17,12 @@ public:
     void load(String text)
     {
         Array<String> lines = text.split("\n");
-        for (auto &line : lines)
+
+        positions.append({});
+        normals.append({});
+        tex_coords.append({});
+
+        for (auto& line : lines)
         {
             auto arr = line.get_trimmed().split(" ");
             if (arr[0] == "v")
@@ -45,15 +50,14 @@ public:
 
             if (arr[0] == "f")
             {
-                auto &face = faces.emplace_back();
+                auto& face = faces.emplace_back();
                 for (int i = 1; i < arr.count(); i++)
                 {
                     auto components = arr[i].split("/");
-                    auto extractIndex = [&components](int32 index)
-                    {
+                    auto extractIndex = [&components](int32 index) {
                         if (components.count() < index || components[index].empty())
                         {
-                            return -1;
+                            return 0;
                         }
                         return std::stoi(components[index]);
                     };
