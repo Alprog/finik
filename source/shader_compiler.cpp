@@ -52,14 +52,22 @@ ShaderCompiler::Output ShaderCompiler::Compile(const String& sourceText, ShaderT
 {
     Output output;
 
-    auto target = type == ShaderType::Vertex ? "vs_5_1" : "ps_5_1";
+    // clang-format off
+    static std::unordered_map<ShaderType, const char*> targets =
+    {
+        {ShaderType::Vertex, "vs_5_1"},
+        {ShaderType::Pixel, "ps_5_1"},
+        {ShaderType::Compute, "cs_5_1"}
+    };
+    // clang-format on
+
     uint32 compileFlags = D3DCOMPILE_ENABLE_UNBOUNDED_DESCRIPTOR_TABLES;
 
     ID3DBlob* errorBlob = nullptr;
 
     IncludeHandler includeHandler(output.sourceAssets);
     auto result = D3DCompile(&sourceText[0], sourceText.length(), entryPoint.c_str(), nullptr, &includeHandler,
-                             entryPoint.c_str(), target, compileFlags, 0, &output.bytecode, &errorBlob);
+                             entryPoint.c_str(), targets[type], compileFlags, 0, &output.bytecode, &errorBlob);
 
     if (FAILED(result))
     {

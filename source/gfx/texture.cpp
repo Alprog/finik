@@ -137,6 +137,9 @@ void Texture::setData(Image& image)
     const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
     commandList->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
+    auto desc = InternalResource->GetDesc();
+    bool a = (desc.Flags & D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS) != 0;
+
     commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
     commandList->Close();
     ID3D12CommandList* ppCommandLists[] = {commandList};

@@ -27,3 +27,8 @@ const char* ShaderManager::getFallbackPixelShaderText()
 {
     return "float4 PSMain() : SV_TARGET { return float4(1, 0, 1, 1); }";
 }
+
+const char* ShaderManager::getFallbackComputeShaderText()
+{
+    return "[numthreads(1, 1, 1)] void CSMain(uint3 coord : SV_DispatchThreadID) {}";
+}

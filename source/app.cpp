@@ -44,7 +44,6 @@ void App::handle_input()
             else
             {
                 window->gui->set_context();
-
             }
         }
 
@@ -103,7 +102,6 @@ void App::run_game_loop()
                 window->gui->prepare();
             }
         }
-
 
         {
             Profile _("lanes");

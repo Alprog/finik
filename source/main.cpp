@@ -16,6 +16,7 @@ import assets_view;
 import shaders_view;
 import assets;
 import model;
+import shader_manager;
 
 int main(int argc, char* argv[])
 {
@@ -43,6 +44,8 @@ int main(int argc, char* argv[])
 
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;
+
+    ShaderManager::GetInstance().getComputeShader("shaders/mipmaps.hlsl", "CSMain");
 
     app.run_game_loop();
 

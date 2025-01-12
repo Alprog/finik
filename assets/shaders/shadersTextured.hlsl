@@ -38,7 +38,7 @@ float4 PSMain(PSInput input) : SV_TARGET
 	return color;
 	
 	Texture2D mainTexture = textures[Materials[MaterialId].TextureA];
-	float4 texColor = mainTexture.Sample(default_sampler, input.uv);
+	float4 texColor = mainTexture.Sample(DefaultSampler, input.uv);
 	
 	float4 diffuseColor = lerp(color, texColor, 1);
 	

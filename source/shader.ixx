@@ -8,7 +8,8 @@ import asset_dependencies;
 export enum ShaderType
 {
     Vertex,
-    Pixel
+    Pixel,
+    Compute,
 };
 
 export struct ShaderKey

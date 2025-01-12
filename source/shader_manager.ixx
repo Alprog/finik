@@ -16,8 +16,10 @@ public:
         auto& compiler = ShaderCompiler::GetInstance();
         fallbackVertexByteCode = compiler.Compile(getFallbackVertexShaderText(), ShaderType::Vertex, "VSMain").bytecode;
         fallbackPixelByteCode = compiler.Compile(getFallbackPixelShaderText(), ShaderType::Pixel, "PSMain").bytecode;
+        fallbackComputeByteCode = compiler.Compile(getFallbackComputeShaderText(), ShaderType::Compute, "CSMain").bytecode;
         ASSERT(fallbackVertexByteCode.Get());
         ASSERT(fallbackPixelByteCode.Get());
+        ASSERT(fallbackComputeByteCode.Get());
     }
 
     void update()
@@ -37,6 +39,11 @@ public:
     std::shared_ptr<Shader> getPixelShader(AssetPath assetPath, const std::string& entryName)
     {
         return getShader({assetPath, ShaderType::Pixel, entryName});
+    }
+
+    std::shared_ptr<Shader> getComputeShader(AssetPath assetPath, const std::string& entryName)
+    {
+        return getShader({assetPath, ShaderType::Compute, entryName});
     }
 
     std::shared_ptr<Shader> getShader(const ShaderKey& key)
@@ -59,7 +66,17 @@ public:
 
     ShaderByteCode getFallbackByteCode(ShaderType type)
     {
-        return type == ShaderType::Vertex ? fallbackVertexByteCode : fallbackPixelByteCode;
+        switch (type)
+        {
+        case ShaderType::Vertex:
+            return fallbackVertexByteCode;
+
+        case ShaderType::Pixel:
+            return fallbackPixelByteCode;
+
+        case ShaderType::Compute:
+            return fallbackComputeByteCode;
+        }
     }
 
     auto getAllShaders() const
@@ -70,6 +87,7 @@ public:
 private:
     const char* getFallbackVertexShaderText();
     const char* getFallbackPixelShaderText();
+    const char* getFallbackComputeShaderText();
 
     int32 hotReloadOutdated()
     {
@@ -89,6 +107,7 @@ private:
 private:
     ShaderByteCode fallbackVertexByteCode;
     ShaderByteCode fallbackPixelByteCode;
+    ShaderByteCode fallbackComputeByteCode;
 
     HashMap<ShaderKey, std::shared_ptr<Shader>> Shaders;
     bool hotReloadNeeded = false;
