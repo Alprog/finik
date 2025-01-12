@@ -24,6 +24,28 @@ void MeshBuilder::addTriangle(const StandardVertex& a, const StandardVertex& b, 
 
 void MeshBuilder::addQuad(const StandardVertex& a, const StandardVertex& b, const StandardVertex& c, const StandardVertex& d)
 {
+    addTriangleFan({a, b, c, d});
+}
+
+void MeshBuilder::addTriangleFan(const Array<StandardVertex>& fanVertices)
+{
+    if (fanVertices.count() == 3)
+    {
+        addTriangle(fanVertices[0], fanVertices[1], fanVertices[2]);
+        return;
+    }
+
+    auto startIndex = Vertices.count();
+    for (auto& vertex : fanVertices)
+    {
+        addVertex(vertex);
+    }
+    for (int32 i = 2; i < fanVertices.count(); i++)
+    {
+        addIndex(startIndex);
+        addIndex(startIndex + i - 1);
+        addIndex(startIndex + i);
+    }
 }
 
 void MeshBuilder::AddTile(int x, int y)

@@ -15,6 +15,7 @@ public:
 
     void addTriangle(const StandardVertex& a, const StandardVertex& b, const StandardVertex& c);
     void addQuad(const StandardVertex& a, const StandardVertex& b, const StandardVertex& c, const StandardVertex& d);
+    void addTriangleFan(const Array<StandardVertex>& fanVertices);
 
     void AddTile(int x, int y);
     Mesh* Build();
