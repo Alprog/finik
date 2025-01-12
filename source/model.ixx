@@ -9,7 +9,13 @@ import vertex;
 
 export class Model : public Asset
 {
+public:
     using Asset::Asset;
+
+    Vector3 to_z_up(const Vector3 v)
+    {
+        return {v.x, -v.z, v.y};
+    }
 
     void hot_reload(ByteBlob& blob) override
     {
@@ -24,13 +30,15 @@ export class Model : public Asset
             for (auto& desc : face)
             {
                 StandardVertex& vertex = vertices.emplace_back();
-                vertex.position = loader.positions[desc.pi];
-                vertex.normal = loader.normals[desc.ni];
+                vertex.position = to_z_up(loader.positions[desc.pi]);
+                vertex.normal = to_z_up(loader.normals[desc.ni]);
                 vertex.texCoord = loader.tex_coords[desc.ti];
             }
             builder.addTriangleFan(vertices);
         }
+
+        mesh = builder.Build();
     }
 
-    Mesh mesh;
+    Mesh* mesh = nullptr;
 };

@@ -44,8 +44,6 @@ int main(int argc, char* argv[])
     //auto secondWindow = app.desktop_system.create_window(800, 600);
     //secondWindow->scene = &scene;
 
-    Assets::GetInstance().get<Model>("models/airplane.obj");
-
     app.run_game_loop();
 
     return 0;

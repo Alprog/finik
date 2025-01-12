@@ -35,6 +35,8 @@ float4 PSMain(PSInput input) : SV_TARGET
 	float4 color = float4(input.normal, 1);
 	color.rgb = (color.rgb + 1) / 2;
 	
+	return color;
+	
 	Texture2D mainTexture = textures[Materials[MaterialId].TextureA];
 	float4 texColor = mainTexture.Sample(g_sampler, input.uv);
 	

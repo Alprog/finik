@@ -13,6 +13,8 @@ import allocation;
 import effect_manager;
 import root_signature_params;
 import render_context;
+import assets;
+import model;
 
 Scene::Scene()
 {
@@ -20,6 +22,8 @@ Scene::Scene()
 
     actors.append(new Actor());
     actors.append(new Actor());
+
+    actors[1]->mesh = Assets::GetInstance().get<Model>("models/airplane.obj")->mesh;
 
     light.direction = Vector4(-1, -1, -1, 0).getNormalized();
 }
