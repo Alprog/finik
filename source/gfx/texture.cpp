@@ -11,13 +11,20 @@ import images;
 static const uint32 TexturePixelSize = 4;
 
 Texture::Texture(AssetPath asset_path)
-    : Asset{ asset_path }
+    : Asset{asset_path}
     , Width{0}
     , Height{0}
 {
     auto& renderSystem = App::GetInstance().render_system;
     DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
     descriptorHandle = heap->getNextHandle();
+}
+
+int32 Texture::calcMipMapCount()
+{
+    int32 maxSide = max(Width, Height);
+    float count = std::log2(static_cast<float>(maxSide));
+    return static_cast<int32>(std::ceil(count));
 }
 
 void Texture::resize(int32 width, int32 height)
@@ -40,7 +47,7 @@ void Texture::resize(int32 width, int32 height)
     auto* device = renderSystem.get_device();
 
     D3D12_RESOURCE_DESC textureDesc = {};
-    textureDesc.MipLevels = 1;
+    textureDesc.MipLevels = calcMipMapCount();
     textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     textureDesc.Width = width;
     textureDesc.Height = height;
@@ -64,13 +71,13 @@ void Texture::resize(int32 width, int32 height)
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Format = textureDesc.Format;
     srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MipLevels = 1;
+    srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
 
     device->CreateShaderResourceView(InternalResource, &srvDesc, descriptorHandle.getCPU());
 }
 
 Texture::Texture(int32 width, int32 height)
-    : Texture( "" )
+    : Texture("")
 {
     resize(width, height);
 }
@@ -107,7 +114,7 @@ void Texture::setData(Image& image)
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
-    
+
     if (uploadBufferSize == image.getByteSize())
     {
         memcpy(uploadBuffer.GetData(), image.data, uploadBufferSize);
@@ -132,7 +139,7 @@ void Texture::setData(Image& image)
 
     commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
     commandList->Close();
-    ID3D12CommandList* ppCommandLists[] = { commandList };
+    ID3D12CommandList* ppCommandLists[] = {commandList};
     auto& commandQueue = renderSystem.get_command_queue();
     commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
     commandQueue.Flush();

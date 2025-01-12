@@ -18,11 +18,14 @@ public:
 
     Texture(int32 width, int32 height);
     Texture(Image& image);
-    
+
     void setData(Image& image);
 
 protected:
     void hot_reload(ByteBlob& blob) override;
+
+private:
+    int32 calcMipMapCount();
 
 public:
     int Width;
