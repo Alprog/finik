@@ -40,5 +40,6 @@ cbuffer MaterialConstantBuffer : register(b3)
     uint MaterialId; 
 };
 
-SamplerState g_sampler : register(s0);
-
+SamplerState default_sampler : register(s0);
+SamplerState point_sampler : register(s1);
+SamplerState linear_sampler : register(s2);

@@ -45,6 +45,7 @@ export D3D_FEATURE_LEVEL;
 export HANDLE;
 export ID3DInclude;
 export D3D12_RESOURCE_STATES;
+export D3D12_FILTER;
 
 export import d3dx;
 export import myptr;

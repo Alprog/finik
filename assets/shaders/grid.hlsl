@@ -39,8 +39,8 @@ float4 PSMain(PSInput input) : SV_TARGET
 	Texture2D cellTexture = textures[Materials[MaterialId].TextureA];
 	Texture2D gridTexture = textures[Materials[MaterialId].TextureB];
 	
-	float3 fillColor = gridTexture.Sample(g_sampler, float2(input.coord) / 256).rgb;
-	float3 borderColor = cellTexture.Sample(g_sampler, input.uv).rgb;
+	float3 fillColor = gridTexture.Sample(point_sampler, float2(input.coord) / 256).rgb;
+	float3 borderColor = cellTexture.Sample(default_sampler, input.uv).rgb;
 	
 	return float4(fillColor + borderColor, 1);
 }
