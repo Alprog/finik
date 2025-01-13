@@ -10,6 +10,10 @@ export class ComputeContext
 public:
     ComputeContext(RenderSystem& renderSystem, ID3D12GraphicsCommandList& commandList);
 
+    void setupRoot();
+
+    void setConstants(D3D12_GPU_VIRTUAL_ADDRESS gpuAddress);
+
     RenderSystem& renderSystem;
     ID3D12GraphicsCommandList& commandList;
 };

@@ -206,7 +206,8 @@ void RenderSystem::createProfiler()
 
 void RenderSystem::createRootSignature()
 {
-    rootSignature = std::make_unique<MainRootSignature>(*this);
+    mainRootSignature = std::make_unique<MainRootSignature>(*this);
+    computeRootSignature = std::make_unique<ComputeRootSignature>(*this);
 }
 
 void RenderSystem::scheduleQueryResolving()
@@ -276,7 +277,12 @@ GpuProfiler* RenderSystem::getProfiler()
 
 MainRootSignature& RenderSystem::getRootSignature()
 {
-    return *rootSignature;
+    return *mainRootSignature;
+}
+
+ComputeRootSignature& RenderSystem::getComputeRootSignature()
+{
+    return *computeRootSignature;
 }
 
 CommandList& RenderSystem::getFreeCommandList()

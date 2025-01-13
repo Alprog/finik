@@ -33,6 +33,7 @@ public:
     RenderContext* getRenderContext();
     GpuProfiler* getProfiler();
     MainRootSignature& getRootSignature();
+    ComputeRootSignature& getComputeRootSignature();
 
     CommandList& getFreeCommandList();
     finik::gpumem::OneshotAllocator& getOneshotAllocator();
@@ -59,7 +60,8 @@ private:
     MyPtr<ID3D12CommandAllocator> commandAllocators[3];
     MyPtr<ID3D12GraphicsCommandList> commandList;
 
-    std::unique_ptr<MainRootSignature> rootSignature;
+    std::unique_ptr<MainRootSignature> mainRootSignature;
+    std::unique_ptr<ComputeRootSignature> computeRootSignature;
 
     GpuProfiler* gpuProfiler = nullptr;
 

@@ -21,7 +21,7 @@ D3D12_STATIC_SAMPLER_DESC getSamplerDesc(int32 shaderRegister, D3D12_FILTER filt
     sampler.MaxLOD = D3D12_FLOAT32_MAX;
     sampler.ShaderRegister = shaderRegister;
     sampler.RegisterSpace = 0;
-    sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+    sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
     return sampler;
 }
 
@@ -70,9 +70,13 @@ ComputeRootSignature::ComputeRootSignature(RenderSystem& renderSystem)
     Array<CD3DX12_ROOT_PARAMETER> parameters;
     parameters.resize(Params::Count);
 
-    parameters[Params::ConstantBufferView].InitAsConstantBufferView(0);   // b0
-    parameters[Params::ShaderResourceView].InitAsShaderResourceView(0);   // t0
-    parameters[Params::UnorderedAccessView].InitAsUnorderedAccessView(0); // u0
+    //parameters[Params::ConstantBufferView].InitAsConstantBufferView(0); // b0
+    //parameters[Params::ShaderResourceView].InitAsShaderResourceView(0);   // t0
+    //parameters[Params::UnorderedAccessView].InitAsUnorderedAccessView(0); // u0
+
+    parameters[Params::ConstantBufferView].InitAsConstantBufferView(0);                                                                 // b0
+    parameters[Params::ShaderResourceView].InitAsDescriptorTable(1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0));  // t0
+    parameters[Params::UnorderedAccessView].InitAsDescriptorTable(1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0)); // u0
 
     init(renderSystem, parameters);
 }

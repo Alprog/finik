@@ -8,6 +8,7 @@ import render_system;
 import upload_buffer;
 import images;
 import command_list;
+import mipmap_generator;
 
 static const uint32 TexturePixelSize = 4;
 
@@ -140,6 +141,9 @@ void Texture::setData(Image& image)
     commandList.listImpl->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
     commandList.listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+
+    MipMapGenerator::GetInstance();
+
     commandList.endRecording();
 
     auto& commandQueue = renderSystem.get_command_queue();

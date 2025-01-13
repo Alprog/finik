@@ -1,15 +1,14 @@
-export module mipmap_generation;
+export module mipmap_generator;
 
 import core;
 
 import dx;
 
-class MipMapGenerator : public Singleton<MipMapGenerator>
+export class MipMapGenerator : public Singleton<MipMapGenerator>
 {
 public:
     MipMapGenerator();
 
-    MyPtr<ID3D12RootSignature> rootSignature;
     MyPtr<ID3D12PipelineState> pso;
 };
 

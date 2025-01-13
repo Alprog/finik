@@ -11,7 +11,7 @@ public:
     {
     }
 
-    template<class U>
+    template <class U>
     MyPtr(U* other) throw()
         : ptr(other)
     {
@@ -50,7 +50,7 @@ public:
         return ptr;
     }
 
-    template<typename U>
+    template <typename U>
     long As(MyPtr<U>& p)
     {
         return ptr->QueryInterface(__uuidof(U), reinterpret_cast<void**>(p.ReleaseAndGetAddressOf()));
