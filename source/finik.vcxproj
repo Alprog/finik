@@ -212,6 +212,7 @@
     <ClCompile Include="gfx\gpu_profiler.ixx" />
     <ClCompile Include="gfx\index_buffer.cpp" />
     <ClCompile Include="gfx\index_buffer.ixx" />
+    <ClCompile Include="gfx\mipmap_generator.cpp" />
     <ClCompile Include="gfx\pipeline_settings.cpp" />
     <ClCompile Include="gfx\pipeline_settings.ixx" />
     <ClCompile Include="gfx\pipeline_state.cpp" />
@@ -262,6 +263,7 @@
     <ClCompile Include="mesh.ixx" />
     <ClCompile Include="mesh_builder.cpp" />
     <ClCompile Include="mesh_builder.ixx" />
+    <ClCompile Include="gfx\mipmap_generator.ixx" />
     <ClCompile Include="myptr.ixx" />
     <ClCompile Include="model.ixx" />
     <ClCompile Include="obj\obj_loader.ixx" />

@@ -13,7 +13,7 @@ struct Material
 };
 
 // permanent
-Texture2D textures[] : register(t0);
+Texture2D textures[] : register(t0); // t0...
 
 cbuffer MaterialsConstantBuffer : register(b0)
 {
