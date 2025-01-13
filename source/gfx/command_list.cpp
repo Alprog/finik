@@ -7,20 +7,20 @@ import command_list_pool;
 import gpu_profiler;
 
 CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
-    : renderSystem{ renderSystem }
-    , pool { pool }
-    , frameIndex { frameIndex }
+    : renderSystem{renderSystem}
+    , pool{pool}
+    , frameIndex{frameIndex}
 {
     auto device = renderSystem.get_device();
 
-
     auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator));
-    
-    
-    if (FAILED(result)) throw;
+
+    if (FAILED(result))
+        throw;
 
     result = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator.Get(), nullptr, IID_PPV_ARGS(&listImpl));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     // open and ready to record
 }

@@ -7,6 +7,7 @@ import descriptor_heap;
 import render_system;
 import upload_buffer;
 import images;
+import command_list;
 
 static const uint32 TexturePixelSize = 4;
 
@@ -100,16 +101,17 @@ void Texture::setData(Image& image)
     auto& renderSystem = App::GetInstance().render_system;
 
     auto device = renderSystem.get_device();
-    auto commandList = renderSystem.get_command_list();
+    CommandList& commandList = renderSystem.getFreeCommandList();
+    commandList.startRecording();
 
-    ID3D12CommandAllocator* commandAllocator = nullptr;
-    if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)) != S_OK)
-        throw;
+    //ID3D12CommandAllocator* commandAllocator = nullptr;
+    //if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)) != S_OK)
+    //    throw;
 
-    commandList->Reset(commandAllocator, nullptr);
+    //commandList->Reset(commandAllocator, nullptr);
     if (state == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
     {
-        commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST));
+        commandList.listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST));
     }
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
@@ -125,7 +127,7 @@ void Texture::setData(Image& image)
         textureData.pData = image.data;
         textureData.RowPitch = image.width * TexturePixelSize;
         textureData.SlicePitch = textureData.RowPitch * image.height;
-        UpdateSubresources(commandList, InternalResource, uploadBuffer.GetResource(), 0, 0, 1, &textureData);
+        UpdateSubresources(commandList.listImpl.Get(), InternalResource, uploadBuffer.GetResource(), 0, 0, 1, &textureData);
     }
 
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcFootprint;
@@ -135,16 +137,13 @@ void Texture::setData(Image& image)
 
     const CD3DX12_TEXTURE_COPY_LOCATION Src(uploadBuffer.GetResource(), srcFootprint);
     const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
-    commandList->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
+    commandList.listImpl->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
-    auto desc = InternalResource->GetDesc();
-    bool a = (desc.Flags & D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS) != 0;
+    commandList.listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+    commandList.endRecording();
 
-    commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
-    commandList->Close();
-    ID3D12CommandList* ppCommandLists[] = {commandList};
     auto& commandQueue = renderSystem.get_command_queue();
-    commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+    commandQueue.execute(commandList);
     commandQueue.Flush();
 
     state = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;

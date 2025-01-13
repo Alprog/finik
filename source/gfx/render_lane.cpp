@@ -45,7 +45,7 @@ void RenderSurface::recreateRenderTarget()
         1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
-       
+
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
@@ -56,7 +56,8 @@ void RenderSurface::recreateRenderTarget()
         D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
         &clearValue,
         IID_PPV_ARGS(&renderTarget));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     render_system.get_device()->CreateRenderTargetView(renderTarget.Get(), nullptr, renderTargetHandle.getCPU());
     render_system.get_device()->CreateShaderResourceView(renderTarget.Get(), nullptr, textureHandle.getCPU());
@@ -86,7 +87,8 @@ void RenderSurface::recreateDepthStencil()
         D3D12_RESOURCE_STATE_DEPTH_WRITE,
         &clearValue,
         IID_PPV_ARGS(&depthStencil));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     depthStencil->SetName(L"DepthStencil");
 
@@ -107,7 +109,7 @@ void RenderSurface::startRendering(ID3D12GraphicsCommandList* commandList)
     commandList->ResourceBarrier(1, &barrier);
 
     // Render Dear ImGui graphics
-    const float clear_color_with_alpha[4] = { 0.5f, 0.2f, 0.2f, 1.0f };
+    const float clear_color_with_alpha[4] = {0.5f, 0.2f, 0.2f, 1.0f};
 
     commandList->ClearRenderTargetView(renderTargetHandle.getCPU(), clear_color_with_alpha, 0, nullptr);
     commandList->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
@@ -141,8 +143,8 @@ void RenderSurface::endRendering(ID3D12GraphicsCommandList* commandList)
 //--------------------------------------
 
 RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
-    : scene{ scene }
-    , camera{ camera }
+    : scene{scene}
+    , camera{camera}
 {
     surface.init(resolution);
 }
@@ -169,17 +171,16 @@ void RenderLane::render()
 {
     RenderSystem& render_system = App::GetInstance().render_system;
     auto& commandQueue = render_system.get_command_queue();
-
     {
         Profile _("wait");
         commandQueue.fence->WaitForValue(fenceValue);
     }
 
-    auto& commandList = render_system.getFreeCommandList();
+    CommandList& commandList = render_system.getFreeCommandList();
     commandList.startRecording();
 
     surface.startRendering(commandList.listImpl.Get());
-   
+
     RenderContext context(render_system, *commandList.listImpl.Get());
     scene.render(context, &camera);
     surface.endRendering(commandList.listImpl.Get());
@@ -188,5 +189,4 @@ void RenderLane::render()
     commandQueue.execute(commandList);
 
     fenceValue = commandQueue.fence->SignalNext();
-
 }
