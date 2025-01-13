@@ -200,6 +200,8 @@
     <ClCompile Include="gfx\command_list_pool.ixx" />
     <ClCompile Include="gfx\command_queue.cpp" />
     <ClCompile Include="gfx\command_queue.ixx" />
+    <ClCompile Include="gfx\compute_context.cpp" />
+    <ClCompile Include="gfx\compute_context.ixx" />
     <ClCompile Include="gfx\constant_buffer.cpp" />
     <ClCompile Include="gfx\constant_buffer.ixx" />
     <ClCompile Include="gfx\descriptor_handle.cpp" />

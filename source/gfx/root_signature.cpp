@@ -25,19 +25,8 @@ D3D12_STATIC_SAMPLER_DESC getSamplerDesc(int32 shaderRegister, D3D12_FILTER filt
     return sampler;
 }
 
-RootSignature::RootSignature(RenderSystem& renderSystem)
+void RootSignature::init(RenderSystem& renderSystem, Array<CD3DX12_ROOT_PARAMETER>& parameters)
 {
-    CD3DX12_ROOT_PARAMETER rootParameters[RootSignatureParams::Count];
-
-    rootParameters[RootSignatureParams::UnboundTextureTable].InitAsDescriptorTable(
-        1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0), D3D12_SHADER_VISIBILITY_PIXEL); // t0...
-    rootParameters[RootSignatureParams::MaterialsConstantBufferView].InitAsConstantBufferView(0);            // b0
-
-    rootParameters[RootSignatureParams::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
-
-    rootParameters[RootSignatureParams::MeshConstantBufferView].InitAsConstantBufferView(2); // b2
-    rootParameters[RootSignatureParams::MaterialInlineConstants].InitAsConstants(1, 3);      // b3
-
     auto defaultSampler = getSamplerDesc(0, D3D12_FILTER_ANISOTROPIC);
     auto pointSampler = getSamplerDesc(1, D3D12_FILTER_MIN_MAG_MIP_POINT);
     auto linearSampler = getSamplerDesc(2, D3D12_FILTER_MIN_MAG_MIP_LINEAR);
@@ -45,7 +34,7 @@ RootSignature::RootSignature(RenderSystem& renderSystem)
     D3D12_STATIC_SAMPLER_DESC staticSamplers[3] = {defaultSampler, pointSampler, linearSampler};
 
     CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-    rootSignatureDesc.Init(_countof(rootParameters), rootParameters, 3, staticSamplers, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+    rootSignatureDesc.Init(parameters.count(), &parameters[0], 3, staticSamplers, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
     MyPtr<ID3DBlob> signature;
     MyPtr<ID3DBlob> error;
@@ -57,4 +46,33 @@ RootSignature::RootSignature(RenderSystem& renderSystem)
     result = device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&signatureImpl));
     if (FAILED(result))
         throw;
-};
+}
+
+MainRootSignature::MainRootSignature(RenderSystem& renderSystem)
+{
+    Array<CD3DX12_ROOT_PARAMETER> parameters;
+    parameters.resize(Params::Count);
+
+    parameters[Params::UnboundTextureTable].InitAsDescriptorTable(
+        1, &CD3DX12_DESCRIPTOR_RANGE(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0), D3D12_SHADER_VISIBILITY_PIXEL); // t0...
+    parameters[Params::MaterialsConstantBufferView].InitAsConstantBufferView(0);                             // b0
+
+    parameters[Params::FrameConstantBufferView].InitAsConstantBufferView(1); // b1;
+
+    parameters[Params::MeshConstantBufferView].InitAsConstantBufferView(2); // b2
+    parameters[Params::MaterialInlineConstants].InitAsConstants(1, 3);      // b3
+
+    init(renderSystem, parameters);
+}
+
+ComputeRootSignature::ComputeRootSignature(RenderSystem& renderSystem)
+{
+    Array<CD3DX12_ROOT_PARAMETER> parameters;
+    parameters.resize(Params::Count);
+
+    parameters[Params::ConstantBufferView].InitAsConstantBufferView(0);   // b0
+    parameters[Params::ShaderResourceView].InitAsShaderResourceView(0);   // t0
+    parameters[Params::UnorderedAccessView].InitAsUnorderedAccessView(0); // u0
+
+    init(renderSystem, parameters);
+}

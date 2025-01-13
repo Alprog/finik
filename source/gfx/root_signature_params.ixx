@@ -14,19 +14,3 @@ export struct FrameConstants
     Matrix Projection;
     Vector4 LightDirection;
 };
-
-export enum RootSignatureParams
-{
-    // permanent
-    UnboundTextureTable,
-    MaterialsConstantBufferView,
-
-    // per frame
-    FrameConstantBufferView,
-
-    // per draw
-    MeshConstantBufferView,
-    MaterialInlineConstants,
-
-    Count
-};

@@ -80,7 +80,8 @@ void RenderSystem::createDevice()
 {
     MyPtr<IDXGIFactory4> factory;
     auto result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     MyPtr<IDXGIAdapter1> adapter;
     for (uint32 adapterIndex = 0; DXGI_ERROR_NOT_FOUND != factory.Get()->EnumAdapters1(adapterIndex, &adapter); adapterIndex++)
@@ -102,7 +103,8 @@ void RenderSystem::createDevice()
     hardwareAdapter = adapter.Detach();
 
     result = D3D12CreateDevice(hardwareAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 }
 
 void RenderSystem::setupDebug()
@@ -120,15 +122,14 @@ void RenderSystem::setupDebug()
 
         // Suppress messages based on their severity level
         D3D12_MESSAGE_SEVERITY Severities[] =
-        {
-            D3D12_MESSAGE_SEVERITY_INFO
-        };
+            {
+                D3D12_MESSAGE_SEVERITY_INFO};
 
         // Suppress individual messages by their ID
         D3D12_MESSAGE_ID DenyIds[] = {
-            D3D12_MESSAGE_ID_CLEARRENDERTARGETVIEW_MISMATCHINGCLEARVALUE,   // I'm really not sure how to avoid this message.
-            D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,                         // This warning occurs when using capture frame while graphics debugging.
-            D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE,                       // This warning occurs when using capture frame while graphics debugging.
+            D3D12_MESSAGE_ID_CLEARRENDERTARGETVIEW_MISMATCHINGCLEARVALUE, // I'm really not sure how to avoid this message.
+            D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,                       // This warning occurs when using capture frame while graphics debugging.
+            D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE,                     // This warning occurs when using capture frame while graphics debugging.
         };
 
         D3D12_INFO_QUEUE_FILTER NewFilter = {};
@@ -140,7 +141,8 @@ void RenderSystem::setupDebug()
         NewFilter.DenyList.pIDList = DenyIds;
 
         auto result = pInfoQueue->PushStorageFilter(&NewFilter);
-        if (FAILED(result)) throw;
+        if (FAILED(result))
+            throw;
     }
 #endif
 }
@@ -163,7 +165,7 @@ void RenderSystem::createDescriptorHeap()
 
 void RenderSystem::createCommandListPool()
 {
-    commandListPool = std::make_unique<CommandListPool>( *this );
+    commandListPool = std::make_unique<CommandListPool>(*this);
 }
 
 void RenderSystem::createCommandAllocators()
@@ -171,7 +173,8 @@ void RenderSystem::createCommandAllocators()
     for (int i = 0; i < 3; i++)
     {
         auto result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i]));
-        if (FAILED(result)) throw;
+        if (FAILED(result))
+            throw;
     }
 }
 
@@ -183,10 +186,12 @@ void RenderSystem::createOneshotAllocator()
 void RenderSystem::createCommandList()
 {
     auto result = get_device()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocators[0].Get(), nullptr, IID_PPV_ARGS(&commandList));
-    if (FAILED(result)) throw;
-    
+    if (FAILED(result))
+        throw;
+
     result = commandList->Close();
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 }
 
 void RenderSystem::createRenderContext()
@@ -201,7 +206,7 @@ void RenderSystem::createProfiler()
 
 void RenderSystem::createRootSignature()
 {
-    rootSignature = std::make_unique<RootSignature>( *this );
+    rootSignature = std::make_unique<MainRootSignature>(*this);
 }
 
 void RenderSystem::scheduleQueryResolving()
@@ -269,7 +274,7 @@ GpuProfiler* RenderSystem::getProfiler()
     return gpuProfiler;
 }
 
-RootSignature& RenderSystem::getRootSignature()
+MainRootSignature& RenderSystem::getRootSignature()
 {
     return *rootSignature;
 }

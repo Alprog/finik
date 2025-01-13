@@ -2,6 +2,8 @@ export module command_list;
 
 import dx;
 import render_system_fwd;
+import render_context;
+import compute_context;
 
 export class CommandList
 {
@@ -14,6 +16,16 @@ public:
     void endRecording();
 
     int getFrameIndex() const;
+
+    RenderContext getRenderContext()
+    {
+        return RenderContext(renderSystem, *listImpl.Get());
+    }
+
+    ComputeContext getComputeContext()
+    {
+        return ComputeContext(renderSystem, *listImpl.Get());
+    }
 
 private:
     int addTimestampQuery();

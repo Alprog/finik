@@ -32,7 +32,7 @@ public:
     DescriptorHeap* getSrvCbvHeap();
     RenderContext* getRenderContext();
     GpuProfiler* getProfiler();
-    RootSignature& getRootSignature();
+    MainRootSignature& getRootSignature();
 
     CommandList& getFreeCommandList();
     finik::gpumem::OneshotAllocator& getOneshotAllocator();
@@ -50,16 +50,16 @@ private:
     void createCommandListPool();
     void createCommandAllocators();
     void createOneshotAllocator();
-    void createCommandList();   
+    void createCommandList();
     void createRenderContext();
     void createProfiler();
     void createRootSignature();
-    
+
     CommandQueue* commandQueue = nullptr;
     MyPtr<ID3D12CommandAllocator> commandAllocators[3];
     MyPtr<ID3D12GraphicsCommandList> commandList;
 
-    std::unique_ptr<RootSignature> rootSignature;
+    std::unique_ptr<MainRootSignature> rootSignature;
 
     GpuProfiler* gpuProfiler = nullptr;
 
