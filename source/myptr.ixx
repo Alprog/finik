@@ -112,6 +112,16 @@ public:
         return &ptr;
     }
 
+    T* const* GetAddressOf() const throw()
+    {
+        return &ptr;
+    }
+
+    T** GetAddressOf() throw()
+    {
+        return &ptr;
+    }
+
     std::strong_ordering operator<=>(const MyPtr<T>& other) const = default;
 
 protected:

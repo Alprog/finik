@@ -15,7 +15,7 @@ D3D12_VIEWPORT viewport;
 D3D12_RECT scissorRect;
 
 SwapChain::SwapChain(DesktopWindow& window)
-    : window{ window }
+    : window{window}
 {
     // Setup swap chain
     DXGI_SWAP_CHAIN_DESC1 sd;
@@ -40,19 +40,22 @@ SwapChain::SwapChain(DesktopWindow& window)
     {
         MyPtr<IDXGIFactory3> dxgiFactory;
         MyPtr<IDXGISwapChain1> dxgiSwapChain1;
-      
+
         uint32 createFactoryFlags = 0;
 #if defined(_DEBUG)
         createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
         auto result = CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory));
-        if (FAILED(result)) throw;
+        if (FAILED(result))
+            throw;
 
         result = dxgiFactory->CreateSwapChainForHwnd(render_system.get_command_queue().queueImpl.Get(), window.hwnd, &sd, nullptr, nullptr, &dxgiSwapChain1);
-        if (FAILED(result)) throw;
+        if (FAILED(result))
+            throw;
 
         result = dxgiSwapChain1->QueryInterface(IID_PPV_ARGS(&swapChain));
-        if (FAILED(result)) throw;
+        if (FAILED(result))
+            throw;
 
         swapChain->SetMaximumFrameLatency(NUM_BACK_BUFFER);
         hSwapChainWaitableObject = swapChain->GetFrameLatencyWaitableObject();
@@ -70,10 +73,20 @@ SwapChain::SwapChain(DesktopWindow& window)
 SwapChain::~SwapChain()
 {
     for (uint32 i = 0; i < NUM_FRAMES_IN_FLIGHT; i++)
-        if (frameContext[i].CommandAllocator) { frameContext[i].CommandAllocator->Release(); frameContext[i].CommandAllocator = nullptr; }
+        if (frameContext[i].CommandAllocator)
+        {
+            frameContext[i].CommandAllocator->Release();
+            frameContext[i].CommandAllocator = nullptr;
+        }
 
-    if (swapChain) { swapChain->SetFullscreenState(false, nullptr); }
-    if (hSwapChainWaitableObject != nullptr) { CloseHandle(hSwapChainWaitableObject); }
+    if (swapChain)
+    {
+        swapChain->SetFullscreenState(false, nullptr);
+    }
+    if (hSwapChainWaitableObject != nullptr)
+    {
+        CloseHandle(hSwapChainWaitableObject);
+    }
 }
 
 void SwapChain::CreateRenderTargets()
@@ -82,7 +95,7 @@ void SwapChain::CreateRenderTargets()
 
     for (uint32 i = 0; i < NUM_BACK_BUFFER; i++)
     {
-        auto renderTarget = std::make_shared<RenderTarget>();   
+        auto renderTarget = std::make_shared<RenderTarget>();
         DescriptorHeap* heap = render_system.getRtvHeap();
         renderTarget->handle = heap->getNextHandle().getCPU();
 
@@ -90,7 +103,7 @@ void SwapChain::CreateRenderTargets()
         swapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
         render_system.get_device()->CreateRenderTargetView(pBackBuffer, nullptr, renderTarget->handle);
         renderTarget->resource = pBackBuffer;
-    
+
         renderTargets.append(renderTarget);
     }
 }
@@ -111,7 +124,7 @@ void SwapChain::CreateRenderTarget()
 
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-   
+
     auto result = render_system.get_device()->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
         D3D12_HEAP_FLAG_NONE,
@@ -119,7 +132,8 @@ void SwapChain::CreateRenderTarget()
         D3D12_RESOURCE_STATE_RENDER_TARGET,
         &clearValue,
         IID_PPV_ARGS(&renderTarget->resource));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 }
 
 void SwapChain::CreateDepthStencil()
@@ -146,7 +160,8 @@ void SwapChain::CreateDepthStencil()
         D3D12_RESOURCE_STATE_DEPTH_WRITE,
         &clearValue,
         IID_PPV_ARGS(&depthStencil));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     depthStencil->SetName(L"DepthStencil");
 
@@ -162,18 +177,18 @@ void SwapChain::CleanupRenderTarget()
 
 void SwapChain::WaitForLastSubmittedFrame()
 {
-//    FrameContext* frameCtx = &frameContext[frameIndex % NUM_FRAMES_IN_FLIGHT];
-//
-//    uint64 fenceValue = frameCtx->FenceValue;
-//    if (fenceValue == 0)
-//        return; // No fence was signaled
-//
-//    frameCtx->FenceValue = 0;
-//    if (fence->GetCompletedValue() >= fenceValue)
-//        return;
-//
-//    fence->SetEventOnCompletion(fenceValue, fenceEvent);
-//    WaitForSingleObject(fenceEvent, INFINITE);
+    //    FrameContext* frameCtx = &frameContext[frameIndex % NUM_FRAMES_IN_FLIGHT];
+    //
+    //    uint64 fenceValue = frameCtx->FenceValue;
+    //    if (fenceValue == 0)
+    //        return; // No fence was signaled
+    //
+    //    frameCtx->FenceValue = 0;
+    //    if (fence->GetCompletedValue() >= fenceValue)
+    //        return;
+    //
+    //    fence->SetEventOnCompletion(fenceValue, fenceEvent);
+    //    WaitForSingleObject(fenceEvent, INFINITE);
 }
 
 FrameContext* SwapChain::WaitForNextFrameResources()
@@ -223,14 +238,14 @@ void SwapChain::start_frame(ID3D12GraphicsCommandList* command_list)
     command_list->ResourceBarrier(1, &barrier);
 
     // Render Dear ImGui graphics
-    const float clear_color_with_alpha[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    const float clear_color_with_alpha[4] = {0.2f, 0.2f, 0.2f, 1.0f};
 
     D3D12_CPU_DESCRIPTOR_HANDLE handle = renderTargets[backBufferIdx]->handle;
     command_list->ClearRenderTargetView(handle, clear_color_with_alpha, 0, nullptr);
     command_list->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     command_list->OMSetRenderTargets(1, &handle, FALSE, &depthStencilHandle.getCPU());
-    
-    ID3D12DescriptorHeap* heap = render_system.getSrvCbvHeap()->get();
+
+    ID3D12DescriptorHeap* heap = render_system.getCommonHeap()->get();
     command_list->SetDescriptorHeaps(1, &heap);
 
     viewport.Width = static_cast<float>(1024);
@@ -257,7 +272,7 @@ void SwapChain::finish_frame(ID3D12GraphicsCommandList* command_list)
     command_list->ResourceBarrier(1, &barrier);
 
     //App::GetInstance().render_system.getProfiler()->addStamp(*command_list, "end");
-    
+
     command_list->Close();
 }
 
@@ -270,7 +285,7 @@ void SwapChain::execute(ID3D12GraphicsCommandList* command_list)
 void SwapChain::present()
 {
     RenderSystem& render_system = App::GetInstance().render_system;
-    
+
     bool vsyncEnabled = true;
     HRESULT hr = swapChain->Present(vsyncEnabled ? 1 : 0, 0);
 

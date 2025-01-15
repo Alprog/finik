@@ -58,3 +58,8 @@ int CommandList::addTimestampQuery()
 {
     return renderSystem.getProfiler()->addStamp(*listImpl.Get(), "list");
 }
+
+void CommandList::Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES srcState, D3D12_RESOURCE_STATES dstState)
+{
+    listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(resource, srcState, dstState));
+}

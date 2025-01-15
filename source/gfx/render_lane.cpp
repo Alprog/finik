@@ -24,7 +24,7 @@ void RenderSurface::createHandles()
 {
     RenderSystem& render_system = App::GetInstance().render_system;
     renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
-    textureHandle = render_system.getSrvCbvHeap()->getNextHandle();
+    textureHandle = render_system.getCommonHeap()->getNextHandle();
     depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
 }
 
@@ -115,7 +115,7 @@ void RenderSurface::startRendering(ID3D12GraphicsCommandList* commandList)
     commandList->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     commandList->OMSetRenderTargets(1, &renderTargetHandle.getCPU(), FALSE, &depthStencilHandle.getCPU());
 
-    ID3D12DescriptorHeap* a = render_system.getSrvCbvHeap()->get();
+    ID3D12DescriptorHeap* a = render_system.getCommonHeap()->get();
     commandList->SetDescriptorHeaps(1, &a);
 
     viewport.Width = static_cast<float>(resolution.width);

@@ -160,7 +160,7 @@ void RenderSystem::createDescriptorHeap()
 
     dsvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 3);
 
-    srvCbvHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1000);
+    srvCbvUavHeap = std::make_unique<DescriptorHeap>(device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1000);
 }
 
 void RenderSystem::createCommandListPool()
@@ -231,8 +231,8 @@ void RenderSystem::ImguiInitHelper()
 {
     const int NUM_FRAMES_IN_FLIGHT = 3;
 
-    DescriptorHandle handle = srvCbvHeap->getNextHandle();
-    ImGui_ImplDX12_Init(device.Get(), NUM_FRAMES_IN_FLIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, srvCbvHeap->get(), handle.getCPU(), handle.getGPU());
+    DescriptorHandle handle = srvCbvUavHeap->getNextHandle();
+    ImGui_ImplDX12_Init(device.Get(), NUM_FRAMES_IN_FLIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, srvCbvUavHeap->get(), handle.getCPU(), handle.getGPU());
 }
 
 ID3D12Device* RenderSystem::get_device()
@@ -260,9 +260,9 @@ DescriptorHeap* RenderSystem::getDsvHeap()
     return dsvHeap.get();
 }
 
-DescriptorHeap* RenderSystem::getSrvCbvHeap()
+DescriptorHeap* RenderSystem::getCommonHeap()
 {
-    return srvCbvHeap.get();
+    return srvCbvUavHeap.get();
 }
 
 RenderContext* RenderSystem::getRenderContext()

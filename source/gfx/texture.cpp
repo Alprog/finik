@@ -18,7 +18,7 @@ Texture::Texture(AssetPath asset_path)
     , Height{0}
 {
     auto& renderSystem = App::GetInstance().render_system;
-    DescriptorHeap* heap = renderSystem.getSrvCbvHeap();
+    DescriptorHeap* heap = renderSystem.getCommonHeap();
     descriptorHandle = heap->getNextHandle();
 }
 
@@ -112,7 +112,7 @@ void Texture::setData(Image& image)
     //commandList->Reset(commandAllocator, nullptr);
     if (state == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
     {
-        commandList.listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST));
+        commandList.Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
     }
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
@@ -140,9 +140,9 @@ void Texture::setData(Image& image)
     const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
     commandList.listImpl->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
-    commandList.listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+    commandList.Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-    MipMapGenerator::GetInstance();
+    MipMapGenerator::GetInstance().Generate(InternalResource, commandList);
 
     commandList.endRecording();
 

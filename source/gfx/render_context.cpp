@@ -26,7 +26,7 @@ void RenderContext::setupRoot()
     auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
     commandList.SetGraphicsRootConstantBufferView(Params::MaterialsConstantBufferView, address);
 
-    CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getSrvCbvHeap()->getGpuHandle(0);
+    CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getCommonHeap()->getGpuHandle(0);
     commandList.SetGraphicsRootDescriptorTable(Params::UnboundTextureTable, startHandle);
 }
 

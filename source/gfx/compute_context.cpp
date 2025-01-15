@@ -18,5 +18,15 @@ void ComputeContext::setupRoot()
 
 void ComputeContext::setConstants(D3D12_GPU_VIRTUAL_ADDRESS gpuAddress)
 {
-    commandList.SetGraphicsRootConstantBufferView(Params::ConstantBufferView, gpuAddress);
+    commandList.SetComputeRootConstantBufferView(Params::ConstantBufferView, gpuAddress);
+}
+
+void ComputeContext::setTexture(D3D12_GPU_DESCRIPTOR_HANDLE handle)
+{
+    commandList.SetComputeRootDescriptorTable(Params::ShaderResourceView, handle);
+}
+
+void ComputeContext::setUnorderedAccessView(D3D12_GPU_DESCRIPTOR_HANDLE handle)
+{
+    commandList.SetComputeRootDescriptorTable(Params::UnorderedAccessView, handle);
 }

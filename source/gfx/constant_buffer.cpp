@@ -7,7 +7,7 @@ import upload_buffer;
 import descriptor_heap;
 
 GpuDataBuffer::GpuDataBuffer(int32 size, RenderSystem& renderSystem)
-    : size { size }
+    : size{size}
 {
     const int32 alignedSize = (sizeof(size) + 255) & ~255; // align 256
 
@@ -19,7 +19,7 @@ GpuDataBuffer::GpuDataBuffer(int32 size, RenderSystem& renderSystem)
 
     data = (uint8*)uploadBuffer->GetData();
 
-    descriptorHandle = renderSystem.getSrvCbvHeap()->getNextHandle();
+    descriptorHandle = renderSystem.getCommonHeap()->getNextHandle();
     renderSystem.get_device()->CreateConstantBufferView(&cbvDesc, descriptorHandle.getCPU());
 }
 

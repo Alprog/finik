@@ -29,7 +29,7 @@ public:
     ID3D12GraphicsCommandList* get_command_list();
     DescriptorHeap* getRtvHeap();
     DescriptorHeap* getDsvHeap();
-    DescriptorHeap* getSrvCbvHeap();
+    DescriptorHeap* getCommonHeap();
     RenderContext* getRenderContext();
     GpuProfiler* getProfiler();
     MainRootSignature& getRootSignature();
@@ -69,7 +69,7 @@ private:
 
     std::unique_ptr<DescriptorHeap> rtvHeap; // Render Target View
     std::unique_ptr<DescriptorHeap> dsvHeap; // Depth Stencil View
-    std::unique_ptr<DescriptorHeap> srvCbvHeap;
+    std::unique_ptr<DescriptorHeap> srvCbvUavHeap;
 
     MyPtr<ID3D12Device> device;
 
