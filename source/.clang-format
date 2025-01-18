@@ -7,3 +7,4 @@ BreakConstructorInitializers: BeforeComma
 ReflowComments: false
 AlwaysBreakTemplateDeclarations: true
 ColumnLimit: 0
+MaxEmptyLinesToKeep: 10

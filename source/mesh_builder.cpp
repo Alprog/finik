@@ -40,6 +40,7 @@ void MeshBuilder::addTriangleFan(const Array<StandardVertex>& fanVertices)
     {
         addVertex(vertex);
     }
+
     for (int32 i = 2; i < fanVertices.count(); i++)
     {
         addIndex(startIndex);

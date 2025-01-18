@@ -28,8 +28,8 @@ PipelineState::PipelineState(RenderSystem& renderSystem, const PipelineSettings&
     psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
 
-    // natural for right-handed. front face normals to the viewer (a^b = n)
-    psoDesc.RasterizerState.FrontCounterClockwise = true;
+    // natural for left-handed. front face normals to the viewer (a^b = n)
+    psoDesc.RasterizerState.FrontCounterClockwise = false;
 
     psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 

@@ -2,19 +2,24 @@ module math:Vector3;
 
 import std;
 
-const Vector3 Vector3::Zero{ 0, 0, 0 };
-const Vector3 Vector3::One{ 1, 1, 1 };
-const Vector3 Vector3::Right{ 1, 0, 0 };
-const Vector3 Vector3::Left{ -1, 0, 0 };
-const Vector3 Vector3::Forward{ 0, +1, 0 };
-const Vector3 Vector3::Backward{ 0, -1, 0 };
-const Vector3 Vector3::Up{ 0, 0, 1 };
-const Vector3 Vector3::Down{ 0, 0, -1 };
+const Vector3 Vector3::Zero{0, 0, 0};
+const Vector3 Vector3::One{1, 1, 1};
+const Vector3 Vector3::Forward{1, 0, 0};
+const Vector3 Vector3::Backward{-1, 0, 0};
+const Vector3 Vector3::Right{0, 1, 0};
+const Vector3 Vector3::Left{0, -1, 0};
+const Vector3 Vector3::Up{0, 0, 1};
+const Vector3 Vector3::Down{0, 0, -1};
+
+const Vector3 Vector3::East{1, 0, 0};
+const Vector3 Vector3::West{-1, 0, 0};
+const Vector3 Vector3::North{0, 1, 0};
+const Vector3 Vector3::South{0, -1, 0};
 
 Vector3::Vector3(float x, float y, float z)
-    : x{ x }
-    , y{ y }
-    , z{ z }
+    : x{x}
+    , y{y}
+    , z{z}
 {
 }
 
@@ -56,52 +61,42 @@ Vector3& Vector3::operator-=(const Vector3& vector)
 
 Vector3 operator-(const Vector3& vector)
 {
-    return
-    {
+    return {
         -vector.x,
         -vector.y,
-        -vector.z
-    };
+        -vector.z};
 }
 
 Vector3 operator+(const Vector3& lhs, const Vector3& rhs)
 {
-    return
-    {
+    return {
         lhs.x + rhs.x,
         lhs.y + rhs.y,
-        lhs.z + rhs.z
-    };
+        lhs.z + rhs.z};
 }
 
 Vector3 operator-(const Vector3& lhs, const Vector3& rhs)
 {
-    return
-    {
+    return {
         lhs.x - rhs.x,
         lhs.y - rhs.y,
-        lhs.z - rhs.z
-    };
+        lhs.z - rhs.z};
 }
 
 Vector3 operator*(const Vector3& vector, const float& value)
 {
-    return
-    {
+    return {
         vector.x * value,
         vector.y * value,
-        vector.z * value
-    };
+        vector.z * value};
 }
 
 Vector3 operator/(const Vector3& vector, const float& value)
 {
-    return
-    {
+    return {
         vector.x / value,
         vector.y / value,
-        vector.z / value
-    };
+        vector.z / value};
 }
 
 Vector3 Vector3::cross(const Vector3& a, const Vector3& b)

@@ -16,9 +16,9 @@ void Camera::calcViewMatrix()
     Vector3 offset = position * -1.0f;
     Matrix offsetMatrix = Matrix::Translation(offset);
 
-    Vector3 forward = getForward(); // Y
-    Vector3 right = Vector3::cross(forward, Vector3::Up).getNormalized(); // Y ^ Z = X
-    Vector3 up = Vector3::cross(right, forward).getNormalized();          // X ^ Y = Z
+    Vector3 forward = getForward();                                       // X
+    Vector3 right = Vector3::cross(Vector3::Up, forward).getNormalized(); // Z ^ X = Y
+    Vector3 up = Vector3::cross(forward, right).getNormalized();          // X ^ Y = Z
 
     // DX12 NDC
     Matrix orientationMtrx;
@@ -43,11 +43,10 @@ void Camera::calcProjectionMatrix()
         float m32 = -FarPlane * NearPlane / (FarPlane - NearPlane);
 
         projectionMatrix = Matrix{
-          scaleX,   0,     0,   0,
-            0,    scaleY,  0,   0,
-            0,      0,    m22,  1,
-            0,      0,    m32,  0
-        };
+            scaleX, 0, 0, 0,
+            0, scaleY, 0, 0,
+            0, 0, m22, 1,
+            0, 0, m32, 0};
     }
     else
     {
@@ -55,13 +54,12 @@ void Camera::calcProjectionMatrix()
         auto height = OrthoSize;
         auto width = height * AspectRatio;
         auto depth = 1500.0f;
-        projectionMatrix = Matrix::Scaling({ 2.0f / width, 2.0f / height, 1.0f / depth });
+        projectionMatrix = Matrix::Scaling({2.0f / width, 2.0f / height, 1.0f / depth});
     }
 }
 
 void Camera::render(RenderContext& context, RenderTarget& renderTarget)
 {
-
 }
 
 Ray Camera::castRay(Vector2 ndcPoint) const
@@ -76,4 +74,3 @@ Ray Camera::castRay(Vector2 ndcPoint) const
 
     return Ray(origin.xyz(), (target - origin).xyz().getNormalized());
 }
-

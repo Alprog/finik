@@ -10,4 +10,5 @@ public:
 
 protected:
     ID3D12Resource* InternalResource = nullptr;
+    D3D12_RESOURCE_STATES state;
 };

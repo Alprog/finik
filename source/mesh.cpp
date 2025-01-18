@@ -1,62 +1,27 @@
 module mesh;
 
+import mesh_builder;
+
 Mesh* createCubeMesh()
 {
-    auto mesh = new Mesh();
+    MeshBuilder builder;
 
-    auto f = [](Vector3 vector) { return (vector - Vector3::One / 2) * 0.5f; };
-
-    // clang-format off
-    mesh->vertexBuffer = new VertexBuffer();
-    mesh->vertexBuffer->vertices = 
-    {
-        {f({1, 1, 1}), { 0, 1, 0}, {0.00f, 0.0f}},
-        {f({1, 1, 0}), { 0, 1, 0}, {0.00f, 0.5f}},
-        {f({0, 1, 0}), { 0, 1, 0}, {0.33f, 0.5f}},
-        {f({0, 1, 1}), { 0, 1, 0}, {0.33f, 0.0f}},
-         
-        {f({1, 0, 1}), { 1, 0, 0}, {0.33f, 0.0f}},
-        {f({1, 0, 0}), { 1, 0, 0}, {0.33f, 0.5f}},
-        {f({1, 1, 0}), { 1, 0, 0}, {0.66f, 0.5f}}, 
-        {f({1, 1, 1}), { 1, 0, 0}, {0.66f, 0.0f}},
-
-        {f({0, 0, 1}), { 0,-1, 0}, {0.00f, 0.5f}},
-        {f({0, 0, 0}), { 0,-1, 0}, {0.00f, 1.0f}}, 
-        {f({1, 0, 0}), { 0,-1, 0}, {0.33f, 1.0f}},
-        {f({1, 0, 1}), { 0,-1, 0}, {0.33f, 0.5f}},
-
-        {f({0, 1, 1}), {-1, 0, 0}, {0.33f, 0.5f}},
-        {f({0, 1, 0}), {-1, 0, 0}, {0.33f, 1.0f}},
-        {f({0, 0, 0}), {-1, 0, 0}, {0.66f, 1.0f}},
-        {f({0, 0, 1}), {-1, 0, 0}, {0.66f, 0.5f}},
-
-        {f({1, 1, 0}), { 0, 0,-1}, {1.00f, 0.5f}}, 
-        {f({1, 0, 0}), { 0, 0,-1}, {1.00f, 1.0f}},
-        {f({0, 0, 0}), { 0, 0,-1}, {0.66f, 1.0f}},
-        {f({0, 1, 0}), { 0, 0,-1}, {0.66f, 0.5f}},
-
-        {f({1, 0, 1}), { 0, 0, 1}, {1.00f, 0.0f}},
-        {f({1, 1, 1}), { 0, 0, 1}, {1.00f, 0.5f}},
-        {f({0, 1, 1}), { 0, 0, 1}, {0.66f, 0.5f}},  
-
-        {f({0, 0, 1}), { 0, 0, 1}, {0.66f, 0.0f}} 
+    auto add = [&builder](Vector3 of1, Vector3 of2, Vector3 normal, Vector2 uv) {
+        StandardVertex a{-of1 - of2 + normal, normal, uv};
+        StandardVertex b{of1 - of2 + normal, normal, uv + Vector2(0.33f, 0.0f)};
+        StandardVertex c{of1 + of2 + normal, normal, uv + Vector2(0.33f, 0.5f)};
+        StandardVertex d{-of1 + of2 + normal, normal, uv + Vector2(0, 0.5f)};
+        builder.addQuad(a, b, c, d);
     };
-    mesh->vertexBuffer->Load();
-    // clang-format on
 
-    // clang-format off
-    mesh->indexBuffer = new IndexBuffer();
-    mesh->indexBuffer->indices =     
-    {
-        0, 1, 2, 0, 2, 3, 
-        4, 5, 6, 4, 6, 7,   
-        8, 9, 10, 8, 10, 11,    
-        12, 13, 14, 12, 14, 15,   
-        16, 17, 18, 16, 18, 19,  
-        20, 21, 22, 20, 22, 23 
-    };
-    mesh->indexBuffer->Load();
-    // clang-format on
+    add(Vector3::Left, Vector3::Down, Vector3::Forward, Vector2(0, 0));
+    add(Vector3::Forward, Vector3::Down, Vector3::Right, Vector2(0.33f, 0));
+    add(Vector3::Left, Vector3::Forward, Vector3::Up, Vector2(0.66f, 0));
 
-    return mesh;
+    add(Vector3::Right, Vector3::Down, Vector3::Backward, Vector2(0, 0.5f));
+    add(Vector3::Backward, Vector3::Down, Vector3::Left, Vector2(0.33f, 0.5f));
+    add(Vector3::Right, Vector3::Forward, Vector3::Down, Vector2(0.66f, 0.5f));
+
+
+    return builder.Build();
 }

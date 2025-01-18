@@ -4,7 +4,7 @@ import core;
 import imgui;
 
 CameraController::CameraController(::Camera& camera)
-    : Camera{ camera }
+    : Camera{camera}
 {
     RefreshCameraPosition();
 }
@@ -26,26 +26,26 @@ float CameraController::GetAngle() const
 
 void CameraController::HandleInput(float deltaTime)
 {
-    auto Direction = Vector3::Zero;
+    auto moveDirection = Vector3::Zero;
 
     if (ImGui::IsKeyDown(ImGuiKey_W))
     {
-        Direction += Vector3::Forward;
+        moveDirection += Vector3::Forward;
     }
     if (ImGui::IsKeyDown(ImGuiKey_S))
     {
-        Direction += Vector3::Backward;
+        moveDirection += Vector3::Backward;
     }
     if (ImGui::IsKeyDown(ImGuiKey_A))
     {
-        Direction += Vector3::Left;
+        moveDirection += Vector3::Left;
     }
     if (ImGui::IsKeyDown(ImGuiKey_D))
     {
-        Direction += Vector3::Right;
+        moveDirection += Vector3::Right;
     }
 
-    Direction = Matrix::RotationZ(Rotation).MultiplyDirection(Direction);
+    moveDirection = Matrix::RotationZ(Rotation).MultiplyDirection(moveDirection);
 
     ZoomK += ImGui::GetIO().MouseWheel / ZoomStepCount;
     if (ImGui::IsKeyDown(ImGuiKey_Q))
@@ -63,15 +63,15 @@ void CameraController::HandleInput(float deltaTime)
     {
         PanningScreenPerSecond *= 3;
     }
-    FocusPosition += Direction * GetVisibleAreaLength() * PanningScreenPerSecond * deltaTime;
+    FocusPosition += moveDirection * GetVisibleAreaLength() * PanningScreenPerSecond * deltaTime;
 
     if (ImGui::IsKeyDown(ImGuiKey_Z))
     {
-        AngleK -= deltaTime / 2;
+        AngleK += deltaTime / 2;
     }
     if (ImGui::IsKeyDown(ImGuiKey_X))
     {
-        AngleK += deltaTime / 2;
+        AngleK -= deltaTime / 2;
     }
     AngleK = std::clamp(AngleK, 0.0f, 1.0f);
 
@@ -108,9 +108,11 @@ void CameraController::HandleInput(float deltaTime)
 
 void CameraController::RefreshCameraPosition()
 {
+    auto lookDirection = Vector2(std::cos(Rotation), std::sin(Rotation));
+
     auto angle = GetAngle();
-    auto x = std::cos(angle) * std::sin(Rotation);
-    auto y = std::cos(angle) * -std::cos(Rotation);
+    auto x = -lookDirection.x * std::cos(angle);
+    auto y = -lookDirection.y * std::cos(angle);
     auto z = std::sin(angle);
     auto OffsetDirection = Vector3(x, y, z);
 

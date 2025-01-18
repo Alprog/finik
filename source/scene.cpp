@@ -23,7 +23,7 @@ Scene::Scene()
     actors.append(new Actor());
     actors.append(new Actor());
 
-    actors[1]->mesh = Assets::GetInstance().get<Model>("models/airplane.obj")->mesh;
+    //actors[1]->mesh = Assets::GetInstance().get<Model>("models/airplane.obj")->mesh;
 
     light.direction = Vector4(-1, -1, -1, 0).getNormalized();
 }
