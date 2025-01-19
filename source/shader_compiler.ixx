@@ -1,11 +1,13 @@
 export module shader_compiler;
 
 import core;
+import asset_dependencies;
 import asset_path;
 import shader;
-import asset_dependencies;
 
-export class ShaderCompiler : public Singleton<ShaderCompiler>
+// for intellisence
+
+export class ShaderCompiler
 {
 public:
     struct Output
@@ -24,8 +26,6 @@ public:
     }
 
     Array<AssetPath> InlcudeDirectories;
-
-
 
     static int32 Counter;
 };

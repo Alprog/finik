@@ -4,6 +4,8 @@ import core;
 import asset;
 import shader_manager;
 
+// for intellisence
+
 export class ShaderSourceFile : public Asset
 {
 public:

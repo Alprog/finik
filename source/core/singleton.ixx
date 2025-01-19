@@ -12,3 +12,14 @@ public:
         return instance;
     }
 };
+
+export class Single
+{
+public:
+    template <typename T>
+    static T& Get()
+    {
+        static T instance;
+        return instance;
+    }
+};

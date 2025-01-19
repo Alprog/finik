@@ -2,13 +2,12 @@ module;
 #include "windows.h"
 struct SDL_Window;
 using WindowImpl = SDL_Window;
-
-class Scene;
-class Gui;
 export module desktop_window;
 
 import core;
 import swap_chain;
+import gui;
+import scene;
 
 export class DesktopWindow
 {
@@ -18,7 +17,10 @@ public:
 
     void renderScene();
 
-    WindowImpl* get_impl() { return impl; }
+    WindowImpl* get_impl()
+    {
+        return impl;
+    }
 
     unsigned int id;
     HWND hwnd;

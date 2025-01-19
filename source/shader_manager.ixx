@@ -13,7 +13,7 @@ export class ShaderManager : public Singleton<ShaderManager>
 public:
     ShaderManager()
     {
-        auto& compiler = ShaderCompiler::GetInstance();
+        ShaderCompiler& compiler = Single::Get<ShaderCompiler>();
         fallbackVertexByteCode = compiler.Compile(getFallbackVertexShaderText(), ShaderType::Vertex, "VSMain").bytecode;
         fallbackPixelByteCode = compiler.Compile(getFallbackPixelShaderText(), ShaderType::Pixel, "PSMain").bytecode;
         fallbackComputeByteCode = compiler.Compile(getFallbackComputeShaderText(), ShaderType::Compute, "CSMain").bytecode;

@@ -10,22 +10,22 @@ public:
     String() = default;
 
     String(const char* c_string)
-        : data{ c_string }
+        : data{c_string}
     {
     }
 
     String(const std::string& string)
-        : data{ string }
+        : data{string}
     {
     }
 
     String(std::string&& string)
-        : data{ std::move(string) }
+        : data{std::move(string)}
     {
     }
 
     String(std::initializer_list<char> list)
-        : data{ list }
+        : data{list}
     {
     }
 

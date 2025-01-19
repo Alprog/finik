@@ -12,7 +12,7 @@ public:
     HashMap() = default;
 
     HashMap(std::initializer_list<std::pair<TKey, TValue>> list)
-        : data{ list }
+        : data{list}
     {
     }
 
@@ -20,7 +20,7 @@ public:
     {
         return data[key];
     }
-    
+
     TValue& operator[](const TKey& key)
     {
         return data[key];

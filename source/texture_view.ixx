@@ -1,8 +1,7 @@
-module;
-class Scene;
 export module texture_view;
 
 import view;
+import scene;
 
 export class TextureView : public View
 {

@@ -11,7 +11,7 @@ Shader::Shader(ShaderKey key)
 
 bool Shader::hotRecompile()
 {
-    auto& output = ShaderCompiler::GetInstance().Compile(key);
+    auto& output = Single::Get<ShaderCompiler>().Compile(key);
 
     const bool successed = output.errorMessage.empty();
 

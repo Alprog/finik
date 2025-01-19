@@ -27,6 +27,6 @@ public:
     InputSystem input_system;
     SceneManager scene_manager;
     RenderSystem render_system;
-  
+
     finik::profiler::Profiler profiler;
 };
