@@ -84,6 +84,7 @@ void RenderSurface::startRendering(CommandList& commandList)
     RenderSystem& render_system = App::GetInstance().render_system;
 
     commandList.transition(renderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandList.transition(depthStencil, D3D12_RESOURCE_STATE_DEPTH_WRITE);
 
     const float clear_color_with_alpha[4] = {0.5f, 0.2f, 0.2f, 1.0f};
     commandList.listImpl->ClearRenderTargetView(renderTargetHandle.getCPU(), clear_color_with_alpha, 0, nullptr);
@@ -106,4 +107,5 @@ void RenderSurface::startRendering(CommandList& commandList)
 void RenderSurface::endRendering(CommandList& commandList)
 {
     commandList.transition(renderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandList.transition(depthStencil, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
