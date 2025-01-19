@@ -27,6 +27,7 @@ public:
 
     GpuResource depthStencil;
     DescriptorHandle depthStencilHandle;
+    DescriptorHandle depthTextureHandle;
 
     D3D12_VIEWPORT viewport = {0};
     D3D12_RECT scissorRect;

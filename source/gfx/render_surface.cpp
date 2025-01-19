@@ -18,6 +18,7 @@ void RenderSurface::createHandles()
     renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
     textureHandle = render_system.getCommonHeap()->getNextHandle();
     depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
+    depthTextureHandle = render_system.getCommonHeap()->getNextHandle();
 }
 
 void RenderSurface::resize(IntSize resolution)
@@ -55,7 +56,7 @@ void RenderSurface::recreateDepthStencil()
         static_cast<uint32>(resolution.height),
         1, 1, DXGI_FORMAT_D32_FLOAT, 1, 0,
         D3D12_TEXTURE_LAYOUT_UNKNOWN,
-        D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
+        D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_D32_FLOAT;
@@ -67,7 +68,15 @@ void RenderSurface::recreateDepthStencil()
     depthStencil.reinit(resourceDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &clearValue);
 
     render_system.get_device()->CreateDepthStencilView(depthStencil.getInternal(), nullptr, depthStencilHandle.getCPU());
-    //render_system.get_device()->CreateShaderResourceView(depthStencil.getInternal(), nullptr, textureHandle.getCPU());
+
+    // Create the shader resource view
+    D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+    SRVDesc.Format = DXGI_FORMAT_R32_FLOAT;
+    SRVDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+    SRVDesc.Texture2D.MipLevels = 1;
+
+    SRVDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+    render_system.get_device()->CreateShaderResourceView(depthStencil.getInternal(), &SRVDesc, depthTextureHandle.getCPU());
 }
 
 void RenderSurface::startRendering(CommandList& commandList)
@@ -76,9 +85,7 @@ void RenderSurface::startRendering(CommandList& commandList)
 
     commandList.transition(renderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-    // Render Dear ImGui graphics
     const float clear_color_with_alpha[4] = {0.5f, 0.2f, 0.2f, 1.0f};
-
     commandList.listImpl->ClearRenderTargetView(renderTargetHandle.getCPU(), clear_color_with_alpha, 0, nullptr);
     commandList.listImpl->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     commandList.listImpl->OMSetRenderTargets(1, &renderTargetHandle.getCPU(), FALSE, &depthStencilHandle.getCPU());
