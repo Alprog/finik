@@ -44,29 +44,16 @@ void MipMapGenerator::Generate(Texture& texture, CommandList& commandList)
 
     const CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 
-    MyPtr<ID3D12Resource> staging_internal;
-    device->CreateCommittedResource(
-        &defaultHeapProperties,
-        D3D12_HEAP_FLAG_NONE,
-        &stagingDesc,
-        D3D12_RESOURCE_STATE_COPY_DEST,
-        nullptr,
-        IID_PPV_ARGS(&staging_internal)) MUST;
-    staging_internal.Get()->AddRef();
+    GpuResource& staging = *new GpuResource(); // leak
+    staging.reinit(stagingDesc, D3D12_RESOURCE_STATE_COPY_DEST);
 
-    // workaround
-    GpuResource staging;
-    staging.state = D3D12_RESOURCE_STATE_COPY_DEST;
-    staging.InternalResource = staging_internal.Get();
-    staging_internal.Get()->AddRef();
-
-    texture.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    commandList.transition(texture, D3D12_RESOURCE_STATE_COPY_SOURCE);
 
     const CD3DX12_TEXTURE_COPY_LOCATION src(texture.getInternal(), 0);
     const CD3DX12_TEXTURE_COPY_LOCATION dst(staging.getInternal(), 0);
     commandList.listImpl->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 
-    staging.transition(commandList, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+    commandList.transition(staging, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 
     MyPtr<ID3D12DescriptorHeap> descriptorHeap;
     D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
@@ -175,12 +162,12 @@ void MipMapGenerator::Generate(Texture& texture, CommandList& commandList)
         uavH.Offset(descriptorSize);
     }
 
-    staging.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
-    texture.transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
+    commandList.transition(staging, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    commandList.transition(texture, D3D12_RESOURCE_STATE_COPY_DEST);
 
     //// Copy the entire resource back
     commandList.listImpl->CopyResource(texture.getInternal(), staging.getInternal());
 
     //// Transition the target resource back to pixel shader resource
-    texture.transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandList.transition(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

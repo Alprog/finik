@@ -4,6 +4,7 @@ import core;
 import descriptor_handle;
 import dx;
 import command_list;
+import gpu_resource;
 
 export class RenderSurface
 {
@@ -20,11 +21,11 @@ public:
 
     IntSize resolution;
 
-    MyPtr<ID3D12Resource> renderTarget;
+    GpuResource renderTarget;
     DescriptorHandle renderTargetHandle;
     DescriptorHandle textureHandle;
 
-    MyPtr<ID3D12Resource> depthStencil;
+    GpuResource depthStencil;
     DescriptorHandle depthStencilHandle;
 
     D3D12_VIEWPORT viewport = {0};

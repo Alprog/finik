@@ -7,7 +7,7 @@ import imgui;
 import render_system;
 
 UploadBuffer::UploadBuffer(RenderSystem& renderSystem, int size)
-    : Size { size }
+    : Size{size}
 {
     auto device = renderSystem.get_device();
 
@@ -19,11 +19,13 @@ UploadBuffer::UploadBuffer(RenderSystem& renderSystem, int size)
         nullptr,
         IID_PPV_ARGS(&InternalResource));
 
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 
     CD3DX12_RANGE readRange(0, 0);
     result = InternalResource->Map(0, &readRange, reinterpret_cast<void**>(&Data));
-    if (FAILED(result)) throw;
+    if (FAILED(result))
+        throw;
 }
 
 UploadBuffer::~UploadBuffer()

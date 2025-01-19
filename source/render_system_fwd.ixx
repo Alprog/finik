@@ -14,3 +14,4 @@ export struct DescriptorHandle;
 export class DescriptorHeap;
 export class RenderTarget;
 export class RenderContext;
+export class GpuResource;

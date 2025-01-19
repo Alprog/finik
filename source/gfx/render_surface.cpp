@@ -41,18 +41,10 @@ void RenderSurface::recreateRenderTarget()
     D3D12_CLEAR_VALUE clearValue;
     clearValue.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-    auto result = render_system.get_device()->CreateCommittedResource(
-        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-        D3D12_HEAP_FLAG_NONE,
-        &resourceDesc,
-        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-        &clearValue,
-        IID_PPV_ARGS(&renderTarget));
-    if (FAILED(result))
-        throw;
+    renderTarget.reinit(resourceDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, &clearValue);
 
-    render_system.get_device()->CreateRenderTargetView(renderTarget.Get(), nullptr, renderTargetHandle.getCPU());
-    render_system.get_device()->CreateShaderResourceView(renderTarget.Get(), nullptr, textureHandle.getCPU());
+    render_system.get_device()->CreateRenderTargetView(renderTarget.getInternal(), nullptr, renderTargetHandle.getCPU());
+    render_system.get_device()->CreateShaderResourceView(renderTarget.getInternal(), nullptr, textureHandle.getCPU());
 }
 
 void RenderSurface::recreateDepthStencil()
@@ -72,27 +64,17 @@ void RenderSurface::recreateDepthStencil()
 
     RenderSystem& render_system = App::GetInstance().render_system;
 
-    auto result = render_system.get_device()->CreateCommittedResource(
-        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-        D3D12_HEAP_FLAG_NONE,
-        &resourceDesc,
-        D3D12_RESOURCE_STATE_DEPTH_WRITE,
-        &clearValue,
-        IID_PPV_ARGS(&depthStencil));
-    if (FAILED(result))
-        throw;
+    depthStencil.reinit(resourceDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &clearValue);
 
-    depthStencil->SetName(L"DepthStencil");
-
-    render_system.get_device()->CreateDepthStencilView(depthStencil.Get(), nullptr, depthStencilHandle.getCPU());
-    //render_system.get_device()->CreateShaderResourceView(depthStencil.Get(), nullptr, textureHandle.getCPU());
+    render_system.get_device()->CreateDepthStencilView(depthStencil.getInternal(), nullptr, depthStencilHandle.getCPU());
+    //render_system.get_device()->CreateShaderResourceView(depthStencil.getInternal(), nullptr, textureHandle.getCPU());
 }
 
 void RenderSurface::startRendering(CommandList& commandList)
 {
     RenderSystem& render_system = App::GetInstance().render_system;
 
-    commandList.Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandList.transition(renderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
     // Render Dear ImGui graphics
     const float clear_color_with_alpha[4] = {0.5f, 0.2f, 0.2f, 1.0f};
@@ -116,5 +98,5 @@ void RenderSurface::startRendering(CommandList& commandList)
 
 void RenderSurface::endRendering(CommandList& commandList)
 {
-    commandList.Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandList.transition(renderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

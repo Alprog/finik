@@ -27,7 +27,7 @@ public:
         return ComputeContext(renderSystem, *listImpl.Get());
     }
 
-    void Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES srcState, D3D12_RESOURCE_STATES dstState);
+    void transition(GpuResource& resource, D3D12_RESOURCE_STATES newState);
 
 private:
     int addTimestampQuery();

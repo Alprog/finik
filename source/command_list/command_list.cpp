@@ -1,10 +1,12 @@
 module;
 #include "gfx/dx.h"
+
 module command_list;
 
 import render_system;
 import command_list_pool;
 import gpu_profiler;
+import gpu_resource;
 
 CommandList::CommandList(RenderSystem& renderSystem, CommandListPool& pool, const int frameIndex)
     : renderSystem{renderSystem}
@@ -59,7 +61,7 @@ int CommandList::addTimestampQuery()
     return renderSystem.getProfiler()->addStamp(*listImpl.Get(), "list");
 }
 
-void CommandList::Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES srcState, D3D12_RESOURCE_STATES dstState)
+void CommandList::transition(GpuResource& resource, D3D12_RESOURCE_STATES newState)
 {
-    listImpl->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(resource, srcState, dstState));
+    resource.transition_to(newState, *this);
 }

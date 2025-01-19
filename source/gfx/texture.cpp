@@ -39,12 +39,6 @@ void Texture::resize(int32 width, int32 height)
     this->Width = width;
     this->Height = height;
 
-    if (InternalResource)
-    {
-        InternalResource->Release();
-        InternalResource = nullptr;
-    }
-
     auto& renderSystem = App::GetInstance().render_system;
     auto* device = renderSystem.get_device();
 
@@ -59,15 +53,7 @@ void Texture::resize(int32 width, int32 height)
     textureDesc.SampleDesc.Quality = 0;
     textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 
-    device->CreateCommittedResource(
-        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-        D3D12_HEAP_FLAG_NONE,
-        &textureDesc,
-        D3D12_RESOURCE_STATE_COPY_DEST,
-        nullptr,
-        IID_PPV_ARGS(&InternalResource)) MUST;
-
-    state = D3D12_RESOURCE_STATE_COPY_DEST;
+    reinit(textureDesc, D3D12_RESOURCE_STATE_COPY_DEST);
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -105,7 +91,7 @@ void Texture::setData(Image& image)
     CommandList& commandList = renderSystem.getFreeCommandList();
     commandList.startRecording();
 
-    transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
+    commandList.transition(*this, D3D12_RESOURCE_STATE_COPY_DEST);
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
@@ -132,7 +118,7 @@ void Texture::setData(Image& image)
     const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
     commandList.listImpl->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
-    transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandList.transition(*this, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
     MipMapGenerator::GetInstance().Generate(*this, commandList);
 
