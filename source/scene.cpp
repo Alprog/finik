@@ -39,13 +39,14 @@ void Scene::update(float deltaTime)
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
     actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
-    actors[1]->transformMatrix = Matrix::Translation(Vector3(0.0f, 0.0f, 1.0f));
+    actors[1]->transformMatrix = Matrix::Translation(Vector3(32, 32, 5));
 
     //----------------------------------------------------
 
     renderContext.setupRoot();
 
-    auto frameConstants = renderContext.renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
+    RenderSystem& renderSystem = renderContext.renderSystem;
+    auto frameConstants = renderSystem.getOneshotAllocator().Allocate<FrameConstants>();
     auto V = camera->viewMatrix;
     auto P = camera->projectionMatrix;
     frameConstants->ViewProjection = V * P;

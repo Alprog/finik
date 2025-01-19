@@ -1,5 +1,5 @@
 module;
-#include "dx.h"
+#include "gfx/dx.h"
 module command_list;
 
 import render_system;

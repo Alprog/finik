@@ -22,7 +22,10 @@ public:
 
     virtual void update() = 0;
 
-    int32 get_priority() const { return priority; }
+    int32 get_priority() const
+    {
+        return priority;
+    }
 
     bool has(AssetPath asset_path) const
     {
@@ -37,4 +40,3 @@ protected:
     bool synced = false;
     int32 priority = 0;
 };
-

@@ -2,6 +2,8 @@ export module root_signature_params;
 
 import core;
 
+// for intellisense
+
 export struct MeshConstants
 {
     Matrix Model;
