@@ -5,7 +5,7 @@ import asset_dependencies;
 import asset_path;
 import shader;
 
-// for intellisence
+// for intellisense
 
 export class ShaderCompiler
 {

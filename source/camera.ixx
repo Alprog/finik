@@ -4,6 +4,8 @@ import core;
 import scene_system_fwd;
 import render_system_fwd;
 
+// for intellisense
+
 export class Camera
 {
 public:
@@ -17,7 +19,7 @@ public:
     void render(RenderContext& context, RenderTarget& renderTarget);
 
     Ray castRay(Vector2 ndcPoint) const;
-   
+
 public:
     Vector3 position;
     Vector3 lookAt;
@@ -29,6 +31,4 @@ public:
 
     Matrix viewMatrix;
     Matrix projectionMatrix;
-
-    Scene* scene;
 };

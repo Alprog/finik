@@ -27,7 +27,7 @@ public:
     MyPtr<ID3D12Resource> depthStencil;
     DescriptorHandle depthStencilHandle;
 
-    D3D12_VIEWPORT viewport = { 0 };
+    D3D12_VIEWPORT viewport = {0};
     D3D12_RECT scissorRect;
 };
 
@@ -38,7 +38,7 @@ public:
     void resize(IntSize resolution);
 
     RenderSurface& getSurface();
-    void render(); 
+    void render();
 
 private:
     Scene& scene;
