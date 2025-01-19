@@ -58,10 +58,6 @@ void Camera::calcProjectionMatrix()
     }
 }
 
-void Camera::render(RenderContext& context, RenderTarget& renderTarget)
-{
-}
-
 Ray Camera::castRay(Vector2 ndcPoint) const
 {
     auto inverseMtrx = (viewMatrix * projectionMatrix).getInverse();

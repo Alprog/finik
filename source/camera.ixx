@@ -16,8 +16,6 @@ public:
     void calcViewMatrix();
     void calcProjectionMatrix();
 
-    void render(RenderContext& context, RenderTarget& renderTarget);
-
     Ray castRay(Vector2 ndcPoint) const;
 
 public:

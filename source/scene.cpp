@@ -17,6 +17,7 @@ import assets;
 import model;
 
 Scene::Scene()
+    : shadowMaps{*this}
 {
     grid = new Grid();
 
@@ -34,15 +35,13 @@ void Scene::update(float deltaTime)
     angle += deltaTime;
 
     light.direction = light.direction * Matrix::RotationZ(deltaTime);
+
+    actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
+    actors[1]->transformMatrix = Matrix::Translation(Vector3(32, 32, 5));
 }
 
 void Scene::render(RenderContext& renderContext, Camera* camera)
 {
-    actors[0]->transformMatrix = Matrix::Translation(Vector3(castedPos.x, castedPos.y, 0.0f));
-    actors[1]->transformMatrix = Matrix::Translation(Vector3(32, 32, 5));
-
-    //----------------------------------------------------
-
     renderContext.setupRoot();
 
     RenderSystem& renderSystem = renderContext.renderSystem;
