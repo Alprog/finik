@@ -9,6 +9,8 @@ import byte_blob;
 import asset;
 import asset_path;
 
+// for intellisense
+
 export class Texture : public GpuResource, public Asset
 {
 public:
@@ -30,8 +32,6 @@ private:
 public:
     int Width;
     int Height;
-
-    D3D12_RESOURCE_STATES state;
 
     DescriptorHandle descriptorHandle;
 };

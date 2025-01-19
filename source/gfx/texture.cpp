@@ -105,15 +105,7 @@ void Texture::setData(Image& image)
     CommandList& commandList = renderSystem.getFreeCommandList();
     commandList.startRecording();
 
-    //ID3D12CommandAllocator* commandAllocator = nullptr;
-    //if (device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)) != S_OK)
-    //    throw;
-
-    //commandList->Reset(commandAllocator, nullptr);
-    if (state == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
-    {
-        commandList.Transition(InternalResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
-    }
+    transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
 
     const uint64 uploadBufferSize = GetRequiredIntermediateSize(InternalResource, 0, 1);
     UploadBuffer uploadBuffer(renderSystem, uploadBufferSize);
@@ -140,9 +132,9 @@ void Texture::setData(Image& image)
     const CD3DX12_TEXTURE_COPY_LOCATION Dst(InternalResource, 0);
     commandList.listImpl->CopyTextureRegion(&Dst, 0, 0, 0, &Src, nullptr);
 
-    commandList.Transition(InternalResource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-    MipMapGenerator::GetInstance().Generate(InternalResource, commandList);
+    MipMapGenerator::GetInstance().Generate(*this, commandList);
 
     commandList.endRecording();
 

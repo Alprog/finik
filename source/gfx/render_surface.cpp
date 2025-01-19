@@ -85,49 +85,36 @@ void RenderSurface::recreateDepthStencil()
     depthStencil->SetName(L"DepthStencil");
 
     render_system.get_device()->CreateDepthStencilView(depthStencil.Get(), nullptr, depthStencilHandle.getCPU());
+    //render_system.get_device()->CreateShaderResourceView(depthStencil.Get(), nullptr, textureHandle.getCPU());
 }
 
-void RenderSurface::startRendering(ID3D12GraphicsCommandList* commandList)
+void RenderSurface::startRendering(CommandList& commandList)
 {
     RenderSystem& render_system = App::GetInstance().render_system;
 
-    D3D12_RESOURCE_BARRIER barrier = {};
-    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrier.Transition.pResource = renderTarget.Get();
-    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    commandList->ResourceBarrier(1, &barrier);
+    commandList.Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
     // Render Dear ImGui graphics
     const float clear_color_with_alpha[4] = {0.5f, 0.2f, 0.2f, 1.0f};
 
-    commandList->ClearRenderTargetView(renderTargetHandle.getCPU(), clear_color_with_alpha, 0, nullptr);
-    commandList->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-    commandList->OMSetRenderTargets(1, &renderTargetHandle.getCPU(), FALSE, &depthStencilHandle.getCPU());
+    commandList.listImpl->ClearRenderTargetView(renderTargetHandle.getCPU(), clear_color_with_alpha, 0, nullptr);
+    commandList.listImpl->ClearDepthStencilView(depthStencilHandle.getCPU(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+    commandList.listImpl->OMSetRenderTargets(1, &renderTargetHandle.getCPU(), FALSE, &depthStencilHandle.getCPU());
 
     ID3D12DescriptorHeap* a = render_system.getCommonHeap()->get();
-    commandList->SetDescriptorHeaps(1, &a);
+    commandList.listImpl->SetDescriptorHeaps(1, &a);
 
     viewport.Width = static_cast<float>(resolution.width);
     viewport.Height = static_cast<float>(resolution.height);
     viewport.MaxDepth = 1.0f;
-    commandList->RSSetViewports(1, &viewport);
+    commandList.listImpl->RSSetViewports(1, &viewport);
 
     scissorRect.right = static_cast<LONG>(resolution.width);
     scissorRect.bottom = static_cast<LONG>(resolution.height);
-    commandList->RSSetScissorRects(1, &scissorRect);
+    commandList.listImpl->RSSetScissorRects(1, &scissorRect);
 }
 
-void RenderSurface::endRendering(ID3D12GraphicsCommandList* commandList)
+void RenderSurface::endRendering(CommandList& commandList)
 {
-    D3D12_RESOURCE_BARRIER barrier = {};
-    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrier.Transition.pResource = renderTarget.Get();
-    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-    commandList->ResourceBarrier(1, &barrier);
+    commandList.Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

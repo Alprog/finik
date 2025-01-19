@@ -31,9 +31,9 @@ MipMapGenerator::MipMapGenerator()
     renderSystem.get_device()->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pso));
 }
 
-void MipMapGenerator::Generate(ID3D12Resource* resource, CommandList& commandList)
+void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
 {
-    const auto desc = resource->GetDesc();
+    const auto desc = resource.getInternal()->GetDesc();
 
     auto stagingDesc = desc;
     stagingDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
@@ -54,9 +54,9 @@ void MipMapGenerator::Generate(ID3D12Resource* resource, CommandList& commandLis
         IID_PPV_ARGS(&staging)) MUST;
     staging.Get()->AddRef();
 
-    commandList.Transition(resource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    resource.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 
-    const CD3DX12_TEXTURE_COPY_LOCATION src(resource, 0);
+    const CD3DX12_TEXTURE_COPY_LOCATION src(resource.getInternal(), 0);
     const CD3DX12_TEXTURE_COPY_LOCATION dst(staging.Get(), 0);
     commandList.listImpl->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 
@@ -170,11 +170,11 @@ void MipMapGenerator::Generate(ID3D12Resource* resource, CommandList& commandLis
     }
 
     commandList.Transition(staging.Get(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_SOURCE);
-    commandList.Transition(resource, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
+    resource.transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
 
     //// Copy the entire resource back
-    commandList.listImpl->CopyResource(resource, staging.Get());
+    commandList.listImpl->CopyResource(resource.getInternal(), staging.Get());
 
     //// Transition the target resource back to pixel shader resource
-    commandList.Transition(resource, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    resource.transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

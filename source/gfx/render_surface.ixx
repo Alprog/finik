@@ -3,6 +3,7 @@ export module render_surface;
 import core;
 import descriptor_handle;
 import dx;
+import command_list;
 
 export class RenderSurface
 {
@@ -14,8 +15,8 @@ public:
     void recreateRenderTarget();
     void recreateDepthStencil();
 
-    void startRendering(ID3D12GraphicsCommandList* commandList);
-    void endRendering(ID3D12GraphicsCommandList* commandList);
+    void startRendering(CommandList& commandList);
+    void endRendering(CommandList& commandList);
 
     IntSize resolution;
 

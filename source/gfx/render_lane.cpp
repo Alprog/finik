@@ -44,11 +44,11 @@ void RenderLane::render()
     CommandList& commandList = render_system.getFreeCommandList();
     commandList.startRecording();
 
-    surface.startRendering(commandList.listImpl.Get());
+    surface.startRendering(commandList);
 
     RenderContext context(render_system, *commandList.listImpl.Get());
     scene.render(context, &camera);
-    surface.endRendering(commandList.listImpl.Get());
+    surface.endRendering(commandList);
 
     commandList.endRecording();
     commandQueue.execute(commandList);
