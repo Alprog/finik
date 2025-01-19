@@ -31,9 +31,9 @@ MipMapGenerator::MipMapGenerator()
     renderSystem.get_device()->CreateComputePipelineState(&desc, IID_PPV_ARGS(&pso));
 }
 
-void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
+void MipMapGenerator::Generate(Texture& texture, CommandList& commandList)
 {
-    const auto desc = resource.getInternal()->GetDesc();
+    const auto desc = texture.getInternal()->GetDesc();
 
     auto stagingDesc = desc;
     stagingDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
@@ -44,23 +44,29 @@ void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
 
     const CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 
-    MyPtr<ID3D12Resource> staging;
+    MyPtr<ID3D12Resource> staging_internal;
     device->CreateCommittedResource(
         &defaultHeapProperties,
         D3D12_HEAP_FLAG_NONE,
         &stagingDesc,
         D3D12_RESOURCE_STATE_COPY_DEST,
         nullptr,
-        IID_PPV_ARGS(&staging)) MUST;
-    staging.Get()->AddRef();
+        IID_PPV_ARGS(&staging_internal)) MUST;
+    staging_internal.Get()->AddRef();
 
-    resource.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    // workaround
+    GpuResource staging;
+    staging.state = D3D12_RESOURCE_STATE_COPY_DEST;
+    staging.InternalResource = staging_internal.Get();
+    staging_internal.Get()->AddRef();
 
-    const CD3DX12_TEXTURE_COPY_LOCATION src(resource.getInternal(), 0);
-    const CD3DX12_TEXTURE_COPY_LOCATION dst(staging.Get(), 0);
+    texture.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+
+    const CD3DX12_TEXTURE_COPY_LOCATION src(texture.getInternal(), 0);
+    const CD3DX12_TEXTURE_COPY_LOCATION dst(staging.getInternal(), 0);
     commandList.listImpl->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 
-    commandList.Transition(staging.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+    staging.transition(commandList, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 
     MyPtr<ID3D12DescriptorHeap> descriptorHeap;
     D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
@@ -81,7 +87,7 @@ void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
     srvDesc.Texture2D.MostDetailedMip = 0;
     srvDesc.Texture2D.MipLevels = desc.MipLevels;
 
-    device->CreateShaderResourceView(staging.Get(), &srvDesc, handleIt);
+    device->CreateShaderResourceView(staging.getInternal(), &srvDesc, handleIt);
 
     // Create the UAVs for the tail
     for (uint16 mip = 1; mip < desc.MipLevels; ++mip)
@@ -92,19 +98,19 @@ void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
         uavDesc.Texture2D.MipSlice = mip;
 
         handleIt.Offset(descriptorSize);
-        device->CreateUnorderedAccessView(staging.Get(), nullptr, &uavDesc, handleIt);
+        device->CreateUnorderedAccessView(staging.getInternal(), nullptr, &uavDesc, handleIt);
     }
 
     // Set up UAV barrier (used in loop)
     D3D12_RESOURCE_BARRIER barrierUAV = {};
     barrierUAV.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
     barrierUAV.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-    barrierUAV.UAV.pResource = staging.Get();
+    barrierUAV.UAV.pResource = staging.getInternal();
 
     // Barrier for transitioning the subresources to UAVs
     D3D12_RESOURCE_BARRIER srv2uavDesc = {};
     srv2uavDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    srv2uavDesc.Transition.pResource = staging.Get();
+    srv2uavDesc.Transition.pResource = staging.getInternal();
     srv2uavDesc.Transition.Subresource = 0;
     srv2uavDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
     srv2uavDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
@@ -112,7 +118,7 @@ void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
     // Barrier for transitioning the subresources to SRVs
     D3D12_RESOURCE_BARRIER uav2srvDesc = {};
     uav2srvDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-    uav2srvDesc.Transition.pResource = staging.Get();
+    uav2srvDesc.Transition.pResource = staging.getInternal();
     uav2srvDesc.Transition.Subresource = 0;
     uav2srvDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
     uav2srvDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
@@ -169,12 +175,12 @@ void MipMapGenerator::Generate(GpuResource& resource, CommandList& commandList)
         uavH.Offset(descriptorSize);
     }
 
-    commandList.Transition(staging.Get(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_SOURCE);
-    resource.transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
+    staging.transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+    texture.transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
 
     //// Copy the entire resource back
-    commandList.listImpl->CopyResource(resource.getInternal(), staging.Get());
+    commandList.listImpl->CopyResource(texture.getInternal(), staging.getInternal());
 
     //// Transition the target resource back to pixel shader resource
-    resource.transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    texture.transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

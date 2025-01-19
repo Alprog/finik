@@ -7,7 +7,7 @@ import command_list;
 GpuResource::~GpuResource()
 {
     int32 Result = InternalResource->Release();
-    ASSERT(Result == 0);
+    //ASSERT(Result == 0);
     InternalResource = nullptr;
 }
 

@@ -4,14 +4,14 @@ import core;
 
 import dx;
 import command_list;
-import gpu_resource;
+import texture;
 
 export class MipMapGenerator : public Singleton<MipMapGenerator>
 {
 public:
     MipMapGenerator();
 
-    void Generate(GpuResource& resource, CommandList& commandList);
+    void Generate(Texture& texture, CommandList& commandList);
 
     MyPtr<ID3D12PipelineState> pso;
 };
