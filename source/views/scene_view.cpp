@@ -36,7 +36,7 @@ void SceneView::update(float deltaTime)
 
 void SceneView::draw_content()
 {
-    D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().textureHandle.getGPU();
+    D3D12_GPU_DESCRIPTOR_HANDLE handle = renderLane->getSurface().depthTextureHandle.getGPU();
 
     ImTextureID textureId = (void*)handle.ptr;
 
@@ -47,7 +47,17 @@ void SceneView::draw_content()
     Size = IntSize(static_cast<int>(imSize.x), static_cast<int>(imSize.y));
 
     auto imageStartPos = ImGui::GetCursorScreenPos();
+
+    auto Callback = [](const ImDrawList* parent_list, const ImDrawCmd* cmd) //
+    {
+        int i = 0;
+        i++;
+    };
+    GImGui->CurrentWindow->DrawList->AddCallback(Callback, nullptr);
+
     ImGui::Image(textureId, imSize);
+    GImGui->CurrentWindow->DrawList->AddCallback((ImDrawCallback)(-8), nullptr);
+
     if (ImGui::IsItemHovered())
     {
         auto mousePos = ImGui::GetMousePos();
