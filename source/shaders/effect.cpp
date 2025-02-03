@@ -1,10 +1,8 @@
 module effect;
 
 import render_system;
-import pipeline_state;
 import shader;
-
-HashMap<PipelineSettings, PipelineState*> states;
+import pso_manager;
 
 void Effect::setVertexShader(std::shared_ptr<Shader> shader)
 {
@@ -24,23 +22,12 @@ void Effect::setPixelShader(std::shared_ptr<Shader> shader)
     }
 }
 
-PipelineState* Effect::getPipelineState()
+MyPtr<ID3D12PipelineState> Effect::getPipelineState()
 {
-    if (pipelineState == nullptr)
+    if (pipelineState.Get() == nullptr)
     {
         PipelineSettings settings(vertexShader->bytecode, pixelShader->bytecode);
-
-        auto it = states.find_value(settings);
-        if (it)
-        {
-            pipelineState = *it;
-        }
-        else
-        {
-            auto& renderSystem = Single::Get<RenderSystem>();
-            pipelineState = new PipelineState(renderSystem, settings);
-            states[settings] = pipelineState;
-        }
+        pipelineState = Single::Get<PSOManager>().get_pso(settings);
     }
 
     return pipelineState;

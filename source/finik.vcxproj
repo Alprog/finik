@@ -153,8 +153,8 @@
     <ClCompile Include="camera.ixx" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="camera_controller.ixx" />
-    <ClCompile Include="gfx\pso_compiler.cpp" />
-    <ClCompile Include="gfx\pso_compiler.ixx" />
+    <ClCompile Include="gfx\pso_manager.cpp" />
+    <ClCompile Include="gfx\pso_manager.ixx" />
     <ClCompile Include="gfx\render_surface.cpp" />
     <ClCompile Include="gfx\render_surface.ixx" />
     <ClCompile Include="shadows\shadow_maps.ixx" />
@@ -222,8 +222,6 @@
     <ClCompile Include="gfx\mipmap_generator.cpp" />
     <ClCompile Include="gfx\pipeline_settings.cpp" />
     <ClCompile Include="gfx\pipeline_settings.ixx" />
-    <ClCompile Include="gfx\pipeline_state.cpp" />
-    <ClCompile Include="gfx\pipeline_state.ixx" />
     <ClCompile Include="command_list\render_context.cpp" />
     <ClCompile Include="command_list\render_context.ixx" />
     <ClCompile Include="gfx\render_lane.cpp" />

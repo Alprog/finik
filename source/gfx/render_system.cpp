@@ -15,7 +15,6 @@ module render_system;
 
 import app;
 import imgui;
-import pipeline_state;
 import command_queue;
 import descriptor_handle;
 import desktop_window;

@@ -1,7 +1,6 @@
 module render_context;
 
 import constant_buffer;
-import pipeline_state;
 import render_system;
 import root_signature_params;
 import root_signature;
@@ -44,7 +43,7 @@ void RenderContext::setModelMatrix(const Matrix& matrix)
 
 void RenderContext::setMaterial(const Material& material)
 {
-    commandList.SetPipelineState(material.Effect->getPipelineState()->pipelineState.Get()); // set effect
+    commandList.SetPipelineState(material.Effect->getPipelineState().Get()); // set effect
     commandList.SetGraphicsRoot32BitConstant(Params::MaterialInlineConstants, material.Index, 0);
 }
 

@@ -1,7 +1,6 @@
 export module scene;
 
 import effect;
-import pipeline_state;
 import scene_system_fwd;
 
 import core;
@@ -11,6 +10,8 @@ import texture;
 import light;
 import render_system_fwd;
 import shadow_maps;
+
+// for intellisense
 
 export class Scene
 {

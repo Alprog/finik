@@ -4,6 +4,12 @@ import core;
 import render_system_fwd;
 import shader;
 
+export enum class PipelineType : char
+{
+    Standard,
+    Imgui
+};
+
 export enum class CullMode : char
 {
     None,
@@ -17,10 +23,12 @@ public:
     PipelineSettings() = default;
     PipelineSettings(ShaderByteCode vertexByteCode, ShaderByteCode pixelByteCode);
 
+    PipelineType type = PipelineType::Standard;
+
     ShaderByteCode vertexByteCode;
     ShaderByteCode pixelByteCode;
 
-    CullMode cullMode : 2;
+    CullMode cullMode;
 
     inline friend bool operator==(const PipelineSettings& lhs, const PipelineSettings& rhs) = default;
 };
