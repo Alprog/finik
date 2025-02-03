@@ -3,14 +3,14 @@ module descriptor_handle;
 import descriptor_heap;
 
 DescriptorHandle::DescriptorHandle()
-    : heap {nullptr}
-    , index {0}
+    : heap{nullptr}
+    , index{0}
 {
 }
 
 DescriptorHandle::DescriptorHandle(DescriptorHeap* heap, int index)
-    : heap {heap}
-    , index {index}
+    : heap{heap}
+    , index{index}
 {
 }
 

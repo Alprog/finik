@@ -4,7 +4,6 @@ module constant_buffer;
 
 import render_system;
 import upload_buffer;
-import descriptor_heap;
 
 GpuDataBuffer::GpuDataBuffer(int32 size, RenderSystem& renderSystem)
     : size{size}

@@ -2,8 +2,6 @@ module;
 #include "dx.h"
 module texture;
 
-import app;
-import descriptor_heap;
 import render_system;
 import upload_buffer;
 import images;
@@ -17,7 +15,7 @@ Texture::Texture(AssetPath asset_path)
     , Width{0}
     , Height{0}
 {
-    auto& renderSystem = App::GetInstance().render_system;
+    auto& renderSystem = Single::Get<RenderSystem>();
     DescriptorHeap* heap = renderSystem.getCommonHeap();
     descriptorHandle = heap->getNextHandle();
 }
@@ -39,7 +37,7 @@ void Texture::resize(int32 width, int32 height)
     this->Width = width;
     this->Height = height;
 
-    auto& renderSystem = App::GetInstance().render_system;
+    auto& renderSystem = Single::Get<RenderSystem>();
     auto* device = renderSystem.get_device();
 
     D3D12_RESOURCE_DESC textureDesc = {};
@@ -85,7 +83,7 @@ void Texture::hot_reload(ByteBlob& blob)
 
 void Texture::setData(Image& image)
 {
-    auto& renderSystem = App::GetInstance().render_system;
+    auto& renderSystem = Single::Get<RenderSystem>();
 
     auto device = renderSystem.get_device();
     CommandList& commandList = renderSystem.getFreeCommandList();

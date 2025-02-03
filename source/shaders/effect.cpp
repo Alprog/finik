@@ -1,7 +1,7 @@
 module effect;
 
+import render_system;
 import pipeline_state;
-import app;
 import shader;
 
 HashMap<PipelineSettings, PipelineState*> states;
@@ -37,7 +37,7 @@ PipelineState* Effect::getPipelineState()
         }
         else
         {
-            auto& renderSystem = App::GetInstance().render_system;
+            auto& renderSystem = Single::Get<RenderSystem>();
             pipelineState = new PipelineState(renderSystem, settings);
             states[settings] = pipelineState;
         }

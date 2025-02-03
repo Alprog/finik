@@ -1,6 +1,5 @@
 module gui;
 
-import app;
 import imgui;
 import render_system;
 import desktop_window;
@@ -27,7 +26,7 @@ Gui::Gui(DesktopWindow& window)
     // Setup Platform/Renderer backends
     ImGui_ImplSDL2_InitForD3D(window.get_impl());
 
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
     render_system.ImguiInitHelper();
 }
 

@@ -153,6 +153,8 @@
     <ClCompile Include="camera.ixx" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="camera_controller.ixx" />
+    <ClCompile Include="gfx\pso_compiler.cpp" />
+    <ClCompile Include="gfx\pso_compiler.ixx" />
     <ClCompile Include="gfx\render_surface.cpp" />
     <ClCompile Include="gfx\render_surface.ixx" />
     <ClCompile Include="shadows\shadow_maps.ixx" />

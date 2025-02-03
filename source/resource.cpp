@@ -3,8 +3,8 @@ module;
 #include "gfx/dx.h"
 module gpu_resource;
 
+import render_system;
 import command_list;
-import app;
 
 GpuResource::~GpuResource()
 {
@@ -21,7 +21,7 @@ void GpuResource::reinit(D3D12_RESOURCE_DESC desc, D3D12_RESOURCE_STATES initial
         InternalResource = nullptr;
     }
 
-    auto device = App::GetInstance().render_system.get_device();
+    auto device = Single::Get<RenderSystem>().get_device();
     device->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
         D3D12_HEAP_FLAG_NONE,

@@ -14,10 +14,11 @@ import gpu_profiler;
 import myptr;
 import oneshot_allocator;
 import root_signature;
+import descriptor_heap;
 
 export class RenderSystem
 {
-    friend class App;
+    friend class Single;
 
     RenderSystem();
 

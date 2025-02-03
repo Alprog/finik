@@ -3,12 +3,10 @@ module;
 #include "dx.h"
 module mipmap_generator;
 
-import app;
 import render_system;
 import assets;
 import shader;
 import shader_manager;
-import descriptor_heap;
 import descriptor_handle;
 import oneshot_allocator;
 
@@ -20,7 +18,7 @@ struct ConstantData
 
 MipMapGenerator::MipMapGenerator()
 {
-    auto& renderSystem = App::GetInstance().render_system;
+    auto& renderSystem = Single::Get<RenderSystem>();
 
     auto shader = ShaderManager::GetInstance().getComputeShader("shaders/mipmaps.hlsl", "CSMain");
 
@@ -39,7 +37,7 @@ void MipMapGenerator::Generate(Texture& texture, CommandList& commandList)
     stagingDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
     stagingDesc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
 
-    auto& renderSystem = App::GetInstance().render_system;
+    auto& renderSystem = Single::Get<RenderSystem>();
     auto device = renderSystem.get_device();
 
     const CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);

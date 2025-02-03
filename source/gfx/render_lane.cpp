@@ -2,7 +2,6 @@ module render_lane;
 
 import render_system;
 import camera;
-import app;
 import timebox_tracker;
 import command_list;
 import scene;
@@ -18,7 +17,7 @@ void RenderLane::resize(IntSize resolution)
 {
     if (surface.resolution != resolution)
     {
-        RenderSystem& render_system = App::GetInstance().render_system;
+        RenderSystem& render_system = Single::Get<RenderSystem>();
         render_system.get_command_queue().Flush();
 
         surface.resize(resolution);
@@ -34,7 +33,7 @@ RenderSurface& RenderLane::getSurface()
 
 void RenderLane::render()
 {
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
     auto& commandQueue = render_system.get_command_queue();
     {
         Profile _("wait");

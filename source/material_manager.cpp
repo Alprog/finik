@@ -7,7 +7,7 @@ static int32 Counter = 0;
 
 MaterialManager::MaterialManager()
 {
-    ConstantBuffer = new GpuMaterialsConstantBuffer(App::GetInstance().render_system);
+    ConstantBuffer = new GpuMaterialsConstantBuffer(Single::Get<RenderSystem>());
 }
 
 int32 MaterialManager::Register(Material* material)

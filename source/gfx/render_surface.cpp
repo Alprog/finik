@@ -2,9 +2,7 @@ module;
 #include "dx.h"
 module render_surface;
 
-import app;
 import render_system;
-import descriptor_heap;
 
 void RenderSurface::init(IntSize resolution)
 {
@@ -14,7 +12,7 @@ void RenderSurface::init(IntSize resolution)
 
 void RenderSurface::createHandles()
 {
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
     renderTargetHandle = render_system.getRtvHeap()->getNextHandle();
     textureHandle = render_system.getCommonHeap()->getNextHandle();
     depthStencilHandle = render_system.getDsvHeap()->getNextHandle();
@@ -30,7 +28,7 @@ void RenderSurface::resize(IntSize resolution)
 
 void RenderSurface::recreateRenderTarget()
 {
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
     CD3DX12_RESOURCE_DESC resourceDesc(
         D3D12_RESOURCE_DIMENSION_TEXTURE2D, 0,
         static_cast<uint32>(resolution.width),
@@ -63,7 +61,7 @@ void RenderSurface::recreateDepthStencil()
     clearValue.DepthStencil.Depth = 1.0f;
     clearValue.DepthStencil.Stencil = 0;
 
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
 
     depthStencil.reinit(resourceDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &clearValue);
 
@@ -81,7 +79,7 @@ void RenderSurface::recreateDepthStencil()
 
 void RenderSurface::startRendering(CommandList& commandList)
 {
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
 
     commandList.transition(renderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandList.transition(depthStencil, D3D12_RESOURCE_STATE_DEPTH_WRITE);

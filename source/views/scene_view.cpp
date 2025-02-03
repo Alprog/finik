@@ -2,7 +2,6 @@ module;
 #include "gfx/dx.h"
 module scene_view;
 
-import app;
 import imgui;
 import render_system;
 import descriptor_handle;
@@ -17,7 +16,7 @@ SceneView::SceneView(const char* name, Scene& scene)
 {
     renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{1024, 800});
 
-    auto& lanes = App::GetInstance().render_system.lanes;
+    auto& lanes = Single::Get<RenderSystem>().lanes;
     lanes.append(renderLane);
 }
 

@@ -3,7 +3,6 @@ module;
 #include <SDL_syswm.h>
 module desktop_window;
 
-import app;
 import render_system;
 import swap_chain;
 import scene;
@@ -11,8 +10,8 @@ import camera;
 import gui;
 
 DesktopWindow::DesktopWindow(int width, int height)
-    : width{ width }
-    , height{ height }
+    : width{width}
+    , height{height}
 {
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED);
     impl = SDL_CreateWindow("title", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, window_flags);
@@ -47,7 +46,7 @@ void DesktopWindow::renderScene()
 
     if (scene != nullptr)
     {
-        auto context = App::GetInstance().render_system.getRenderContext();
+        auto context = Single::Get<RenderSystem>().getRenderContext();
         scene->render(*context, &camera);
     }
 }

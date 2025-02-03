@@ -9,7 +9,6 @@ import mesh;
 import effect;
 import material_manager;
 import upload_buffer;
-import descriptor_heap;
 
 using Params = MainRootSignature::Params;
 

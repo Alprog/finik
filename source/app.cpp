@@ -8,7 +8,6 @@ import swap_chain;
 import render_lane;
 import imgui;
 import timebox_tracker;
-import descriptor_heap;
 import desktop_window;
 import assets;
 import shader_manager;
@@ -24,7 +23,6 @@ App::App()
     : desktop_system{}
     , input_system{}
     , scene_manager{}
-    , render_system{}
     , profiler{}
 {
 }
@@ -53,7 +51,7 @@ void App::handle_input()
 
 void App::run_game_loop()
 {
-    RenderSystem& render_system = App::GetInstance().render_system;
+    RenderSystem& render_system = Single::Get<RenderSystem>();
 
     profiler.start();
 
