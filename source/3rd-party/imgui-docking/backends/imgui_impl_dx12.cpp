@@ -62,7 +62,6 @@ struct ImGui_ImplDX12_Data
     ID3D12Device* pd3dDevice;
     ID3D12RootSignature* pRootSignature;
     ID3D12PipelineState* pPipelineState;
-    ID3D12PipelineState* pSecondPipelineState;
     DXGI_FORMAT RTVFormat;
     ID3D12Resource* pFontTextureResource;
     D3D12_CPU_DESCRIPTOR_HANDLE hFontSrvCpuDescHandle;
@@ -756,45 +755,9 @@ bool ImGui_ImplDX12_CreateDeviceObjects()
         psoDesc.PS = {pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize()};
     }
 
-    // Create second pixel shader
-    {
-        static const char* pixelShader =
-            "struct PS_INPUT\
-            {\
-              float4 pos : SV_POSITION;\
-              float4 col : COLOR0;\
-              float2 uv  : TEXCOORD0;\
-            };\
-            SamplerState sampler0 : register(s0);\
-            Texture2D texture0 : register(t0);\
-            \
-            float LinearizeDepth(float depth, float nearPlane, float farPlane)\
-            { \
-                return (2.0 * nearPlane) / (farPlane + nearPlane - depth * (farPlane - nearPlane)); \
-            }\
-            \
-            float4 main(PS_INPUT input) : SV_Target\
-            {\
-              float4 out_col = input.col * texture0.Sample(sampler0, input.uv); \
-              out_col.r = LinearizeDepth(out_col.r, 0.1f, 400); \
-              return out_col; \
-            }";
-
-        if (FAILED(D3DCompile(pixelShader, strlen(pixelShader), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, &customPixelShaderBlob, nullptr)))
-        {
-            vertexShaderBlob->Release();
-            pixelShaderBlob->Release();
-            return false; // NB: Pass ID3DBlob* pErrorBlob to D3DCompile() to get error showing in (const char*)pErrorBlob->GetBufferPointer(). Make sure to Release() the blob!
-        }
-    }
-
     HRESULT result_pipeline_state = bd->pd3dDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&bd->pPipelineState));
-    psoDesc.PS = {customPixelShaderBlob->GetBufferPointer(), customPixelShaderBlob->GetBufferSize()};
-    result_pipeline_state |= bd->pd3dDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&bd->pSecondPipelineState));
-
     vertexShaderBlob->Release();
     pixelShaderBlob->Release();
-    customPixelShaderBlob->Release();
     if (result_pipeline_state != S_OK)
         return false;
 
@@ -819,7 +782,6 @@ void ImGui_ImplDX12_InvalidateDeviceObjects()
     ImGuiIO& io = ImGui::GetIO();
     SafeRelease(bd->pRootSignature);
     SafeRelease(bd->pPipelineState);
-    SafeRelease(bd->pSecondPipelineState);
     SafeRelease(bd->pFontTextureResource);
     io.Fonts->SetTexID(0); // We copied bd->pFontTextureView to io.Fonts->TexID so let's clear that as well.
 }
