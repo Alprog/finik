@@ -7,6 +7,7 @@ import render_system;
 import descriptor_handle;
 import log;
 import scene;
+import effect_manager;
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View{name}
@@ -52,8 +53,10 @@ void SceneView::draw_content()
     {
         auto Callback = [](const ImDrawList* parent_list, const ImDrawCmd* cmd) //
         {
-            int i = 0;
-            i++;
+            ID3D12GraphicsCommandList* commandList = Single::Get<RenderSystem>().get_command_list();
+
+            std::shared_ptr effect = EffectManager::GetInstance().get("imgui_custom");
+            commandList->SetPipelineState(effect->getPipelineState().Get());
         };
         GImGui->CurrentWindow->DrawList->AddCallback(Callback, nullptr);
     }

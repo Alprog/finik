@@ -342,13 +342,9 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
                 // User callback, registered via ImDrawList::AddCallback()
                 // (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
                 if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
-                {
                     ImGui_ImplDX12_SetupRenderState(draw_data, ctx, fr);
-                }
                 else
-                {
-                    ctx->SetPipelineState(bd->pSecondPipelineState);
-                }
+                    pcmd->UserCallback(cmd_list, pcmd);
             }
             else
             {
@@ -529,6 +525,73 @@ static void ImGui_ImplDX12_CreateFontsTexture()
     io.Fonts->SetTexID((ImTextureID)bd->hFontSrvGpuDescHandle.ptr);
 }
 
+void FillImguiPsoDesc(D3D12_GRAPHICS_PIPELINE_STATE_DESC& psoDesc)
+{
+    ImGui_ImplDX12_Data* bd = ImGui_ImplDX12_GetBackendData();
+
+    memset(&psoDesc, 0, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+    psoDesc.NodeMask = 1;
+    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    psoDesc.pRootSignature = bd->pRootSignature;
+    psoDesc.SampleMask = UINT_MAX;
+    psoDesc.NumRenderTargets = 1;
+    psoDesc.RTVFormats[0] = bd->RTVFormat;
+
+    psoDesc.SampleDesc.Count = 1;
+    psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+
+    // Create the blending setup
+    {
+        D3D12_BLEND_DESC& desc = psoDesc.BlendState;
+        desc.AlphaToCoverageEnable = false;
+        desc.RenderTarget[0].BlendEnable = true;
+        desc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+        desc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+        desc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+        desc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+        desc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
+        desc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+        desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+    }
+
+    // Create the rasterizer state
+    {
+        D3D12_RASTERIZER_DESC& desc = psoDesc.RasterizerState;
+        desc.FillMode = D3D12_FILL_MODE_SOLID;
+        desc.CullMode = D3D12_CULL_MODE_NONE;
+        desc.FrontCounterClockwise = FALSE;
+        desc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
+        desc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
+        desc.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
+        desc.DepthClipEnable = true;
+        desc.MultisampleEnable = FALSE;
+        desc.AntialiasedLineEnable = FALSE;
+        desc.ForcedSampleCount = 0;
+        desc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+    }
+
+    // Create depth-stencil State
+    {
+        D3D12_DEPTH_STENCIL_DESC& desc = psoDesc.DepthStencilState;
+        desc.DepthEnable = false;
+        desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+        desc.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+        desc.StencilEnable = false;
+        desc.FrontFace.StencilFailOp = desc.FrontFace.StencilDepthFailOp = desc.FrontFace.StencilPassOp = D3D12_STENCIL_OP_KEEP;
+        desc.FrontFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+        desc.BackFace = desc.FrontFace;
+    }
+
+    // Create the input layout
+    static D3D12_INPUT_ELEMENT_DESC local_layout[] =
+        {
+            {"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)offsetof(ImDrawVert, pos), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+            {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)offsetof(ImDrawVert, uv), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+            {"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, (UINT)offsetof(ImDrawVert, col), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+        };
+    psoDesc.InputLayout = {local_layout, 3};
+}
+
 bool ImGui_ImplDX12_CreateDeviceObjects()
 {
     ImGui_ImplDX12_Data* bd = ImGui_ImplDX12_GetBackendData();
@@ -627,16 +690,7 @@ bool ImGui_ImplDX12_CreateDeviceObjects()
     // See https://github.com/ocornut/imgui/pull/638 for sources and details.
 
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
-    memset(&psoDesc, 0, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-    psoDesc.NodeMask = 1;
-    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-    psoDesc.pRootSignature = bd->pRootSignature;
-    psoDesc.SampleMask = UINT_MAX;
-    psoDesc.NumRenderTargets = 1;
-    psoDesc.RTVFormats[0] = bd->RTVFormat;
-
-    psoDesc.SampleDesc.Count = 1;
-    psoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+    FillImguiPsoDesc(psoDesc);
 
     ID3DBlob* vertexShaderBlob;
     ID3DBlob* pixelShaderBlob;
@@ -675,15 +729,6 @@ bool ImGui_ImplDX12_CreateDeviceObjects()
         if (FAILED(D3DCompile(vertexShader, strlen(vertexShader), nullptr, nullptr, nullptr, "main", "vs_5_0", 0, 0, &vertexShaderBlob, nullptr)))
             return false; // NB: Pass ID3DBlob* pErrorBlob to D3DCompile() to get error showing in (const char*)pErrorBlob->GetBufferPointer(). Make sure to Release() the blob!
         psoDesc.VS = {vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize()};
-
-        // Create the input layout
-        static D3D12_INPUT_ELEMENT_DESC local_layout[] =
-            {
-                {"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)offsetof(ImDrawVert, pos), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-                {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, (UINT)offsetof(ImDrawVert, uv), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-                {"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, (UINT)offsetof(ImDrawVert, col), D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-            };
-        psoDesc.InputLayout = {local_layout, 3};
     }
 
     // Create the pixel shader
@@ -741,48 +786,6 @@ bool ImGui_ImplDX12_CreateDeviceObjects()
             pixelShaderBlob->Release();
             return false; // NB: Pass ID3DBlob* pErrorBlob to D3DCompile() to get error showing in (const char*)pErrorBlob->GetBufferPointer(). Make sure to Release() the blob!
         }
-    }
-
-    // Create the blending setup
-    {
-        D3D12_BLEND_DESC& desc = psoDesc.BlendState;
-        desc.AlphaToCoverageEnable = false;
-        desc.RenderTarget[0].BlendEnable = true;
-        desc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-        desc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-        desc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-        desc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-        desc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
-        desc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-        desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-    }
-
-    // Create the rasterizer state
-    {
-        D3D12_RASTERIZER_DESC& desc = psoDesc.RasterizerState;
-        desc.FillMode = D3D12_FILL_MODE_SOLID;
-        desc.CullMode = D3D12_CULL_MODE_NONE;
-        desc.FrontCounterClockwise = FALSE;
-        desc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
-        desc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
-        desc.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
-        desc.DepthClipEnable = true;
-        desc.MultisampleEnable = FALSE;
-        desc.AntialiasedLineEnable = FALSE;
-        desc.ForcedSampleCount = 0;
-        desc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
-    }
-
-    // Create depth-stencil State
-    {
-        D3D12_DEPTH_STENCIL_DESC& desc = psoDesc.DepthStencilState;
-        desc.DepthEnable = false;
-        desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-        desc.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-        desc.StencilEnable = false;
-        desc.FrontFace.StencilFailOp = desc.FrontFace.StencilDepthFailOp = desc.FrontFace.StencilPassOp = D3D12_STENCIL_OP_KEEP;
-        desc.FrontFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-        desc.BackFace = desc.FrontFace;
     }
 
     HRESULT result_pipeline_state = bd->pd3dDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&bd->pPipelineState));

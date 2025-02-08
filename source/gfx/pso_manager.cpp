@@ -1,4 +1,5 @@
 module;
+#include "backends/imgui_impl_dx12.h"
 #include "dx.h"
 module pso_manager;
 
@@ -70,5 +71,16 @@ MyPtr<ID3D12PipelineState> PSOManager::standardCompile(const PipelineSettings& s
 
 MyPtr<ID3D12PipelineState> PSOManager::imguiCompile(const PipelineSettings& settings)
 {
-    return standardCompile(settings);
+    auto& renderSystem = Single::Get<RenderSystem>();
+    auto device = renderSystem.get_device();
+
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
+    FillImguiPsoDesc(psoDesc);
+
+    psoDesc.VS = CD3DX12_SHADER_BYTECODE(settings.vertexByteCode.Get());
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(settings.pixelByteCode.Get());
+
+    MyPtr<ID3D12PipelineState> pipelineState;
+    device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)) MUST;
+    return pipelineState;
 }

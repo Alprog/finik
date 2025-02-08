@@ -10,6 +10,7 @@ import dx;
 export class Effect
 {
 public:
+    void setPipelineType(PipelineType type);
     void setVertexShader(std::shared_ptr<Shader> shader);
     void setPixelShader(std::shared_ptr<Shader> shader);
 
@@ -17,6 +18,7 @@ public:
     {
         return vertexShader;
     }
+
     std::shared_ptr<Shader> getPixelShader()
     {
         return pixelShader;
@@ -30,6 +32,7 @@ public:
     MyPtr<ID3D12PipelineState> getPipelineState();
 
 private:
+    PipelineType type = PipelineType::Standard;
     std::shared_ptr<Shader> vertexShader;
     std::shared_ptr<Shader> pixelShader;
 
