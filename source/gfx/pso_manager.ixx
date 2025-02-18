@@ -16,5 +16,5 @@ private:
     MyPtr<ID3D12PipelineState> imguiCompile(const PipelineSettings& settings);
 
 private:
-    HashMap<PipelineSettings, ID3D12PipelineState*> states;
+    HashMap<PipelineSettings, MyPtr<ID3D12PipelineState>> states;
 };

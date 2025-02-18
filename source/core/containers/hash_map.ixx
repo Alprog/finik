@@ -86,7 +86,7 @@ public:
         auto it = data.find(key);
         if (it != std::end(data))
         {
-            return it->second;
+            return std::addressof(it->second);
         }
         return nullptr;
     }
@@ -96,7 +96,7 @@ public:
         auto it = data.find(key);
         if (it != std::end(data))
         {
-            return &it->second;
+            return std::addressof(it->second);
         }
         return nullptr;
     }

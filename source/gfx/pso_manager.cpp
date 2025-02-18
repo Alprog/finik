@@ -8,20 +8,24 @@ import root_signature;
 
 MyPtr<ID3D12PipelineState> PSOManager::get_pso(const PipelineSettings& settings)
 {
+
     auto it = states.find_value(settings);
     if (it)
     {
         return *it;
     }
 
+    MyPtr<ID3D12PipelineState> result;
     if (settings.type == PipelineType::Standard)
     {
-        return standardCompile(settings);
+        result = standardCompile(settings);
     }
     else
     {
-        return imguiCompile(settings);
+        result = imguiCompile(settings);
     }
+    states[settings] = result;
+    return result;
 }
 
 MyPtr<ID3D12PipelineState> PSOManager::standardCompile(const PipelineSettings& settings)
@@ -65,7 +69,6 @@ MyPtr<ID3D12PipelineState> PSOManager::standardCompile(const PipelineSettings& s
 
     MyPtr<ID3D12PipelineState> pipelineState;
     device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)) MUST;
-
     return pipelineState;
 }
 

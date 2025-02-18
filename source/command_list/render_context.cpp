@@ -21,7 +21,8 @@ void RenderContext::setupRoot()
 {
     commandList.SetGraphicsRootSignature(renderSystem.getRootSignature().signatureImpl.Get());
 
-    auto address = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer->GetGPUVirtualAddress();
+    UploadBuffer* uploadBuffer = MaterialManager::GetInstance().ConstantBuffer->uploadBuffer;
+    auto address = uploadBuffer->GetGPUVirtualAddress();
     commandList.SetGraphicsRootConstantBufferView(Params::MaterialsConstantBufferView, address);
 
     CD3DX12_GPU_DESCRIPTOR_HANDLE startHandle = renderSystem.getCommonHeap()->getGpuHandle(0);
