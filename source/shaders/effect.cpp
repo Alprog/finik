@@ -31,9 +31,9 @@ void Effect::setPixelShader(std::shared_ptr<Shader> shader)
     }
 }
 
-MyPtr<ID3D12PipelineState> Effect::getPipelineState()
+std::shared_ptr<PipelineState> Effect::getPipelineState()
 {
-    if (pipelineState.Get() == nullptr)
+    if (pipelineState == nullptr)
     {
         PipelineSettings settings(vertexShader->bytecode, pixelShader->bytecode);
         settings.type = type;

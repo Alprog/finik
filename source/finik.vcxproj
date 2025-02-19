@@ -153,10 +153,14 @@
     <ClCompile Include="camera.ixx" />
     <ClCompile Include="camera_controller.cpp" />
     <ClCompile Include="camera_controller.ixx" />
+    <ClCompile Include="gfx\cleaner.cpp" />
+    <ClCompile Include="gfx\cleaner.ixx" />
+    <ClCompile Include="gfx\pipeline_state.ixx" />
     <ClCompile Include="gfx\pso_manager.cpp" />
     <ClCompile Include="gfx\pso_manager.ixx" />
     <ClCompile Include="gfx\render_surface.cpp" />
     <ClCompile Include="gfx\render_surface.ixx" />
+    <ClCompile Include="gfx\pipeline_state.cpp" />
     <ClCompile Include="shadows\shadow_maps.ixx" />
     <ClCompile Include="views\console_view.cpp" />
     <ClCompile Include="views\console_view.ixx" />

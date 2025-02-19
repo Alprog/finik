@@ -1,20 +1,21 @@
 export module pso_manager;
 
 import core;
-import pipeline_settings;
 import dx;
+import pipeline_settings;
+import pipeline_state;
 
 // for intellisense
 
 export class PSOManager
 {
 public:
-    MyPtr<ID3D12PipelineState> get_pso(const PipelineSettings& settings);
+    std::shared_ptr<PipelineState> get_pso(const PipelineSettings& settings);
 
 private:
-    MyPtr<ID3D12PipelineState> standardCompile(const PipelineSettings& settings);
-    MyPtr<ID3D12PipelineState> imguiCompile(const PipelineSettings& settings);
+    std::shared_ptr<PipelineState> standardCompile(const PipelineSettings& settings);
+    std::shared_ptr<PipelineState> imguiCompile(const PipelineSettings& settings);
 
 private:
-    HashMap<PipelineSettings, MyPtr<ID3D12PipelineState>> states;
+    HashMap<PipelineSettings, std::shared_ptr<PipelineState>> states;
 };

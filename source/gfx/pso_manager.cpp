@@ -6,16 +6,15 @@ module pso_manager;
 import render_system;
 import root_signature;
 
-MyPtr<ID3D12PipelineState> PSOManager::get_pso(const PipelineSettings& settings)
+std::shared_ptr<PipelineState> PSOManager::get_pso(const PipelineSettings& settings)
 {
-
     auto it = states.find_value(settings);
     if (it)
     {
         return *it;
     }
 
-    MyPtr<ID3D12PipelineState> result;
+    std::shared_ptr<PipelineState> result;
     if (settings.type == PipelineType::Standard)
     {
         result = standardCompile(settings);
@@ -28,7 +27,7 @@ MyPtr<ID3D12PipelineState> PSOManager::get_pso(const PipelineSettings& settings)
     return result;
 }
 
-MyPtr<ID3D12PipelineState> PSOManager::standardCompile(const PipelineSettings& settings)
+std::shared_ptr<PipelineState> PSOManager::standardCompile(const PipelineSettings& settings)
 {
     auto& renderSystem = Single::Get<RenderSystem>();
     auto device = renderSystem.get_device();
@@ -67,12 +66,12 @@ MyPtr<ID3D12PipelineState> PSOManager::standardCompile(const PipelineSettings& s
     psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
     psoDesc.SampleDesc.Count = 1;
 
-    MyPtr<ID3D12PipelineState> pipelineState;
+    ID3D12PipelineState* pipelineState = nullptr;
     device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)) MUST;
-    return pipelineState;
+    return std::make_shared<PipelineState>(pipelineState);
 }
 
-MyPtr<ID3D12PipelineState> PSOManager::imguiCompile(const PipelineSettings& settings)
+std::shared_ptr<PipelineState> PSOManager::imguiCompile(const PipelineSettings& settings)
 {
     auto& renderSystem = Single::Get<RenderSystem>();
     auto device = renderSystem.get_device();
@@ -83,7 +82,7 @@ MyPtr<ID3D12PipelineState> PSOManager::imguiCompile(const PipelineSettings& sett
     psoDesc.VS = CD3DX12_SHADER_BYTECODE(settings.vertexByteCode.Get());
     psoDesc.PS = CD3DX12_SHADER_BYTECODE(settings.pixelByteCode.Get());
 
-    MyPtr<ID3D12PipelineState> pipelineState;
+    ID3D12PipelineState* pipelineState = nullptr;
     device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)) MUST;
-    return pipelineState;
+    return std::make_shared<PipelineState>(pipelineState);
 }

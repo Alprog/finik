@@ -12,6 +12,7 @@ import desktop_window;
 import assets;
 import shader_manager;
 import gui;
+import cleaner;
 
 App& App::GetInstance()
 {
@@ -63,6 +64,7 @@ void App::run_game_loop()
 
         Assets::GetInstance().update();
         ShaderManager::GetInstance().update();
+        Cleaner::GetInstance().update();
 
         auto completedValue = render_system.get_command_queue().fence->GetCompletedValue();
         render_system.get_command_queue().freeCompletedLists();

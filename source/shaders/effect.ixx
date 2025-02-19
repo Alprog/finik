@@ -6,6 +6,7 @@ import pipeline_settings;
 import constant_buffer;
 import myptr;
 import dx;
+import pipeline_state;
 
 export class Effect
 {
@@ -29,12 +30,12 @@ public:
         pipelineState = nullptr;
     }
 
-    MyPtr<ID3D12PipelineState> getPipelineState();
+    std::shared_ptr<PipelineState> getPipelineState();
 
 private:
     PipelineType type = PipelineType::Standard;
     std::shared_ptr<Shader> vertexShader;
     std::shared_ptr<Shader> pixelShader;
 
-    MyPtr<ID3D12PipelineState> pipelineState;
+    std::shared_ptr<PipelineState> pipelineState;
 };

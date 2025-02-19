@@ -56,7 +56,8 @@ void SceneView::draw_content()
             ID3D12GraphicsCommandList* commandList = Single::Get<RenderSystem>().get_command_list();
 
             std::shared_ptr effect = EffectManager::GetInstance().get("imgui_custom");
-            commandList->SetPipelineState(effect->getPipelineState().Get());
+            commandList->SetPipelineState(effect->getPipelineState()->getInternalObject());
+            effect->getPipelineState()->use();
         };
         GImGui->CurrentWindow->DrawList->AddCallback(Callback, nullptr);
     }
