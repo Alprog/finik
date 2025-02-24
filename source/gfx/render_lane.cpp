@@ -10,7 +10,7 @@ RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
     : scene{scene}
     , camera{camera}
 {
-    surface.init(resolution);
+    surface.init(resolution, true, true);
 }
 
 void RenderLane::resize(IntSize resolution)

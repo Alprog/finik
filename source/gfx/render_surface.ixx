@@ -9,7 +9,7 @@ import gpu_resource;
 export class RenderSurface
 {
 public:
-    void init(IntSize resolution);
+    void init(IntSize resolution, bool renderTargetEnabled, bool depthStencilEnabled);
     void createHandles();
 
     void resize(IntSize resolution);
@@ -21,10 +21,12 @@ public:
 
     IntSize resolution;
 
+    bool renderTargetEnabled;
     GpuResource renderTarget;
     DescriptorHandle renderTargetHandle;
     DescriptorHandle textureHandle;
 
+    bool depthStencilEnabled;
     GpuResource depthStencil;
     DescriptorHandle depthStencilHandle;
     DescriptorHandle depthTextureHandle;

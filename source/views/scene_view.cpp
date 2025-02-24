@@ -13,11 +13,14 @@ SceneView::SceneView(const char* name, Scene& scene)
     : View{name}
     , scene{scene}
     , camera{}
+    , shadowCamera{}
     , cameraContoller{camera}
 {
+    shadowMapLane = std::make_shared<RenderLane>(scene, shadowCamera, IntSize{1024, 1024});
     renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{1024, 800});
 
     auto& lanes = Single::Get<RenderSystem>().lanes;
+    lanes.append(shadowMapLane);
     lanes.append(renderLane);
 }
 
@@ -37,9 +40,14 @@ void SceneView::update(float deltaTime)
 void SceneView::draw_content()
 {
     static bool Depth = false;
+    static bool Shadows = false;
     ImGui::Checkbox("Depth", &Depth);
+    ImGui::SameLine();
+    ImGui::Checkbox("Shadows", &Shadows);
 
-    D3D12_GPU_DESCRIPTOR_HANDLE handle = Depth ? renderLane->getSurface().depthTextureHandle.getGPU() : renderLane->getSurface().textureHandle.getGPU();
+    std::shared_ptr<RenderLane>& lane = Shadows ? shadowMapLane : renderLane;
+
+    D3D12_GPU_DESCRIPTOR_HANDLE handle = Depth ? lane->getSurface().depthTextureHandle.getGPU() : lane->getSurface().textureHandle.getGPU();
 
     ImTextureID textureId = (void*)handle.ptr;
 
@@ -67,7 +75,6 @@ void SceneView::draw_content()
     {
         GImGui->CurrentWindow->DrawList->AddCallback((ImDrawCallback)(-8), nullptr);
     }
-
 
     if (ImGui::IsItemHovered())
     {
@@ -99,4 +106,16 @@ void SceneView::draw_content()
     }
 
     renderLane->resize(Size);
+
+    setupShadowCamera();
+}
+
+void SceneView::setupShadowCamera()
+{
+    shadowCamera.FieldOfView = std::numbers::pi / 4.0f;
+
+    shadowCamera.lookAt = camera.lookAt;
+    shadowCamera.position = shadowCamera.lookAt - scene.light.direction.xyz() * 100;
+    shadowCamera.calcViewMatrix();
+    shadowCamera.calcProjectionMatrix();
 }

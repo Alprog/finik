@@ -3,7 +3,6 @@ module;
 #include <dxgi1_4.h>
 export module dx;
 
-export IUnknown;
 export ID3D12Resource;
 export ID3D12CommandQueue;
 export ID3D12DescriptorHeap;
@@ -50,6 +49,7 @@ export D3D12_FILTER;
 export D3D12_GPU_DESCRIPTOR_HANDLE;
 export D3D12_RESOURCE_DESC;
 export D3D12_CLEAR_VALUE;
+export IUnknown;
 
 export import d3dx;
 export import myptr;
