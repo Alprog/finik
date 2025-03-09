@@ -47,7 +47,7 @@ void RenderLane::render()
     surface.startRendering(commandList);
 
     RenderContext context(render_system, *commandList.listImpl.Get());
-    scene.render(context, &camera);
+    scene.render(context, &camera, pass);
     surface.endRendering(commandList);
 
     commandList.endRecording();

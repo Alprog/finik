@@ -40,7 +40,7 @@ void Scene::update(float deltaTime)
     actors[1]->transformMatrix = Matrix::Translation(Vector3(32, 32, 5));
 }
 
-void Scene::render(RenderContext& renderContext, Camera* camera)
+void Scene::render(RenderContext& renderContext, Camera* camera, RenderPass pass)
 {
     renderContext.setupRoot();
 
