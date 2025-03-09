@@ -158,6 +158,7 @@
     <ClCompile Include="gfx\pipeline_state.ixx" />
     <ClCompile Include="gfx\pso_manager.cpp" />
     <ClCompile Include="gfx\pso_manager.ixx" />
+    <ClCompile Include="gfx\render_pass.ixx" />
     <ClCompile Include="gfx\render_surface.cpp" />
     <ClCompile Include="gfx\render_surface.ixx" />
     <ClCompile Include="gfx\pipeline_state.cpp" />

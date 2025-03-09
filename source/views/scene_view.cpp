@@ -8,6 +8,7 @@ import descriptor_handle;
 import log;
 import scene;
 import effect_manager;
+import render_pass;
 
 SceneView::SceneView(const char* name, Scene& scene)
     : View{name}
@@ -16,8 +17,8 @@ SceneView::SceneView(const char* name, Scene& scene)
     , shadowCamera{}
     , cameraContoller{camera}
 {
-    shadowMapLane = std::make_shared<RenderLane>(scene, shadowCamera, IntSize{1024, 1024});
-    renderLane = std::make_shared<RenderLane>(scene, camera, IntSize{1024, 800});
+    shadowMapLane = std::make_shared<RenderLane>(scene, RenderPass::Shadow, shadowCamera, IntSize{1024, 1024});
+    renderLane = std::make_shared<RenderLane>(scene, RenderPass::Main, camera, IntSize{1024, 800});
 
     auto& lanes = Single::Get<RenderSystem>().lanes;
     lanes.append(shadowMapLane);

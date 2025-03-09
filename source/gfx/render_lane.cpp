@@ -6,8 +6,9 @@ import timebox_tracker;
 import command_list;
 import scene;
 
-RenderLane::RenderLane(Scene& scene, Camera& camera, IntSize resolution)
+RenderLane::RenderLane(Scene& scene, RenderPass pass, Camera& camera, IntSize resolution)
     : scene{scene}
+    , pass{pass}
     , camera{camera}
 {
     surface.init(resolution, true, true);

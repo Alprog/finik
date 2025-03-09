@@ -17,7 +17,7 @@ import assets;
 import model;
 
 Scene::Scene()
-    : shadowMaps{*this}
+    //: shadowMaps{*this}
 {
     grid = new Grid();
 

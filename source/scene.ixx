@@ -31,5 +31,5 @@ public:
     Vector3 castedPos;
 
     Light light;
-    ShadowMaps shadowMaps;
+    //ShadowMaps shadowMaps;
 };
