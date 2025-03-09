@@ -11,6 +11,8 @@ import pipeline_state;
 export class Effect
 {
 public:
+    String name;
+
     void setPipelineType(PipelineType type);
     void setVertexShader(std::shared_ptr<Shader> shader);
     void setPixelShader(std::shared_ptr<Shader> shader);

@@ -6,6 +6,8 @@ import :array;
 
 export class String
 {
+    friend std::hash<String>;
+
 public:
     String() = default;
 
@@ -195,3 +197,12 @@ private:
 };
 
 const String String::Empty = "";
+
+template <>
+struct std::hash<String>
+{
+    std::size_t operator()(const String& key) const
+    {
+        return std::hash<std::string>()(key.data);
+    }
+};

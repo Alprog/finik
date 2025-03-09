@@ -8,7 +8,7 @@ import shader;
 export class EffectManager : public Singleton<EffectManager>
 {
 public:
-    std::shared_ptr<Effect> get(std::string key)
+    std::shared_ptr<Effect> get(String key)
     {
         if (Effects.empty())
         {
@@ -31,5 +31,5 @@ public:
     };
 
 private:
-    HashMap<std::string, std::shared_ptr<Effect>> Effects;
+    HashMap<String, std::shared_ptr<Effect>> Effects;
 };
