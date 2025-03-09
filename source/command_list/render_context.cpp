@@ -42,9 +42,10 @@ void RenderContext::setModelMatrix(const Matrix& matrix)
     commandList.SetGraphicsRootConstantBufferView(Params::MeshConstantBufferView, meshConstantBuffer.GpuAddress);
 }
 
-void RenderContext::setMaterial(const Material& material)
+void RenderContext::setMaterial(const Material& material, RenderPass pass)
 {
-    commandList.SetPipelineState(material.Effect->getPipelineState()->getInternalObject()); // set effect
+    auto effect = pass == RenderPass::Shadow ? material.ShadowEffect : material.Effect;
+    commandList.SetPipelineState(effect->getPipelineState()->getInternalObject()); // set effect
     material.Effect->getPipelineState()->use();
     commandList.SetGraphicsRoot32BitConstant(Params::MaterialInlineConstants, material.Index, 0);
 }

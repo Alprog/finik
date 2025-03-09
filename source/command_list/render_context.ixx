@@ -5,6 +5,7 @@ import dx;
 import render_system_fwd;
 import material;
 import constant_buffer;
+import render_pass;
 
 export class RenderContext
 {
@@ -14,7 +15,7 @@ public:
     void setupRoot();
     void setFrameConstants(D3D12_GPU_VIRTUAL_ADDRESS gpuAddress);
     void setModelMatrix(const Matrix& matrix);
-    void setMaterial(const Material& material);
+    void setMaterial(const Material& material, RenderPass pass);
     void drawMesh(Mesh* mesh);
 
     RenderSystem& renderSystem;

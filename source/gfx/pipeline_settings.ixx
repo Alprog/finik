@@ -7,6 +7,7 @@ import shader;
 export enum class PipelineType : char
 {
     Standard,
+    Shadow,
     Imgui
 };
 

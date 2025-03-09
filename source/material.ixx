@@ -36,6 +36,7 @@ public:
 
     int32 Index;
 
+    std::shared_ptr<Effect> ShadowEffect;
     std::shared_ptr<Effect> Effect;
 };
 

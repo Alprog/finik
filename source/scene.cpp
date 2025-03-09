@@ -57,13 +57,13 @@ void Scene::render(RenderContext& renderContext, Camera* camera, RenderPass pass
     for (auto& actor : actors)
     {
         renderContext.setModelMatrix(actor->transformMatrix);
-        renderContext.setMaterial(*actor->material);
+        renderContext.setMaterial(*actor->material, pass);
         renderContext.drawMesh(actor->mesh);
     }
 
     //----------------------
 
     renderContext.setModelMatrix(Matrix::Identity);
-    renderContext.setMaterial(*grid->material);
+    renderContext.setMaterial(*grid->material, pass);
     renderContext.drawMesh(grid->mesh);
 }

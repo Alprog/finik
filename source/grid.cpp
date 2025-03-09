@@ -16,6 +16,7 @@ Grid::Grid()
 	material->Textures.append(cellTexture);
 	material->Textures.append(tileMap->Texture);
 	material->Effect = EffectManager::GetInstance().get("grid");
+    material->ShadowEffect = EffectManager::GetInstance().getShadowEffect(*material->Effect);
 	material->RefreshBuffer();
 }
 

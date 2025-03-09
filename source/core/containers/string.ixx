@@ -41,6 +41,21 @@ public:
         return data;
     }
 
+    String operator +(const char* c_str) const
+    {
+        return data + c_str;
+    }
+
+    String operator+(const std::string& str) const
+    {
+        return data + str;
+    }
+
+    String operator+(const String& str) const
+    {
+        return data + str.data;
+    }
+
     char& operator[](size_t index)
     {
         return data[index];

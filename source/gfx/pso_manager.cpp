@@ -1,6 +1,7 @@
 module;
 #include "backends/imgui_impl_dx12.h"
 #include "dx.h"
+
 module pso_manager;
 
 import render_system;
@@ -19,7 +20,11 @@ std::shared_ptr<PipelineState> PSOManager::get_pso(const PipelineSettings& setti
     {
         result = standardCompile(settings);
     }
-    else
+    else if (settings.type == PipelineType::Shadow)
+    {
+        result = standardCompile(settings);
+    }
+    else if (settings.type == PipelineType::Imgui)
     {
         result = imguiCompile(settings);
     }

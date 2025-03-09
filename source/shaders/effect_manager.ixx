@@ -8,6 +8,8 @@ import shader;
 export class EffectManager : public Singleton<EffectManager>
 {
 public:
+    void init();
+
     std::shared_ptr<Effect> get(String key)
     {
         if (Effects.empty())
@@ -17,7 +19,7 @@ public:
         return Effects[key];
     }
 
-    void init();
+    std::shared_ptr<Effect> getShadowEffect(Effect& baseEffect);
 
     void onShaderChanged(std::shared_ptr<Shader> shader)
     {

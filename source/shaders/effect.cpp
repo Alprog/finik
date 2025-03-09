@@ -3,6 +3,12 @@ module effect;
 import render_system;
 import shader;
 import pso_manager;
+import shader_manager;
+
+Effect::Effect(String name)
+    : name{name}
+{
+}
 
 void Effect::setPipelineType(PipelineType type)
 {
@@ -35,7 +41,8 @@ std::shared_ptr<PipelineState> Effect::getPipelineState()
 {
     if (pipelineState == nullptr)
     {
-        PipelineSettings settings(vertexShader->bytecode, pixelShader->bytecode);
+        auto pixelBytecode = pixelShader ? pixelShader->bytecode : ShaderManager::GetInstance().getFallbackByteCode(ShaderType::Pixel);
+        PipelineSettings settings(vertexShader->bytecode, pixelBytecode);
         settings.type = type;
         pipelineState = Single::Get<PSOManager>().get_pso(settings);
     }

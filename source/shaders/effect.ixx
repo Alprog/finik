@@ -11,6 +11,9 @@ import pipeline_state;
 export class Effect
 {
 public:
+    Effect() = default;
+    Effect(String name);
+ 
     String name;
 
     void setPipelineType(PipelineType type);
